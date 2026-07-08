@@ -1,0 +1,138 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Event Management Dashboard</h3>
+      <button class="modal-close" (click)="closeModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      @if (errorMessage) {
+        <div class="error-alert">{{ errorMessage }}</div>
+      }
+
+      <div class="section">
+        <h4 class="section-title">General Information</h4>
+        <div class="detail-row">
+          <label>Title</label>
+          <div class="edit-wrapper">
+            @if (isEditingTitle) {
+              <input type="text" [(ngModel)]="editedTitle" class="form-input">
+              <span class="recommendation-text">Recommendation: Avoid frequent title changes to prevent attendee confusion.</span>
+            } @else {
+              <span>{{ event.title }}</span>
+              <button class="edit-btn" (click)="enableTitleEdit()" [disabled]="(event.title_Update_Count || 0) >= maxTitleUpdates">
+                <i class="fa fa-pencil"></i>
+                @if ((event.title_Update_Count || 0) >= maxTitleUpdates) {
+                  Edit Limit Exceeded
+                } @else {
+                  Edit ({{ maxTitleUpdates - (event.title_Update_Count || 0) }} left)
+                }
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="detail-row description-row">
+          <label>Description</label>
+          <div class="edit-wrapper">
+            @if (isFetchingDescription) {
+              <div class="description-box scrollable loading">
+                Loading description...
+              </div>
+            } @else if (isEditingDescription) {
+              <textarea [(ngModel)]="editedDescription" class="form-textarea scrollable" rows="6"></textarea>
+            } @else {
+              <div class="description-box scrollable">
+                {{ originalDescriptionText || 'No description provided.' }}
+              </div>
+              <button class="edit-btn" (click)="enableDescriptionEdit()"><i class="fa fa-pencil"></i> Edit</button>
+            }
+          </div>
+        </div>
+        
+        <div class="detail-row read-only"><label>Type</label><span>{{ event.event_Type || event.type || 'N/A' }}</span></div>
+        <div class="detail-row read-only"><label>Category</label><span>{{ event.category }}</span></div>
+        <div class="detail-row read-only">
+          <label>Status</label>
+          <div style="flex-grow: 1; margin: 4px 0 0 0;">
+            <span class="status-badge" [class]="'status-' + (event.status ? event.status.toLowerCase() : '')">{{ event.status }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4 class="section-title">Schedule & Location</h4>
+        <div class="detail-row read-only"><label>Date & Time</label><span>{{ event.date_Time | date:'medium' }}</span></div>
+        <div class="detail-row read-only"><label>Duration</label><span>{{ event.duration_Hours }} Hours</span></div>
+        <div class="detail-row read-only"><label>Venue</label><span>{{ event.venue?.name || event.venue_Name || 'Virtual' }}</span></div>
+      </div>
+
+      @if (event.virtual_Url) {
+        <div class="section virtual-section">
+          <h4 class="section-title">Virtual Meeting Details</h4>
+          <p class="virtual-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            Attendees will only gain access during the event schedule and should join approximately ten minutes before the event begins.
+          </p>
+          <div class="detail-row virtual-row">
+            <label>Meeting URL</label>
+            <div class="copy-wrapper">
+              <a [href]="event.virtual_Url" target="_blank" class="truncate-url" [title]="event.virtual_Url">{{ event.virtual_Url }}</a>
+              <button class="icon-btn" style="position: relative;" title="Copy URL" (click)="copyToClipboard(event.virtual_Url, 'url')">
+                @if (copiedState === 'url') {
+                  <span class="copy-tooltip">Copied</span>
+                }
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; color: #475569;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="detail-row virtual-row">
+            <label>Meeting Password</label>
+            <div class="copy-wrapper">
+              <span class="masked-text truncate-url password-text"><strong>{{ isPasswordVisible ? decodedPassword : '••••••••••••••••' }}</strong></span>
+              <button class="icon-btn" title="Toggle Visibility" (click)="togglePasswordVisibility()">
+                @if (isPasswordVisible) {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; color: #475569;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                  </svg>
+                } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; color: #475569;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                }
+              </button>
+              <button class="icon-btn" style="position: relative;" title="Copy Password" (click)="copyToClipboard(decodedPassword, 'password')">
+                @if (copiedState === 'password') {
+                  <span class="copy-tooltip">Copied</span>
+                }
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; color: #475569;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="section">
+        <h4 class="section-title">Performance Metrics</h4>
+        <div class="detail-row read-only"><label>Tickets Sold</label><span>{{ event.tickets_Sold || 0 }}</span></div>
+        <div class="detail-row read-only"><label>Net Earnings</label><span>₹{{ (event.net_Earnings || 0) | number:'1.2-2' }}</span></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      @if (isEditingTitle || isEditingDescription) {
+        <button class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+        <button class="btn-save" (click)="saveChanges()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+        </button>
+      } @else {
+        <button class="btn-primary" (click)="closeModal()">Done</button>
+      }
+    </div>
+  </div>
+</div>

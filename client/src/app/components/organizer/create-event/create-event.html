@@ -1,0 +1,570 @@
+<app-navbar></app-navbar>
+
+<!-- ==================== PROFESSIONAL EVENT REVIEW MODAL ==================== -->
+@if (showReviewModal()) {
+  <div class="review-modal-backdrop">
+    <div class="review-modal-container">
+      <div class="review-modal-header">
+        <h3>Review Your Event Details</h3>
+      </div>
+      <div class="review-modal-body">
+        <div class="review-modal-section">
+          <h4>General Details</h4>
+          <table class="review-modal-table">
+            <tr>
+              <td class="lbl">Event Title:</td>
+              <td class="val">{{ title }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Event Type:</td>
+              <td class="val">{{ eventType }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Location:</td>
+              <td class="val">
+                @if (eventType === 'Virtual') {
+                  Online Platform
+                } @else {
+                  {{ selectedVenueName }}
+                }
+              </td>
+            </tr>
+            <tr>
+              <td class="lbl">Category:</td>
+              <td class="val">{{ category }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Age Restriction:</td>
+              <td class="val">{{ ageCategory || 'Unrestricted' }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Date & Time:</td>
+              <td class="val">{{ dateTime }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Duration:</td>
+              <td class="val">{{ durationHours }} hour(s)</td>
+            </tr>
+            <tr>
+              <td class="lbl">Requires Staff:</td>
+              <td class="val">{{ requiresStaff ? 'Yes' : 'No' }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="review-modal-section">
+          <h4>Ticket Tiers Configuration</h4>
+          <table class="review-modal-table grid">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (tier of pendingEventPayload?.ticketTiers; track tier.tierName) {
+                <tr>
+                  <td>{{ tier.tierName }}</td>
+                  <td>₹{{ tier.price }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="review-modal-section">
+          <h4>Upfront Payment Summary</h4>
+          <table class="review-modal-table">
+            <tr>
+              <td class="lbl">Activation Fee:</td>
+              <td class="val">₹{{ (activationFee + venueRentalCost) | number:'1.2-2' }}</td>
+            </tr>
+            @if (requiresStaff) {
+              <tr>
+                <td class="lbl">Platform Staff Fee:</td>
+                <td class="val">₹{{ estimatedStaffCost() | number:'1.2-2' }}</td>
+              </tr>
+            }
+            <tr>
+              <td class="lbl">GST 18%:</td>
+              <td class="val">₹{{ gstAmount | number:'1.2-2' }}</td>
+            </tr>
+            <tr style="border-top: 2px solid #e1e7f0; font-weight: 600; font-size: 1.1rem; color: #1e293b;">
+              <td class="lbl" style="padding-top: 12px;">Total Due:</td>
+              <td class="val" style="padding-top: 12px;">₹{{ totalFees | number:'1.2-2' }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="review-modal-footer">
+        <button class="review-btn-secondary" (click)="onCancelReview()">Cancel</button>
+        <button class="review-btn-primary" (click)="onConfirmReview()" [disabled]="isInitiatingEvent()">
+          @if (isInitiatingEvent()) {
+            <span class="btn-spinner"></span> Confirming Event Setup...
+          } @else {
+            Confirm
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<div class="organizer-layout">
+  <!-- Left Side Slider/Navigation Panel -->
+  <aside class="organizer-sidebar">
+    <nav class="sidebar-nav">
+      <a routerLink="/myevents" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidebar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/myevents/all" routerLinkActive="active" class="sidebar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Events</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Right Content Space -->
+  <div class="organizer-content">
+    <div class="organizer-header">
+      <div>
+        @if (currentStep() === 'details') {
+          <div class="title-with-sync">
+            <h1 class="page-title">New Event Listing</h1>
+            <div class="sync-status" [class.syncing]="draftStatus() === 'Saving...'">
+              @if (draftStatus() === 'Saving...') {
+                <svg class="sync-icon spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              } @else {
+                <svg class="sync-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              }
+            </div>
+          </div>
+          <p class="page-sub">Fill in the details below to list your event on the platform.</p>
+        } @else {
+          <h1 class="page-title">Finalize Payment</h1>
+          <p class="page-sub">Complete the upfront payment to list your event live on our platform.</p>
+        }
+      </div>
+      <a routerLink="/myevents" class="back-dashboard-btn">
+        ← Back to Dashboard
+      </a>
+    </div>
+
+    @if (currentStep() === 'details') {
+      <div class="form-wrapper">
+        <form (ngSubmit)="onSubmitDetails()">
+          <div class="two-column-layout">
+            
+            <!-- LEFT COLUMN: Form Inputs -->
+            <div class="form-left-col">
+              
+              <!-- Basic Details Card -->
+              <fieldset class="form-section-card">
+                <legend class="section-title">01. Basic Details</legend>
+                
+                <div class="form-group">
+                  <label class="form-label" for="title">Event Title <span class="required">*</span></label>
+                  <input type="text" id="title" class="form-control" name="title" [(ngModel)]="title" placeholder="e.g. Global Tech Summit 2026" required (ngModelChange)="saveDraft()" />
+                  @if (fieldError('title')) { <span class="field-error">{{ fieldError('title') }}</span> }
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="category">Category <span class="required">*</span></label>
+                    <select id="category" class="form-control" name="category" [(ngModel)]="category" required (ngModelChange)="saveDraft()">
+                      <option value="" disabled selected>Select category...</option>
+                      @for (cat of categoriesList(); track cat) {
+                        <option [value]="cat">{{ cat }}</option>
+                      }
+                    </select>
+                    @if (fieldError('category')) { <span class="field-error">{{ fieldError('category') }}</span> }
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="ageCategory">Age Category <span class="required">*</span></label>
+                    <select id="ageCategory" class="form-control" name="ageCategory" [(ngModel)]="ageCategory" required (ngModelChange)="saveDraft()">
+                      <option value="" disabled selected>Select age restriction...</option>
+                      @for (opt of ageCategoriesList(); track opt.key) {
+                        <option [value]="opt.key">{{ opt.display }}</option>
+                      }
+                    </select>
+                    @if (fieldError('ageCategory')) { <span class="field-error">{{ fieldError('ageCategory') }}</span> }
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="description">Event Description <span class="required">*</span></label>
+                  <textarea id="description" class="form-control" name="descriptionText" [(ngModel)]="descriptionText" placeholder="Describe your event in detail..." rows="6" required (ngModelChange)="saveDraft()"></textarea>
+                  @if (fieldError('description')) { <span class="field-error">{{ fieldError('description') }}</span> }
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Event Image (Optional)</label>
+                  @if (imageErrorMsg()) {
+                    <div class="alert alert-error" style="margin-bottom: 8px; padding: 8px; font-size: 0.9rem; color: #d32f2f; background-color: #fdeaea; border-radius: 4px;">{{ imageErrorMsg() }}</div>
+                  }
+                  <div class="drop-zone" [class.drag-over]="isDragOver()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+                    @if (isImageProcessing()) {
+                      <div class="drop-zone-placeholder">
+                        <div class="spinner-border" style="width: 2rem; height: 2rem; margin-bottom: 10px; border: 3px solid #e2e8f0; border-top-color: #6366f1; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                        <span>Optimizing image...</span>
+                      </div>
+                    } @else if (imagePreviewUrl()) {
+                      <div class="drop-zone-preview">
+                        <img [src]="imagePreviewUrl()" alt="Preview" class="preview-img" />
+                        <button type="button" class="remove-image-btn" (click)="imageFile = null; imagePreviewUrl.set(null); imageErrorMsg.set(null)">Remove</button>
+                      </div>
+                    } @else {
+                      <div class="drop-zone-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Drag & drop your image here, or <label for="imageFile" class="browse-link" style="cursor: pointer;">browse</label></span>
+                        <span class="helper-text">Supported formats: JPEG, PNG, WebP, GIF, BMP</span>
+                      </div>
+                    }
+                    <input type="file" id="imageFile" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" (change)="onImageSelected($event)" class="file-input-hidden" />
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Type, Date, Duration & Location Card -->
+              <fieldset class="form-section-card">
+                <legend class="section-title">02. Logistics & Venue</legend>
+                
+                <div class="form-row-3">
+                  <div class="form-group">
+                    <label class="form-label" for="eventType">Format <span class="required">*</span></label>
+                    <select id="eventType" class="form-control" name="eventType" [(ngModel)]="eventType" (change)="onEventTypeChange()" required>
+                      <option value="Physical">Physical</option>
+                      <option value="Virtual">Virtual</option>
+                      <option value="Hybrid">Hybrid</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="dateTime">Date & Time <span class="required">*</span></label>
+                    <input type="datetime-local" id="dateTime" class="form-control" name="dateTime" [(ngModel)]="dateTime" required (change)="onDateTimeChange()" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="duration">Duration <span class="unit-hint">(hrs)</span> <span class="required">*</span></label>
+                    <input type="number" id="duration" class="form-control" name="durationHours" [(ngModel)]="durationHours" placeholder="e.g. 3" min="1" required (ngModelChange)="saveDraft()" />
+                  </div>
+                </div>
+
+                @if (eventType !== 'Virtual') {
+                  <div class="form-group mt-3">
+                    <label class="form-label" for="venue">Physical Venue <span class="required">*</span></label>
+                    <div class="custom-venue-dropdown" style="position: relative;">
+
+                      <!-- Selected venue chip shown above search when one is picked -->
+                      @if (venueId) {
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 8px 12px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; font-size: 0.9rem; color: #1e40af; font-weight: 500;">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                          {{ getSelectedVenueName() }}
+                          <button type="button" (click)="venueId = null; venueSearchKeyword.set(''); onVenueChange()" style="margin-left: auto; background: none; border: none; cursor: pointer; color: #6b7280; font-size: 1rem; line-height: 1;">&#x2715;</button>
+                        </div>
+                      }
+
+                      <!-- Inline search bar — always visible -->
+                      <input
+                        type="text"
+                        class="form-control"
+                        [ngModel]="venueSearchKeyword()"
+                        (ngModelChange)="venueSearchKeyword.set($event)"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="Find a venue by name, city, or capacity..."
+                        (focus)="isVenueDropdownOpen.set(true)"
+                        (click)="$event.stopPropagation(); isVenueDropdownOpen.set(true)"
+                        style="width: 100%;"
+                      />
+
+                      <!-- Dropdown list -->
+                      @if (isVenueDropdownOpen()) {
+                        <div class="dropdown-menu" style="position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-top: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); overflow: hidden;">
+                          @if (isVenuesLoading()) {
+                            <div style="padding: 20px 12px; text-align: center; color: #64748b; font-size: 0.9rem;">Loading venues...</div>
+                          } @else {
+                            <div class="dropdown-list" style="max-height: 280px; overflow-y: auto;">
+                              @for (v of filteredVenues(); track v.venue_Id) {
+                                <div class="dropdown-item" (click)="selectVenue(v)" style="padding: 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; transition: background 0.2s;" [style.backgroundColor]="v.venue_Id === venueId ? '#eff6ff' : 'transparent'" onmouseover="if(this.style.backgroundColor !== 'rgb(239, 246, 255)' && this.style.backgroundColor !== '#eff6ff') this.style.backgroundColor='#f8fafc'" onmouseout="if(this.style.backgroundColor !== 'rgb(239, 246, 255)' && this.style.backgroundColor !== '#eff6ff') this.style.backgroundColor='transparent'">
+                                  <div style="font-weight: 500; color: #0f172a; font-size: 0.95rem;">{{ v.name }}</div>
+                                  <div style="font-size: 0.85rem; color: #475569; margin-top: 4px;">{{ v.address }}{{ v.city ? ', ' + v.city : '' }}</div>
+                                  <div style="font-size: 0.85rem; color: #64748b; margin-top: 2px;">Total Capacity: <strong style="color: #0f172a;">{{ v.capacity }}</strong> seats</div>
+                                </div>
+                              } @empty {
+                                <div style="padding: 20px 12px; text-align: center; color: #64748b; font-size: 0.9rem;">No venues matched your search.</div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (eventType !== 'Virtual') {
+                  <div class="staff-toggle-wrapper" [class.disabled-wrapper]="!venueId">
+                    <div class="staff-toggle-header">
+                      <span class="toggle-text">Request Platform Event Staff Allocation</span>
+                      <label class="switch-container">
+                        <input type="checkbox" name="requiresStaff" [(ngModel)]="requiresStaff" (ngModelChange)="onStaffToggleChange()" [disabled]="!venueId || !dateTime || !durationHours" />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                    @if (!venueId || !dateTime || !durationHours) {
+                      <span class="helper-text-warning">Please specify Date & Time, Duration, and a Physical Venue to enable staff estimation.</span>
+                    }
+                    
+                    @if (requiresStaff && venueId && dateTime && durationHours) {
+                      <div class="staff-result-box">
+                        <button type="button" class="btn-refresh-staff" [class.spinning]="isStaffCalculationLoading()" [disabled]="isStaffCalculationLoading()" (click)="calculateStaffEstimation()" title="Re-estimate Staff">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.26l5.58 5.58"/>
+                          </svg>
+                        </button>
+                        @if (isStaffCalculationLoading()) {
+                          <div class="staff-skeleton-loading">
+                            <div class="staff-result-row">
+                              <span class="staff-result-label">Allocated Staff Count:</span>
+                              <div class="skeleton-line" style="width: 80px; height: 16px;"></div>
+                            </div>
+                            <div class="staff-result-row">
+                              <span class="staff-result-label">Staff Service Fee:</span>
+                              <div class="skeleton-line" style="width: 100px; height: 16px; animation-delay: 0.2s;"></div>
+                            </div>
+                          </div>
+                        } @else if (estimatedStaffCount() > 0) {
+                          <div class="staff-result-row">
+                            <span class="staff-result-label">Allocated Staff Count:</span>
+                            <span class="staff-result-value">{{ estimatedStaffCount() }} members</span>
+                          </div>
+                          <div class="staff-result-row">
+                            <span class="staff-result-label">Staff Service Fee:</span>
+                            <span class="staff-result-value">₹{{ estimatedStaffCost() | number:'1.2-2' }}</span>
+                          </div>
+                        }
+                        @if (staffErrorMsg()) {
+                          <p class="staff-error" style="margin-top: 8px;">{{ staffErrorMsg() }}</p>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </fieldset>
+
+              <!-- Ticket Pricing Card (Physical/Hybrid Only) -->
+              @if (eventType !== 'Virtual') {
+                <fieldset class="form-section-card">
+                  <legend class="section-title">03. Ticket Pricing</legend>
+        
+                  <div class="ticketing-rows">
+                    @if (ticketTiers.length === 0) {
+                      <p class="helper-text-info">Please select a physical venue to configure its ticket pricing tiers.</p>
+                    }
+                    @for (tier of ticketTiers; track tier.tierName) {
+                      <div class="ticket-tier-setup-row">
+                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 12px; font-size: 1.05rem;">{{ tier.tierName }} Tier</div>
+                        
+                        <div class="tier-inputs">
+                          <div class="tier-input-wrap">
+                            <label>Price (₹) <span class="required">*</span></label>
+                            <input type="number" name="tier_price_{{tier.tierName}}" [(ngModel)]="tier.price" min="1" required (ngModelChange)="saveDraft()" />
+                          </div>
+                          <div class="tier-input-wrap">
+                            <label>Total Seats (Capacity) <span class="required">*</span></label>
+                            <input type="number" name="tier_capacity_{{tier.tierName}}" [(ngModel)]="tier.capacity" min="1" required (ngModelChange)="saveDraft()" readonly class="readonly-input" />
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- 
+                    @if (isCapacityExceeded) {
+                      <div class="capacity-alert-inline">
+                        <strong>Capacity Exceeded:</strong> {{ totalAllocatedCapacity }} allocated &gt; {{ currentVenueCapacity }} max venue seats. Reduce tier capacities.
+                      </div>
+                    }
+                    @if (isCapacityUnderutilized) {
+                      <div class="capacity-info-inline">
+                        <strong>Note:</strong> You have only allocated {{ totalAllocatedCapacity }} out of {{ currentVenueCapacity }} available seats in this venue. The remaining {{ currentVenueCapacity - totalAllocatedCapacity }} seats will not be sold.
+                      </div>
+                    }
+                    -->
+                    @if (fieldError('tiers')) { <span class="field-error">{{ fieldError('tiers') }}</span> }
+                  </div>
+                </fieldset>
+              }
+
+            </div>
+
+            <!-- RIGHT COLUMN: Platform Fees Summary Card -->
+            <div class="form-right-col">
+              <div class="fixed-summary-card">
+                <h3>Upfront Summary</h3>
+                <div class="summary-details">
+                  @if (!platformSettings() || isStaffCalculationLoading()) {
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row w-75"></div>
+                    <div class="skeleton-row w-50"></div>
+                    <div class="summary-divider"></div>
+                    <div class="skeleton-row w-100 skeleton-tall"></div>
+                  } @else {
+                    <div class="summary-row">
+                      <span>Activation Fee <span class="info-icon" data-tooltip="Standard platform upfront fee for event creation,&#10;includes venue rental cost for physical events"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></span>:</span>
+                      <span>₹{{ (activationFee + venueRentalCost) | number:'1.2-2' }}</span>
+                    </div>
+                    @if (requiresStaff) {
+                      <div class="summary-row">
+                        <span>Platform Staff Fee:</span>
+                        <span>₹{{ estimatedStaffCost() | number:'1.2-2' }}</span>
+                      </div>
+                    }
+                    <div class="summary-row">
+                      <span>GST {{ platformSettings()?.gsT_Percentage ?? platformSettings()?.GST_Percentage ?? 18 }}%:</span>
+                      <span>₹{{ gstAmount | number:'1.2-2' }}</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-row total-row">
+                      <span>Total:</span>
+                      <span>₹{{ totalFees | number:'1.2-2' }}</span>
+                    </div>
+                  }
+                </div>
+
+                <!-- Policy Acceptance moved to the end -->
+                <div class="form-group policy-acceptance summary-policy">
+                  <div class="policy-checkbox-row">
+                    <input type="checkbox" id="acceptPolicy" name="acceptPolicy" [(ngModel)]="acceptPolicy" (ngModelChange)="saveDraft()" />
+                    <label for="acceptPolicy" class="policy-label">
+                      I have read and accepted the
+                      <a href="#" class="policy-link" (click)="openPolicyModal($event)">Event Creation Policy</a>
+                      <span class="required">*</span>
+                    </label>
+                  </div>
+                  @if (!policyDocument()) {
+                    <span class="helper-text-warning">Loading policy document...</span>
+                  }
+                </div>
+
+                <!-- Submit & Proceed Button -->
+                <button type="submit" class="btn btn-primary btn-checkout" [disabled]="!acceptPolicy || isCapacityExceeded">
+                  Checkout
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    } @else {
+      <!-- Confirmation step -->
+      <div class="confirmation-page-container">
+        @if (isSuccessTickAnimating()) {
+          <!-- Fullscreen/large pulsing success checkmark animation -->
+          <div class="success-tick-wrapper">
+            <div class="success-checkmark-svg-wrap">
+              <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+              </svg>
+            </div>
+            <h2 class="animate-confirm-title">Payment Confirmed!</h2>
+            <p class="animate-confirm-sub">Activating your event...</p>
+          </div>
+        } @else if (isPaymentConfirmed) {
+          <!-- Normal ticket details shown AFTER the animation -->
+          <div class="confirmation-page">
+            <div class="confirmation-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h2 class="confirm-title">Event Successfully Activated!</h2>
+            <p class="confirm-sub">Your upfront payment has been processed and your event is now live.</p>
+
+            <div class="confirm-actions">
+              <button class="cta-btn-dashboard" [routerLink]="['/myevents']">Go to Organizer Dashboard</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Stripe Cancellation Modal -->
+    @if (showStripeCancelModal()) {
+      <div class="modal-overlay">
+        <div class="modal-content review-modal">
+          <div class="modal-header">
+            <h3>Payment Incomplete</h3>
+          </div>
+          <div class="modal-body">
+            <p style="margin-bottom: 12px; color: #1e293b; font-size: 0.95rem; line-height: 1.5;">You returned from the payment gateway without completing the transaction. Do you wish to discard this event completely, or keep your form data to try again?</p>
+            <p style="font-size: 0.85rem; color: #64748b;">If you try again, a new payment session will be generated.</p>
+          </div>
+          <div class="modal-footer" style="display: flex; gap: 12px; justify-content: flex-end;">
+            <button class="btn btn-secondary" (click)="onKeepStripeDraft()" [disabled]="isRevertingEvent()">Keep my draft</button>
+            <button class="btn btn-primary" style="background-color: #ef4444; border-color: #dc2626; color: white;" (click)="onConfirmStripeCancel()" [disabled]="isRevertingEvent()">Yes, discard event</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Policy Document Modal -->
+    @if (showPolicyModal()) {
+      <div class="policy-doc-overlay" (click)="closePolicyModal()">
+        <div class="policy-doc-viewer" (click)="$event.stopPropagation()">
+          
+          <!-- PDF Toolbar -->
+          <div class="pdf-toolbar">
+            <div class="pdf-toolbar-left">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              <span class="pdf-doc-name">Event Creation Policy</span>
+            </div>
+            <div class="pdf-toolbar-right">
+              <span class="pdf-page-info">Page 1 of 1</span>
+              <button class="pdf-close-btn" type="button" (click)="closePolicyModal()" aria-label="Close document">
+                &#x2715;
+              </button>
+            </div>
+          </div>
+
+          <!-- PDF Document Body -->
+          <div class="pdf-doc-body">
+            @if (isLoadingPolicy()) {
+              <div class="pdf-page">
+                <p>Loading policy document...</p>
+              </div>
+            } @else {
+              <div class="pdf-page consent-document-content" [innerHTML]="policyModalContent()"></div>
+            }
+          </div>
+          
+        </div>
+      </div>
+    }
+
+    <!-- Revert Confirmation Modal -->
+    @if (showConfirmBackModal()) {
+      <div class="review-modal-backdrop">
+        <div class="review-modal-container" style="max-width: 450px;">
+          <div class="review-modal-header">
+            <h3>Confirm Cancellation</h3>
+            <button class="modal-close-btn" (click)="showConfirmBackModal.set(false)">✕</button>
+          </div>
+          <div class="review-modal-body" style="padding: 20px;">
+            <p style="font-size: 14px; color: #323130; margin: 0; line-height: 1.5;">Are you sure you want to go back? This will completely cancel and revert your pending event listing creation.</p>
+          </div>
+          <div class="review-modal-footer">
+            <button class="review-btn-secondary" (click)="showConfirmBackModal.set(false)">Stay on Payment</button>
+            <button class="review-btn-primary" style="background: #ef4444;" (click)="confirmRevertAndBack()">Yes, Cancel Event</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

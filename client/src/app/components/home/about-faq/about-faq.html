@@ -1,0 +1,89 @@
+<!-- Section 3: About & FAQ -->
+<section class="about-section" id="about-section">
+  <div class="about-container" [class.full-width-faq]="showOnlyFaq" [class.full-width-about]="showOnlyAbout">
+    
+    <!-- Left: FAQ Accordion -->
+    @if (!showOnlyAbout) {
+      <div class="faq-pane">
+        <span class="sub-title">Support Desk</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="pane-description">Quick answers to common questions about ticket bookings, cancellation policies, and hosting events.</p>
+
+        <div class="faq-accordion">
+          <!-- FAQ 1 -->
+          <div class="faq-item" [class.open]="faqStates()[0]">
+            <button class="faq-question" (click)="toggleFaq(0)">
+              <span>How do I purchase event tickets?</span>
+              <span class="faq-toggle-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Browse the events list, click the event card, select the quantities for each ticket tier, and complete the checkout payment securely.</p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item" [class.open]="faqStates()[1]">
+            <button class="faq-question" (click)="toggleFaq(1)">
+              <span>What is the ticket refund and cancellation policy?</span>
+              <span class="faq-toggle-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Refund policies depend on the event organizer's policy. Standard cancellations can be initiated from your "Bookings" dashboard. Full refunds are auto-credited back to your card within 5-10 business days upon organizer approval.</p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item" [class.open]="faqStates()[2]">
+            <button class="faq-question" (click)="toggleFaq(2)">
+              <span>Can I host my own private or corporate events?</span>
+              <span class="faq-toggle-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Absolutely! Log in to your account, select "Create Event" in the navigation bar, configure your tiers, dates, and details, and submit. Staffing allocations can also be selected upfront.</p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item" [class.open]="faqStates()[3]">
+            <button class="faq-question" (click)="toggleFaq(3)">
+              <span>How do I contact customer support?</span>
+              <span class="faq-toggle-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>You can raise a support ticket directly from your account page, specifying details like payment reference or booking codes. Our service desk is available 24/7.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Right: Brand About Card -->
+    @if (!showOnlyFaq) {
+      <div class="about-pane">
+        <div class="about-brand-card">
+          <img src="/logo.png" alt="Brand Logo" class="about-brand-logo">
+          <h3 class="brand-title">EventManagement</h3>
+          <p class="brand-tagline">Connecting communities, empowering organizers, creating memories.</p>
+          <p class="brand-text">
+            We design and coordinate premium physical, virtual, and hybrid gatherings worldwide. Combining high-velocity seat booking algorithms with dynamic staff allocation, we ensure events run flawlessly from ticketing to live check-ins.
+          </p>
+          <div class="brand-metrics">
+            <div class="metric">
+              <span class="metric-num">120K+</span>
+              <span class="metric-label">Tickets Sold</span>
+            </div>
+            <div class="metric">
+              <span class="metric-num">2.5K+</span>
+              <span class="metric-label">Events Hosted</span>
+            </div>
+            <div class="metric">
+              <span class="metric-num">99.8%</span>
+              <span class="metric-label">Success Rate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+  </div>
+</section>

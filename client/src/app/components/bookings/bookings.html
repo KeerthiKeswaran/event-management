@@ -1,0 +1,303 @@
+<app-navbar></app-navbar>
+
+<div class="bookings-page">
+
+  <!-- Header -->
+  <div class="bookings-header">
+    <div>
+      <h1 class="page-title">My Bookings</h1>
+      <p class="page-sub">View your tickets, join virtual sessions, or manage reservations.</p>
+    </div>
+  </div>
+
+  <!-- Filters Select Dropdown Bar -->
+  <div class="bookings-filter-bar">
+    <div class="dropdown-container">
+      <label class="filter-label" for="statusFilter">Status:</label>
+      <select id="statusFilter" class="filter-select" [ngModel]="selectedFilter()" (ngModelChange)="setFilter($event)">
+        <option value="Upcoming">Upcoming</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+    
+    <div class="bookings-count-label">
+      Showing {{ filteredBookings().length }} booking{{ filteredBookings().length !== 1 ? 's' : '' }}
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="bookings-list">
+      @for (item of [1, 2, 3]; track item) {
+        <div class="booking-card" style="border-color: var(--border);">
+          <div class="booking-hero skeleton-pulse" style="min-height: 200px;"></div>
+          <div class="booking-info" style="gap: 12px;">
+            <div class="skeleton-pulse" style="width: 15%; height: 12px; border-radius: 2px;"></div>
+            <div class="skeleton-pulse" style="width: 60%; height: 22px; border-radius: 4px; margin-bottom: 8px;"></div>
+            <div class="skeleton-pulse" style="width: 45%; height: 14px; border-radius: 2px;"></div>
+            <div class="skeleton-pulse" style="width: 35%; height: 14px; border-radius: 2px;"></div>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 6px; display: flex; justify-content: space-between;">
+              <div class="skeleton-pulse" style="width: 25%; height: 14px; border-radius: 2px;"></div>
+              <div class="skeleton-pulse" style="width: 18%; height: 18px; border-radius: 2px;"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <!-- Empty State -->
+    @if (filteredBookings().length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>No {{ selectedFilter() }} Bookings</h3>
+        <p>It looks like you don't have any bookings matching the "{{ selectedFilter() }}" status.</p>
+      </div>
+    } @else {
+      <!-- Bookings List -->
+      <div class="bookings-list">
+        @for (booking of filteredBookings(); track booking.booking_Id) {
+          <div class="booking-card" 
+               [class.cancelled]="booking.booking_Status === 'Cancelled'">
+
+            <!-- Left image/hero section -->
+            <div class="booking-hero">
+              @if (booking.event_Image_Url) {
+                <img [src]="booking.event_Image_Url" [alt]="booking.event_Title" class="booking-img">
+                <div class="booking-overlay"></div>
+              }
+            </div>
+
+            <!-- Content Area -->
+            <div class="booking-info">
+              <div class="booking-card-header">
+                <div>
+                  <span class="booking-id-tag">ID: #{{ booking.booking_Id }}</span>
+                  <h3 class="booking-event-title">{{ booking.event_Title }}</h3>
+                </div>
+                <span class="status-badge" [class]="'status-' + (booking.event_Status === 'Completed' && booking.booking_Status === 'Confirmed' ? 'completed' : booking.booking_Status.toLowerCase())">
+                  {{ booking.event_Status === 'Completed' && booking.booking_Status === 'Confirmed' ? 'Completed' : booking.booking_Status }}
+                </span>
+              </div>
+
+              <div class="booking-meta-grid">
+                <div class="meta-item">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span>{{ formatDate(booking.event_Date_Time) }}</span>
+                </div>
+                <div class="meta-item">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>{{ formatTime(booking.event_Date_Time) }}</span>
+                </div>
+                <div class="meta-item">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span class="booking-type-text">{{ booking.event_Type }}</span>
+                </div>
+                <div class="meta-item location">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span>{{ booking.event_Venue || 'TBD Venue' }}</span>
+                </div>
+              </div>
+
+              <div class="booking-footer">
+                <div class="tickets-summary">
+                  <span class="summary-label">Tickets Selected:</span>
+                  <span class="summary-text">{{ getDetailsSummary(booking.details) }}</span>
+                </div>
+                
+                <div class="price-summary" style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                  <div [ngStyle]="booking.booking_Status === 'Cancelled' ? {'font-size': '0.85rem', 'font-weight': 'normal', 'color': '#64748b'} : {}">
+                    <span class="summary-label">Total Paid:</span>
+                    <span [class.summary-price]="booking.booking_Status !== 'Cancelled'">{{ formatCurrency(booking.amount_Paid !== undefined ? booking.amount_Paid : booking.total_Amount) }}</span>
+                  </div>
+                  @if (booking.booking_Status === 'Cancelled') {
+                    <div class="refunded-amount">
+                      Refunded: {{ formatCurrency(booking.refunded_Amount ?? 0) }}
+                    </div>
+                  }
+                </div>
+              </div>
+              
+              <!-- Feedback Section for Completed Events (compact inline row) -->
+              @if (booking.booking_Status === 'Confirmed' && booking.event_Status === 'Completed') {
+                <div class="booking-feedback-row">
+                  @if (showFeedbackSuccess() === booking.booking_Id) {
+                    <div class="feedback-success-animation feedback-success-inline">
+                      <div class="success-checkmark-svg-wrap">
+                        <svg class="checkmark-svg black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                          <circle class="checkmark-circle black" cx="26" cy="26" r="25" fill="none"/>
+                          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                      </div>
+                      <p class="success-text">Feedback Submitted</p>
+                    </div>
+                  } @else {
+                    <!-- Left: stars + textarea -->
+                    <div class="feedback-left">
+                      <div class="star-rating" [class.disabled]="!!booking.feedback_Rating">
+                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                          <svg width="20" height="20" viewBox="0 0 24 24"
+                               [class.filled]="((getFeedbackDraft(booking.booking_Id) && getFeedbackDraft(booking.booking_Id).rating) || booking.feedback_Rating || 0) >= star"
+                               (click)="!booking.feedback_Rating && setFeedbackRating(booking.booking_Id, star)">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                          </svg>
+                        }
+                      </div>
+                      <textarea class="feedback-review-input compact"
+                                placeholder="Write a short review..."
+                                [value]="booking.feedback_Review || (getFeedbackDraft(booking.booking_Id) && getFeedbackDraft(booking.booking_Id).review) || ''"
+                                (input)="!booking.feedback_Rating && setFeedbackReview(booking.booking_Id, $any($event.target).value)"
+                                [disabled]="!!booking.feedback_Rating"></textarea>
+                    </div>
+                    <!-- Right: submit + report stacked -->
+                    <div class="feedback-right">
+                      @if (!booking.feedback_Rating) {
+                        <button class="btn-submit-feedback compact"
+                                [disabled]="!(getFeedbackDraft(booking.booking_Id) && getFeedbackDraft(booking.booking_Id).rating) || !(getFeedbackDraft(booking.booking_Id) && getFeedbackDraft(booking.booking_Id).review && getFeedbackDraft(booking.booking_Id).review.trim()) || isSubmittingFeedback() === booking.booking_Id"
+                                (click)="submitFeedback(booking)">
+                          {{ isSubmittingFeedback() === booking.booking_Id ? 'Submitting...' : 'Submit' }}
+                        </button>
+                      }
+                      <button class="action-btn report-event compact-report"
+                        (click)="hasReported(booking.event_Id) ? null : openReportModal(booking)"
+                        [disabled]="hasReported(booking.event_Id)"
+                        [attr.title]="hasReported(booking.event_Id) ? 'This event has been reported already.' : 'Report this event'"
+                        [style.background]="hasReported(booking.event_Id) ? '#e5e7eb' : '#991b1b'"
+                        [style.color]="hasReported(booking.event_Id) ? '#9ca3af' : 'white'"
+                        [style.cursor]="hasReported(booking.event_Id) ? 'not-allowed' : 'pointer'"
+                        style="border: none; width: 90px; justify-content: center;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        {{ hasReported(booking.event_Id) ? 'Reported' : 'Report' }}
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
+
+              <!-- Action Row: hidden entirely for completed events (no actions needed) -->
+              @if (!(booking.booking_Status === 'Confirmed' && booking.event_Status === 'Completed')) {
+                <div class="booking-actions">
+                  @if (booking.booking_Status === 'Confirmed') {
+                    @if (booking.event_Status !== 'Completed') {
+                      <button class="action-btn view-ticket" (click)="openQrModal(booking)">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><polyline points="14 14 14 17 17 17 17 14 20 14 20 20 14 20"/></svg>
+                        View Ticket (QR)
+                      </button>
+
+                      @if (booking.event_Type === 'Virtual' || booking.event_Type === 'Hybrid') {
+                        <div class="join-meeting-wrapper">
+                          <button class="action-btn join-meeting" 
+                                  [class.disabled-link]="booking.virtual_Url === 'Disabled'"
+                                  (click)="joinMeeting(booking)">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            Join Meeting
+                          </button>
+                          @if (virtualLinkMsgBookingId() === booking.booking_Id) {
+                            <div class="virtual-link-flag">
+                              Virtual meeting link is not active yet, only enabled during event
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      <button class="action-btn cancel-booking" (click)="openCancelModal(booking)">
+                        Cancel Booking
+                      </button>
+                    }
+                  } @else if (booking.booking_Status === 'Pending') {
+                    <button class="action-btn cancel-booking" (click)="openCancelModal(booking)">
+                      Release Booking
+                    </button>
+                  } @else {
+                    <span class="action-disabled-text">No active actions for cancelled booking.</span>
+                  }
+
+                  <!-- Report button shown in action bar for non-completed events -->
+                  <button class="action-btn report-event" 
+                    (click)="hasReported(booking.event_Id) ? null : openReportModal(booking)" 
+                    [disabled]="hasReported(booking.event_Id)"
+                    [attr.title]="hasReported(booking.event_Id) ? 'This event has been reported already.' : 'Report this event'"
+                    [style.background]="hasReported(booking.event_Id) ? '#e5e7eb' : '#991b1b'" 
+                    [style.color]="hasReported(booking.event_Id) ? '#9ca3af' : 'white'" 
+                    [style.cursor]="hasReported(booking.event_Id) ? 'not-allowed' : 'pointer'"
+                    style="border: none; width: 90px; justify-content: center;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    {{ hasReported(booking.event_Id) ? 'Reported' : 'Report' }}
+                  </button>
+                </div>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+    }
+  }
+
+</div>
+
+<!-- Global Footer -->
+<app-report-event-modal
+  [show]="showReportModal"
+  [eventId]="activeReportEventId()"
+  [eventTitle]="activeReportEventTitle()"
+  (closeEvent)="showReportModal.set(false)">
+</app-report-event-modal>
+
+<app-footer></app-footer>
+
+<!-- QR Modal -->
+@if (showQrModal() && activeQrBooking()) {
+  <div class="modal-backdrop" (click)="closeQrModal()">
+    <div class="qr-modal" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeQrModal()">✕</button>
+      <h3 class="qr-modal-title">Your Entry QR Code</h3>
+      <p class="qr-modal-sub">Present this code at the gates for check-in to <strong>{{ activeQrBooking()!.event_Title }}</strong>.</p>
+
+      <div class="qr-code-display">
+        @if (activeQrBooking()?.qr_Code_Path) {
+          <img [src]="activeQrBooking()?.qr_Code_Path" alt="QR Code" class="qr-real-image" />
+        } @else {
+          <div class="qr-corner tl"></div>
+          <div class="qr-corner tr"></div>
+          <div class="qr-corner bl"></div>
+          <div class="qr-center-dot"></div>
+          <div class="qr-grid">
+            @for (row of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]; track row) {
+              <div class="qr-row">
+                @for (col of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]; track col) {
+                  <div class="qr-cell" [class.filled]="(row + col + (activeQrBooking()!.booking_Id || 0)) % 3 !== 0"></div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <p class="qr-booking-id">Booking #{{ activeQrBooking()?.booking_Id }}</p>
+      
+      @if (activeQrBooking()?.qr_Code_Path) {
+        <button class="qr-download-btn" (click)="downloadQrCode(activeQrBooking()!.qr_Code_Path!, activeQrBooking()!.booking_Id)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download QR
+        </button>
+      }
+    </div>
+  </div>
+}
+
+<!-- Cancellation Confirmation Modal (separate component) -->
+@if (showCancelModal() && bookingToCancel()) {
+  <app-cancel-booking-modal
+    [booking]="bookingToCancel()!"
+    (closed)="closeCancelModal()"
+    (cancelled)="onBookingCancelled($event)">
+  </app-cancel-booking-modal>
+}
+
+

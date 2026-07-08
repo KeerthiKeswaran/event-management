@@ -1,0 +1,237 @@
+<div class="browse-root" (click)="closeDropdowns()">
+
+  <!-- Consistent Navigation Bar -->
+  <app-navbar (openLocation)="openLocationModal()"></app-navbar>
+
+  <!-- Page Layout Wrapper -->
+  <main class="page-container">
+    
+    <!-- Sidebar Filters -->
+    <aside class="sidebar-filters">
+      <div class="filters-card">
+        <h3>Filter Events</h3>
+        <p class="filters-subtitle">Refine search criteria to discover events matching your needs.</p>
+
+        <form (ngSubmit)="applyFilters()" class="filters-form">
+          
+          <!-- Category Selection -->
+          <div class="filter-group">
+            <label for="category">Category</label>
+            <select 
+              id="category" 
+              [(ngModel)]="filterCategory" 
+              (ngModelChange)="applyFilters()"
+              name="filterCategory" 
+              class="form-control select-control"
+            >
+              <option value="">All Categories</option>
+              @for (cat of categories(); track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Event Format Selection -->
+          <div class="filter-group">
+            <label for="format">Event Format</label>
+            <select 
+              id="format" 
+              [(ngModel)]="filterFormat" 
+              (ngModelChange)="applyFilters()"
+              name="filterFormat" 
+              class="form-control select-control"
+            >
+              <option value="">All Formats</option>
+              <option value="physical">Physical</option>
+              <option value="virtual">Virtual</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+
+          <!-- Dual Slider Price Filter -->
+          <div class="filter-group">
+            <label>Price</label>
+            <div class="price-display">
+              ₹{{ filterMinPrice | number }} – ₹{{ filterMaxPrice === 25000 ? '25,000+' : (filterMaxPrice | number) }}
+            </div>
+            
+            <div class="dual-slider-container">
+              <div class="slider-track"></div>
+              <div class="slider-fill" 
+                   [style.left.%]="(filterMinPrice / 25000) * 100" 
+                   [style.width.%]="((filterMaxPrice - filterMinPrice) / 25000) * 100"></div>
+              <input type="range" min="0" max="25000" step="500" 
+                     [(ngModel)]="filterMinPrice" (change)="onMinPriceChange()" 
+                     name="minP" class="slider-thumb min-thumb">
+              <input type="range" min="0" max="25000" step="500" 
+                     [(ngModel)]="filterMaxPrice" (change)="onMaxPriceChange()" 
+                     name="maxP" class="slider-thumb max-thumb">
+            </div>
+          </div>
+
+          <!-- Sort Options -->
+          <div class="filter-group">
+            <label for="sortBy">Sort By</label>
+            <select 
+              id="sortBy" 
+              [(ngModel)]="filterSortBy" 
+              (ngModelChange)="applyFilters()"
+              name="filterSortBy" 
+              class="form-control select-control"
+            >
+              <option value="">Default (Active Region)</option>
+              <option value="dateAsc">Date: Soonest first</option>
+              <option value="dateDesc">Date: Latest first</option>
+              <option value="priceAsc">Price: Low to High</option>
+              <option value="priceDesc">Price: High to Low</option>
+            </select>
+          </div>
+
+        </form>
+      </div>
+    </aside>
+
+    <!-- Main Results Pane -->
+    <section class="results-pane">
+      <div class="results-header">
+        <h2>Browse <span class="highlight-red">Events</span></h2>
+      </div>
+      <p class="results-count">{{ totalEvents() }} events found</p>
+
+      <!-- Active Filters Chips List -->
+      @if (filterKeyword || filterCategory || filterFormat || (filterMaxPrice !== null && filterMaxPrice < maxAvailablePrice) || filterRegionIds.length > 0) {
+        <div class="active-filters-container">
+          <span class="active-filters-title">Active Filters:</span>
+          <div class="active-filters-list">
+            @if (filterKeyword) {
+              <div class="filter-chip">
+                <span>Keyword: "{{ filterKeyword }}"</span>
+                <button type="button" class="chip-close-btn" (click)="removeKeywordFilter()">&times;</button>
+              </div>
+            }
+            @if (filterCategory) {
+              <div class="filter-chip">
+                <span>Category: {{ filterCategory | titlecase }}</span>
+                <button type="button" class="chip-close-btn" (click)="removeCategoryFilter()">&times;</button>
+              </div>
+            }
+            @if (filterFormat) {
+              <div class="filter-chip">
+                <span>Format: {{ filterFormat | titlecase }}</span>
+                <button type="button" class="chip-close-btn" (click)="removeFormatFilter()">&times;</button>
+              </div>
+            }
+            @if (filterMaxPrice !== null && filterMaxPrice < maxAvailablePrice) {
+              <div class="filter-chip">
+                <span>Max Price: ₹{{ filterMaxPrice }}</span>
+                <button type="button" class="chip-close-btn" (click)="removeMaxPriceFilter()">&times;</button>
+              </div>
+            }
+
+            @for (regId of filterRegionIds; track regId) {
+              <div class="filter-chip">
+                <span>Region: {{ getSelectedRegionName(regId) }}</span>
+                <button type="button" class="chip-close-btn" (click)="removeRegionFilter(regId)">&times;</button>
+              </div>
+            }
+
+            <button type="button" class="clear-all-chips-btn" (click)="clearFilters()">Clear All</button>
+          </div>
+        </div>
+      }
+
+      <!-- Loading skeleton -->
+      @if (eventsLoading()) {
+        <div class="results-skeleton">
+          @for (item of [1, 2, 3]; track item) {
+            <div class="skeleton-card"></div>
+          }
+        </div>
+      } @else {
+        
+        <!-- Results Grid -->
+        @if (events().length > 0) {
+          <div class="results-grid">
+            @for (ev of events(); track ev.event_Id) {
+              <!-- Clickable Event Card -->
+              <div class="event-card" (click)="navigateToBookingFlow(ev)" style="cursor: pointer;">
+                <div class="card-image-wrapper">
+                  <img [src]="ev.image_Url || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500&auto=format&fit=crop&q=80'" [alt]="ev.title" class="card-img">
+                  <div class="card-badge" [class]="'badge-' + (ev.event_Type ? ev.event_Type.toLowerCase() : 'physical')">{{ ev.event_Type || 'Physical' }}</div>
+                  @if (ev.category) {
+                    <div class="card-badge category-badge" style="left: auto; right: 12px; background: rgba(0, 0, 0, 0.7); color: white;">
+                      {{ ev.category }}
+                    </div>
+                  }
+                </div>
+                <div class="card-body">
+                  <div class="card-date">{{ ev.date_Time | date:'MMM d, y • h:mm a' }}</div>
+                  <h3 class="card-title">{{ ev.title }}</h3>
+                  <p class="card-venue">
+                    <svg class="icon inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    {{ ev.venue_Name || 'Main Exhibition Grounds' }}
+                  </p>
+                  <div class="card-desc">{{ ev.description_Url | resolveDescription | async }}</div>
+                  <div class="card-footer">
+                    <span class="card-price"><span class="price-prefix">From</span> ₹{{ ev.minPrice ? ev.minPrice.toFixed(2) : '0.00' }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Pagination Controls -->
+          @if (totalPages > 1) {
+            <div class="pagination-wrapper">
+              <button 
+                class="btn btn-outline" 
+                (click)="prevPage()" 
+                [disabled]="currentPage === 1"
+              >
+                &larr; Previous
+              </button>
+              <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+              <button 
+                class="btn btn-outline" 
+                (click)="nextPage()" 
+                [disabled]="currentPage === totalPages"
+              >
+                Next &rarr;
+              </button>
+            </div>
+          }
+        } @else {
+          <!-- Empty State -->
+          <div class="empty-state">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            <h3>No matching events found</h3>
+            <p>Try clearing your keyword filters, selecting a different region, or adjusting dates.</p>
+            <button class="btn btn-primary" (click)="clearFilters()">
+              Reset Search Filters
+            </button>
+          </div>
+        }
+      }
+
+    </section>
+
+  </main>
+
+
+
+  <!-- Global Reusable Footer -->
+  <app-footer></app-footer>
+
+  <!-- Select Location Modal Dialog -->
+  <app-location-modal 
+    [isOpen]="isLocationModalOpen()" 
+    (isOpenChange)="isLocationModalOpen.set($event)">
+  </app-location-modal>
+</div>
+

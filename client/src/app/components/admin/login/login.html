@@ -1,0 +1,86 @@
+<div class="split-root">
+  
+  <!-- Left Side: Appealing branding & illustration -->
+  <div class="split-left">
+    <div class="left-overlay"></div>
+    <div class="left-content">
+      <div class="left-header">
+        <img src="/logo.png" alt="Event Management Logo" class="brand-logo">
+      </div>
+      <div class="left-body">
+        <h1 class="appealing-title">Manage Global Experiences.</h1>
+        <p class="appealing-text">
+          Administrator access for operations, support desk, moderation, venue registrations, and finance management.
+        </p>
+      </div>
+      <div class="left-footer">
+        <p class="copyright">&copy; 2026 EventManagement Inc. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="split-right">
+    <div class="form-container">
+      
+      <div class="header-section">
+        <h2>Administrator Login</h2>
+        <p class="subtitle">Secure entry for event operations staff.</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit($event)" class="login-form">
+        @if (errorMessage()) {
+          <div class="alert alert-error">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <div class="form-group">
+          <label for="adminId">Admin ID</label>
+          <input 
+            type="text" 
+            id="adminId" 
+            formControlName="adminId" 
+            placeholder="e.g. ADM_1001" 
+            class="form-control"
+            [class.invalid]="loginForm.get('adminId')?.invalid && loginForm.get('adminId')?.touched"
+            [readonly]="isSubmitting()"
+          />
+          <div class="error-text" *ngIf="loginForm.get('adminId')?.invalid && loginForm.get('adminId')?.touched">
+            <span *ngIf="loginForm.get('adminId')?.hasError('required')">Admin ID is required.</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <label for="password" style="margin-bottom: 0;">Password</label>
+            <a routerLink="/admin/password/reset" class="accent-link" style="font-size: 13px;">Forgot password?</a>
+          </div>
+          <div class="password-wrapper">
+            <input 
+              type="password" 
+              id="password" 
+              formControlName="password" 
+              placeholder="••••••••" 
+              class="form-control"
+              [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+              [readonly]="isSubmitting()"
+            />
+          </div>
+          <div class="error-text" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <span *ngIf="loginForm.get('password')?.hasError('required')">Password is required.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <span class="spinner"></span> Authenticating...
+          } @else {
+            Sign in
+          }
+        </button>
+      </form>
+      
+    </div>
+  </div>
+</div>

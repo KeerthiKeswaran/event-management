@@ -1,0 +1,82 @@
+<!-- Hero Section: Trending Events Full-Width Carousel -->
+<section class="hero-carousel-section">
+  @if (trendingEvents().length > 0) {
+    <div class="carousel-track">
+      @for (item of trendingEvents(); track item.event_Id; let idx = $index) {
+        <div class="carousel-slide" [class.active]="idx === currentSlideIndex()">
+          <div class="slide-image-container">
+            <img [src]="item.image_Url" [alt]="item.title" class="slide-bg">
+            <div class="slide-overlay"></div>
+          </div>
+          
+          <div class="slide-content-container">
+            <div class="slide-content">
+              <span class="trending-badge">Trending #{{ idx + 1 }}</span>
+              <h1 class="slide-title">{{ item.title }}</h1>
+              <p class="slide-description">{{ item.description_Url | resolveDescription | async }}</p>
+              
+              <div class="slide-meta">
+                <div class="meta-item">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <span>{{ item.date_Time | date:'EEEE, MMM d, y - h:mm a' }}</span>
+                </div>
+                <div class="meta-item">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>{{ item.venue_Name }} ({{ item.venue_Region_Name }})</span>
+                </div>
+                <div class="meta-item">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 5v2"></path>
+                    <path d="M15 11v2"></path>
+                    <path d="M15 17v2"></path>
+                    <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z"></path>
+                  </svg>
+                  <span>Tickets from ₹{{ item.minPrice?.toFixed(2) }}</span>
+                </div>
+              </div>
+
+              <div class="slide-actions">
+                <button class="btn btn-primary btn-lg" (click)="navigateToBookingFlow(item)">
+                  Book Tickets Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Navigation Arrows Removed per user request -->
+
+    <!-- Carousel Indicators -->
+    <div class="carousel-indicators">
+      @for (item of trendingEvents(); track item.event_Id; let idx = $index) {
+        <button 
+          class="indicator-dot" 
+          [class.active]="idx === currentSlideIndex()" 
+          (click)="setSlide(idx)"
+          [attr.aria-label]="'Go to slide ' + (idx + 1)">
+        </button>
+      }
+    </div>
+  } @else {
+    <!-- Carousel Placeholder Skeleton -->
+    <div class="carousel-skeleton-pulse">
+      <div class="skeleton-content">
+        <div class="pulse-bar trending-pulse"></div>
+        <div class="pulse-bar title-pulse"></div>
+        <div class="pulse-bar desc-pulse"></div>
+        <div class="pulse-bar meta-pulse"></div>
+        <div class="pulse-bar btn-pulse"></div>
+      </div>
+    </div>
+  }
+</section>

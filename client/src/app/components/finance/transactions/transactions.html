@@ -1,0 +1,98 @@
+<app-navbar [isFinance]="true"></app-navbar>
+
+<div class="finance-layout">
+  <app-finance-sidebar></app-finance-sidebar>
+
+  <div class="finance-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Transactions</h1>
+        <p class="page-sub">Upfront, Booking Payments and Payouts</p>
+      </div>
+    </div>
+    
+    <div class="section-panel">
+      <div class="panel-header">
+        <div class="filter-bar" style="display: flex; align-items: center; gap: 12px; width: 100%;">
+          <select class="filter-select" [(ngModel)]="filters.transactionType" (ngModelChange)="onFilterChange()">
+            <option value="">All Types</option>
+            <option value="OrganizerUpfrontPayment">Upfront</option>
+            <option value="BookingPayment">Booking Payment</option>
+            <option value="OrganizerPayout">Payout</option>
+          </select>
+          <select class="filter-select" [(ngModel)]="filters.status" (ngModelChange)="onFilterChange()">
+            <option value="">All Status</option>
+            <option value="Success">Success</option>
+            <option value="Pending">Pending</option>
+            <option value="Failed">Failed</option>
+          </select>
+          <input class="filter-input date-input" type="date" [(ngModel)]="filters.startDate" (ngModelChange)="onFilterChange()" />
+          <input class="filter-input date-input" type="date" [(ngModel)]="filters.endDate" (ngModelChange)="onFilterChange()" />
+          <button class="btn btn-outline btn-sm" (click)="clearFilters()" style="color: #ef4444; border-color: #ef4444;">Clear</button>
+          
+          <div style="flex-grow: 1;"></div>
+          <button #refreshBtn class="icon-btn refresh-btn" (click)="refreshBtn.classList.add('spinning-active'); loadTransactions()" (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh" [class.spinning]="loading()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 80px;">ID</th>
+              <th class="sortable" (click)="toggleSort('type')" style="width: 100px;">Type <span class="sort-arrow">{{ sortColumn === 'type' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th class="sortable" (click)="toggleSort('amount')">Amount <span class="sort-arrow">{{ sortColumn === 'amount' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th>Refunded</th>
+              <th class="sortable" (click)="toggleSort('date')">Date <span class="sort-arrow">{{ sortColumn === 'date' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th>Time</th>
+              <th style="text-align: center;">Status</th>
+              <th style="width: 150px;">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="loading()">
+              <tr *ngFor="let _ of [1,2,3,4,5]">
+                <td><div class="skeleton-table-cell" style="width: 50px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 80px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 60px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 50px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 90px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 60px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 80px; margin: 0 auto;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 100px;"></div></td>
+              </tr>
+            </ng-container>
+            
+            <ng-container *ngIf="!loading()">
+              <tr *ngFor="let txn of transactions()">
+                <td class="cell-primary">#{{ (txn.transaction_Id + '').slice(-5) }}</td>
+                <td><span class="badge" [ngClass]="(txn.transaction_Type || '').toLowerCase()">{{ txn.transaction_Type }}</span></td>
+                <td class="cell-primary">₹{{ txn.amount }}</td>
+                <td><span *ngIf="txn.refunded_Amount > 0" class="refunded-amount">₹{{ txn.refunded_Amount }}</span><span *ngIf="!txn.refunded_Amount || txn.refunded_Amount <= 0" class="text-muted">—</span></td>
+                <td>{{ txn.created_At | date:'mediumDate' }}</td>
+                <td>{{ txn.created_At | date:'shortTime' }}</td>
+                <td style="text-align: center;"><span class="badge status" [ngClass]="(txn.status || '').toLowerCase()">{{ txn.status }}</span></td>
+                <td class="remarks-col" (click)="txn.showFullRemarks = !txn.showFullRemarks" [class.expanded]="txn.showFullRemarks">
+                  {{ txn.remarks || '-' }}
+                </td>
+              </tr>
+              <tr *ngIf="transactions().length === 0">
+                <td colspan="8" class="empty-state">No transactions found matching your criteria.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination" *ngIf="totalCount() > filters.size">
+        <button class="btn btn-outline btn-sm" [disabled]="filters.page <= 1" (click)="changePage(-1)">Previous</button>
+        <span class="page-info">Page {{ filters.page }} of {{ Math.ceil(totalCount() / filters.size) }}</span>
+        <button class="btn btn-outline btn-sm" [disabled]="filters.page * filters.size >= totalCount()" (click)="changePage(1)">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer [isFinance]="true"></app-footer>

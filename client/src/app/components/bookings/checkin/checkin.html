@@ -1,0 +1,69 @@
+<app-navbar [isMinimal]="true"></app-navbar>
+
+<div class="checkin-layout">
+  <div class="checkin-container">
+    <div class="checkin-header">
+      <h1>Attendee Check-In</h1>
+      <p>Scan the attendee's ticket QR code to check them in.</p>
+    </div>
+
+    <!-- Scanner Box -->
+    <div class="scanner-box" 
+         [class.dragging]="isDragging()" 
+         [class.scanning]="isScanning()"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)"
+         (click)="triggerFileInput()">
+         
+      <input type="file" #fileInput accept="image/*" style="display: none;" (change)="onFileSelect($event)" />
+
+      @if (isScanning()) {
+        <div class="scan-animation-wrap">
+          <div class="qr-scanner">
+            <div class="scan-line"></div>
+          </div>
+          <p class="scanning-text">Scanning QR Code...</p>
+        </div>
+      } @else {
+        <div class="upload-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <rect x="7" y="7" width="3" height="3"></rect>
+            <rect x="14" y="7" width="3" height="3"></rect>
+            <rect x="7" y="14" width="3" height="3"></rect>
+            <rect x="14" y="14" width="3" height="3"></rect>
+          </svg>
+          <h3>Drag & Drop QR Image</h3>
+          <p>Or click to browse</p>
+        </div>
+      }
+    </div>
+
+    <!-- Hidden canvas for QR reading -->
+    <canvas #canvas style="display: none;"></canvas>
+
+    <!-- Error Message -->
+    @if (errorMessage()) {
+      <div class="alert error-alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Success Overlay -->
+@if (successMessage()) {
+  <div class="success-tick-overlay fixed-overlay">
+    <div class="success-checkmark-svg-wrap">
+      <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+    <p class="success-anim-text">{{ successMessage() }}</p>
+  </div>
+}
+
+<app-footer [isRaw]="true"></app-footer>

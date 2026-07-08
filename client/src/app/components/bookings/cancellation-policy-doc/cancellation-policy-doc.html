@@ -1,0 +1,65 @@
+<div class="policy-doc-overlay" (click)="close($event)">
+  <div class="policy-doc-viewer" (click)="$event.stopPropagation()">
+
+    <!-- PDF Viewer Toolbar -->
+    <div class="pdf-toolbar">
+      <div class="pdf-toolbar-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span class="pdf-doc-name">Cancellation &amp; Refund Policy</span>
+      </div>
+      <div class="pdf-toolbar-right">
+        <span class="pdf-page-info">Page 1 of 1</span>
+        <button class="pdf-close-btn" (click)="close($event)" aria-label="Close document">
+          &#x2715;
+        </button>
+      </div>
+    </div>
+
+    <!-- PDF Document Body -->
+    <div class="pdf-doc-body">
+      <div class="pdf-page">
+
+        <!-- Document Header -->
+        <div class="pdf-doc-header">
+          <div class="pdf-doc-logo-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="pdf-doc-title">Cancellation &amp; Refund Policy</h2>
+            <p class="pdf-doc-meta">GetMyEvents · June 2026</p>
+          </div>
+        </div>
+
+        <div class="pdf-divider"></div>
+
+        @if (isLoadingPolicy()) {
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; color: #6b7280;">
+            <p>Retrieving cancellation policy...</p>
+          </div>
+        } @else if (policyError()) {
+          <p style="color: #ef4444; padding: 20px;">{{ policyError() }}</p>
+        } @else {
+          <div class="pdf-body-text" [innerHTML]="policyContent()"></div>
+        }
+
+        <div class="pdf-divider"></div>
+
+        <!-- Footer -->
+        <div class="pdf-doc-footer">
+          <span>GetMyEvents · help&#64;getmyevents.in · Terms of Service apply</span>
+          <span>Page 1 of 1</span>
+        </div>
+
+      </div><!-- /pdf-page -->
+    </div><!-- /pdf-doc-body -->
+
+  </div><!-- /policy-doc-viewer -->
+</div><!-- /policy-doc-overlay -->

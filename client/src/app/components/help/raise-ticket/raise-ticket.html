@@ -1,0 +1,207 @@
+<app-navbar></app-navbar>
+
+<div class="raise-ticket-page">
+
+  <!-- Success Tick Animation View -->
+  @if (isSuccessAnimating()) {
+    <div class="success-tick-wrapper">
+      <div class="success-checkmark-svg-wrap">
+        <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <h2 class="animate-confirm-title">Support Ticket Raised!</h2>
+      <p class="animate-confirm-sub">Your ticket ID is <strong>#{{ successTicketId() }}</strong>. Our support team is revieweing it.</p>
+      
+      <div class="redirect-countdown-box">
+        <p>Redirecting you back to the Help Desk in 5 seconds...</p>
+        <div class="countdown-bar-wrap">
+          <div class="countdown-bar-fill"></div>
+        </div>
+      </div>
+
+      <button class="back-now-btn" (click)="backToSupport()">
+        Back to Support Guides Now
+      </button>
+    </div>
+  } @else {
+    <!-- Main Form View -->
+    <div class="form-header-section">
+      <button class="back-link-btn" (click)="backToSupport()">
+        ← Back to Support
+      </button>
+      <h1 class="form-page-title">Raise a ticket</h1>
+      <p class="form-page-sub">Provide details below to raise a secure ticket with our customer service team.</p>
+    </div>
+
+    @if (ticketErrorMessage()) {
+      <div class="alert alert-error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        {{ ticketErrorMessage() }}
+      </div>
+    }
+
+    <div class="ticket-split-grid">
+      
+      <!-- LEFT COLUMN: Ticket details & Dropdowns (30%) -->
+      <div class="split-left-column">
+        <h3 class="column-heading">Ticket Parameters</h3>
+        <p class="column-sub text-muted">Select booking and categories for mapping your case.</p>
+
+        <div class="form-column-group">
+          <!-- Select Related Item Button -->
+          <div class="form-group">
+            <label class="form-label">Related Item *</label>
+            <div class="related-item-selector" (click)="openSelectionModal()">
+              <div class="selected-item-display">
+                <span class="selected-text" [class.placeholder-text]="!selectedItemId()">{{ selectedItemDisplay() }}</span>
+                <button type="button" class="change-item-btn">Select Item</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label class="form-label" for="ticketCategory">Category *</label>
+            <select id="ticketCategory" class="form-select" [(ngModel)]="ticketCategory">
+              <option value="">-- Choose Category --</option>
+              <option value="Payment Issue">Payment Issue</option>
+              <option value="QR Code not downloading">QR Code / Check-in Issue</option>
+              <option value="Cancellation request">Cancellation / Refund Request</option>
+              <option value="Venue accessibility">Venue Accessibility</option>
+              <option value="Other">Other Query</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-info-tip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tip-icon"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span class="tip-text">Mapping your ticket directly to a confirmed Booking ID speeds up resolution times by up to 24 hours.</span>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Subject, Description & Attachment (70%) -->
+      <div class="split-right-column">
+        <div class="form-content-group">
+          <!-- Subject -->
+          <div class="form-group">
+            <label class="form-label" for="ticketSubject">Subject *</label>
+            <input 
+              id="ticketSubject" 
+              type="text" 
+              class="form-input" 
+              placeholder="Provide a brief summary of the issue (e.g. Card debited but seat not booked)" 
+              [(ngModel)]="ticketSubject"
+            />
+          </div>
+
+          <!-- Description/Details -->
+          <div class="form-group">
+            <label class="form-label" for="ticketDetails">Description / Details *</label>
+            <textarea 
+              id="ticketDetails" 
+              class="form-textarea" 
+              rows="4" 
+              placeholder="Describe the issue in details. Please mention exact errors, timestamps, or bank names if applicable..." 
+              [(ngModel)]="ticketDetails"
+            ></textarea>
+          </div>
+
+          <!-- Attachment Upload Box -->
+          <div class="form-group">
+            <label class="form-label">Attachments</label>
+            <div class="attachment-upload-box">
+              <input 
+                type="file" 
+                id="ticketAttachmentInput" 
+                class="hidden-file-input" 
+                (change)="onFileChange($event)" 
+                accept=".jpg,.jpeg,.png,.pdf"
+              />
+              <label for="ticketAttachmentInput" class="upload-label">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="upload-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                @if (selectedFileName()) {
+                  <span class="file-chosen-name">{{ selectedFileName() }}</span>
+                } @else {
+                  <span class="upload-title">Choose File or drag it here</span>
+                  <span class="upload-sub">Supports JPG, PNG, PDF formats (Max 5MB)</span>
+                }
+              </label>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions-row">
+            <button type="button" class="cancel-btn" (click)="backToSupport()">Cancel</button>
+            <button type="button" class="submit-btn" (click)="submitSupportTicket()">Submit Support Ticket</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+
+</div>
+
+<!-- Selection Modal -->
+@if (showSelectionModal()) {
+  <div class="settings-modal-overlay">
+    <div class="settings-modal-card selection-modal-card">
+      <div class="modal-header-section">
+        <h2>Select Related Item</h2>
+        <button class="modal-close-x" (click)="closeSelectionModal()">&times;</button>
+      </div>
+
+      <div class="modal-body-section">
+        <div class="modal-tabs">
+          <button class="tab-btn" [class.active]="activeSelectionTab() === 'bookings'" (click)="activeSelectionTab.set('bookings')">My Bookings</button>
+          <button class="tab-btn" [class.active]="activeSelectionTab() === 'events'" (click)="activeSelectionTab.set('events')">My Events</button>
+        </div>
+
+        <div class="modal-tab-content">
+          @if (activeSelectionTab() === 'bookings') {
+            @if (isBookingsLoading()) {
+              <div class="skeleton-loader text-skeleton" style="height: 60px; margin-bottom: 12px; border-radius: 8px;"></div>
+              <div class="skeleton-loader text-skeleton" style="height: 60px; border-radius: 8px;"></div>
+            } @else if (bookings().length === 0) {
+              <p class="empty-state">You have no bookings.</p>
+            } @else {
+              <div class="selection-grid">
+                @for (b of bookings(); track b.booking_Id || b.BookingId || b.bookingId) {
+                  <div class="selection-card" (click)="selectBooking(b)" [class.selected]="selectedItemType() === 'booking' && selectedItemId() === (b.booking_Id || b.BookingId || b.bookingId || b.Booking_Id)">
+                    <div class="card-id">Booking #{{ b.booking_Id || b.BookingId || b.bookingId || b.Booking_Id }}</div>
+                    <div class="card-title">{{ b.event_Title || b.EventTitle || b.eventTitle }}</div>
+                  </div>
+                }
+              </div>
+            }
+          }
+
+          @if (activeSelectionTab() === 'events') {
+            @if (isEventsLoading()) {
+              <div class="skeleton-loader text-skeleton" style="height: 60px; margin-bottom: 12px; border-radius: 8px;"></div>
+              <div class="skeleton-loader text-skeleton" style="height: 60px; border-radius: 8px;"></div>
+            } @else if (events().length === 0) {
+              <p class="empty-state">You have no events.</p>
+            } @else {
+              <div class="selection-grid">
+                @for (e of events(); track (e.event_Id || e.Event_Id || e.eventId)) {
+                  <div class="selection-card" (click)="selectEvent(e)" [class.selected]="selectedItemType() === 'event' && selectedItemId() === (e.event_Id || e.Event_Id || e.eventId)">
+                    <div class="card-id">Event #{{ e.event_Id || e.Event_Id || e.eventId }}</div>
+                    <div class="card-title">{{ e.title || e.Title }}</div>
+                    <div class="card-meta">Status: {{ e.status || e.Status }}</div>
+                  </div>
+                }
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Global Footer -->
+<app-footer></app-footer>

@@ -1,0 +1,118 @@
+<!-- Section 1: Browsing Events in Region -->
+<section class="events-browsing-section" id="browse-events-section">
+  
+  <!-- Loading State -->
+  @if (eventsLoading()) {
+    <div class="section-header">
+      <div class="header-text">
+        <span class="sub-title">Discover Nearby</span>
+        <h2 class="section-title">Browsing Events in <span class="highlight-red">{{ currentLocationName }}</span></h2>
+      </div>
+    </div>
+    <div class="cards-skeleton">
+      @for (item of [1, 2, 3]; track item) {
+        <div class="skeleton-card"></div>
+      }
+    </div>
+  } @else {
+    
+    <!-- 1. Local Events Section -->
+    <div class="events-subsection">
+      <div class="section-header">
+        <div class="header-text">
+          <span class="sub-title">Local Happenings</span>
+          <h2 class="section-title">Happening in <span class="highlight-red">{{ currentLocationName }}</span></h2>
+        </div>
+      </div>
+
+      @if (localEvents().length > 0) {
+        <div class="events-grid">
+          @for (ev of localEvents(); track ev.event_Id) {
+            <div class="event-card" (click)="navigateToBookingFlow(ev)" style="cursor: pointer;">
+              <div class="card-image-wrapper">
+                <img [src]="ev.image_Url || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500&auto=format&fit=crop&q=80'" [alt]="ev.title" class="card-img">
+                <div class="card-badge">{{ ev.event_Type }}</div>
+              </div>
+              <div class="card-body">
+                <div class="card-date">{{ ev.date_Time | date:'MMM d, y • h:mm a' }}</div>
+                <h3 class="card-title">{{ ev.title }}</h3>
+                <p class="card-venue">
+                  <svg class="icon inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  {{ ev.venue_Name || 'Main Ballroom' }}
+                </p>
+                <div class="card-footer">
+                  <span class="card-price"><span class="price-prefix">From</span> ₹{{ ev.minPrice?.toFixed(2) }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Skeleton Loading instead of Empty State (per user request) -->
+        <div class="cards-skeleton">
+          @for (item of [1, 2, 3]; track item) {
+            <div class="skeleton-card"></div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Spacer/divider line -->
+    <div class="section-divider-spacer" style="margin: 48px 0 32px 0; border-top: 1px solid var(--color-border, #E5E5EA);"></div>
+
+    <!-- 2. Popular in Other Regions Section -->
+    <div class="events-subsection">
+      <div class="section-header">
+        <div class="header-text">
+          <span class="sub-title">Explore India</span>
+          <h2 class="section-title">Popular in <span class="highlight-red">Other Regions</span></h2>
+        </div>
+      </div>
+
+      @if (otherRegionEvents().length > 0) {
+        <div class="events-grid">
+          @for (ev of otherRegionEvents(); track ev.event_Id) {
+            <div class="event-card" (click)="navigateToBookingFlow(ev)" style="cursor: pointer;">
+              <div class="card-image-wrapper">
+                <img [src]="ev.image_Url || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500&auto=format&fit=crop&q=80'" [alt]="ev.title" class="card-img">
+                <div class="card-badge other-region-badge" style="background-color: var(--color-neutral-dark, #121212); color: #ffffff;">{{ ev.venue_Region_Name }}</div>
+              </div>
+              <div class="card-body">
+                <div class="card-date">{{ ev.date_Time | date:'MMM d, y • h:mm a' }}</div>
+                <h3 class="card-title">{{ ev.title }}</h3>
+                <p class="card-venue">
+                  <svg class="icon inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  {{ ev.venue_Name || 'Main Ballroom' }}
+                </p>
+                <div class="card-footer">
+                  <span class="card-price"><span class="price-prefix">From</span> ₹{{ ev.minPrice?.toFixed(2) }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Skeleton Loading instead of Empty State (per user request) -->
+        <div class="cards-skeleton">
+          @for (item of [1, 2, 3]; track item) {
+            <div class="skeleton-card"></div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Browse All Button at bottom of both grids -->
+    <div class="browse-more-container" style="margin-top: 48px; text-align: center;">
+      <button class="btn btn-outline btn-lg" (click)="onSearchSubmit()">
+        Browse All Events
+      </button>
+    </div>
+
+  }
+</section>

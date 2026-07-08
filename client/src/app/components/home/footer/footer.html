@@ -1,0 +1,66 @@
+<!-- Global Footer -->
+<footer class="footer" [class.footer--admin]="isAdmin || isFinance || isRaw">
+  @if (isRaw) {
+    <div class="footer-container footer-container--admin" style="justify-content: center;">
+      <div class="footer-copyright">
+        &copy; 2026 GetMyEvents
+      </div>
+    </div>
+  } @else if (isAdmin || isFinance) {
+    <div class="footer-container footer-container--admin">
+      <div class="footer-copyright">
+        &copy; 2026 GetMyEvents
+      </div>
+      <nav class="footer-nav">
+        <ng-container *ngIf="isAdmin">
+          <a routerLink="/admin/dashboard">Dashboard</a>
+          <a routerLink="/admin/venues">Venues</a>
+          <a routerLink="/admin/moderation">Moderation</a>
+          <a routerLink="/admin/helpdesk">Helpdesk</a>
+          <a routerLink="/admin/settings">Profile</a>
+        </ng-container>
+        <ng-container *ngIf="isFinance">
+          <a routerLink="/finance/dashboard">Dashboard</a>
+          <a routerLink="/finance/transactions">Transactions</a>
+          <a routerLink="/finance/payouts">Payouts</a>
+          <a routerLink="/finance/escalations">Escalations</a>
+        </ng-container>
+      </nav>
+    </div>
+  } @else {
+    <div class="footer-container">
+      <div class="footer-column brand-col">
+        <img src="/logo.png" alt="Logo" class="footer-logo">
+        <p class="footer-desc">The modern platform for tickets, reservations, and seamless gathering operations.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <ul>
+          <li><a (click)="onSearchSubmit()">Browse Events</a></li>
+          <li><a (click)="onPopularRegionSelect('REG01')">Chennai</a></li>
+          <li><a (click)="onPopularRegionSelect('REG02')">Coimbatore</a></li>
+          <li><a (click)="onPopularRegionSelect('REG03')">Madurai</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Organizers</h4>
+        <ul>
+          <li><a (click)="triggerCreateEventAction()">Create an Event</a></li>
+          <li><a (click)="triggerManageMyEventsAction()">Host Resources</a></li>
+          <li><a (click)="triggerGetHelpAction()">Staffing Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a (click)="triggerGetHelpAction()">Privacy Policy</a></li>
+          <li><a (click)="triggerGetHelpAction()">Terms of Service</a></li>
+          <li><a (click)="triggerGetHelpAction()">Contact Help</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 EventManagement Inc. All rights reserved.</p>
+    </div>
+  }
+</footer>

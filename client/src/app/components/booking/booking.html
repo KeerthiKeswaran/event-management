@@ -1,0 +1,361 @@
+<app-navbar></app-navbar>
+
+<!-- ==================== PROFESSIONAL EVENT REVIEW MODAL ==================== -->
+@if (showReviewModal()) {
+  <div class="review-modal-backdrop">
+    <div class="review-modal-container">
+      <div class="review-modal-header">
+        <h3>Review Your Booking Details</h3>
+      </div>
+      <div class="review-modal-body">
+        <div class="review-modal-section">
+          <h4>Event Details</h4>
+          <table class="review-modal-table">
+            <tr>
+              <td class="lbl">Event Title:</td>
+              <td class="val">{{ event()?.title }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Date & Time:</td>
+              <td class="val">{{ event() ? formatDate(event()!.date_Time) : '' }} at {{ event() ? formatTime(event()!.date_Time) : '' }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Format:</td>
+              <td class="val">{{ event()?.event_Type }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Location:</td>
+              <td class="val">
+                @if (event()?.event_Type === 'Virtual') {
+                  Online Platform
+                } @else {
+                  {{ event()?.venue_Name }}
+                  @if (event()?.address || event()?.venue_Region_Name) {
+                    <br><span style="font-size: 13px; color: var(--text-muted); display: block; margin-top: 4px;">{{ event()?.address }}{{ event()?.address && event()?.venue_Region_Name ? ', ' : '' }}{{ event()?.venue_Region_Name }}</span>
+                  }
+                }
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="review-modal-section">
+          <h4>Ticket Selection</h4>
+          <table class="review-modal-table grid">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (tier of tiers(); track tier.tierName) {
+                @if (tier.quantity > 0) {
+                  <tr>
+                    <td>{{ tier.tierName }}</td>
+                    <td>{{ tier.quantity }}</td>
+                    <td>{{ formatCurrency(tier.price) }}</td>
+                    <td>{{ formatCurrency(tier.price * tier.quantity) }}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="review-modal-section">
+          <h4>Payment Summary</h4>
+          <table class="review-modal-table">
+            <tr>
+              <td class="lbl">Tickets Subtotal:</td>
+              <td class="val">{{ formatCurrency(subtotalAmount()) }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Fee <i class="fa fa-info-circle" title="Platform fee per ticket"></i>:</td>
+              <td class="val">{{ formatCurrency(fixedFeeTotal()) }}</td>
+            </tr>
+            <tr>
+              <td class="lbl">GST ({{ gstPercentage() }}%):</td>
+              <td class="val">{{ formatCurrency(gstAmount()) }}</td>
+            </tr>
+            <tr style="border-top: 2px solid #e1e7f0; font-weight: 600; font-size: 1.1rem; color: #1e293b;">
+              <td class="lbl" style="padding-top: 12px;">Total Payment:</td>
+              <td class="val" style="padding-top: 12px;">{{ formatCurrency(totalAmount()) }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="review-modal-footer">
+        <button class="review-btn-secondary" (click)="onCancelReview()">Cancel</button>
+        <button class="review-btn-primary" (click)="onConfirmReview()" [disabled]="isInitiatingBooking()">
+          @if (isInitiatingBooking()) {
+            <span class="btn-spinner"></span> Confirming Booking...
+          } @else {
+            Confirm
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<div class="booking-page">
+
+  <!-- ────────────── SELECTION & COMPACT LAYOUT ────────────── -->
+  @if (isLoading() || !event()) {
+    <div class="booking-skeleton-container">
+      <div class="skeleton-two-col">
+        <div class="skeleton-left">
+          <div class="skeleton-banner-pulse"></div>
+          <div class="skeleton-headline-pulse"></div>
+          <div class="skeleton-meta-row-pulse">
+            <div class="skeleton-meta-capsule"></div>
+            <div class="skeleton-meta-capsule"></div>
+            <div class="skeleton-meta-capsule"></div>
+          </div>
+          <div class="skeleton-text-block">
+            <div class="skeleton-text-line short"></div>
+            <div class="skeleton-text-line"></div>
+            <div class="skeleton-text-line"></div>
+          </div>
+        </div>
+        <div class="skeleton-right">
+          <div class="skeleton-panel-pulse"></div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    
+    <div class="booking-two-col-layout">
+      
+      <!-- LEFT COLUMN: Event Details (~70% width) -->
+      <div class="left-details-column">
+        
+        <!-- Large Banner Image -->
+        <div class="event-banner-wrap">
+          @if (event()!.image_Url) {
+            <img [src]="event()!.image_Url" [alt]="event()!.title" class="event-banner-img">
+            <div class="event-banner-overlay"></div>
+          }
+          <div class="event-type-badge" [class]="'badge-' + (event()!.event_Type ? event()!.event_Type.toLowerCase() : 'physical')">
+            {{ event()!.event_Type || 'Physical' }}
+          </div>
+          @if (event()!.category) {
+            <div class="event-type-badge category-badge" style="top: 16px; left: auto; right: 16px; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); color: white;">
+              {{ event()!.category }}
+            </div>
+          }
+        </div>
+
+        <!-- Title & Basic Meta Capsule info -->
+        <div class="event-headline-section">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <h1 class="event-main-title" style="margin-bottom: 0;">{{ event()!.title }}</h1>
+            <button class="review-btn-secondary" 
+              (click)="hasReported() ? null : openReportModal()" 
+              [disabled]="hasReported()"
+              [attr.title]="hasReported() ? 'This event has been reported already.' : 'Report this event'"
+              [style.background]="hasReported() ? '#e5e7eb' : '#dc2626'" 
+              [style.color]="hasReported() ? '#9ca3af' : 'white'" 
+              [style.cursor]="hasReported() ? 'not-allowed' : 'pointer'"
+              style="border: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 12px; margin-top: 4px; width: 90px; border-radius: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              {{ hasReported() ? 'Reported' : 'Report' }}
+            </button>
+          </div>
+          
+          <div class="event-metadata-row">
+            <div class="meta-capsule">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>{{ formatDate(event()!.date_Time) }}</span>
+            </div>
+            <div class="meta-capsule">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>{{ formatTime(event()!.date_Time) }} &nbsp;·&nbsp; {{ event()!.duration_Hours }}h</span>
+            </div>
+            <div class="meta-capsule">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              <span>Age Limit: 18+ Only</span>
+            </div>
+            <div class="meta-capsule">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              <span>{{ event()!.event_Type || 'Physical' }} Event</span>
+            </div>
+            @if (event()!.category) {
+              <div class="meta-capsule">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>{{ event()!.category }}</span>
+              </div>
+            }
+            @if (event()!.venue_Name) {
+              <div class="meta-capsule location">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>{{ event()!.venue_Name }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- About this Event Section -->
+        <div class="info-section">
+          <h3 class="section-title-bar">About this Event</h3>
+          <div class="info-content-text">
+            @if (event()!.description_Url) {
+              <p class="event-dynamic-description">{{ event()!.description_Url | resolveDescription | async }}</p>
+            }
+            <p>Welcome to <strong>{{ event()!.title }}</strong>! This event is designed to bring you the best-in-class performance, panel discussions, and collaborative networking opportunities. Guided by professional coordinators and domain leaders, we guarantee a secure, insightful, and premium experience.</p>
+            <p>Attendees will gain access to exclusive presentation decks, interactive Q&A sessions, live demonstrations, and follow-up resources. We look forward to hosting you!</p>
+          </div>
+        </div>
+
+        <!-- Location with Dynamic Map -->
+        @if (event()?.event_Type !== 'Virtual') {
+          <div class="info-section">
+            <h3 class="section-title-bar">Location & Venue</h3>
+            <p class="venue-address-text">
+              <strong>{{ event()!.venue_Name || 'Venue TBD' }}</strong><br>
+              {{ event()!.address ? event()!.address + ', ' : '' }}{{ event()!.venue_Region_Name || '' }}
+            </p>
+            
+            <!-- Interactive-looking map container -->
+            <div class="map-placeholder-container" (click)="openGoogleMaps()" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 12px; background: #f1f5f9; min-height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+              @if (mapEmbedUrl()) {
+                <iframe 
+                  [src]="mapEmbedUrl()" 
+                  width="100%" 
+                  height="250" 
+                  style="border:0; pointer-events: none;" 
+                  allowfullscreen="" 
+                  loading="lazy" 
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <div style="position: absolute; inset: 0; z-index: 10;" title="Click to open in Google Maps"></div>
+              } @else {
+                <div class="map-grid-lines"></div>
+                <div class="map-marker-pin">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="marker-icon"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                  <span class="marker-label">Location Pending</span>
+                </div>
+              }
+            </div>
+            @if (mapEmbedUrl()) {
+              <div class="map-attribution" style="margin-top: 8px; text-align: right;">Click map to open in Google Maps</div>
+            }
+          </div>
+        }
+
+        <!-- Organizer Details -->
+        <div class="info-section">
+          <h3 class="section-title-bar">Organizer Details</h3>
+          <div class="organizer-box">
+            <div class="organizer-avatar">
+              {{ (event()!.organizer_Name || 'Org').substring(0, 2).toUpperCase() }}
+            </div>
+            <div class="organizer-meta">
+              <h4 class="organizer-name">{{ event()!.organizer_Name || 'Prime Event Coordinators' }}</h4>
+              <p class="organizer-desc">Official event organizer registered on EventManagement platform. Hosting premium events, hybrid gatherings, and tech seminars.</p>
+              <button class="contact-org-btn" (click)="onContactOrg()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Contact Organizer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Events "You Might Also Like" Section -->
+        @if (relatedEvents().length > 0) {
+          <div class="info-section">
+            <h3 class="section-title-bar">You Might Also Like</h3>
+            <div class="related-events-list">
+              @for (rel of relatedEvents(); track rel.event_Id) {
+                <div class="related-event-card" (click)="navigateToRelatedEvent(rel)">
+                  @if (rel.image_Url) {
+                    <img [src]="rel.image_Url" [alt]="rel.title" class="related-card-img">
+                  }
+                  <div class="related-card-body">
+                    <span class="related-badge badge-theme-type">{{ rel.event_Type }}</span>
+                    <h4 class="related-event-title">{{ rel.title }}</h4>
+                    <p class="related-event-meta">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      <span>{{ formatDate(rel.date_Time) }}</span>
+                    </p>
+                    <p class="related-event-meta">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <span>{{ rel.venue_Name }}, {{ rel.venue_Region_Name }}</span>
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+      </div>
+
+      <!-- RIGHT SIDEBAR COLUMN: Compact list ticket tier selection (sticky, 30% area) -->
+      <div class="right-sidebar-column">
+        <div class="sticky-ticket-panel">
+          <h3 class="sidebar-panel-title">Tickets</h3>
+          <p class="sidebar-panel-sub">Select your seats below:</p>
+
+          <!-- Vertical list style tiers -->
+          <div class="compact-tiers-list">
+            @for (tier of tiers(); track tier.tierName) {
+              <div class="sidebar-tier-item" [class.active]="tier.quantity > 0">
+                <div class="tier-item-row">
+                  <div class="tier-item-info">
+                    <span class="tier-item-name">{{ tier.tierName }}</span>
+                    <span class="tier-item-price">{{ formatCurrency(tier.price) }}</span>
+                    <span class="tier-item-seats">{{ tier.availableSeats }} left</span>
+                  </div>
+                  
+                  <div class="tier-right-col">
+                    <span class="tier-item-subtotal-right" [style.visibility]="tier.quantity > 0 ? 'visible' : 'hidden'">Subtotal: <strong>{{ formatCurrency(tier.price * tier.quantity) }}</strong></span>
+                    <div class="sidebar-qty-selector">
+                      <button class="qty-control-btn" (click)="decreaseQty(tier.tierName)" [disabled]="tier.quantity === 0">−</button>
+                      <span class="qty-control-value">{{ tier.quantity }}</span>
+                      <button class="qty-control-btn" (click)="increaseQty(tier.tierName)" [disabled]="tier.quantity >= tier.availableSeats || tier.quantity >= 10">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Total subtotal box -->
+          @if (totalTickets() > 0) {
+            <div class="sidebar-total-box" style="border-top: none; padding-top: 4px; margin-bottom: 8px;">
+              <div class="fee-row" style="font-weight: 600; font-size: 1.1rem; color: #1e293b;">
+                <span>Tickets Subtotal:</span>
+                <span>{{ formatCurrency(subtotalAmount()) }}</span>
+              </div>
+              <p style="font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4;">
+                * Subject to Platform Fee and GST during checkout.
+              </p>
+            </div>
+          }
+
+          <!-- Book Tickets CTA Button (renamed, disabled if totalTickets === 0) -->
+          <button class="book-tickets-btn" [disabled]="totalTickets() === 0" (click)="proceedToCheckout()">
+            Book Tickets
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  }
+
+</div>
+
+<app-report-event-modal
+  [show]="showReportModal"
+  [eventId]="activeReportEventId()"
+  [eventTitle]="activeReportEventTitle()"
+  (closeEvent)="showReportModal.set(false)">
+</app-report-event-modal>
+
+<!-- Global Footer -->
+<app-footer></app-footer>

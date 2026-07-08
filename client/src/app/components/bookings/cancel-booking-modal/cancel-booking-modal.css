@@ -1,0 +1,406 @@
+/* =========================================================
+   Cancel Booking Modal — Standalone Component Styles
+   ========================================================= */
+
+:host {
+  --accent:          #C41E3A;
+  --accent-light:    rgba(196, 30, 58, 0.08);
+  --text-primary:    #121212;
+  --text-secondary:  #6b7280;
+  --text-muted:      #9ca3af;
+  --bg-canvas:       #ffffff;
+  --bg-surface:      #f9fafb;
+  --border:          #e5e7eb;
+  --radius:          14px;
+  --radius-sm:       8px;
+  --shadow-lg:       0 16px 56px rgba(0, 0, 0, 0.16);
+  --shadow-xl:       0 24px 80px rgba(0, 0, 0, 0.22);
+  --transition:      all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ──────────────────────────────────────────────────────────
+   CANCEL MODAL
+   ────────────────────────────────────────────────────────── */
+
+/* Backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Modal Card — wider & taller */
+.cancel-modal {
+  background: var(--bg-canvas);
+  border-radius: 22px;
+  padding: 48px 40px;
+  max-width: 560px;         /* ← increased from 480px */
+  width: 100%;
+  min-height: 420px;        /* ← ensures comfortable height */
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  animation: slideUpModal 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cancel-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@keyframes slideUpModal {
+  from { transform: translateY(28px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Header */
+.cancel-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cancel-icon-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1.5px solid rgba(239, 68, 68, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.cancel-modal-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.cancel-modal-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.4px;
+  margin: 0 0 3px;
+}
+
+.cancel-modal-event-name {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-close-btn {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.07);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Booking Summary Strip */
+.cancel-booking-summary {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cancel-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.cancel-summary-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.cancel-summary-value {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.cancel-summary-value.bold {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* ── Est. Refund row (inside summary strip) ── */
+.cancel-summary-row.refund-row {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  margin-top: 2px;
+}
+
+.cancel-summary-value.refund-amount {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent);
+  text-align: right;
+}
+
+/* Inline skeleton for refund amount */
+.refund-inline-skeleton {
+  width: 80px;
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #e5e7eb 0%,
+    #f3f4f6 45%,
+    #e5e7eb 100%
+  );
+  background-size: 300% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ── Policy Anchor Link ── */
+.policy-link-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+.policy-anchor {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(196, 30, 58, 0.4);
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.policy-anchor:hover {
+  opacity: 0.8;
+  border-bottom-style: solid;
+}
+
+/* ── Error Message ── */
+.cancel-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  color: #ef4444;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── Action Button — right-aligned, auto-width ── */
+.cancel-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.cancel-modal-btn-confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #8b0000;
+  border: none;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+  width: fit-content;
+  margin: 0;
+}
+
+.cancel-modal-btn-confirm:hover:not(:disabled) {
+  background: #7a0016;
+  transform: translateY(-1px);
+}
+
+.cancel-modal-btn-confirm:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Spinner ── */
+.btn-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+  .cancel-modal {
+    padding: 28px 22px;
+    gap: 18px;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────
+   IN-MODAL OVERLAY ANIMATION
+   ────────────────────────────────────────────────────────── */
+
+.success-tick-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeInOverlay 0.3s ease-out;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.success-checkmark-svg-wrap {
+  width: 60px;
+  height: 60px;
+}
+
+.checkmark-svg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: #000;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #000;
+  animation: fillCheckmarkCancel .4s ease-in-out .4s forwards, scaleCheckmarkCancel .3s ease-in-out .9s alternate both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+  stroke: #000;
+  fill: none;
+  animation: strokeCheckmarkCancel 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #fff;
+  animation: strokeCheckmarkCancel 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes strokeCheckmarkCancel {
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fillCheckmarkCancel { 100% { box-shadow: inset 0px 0px 0px 30px #000; } }
+@keyframes scaleCheckmarkCancel {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes modalScaleUp {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-confirm-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #000;
+  opacity: 0;
+  animation: fadeInUpCancel .5s cubic-bezier(0.25, 0.8, 0.25, 1) .2s forwards;
+}
+
+@keyframes fadeInUpCancel {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-text {
+  margin-top: 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000;
+  opacity: 0;
+  animation: fadeInUpCancel 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.8s forwards;
+}
+.cancel-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.modal-success-animation {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}

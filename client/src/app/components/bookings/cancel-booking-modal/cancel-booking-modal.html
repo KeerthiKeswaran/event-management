@@ -1,0 +1,108 @@
+<!-- ============================================================
+     Cancel Booking Modal
+     ============================================================ -->
+<div class="modal-backdrop" (click)="close()">
+  <div class="cancel-modal" (click)="$event.stopPropagation()">
+
+      <!-- ── Header ── -->
+      <div class="cancel-content-wrapper" [style.opacity]="isCancelling() ? '0.5' : '1'" [style.filter]="isCancelling() || showSuccessAnimation() ? 'blur(4px)' : 'none'" [style.pointer-events]="isCancelling() || showSuccessAnimation() ? 'none' : 'auto'">
+        <div class="cancel-modal-header">
+        <div class="cancel-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+          </svg>
+        </div>
+        <div class="cancel-modal-title-group">
+          <h3 class="cancel-modal-title">Cancel Booking?</h3>
+          <p class="cancel-modal-event-name">{{ booking.event_Title }}</p>
+        </div>
+        <button class="modal-close-btn" (click)="close()" aria-label="Close">&#x2715;</button>
+      </div>
+
+      <!-- ── Booking Summary Strip ── -->
+      <div class="cancel-booking-summary">
+        <div class="cancel-summary-row">
+          <span class="cancel-summary-label">Booking ID</span>
+          <span class="cancel-summary-value">#{{ booking.booking_Id }}</span>
+        </div>
+        <div class="cancel-summary-row">
+          <span class="cancel-summary-label">Event Date</span>
+          <span class="cancel-summary-value">{{ formatDate(booking.event_Date_Time) }}</span>
+        </div>
+        <div class="cancel-summary-row">
+          <span class="cancel-summary-label">Tickets</span>
+          <span class="cancel-summary-value">{{ getDetailsSummary(booking.details) }}</span>
+        </div>
+        <div class="cancel-summary-row">
+          <span class="cancel-summary-label">Total Paid</span>
+          <span class="cancel-summary-value">{{ formatCurrency(booking.amount_Paid !== undefined ? booking.amount_Paid : booking.total_Amount) }}</span>
+        </div>
+        <div class="cancel-summary-row refund-row">
+          <span class="cancel-summary-label">Est. Refund</span>
+          @if (isLoadingRefund()) {
+            <div class="refund-inline-skeleton"></div>
+          } @else {
+            <span class="cancel-summary-value refund-amount">
+              {{ estimatedRefundAmount()! > 0 ? formatCurrency(estimatedRefundAmount()!) : 'Non-Refundable' }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- ── Cancellation & Refund Policy — anchor link ── -->
+      <div class="policy-link-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <a href="#" class="policy-anchor" (click)="openPolicyDoc($event)">
+          View Cancellation &amp; Refund Policy
+        </a>
+      </div>
+
+      <!-- ── Error Message ── -->
+      @if (cancelError()) {
+        <div class="cancel-error-msg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{ cancelError() }}
+        </div>
+      }
+
+      <!-- ── Action Button ── -->
+      <div class="cancel-modal-actions">
+        <button class="cancel-modal-btn-confirm" (click)="confirmCancellation()" [disabled]="isCancelling()">
+          @if (isCancelling()) {
+            Processing...
+          } @else {
+            Confirm Cancellation
+          }
+        </button>
+      </div>
+
+    </div>
+    
+    @if (showSuccessAnimation()) {
+      <div class="success-tick-overlay">
+        <div class="success-checkmark-svg-wrap">
+          <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        <p class="success-text">Booking Cancelled</p>
+      </div>
+    }
+  </div><!-- /cancel-modal -->
+</div><!-- /modal-backdrop -->
+@if (showPolicyDoc()) {
+  <app-cancellation-policy-doc (closed)="closePolicyDoc()"></app-cancellation-policy-doc>
+}

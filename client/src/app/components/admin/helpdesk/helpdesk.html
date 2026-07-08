@@ -1,0 +1,341 @@
+<app-navbar [isAdmin]="true"></app-navbar>
+
+<div class="admin-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Helpdesk</h1>
+        <p class="page-sub">Manage support tickets, respond, and escalate issues</p>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage()" class="alert alert-error">{{ errorMessage() }}</div>
+    <div *ngIf="successMessage()" class="alert alert-success">{{ successMessage() }}</div>
+
+    <div class="section-panel mb-16">
+      <div class="panel-header">
+        <h2>Support Tickets</h2>
+        <div class="filter-bar">
+          <input class="filter-input search-input" [ngModel]="filterKeyword" (ngModelChange)="onSearchInput($event)"
+            placeholder="Search tickets..." />
+          <select class="filter-select" [(ngModel)]="filterType" (ngModelChange)="onFilterChange()">
+            <option value="">All Types</option>
+            <option value="REF">REF (Refund)</option>
+            <option value="GEN">GEN (General)</option>
+            <option value="EVT">EVT (Event)</option>
+            <option value="ACC">ACC (Account)</option>
+          </select>
+          <input class="filter-input date-input" type="date" [(ngModel)]="filterDateFrom"
+            (ngModelChange)="onFilterChange()" title="Date From" />
+          <input class="filter-input date-input" type="date" [(ngModel)]="filterDateTo"
+            (ngModelChange)="onFilterChange()" title="Date To" />
+          <select class="filter-select" [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()">
+            <option value="">All Status</option>
+            <option value="Open">Open</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Escalated">Escalated</option>
+          </select>
+          <select class="filter-select" [(ngModel)]="filterEscalation" (ngModelChange)="onFilterChange()">
+            <option value="">All Escalations</option>
+            <option value="Unavailable">Unavailable</option>
+            <option value="Available">Available</option>
+            <option value="Escalated">Escalated</option>
+            <option value="Processed">Processed</option>
+            <option value="Declined">Declined</option>
+          </select>
+          <button class="btn btn-outline btn-sm" (click)="clearFilters()"
+            style="color: #ef4444; border-color: #ef4444;">Clear</button>
+
+          <button #refreshBtn class="icon-btn refresh-btn"
+            (click)="refreshBtn.classList.add('spinning-active'); loadTickets()"
+            (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh"
+            [class.spinning]="loading()"
+            style="margin-left: 4px; background: none; border: none; cursor: pointer; color: #64748b;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+              <path d="M21 3v5h-5"></path>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+              <path d="M8 16H3v5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Email ID</th>
+              <th class="col-subject">Subject</th>
+              <th class="col-request">Request Type</th>
+              <th class="col-target">Target Type</th>
+              <th class="sortable" (click)="toggleSort('created_At')">Created At <span class="sort-arrow">{{
+                  sortColumn() === 'created_At' ? (sortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th>Status</th>
+              <th>Escalation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="loading()">
+              <tr *ngFor="let _ of [1,2,3,4,5]">
+                <td>
+                  <div class="skeleton-table-cell" style="width: 50px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 140px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 180px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 90px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 90px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 90px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 80px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 90px;"></div>
+                </td>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="!loading()">
+              <tr *ngFor="let ticket of sortedTickets()" (click)="selectTicket(ticket)"
+                [class.selected]="(ticket.ticket_Id || ticket.ticketId || ticket.Ticket_Id || ticket.id) === selectedTicketId"
+                class="clickable-row">
+                <td class="cell-primary">#<span
+                    [innerHTML]="(ticket.ticket_Id || ticket.ticketId || ticket.Ticket_Id || ticket.id) | highlight: filterKeyword"></span>
+                </td>
+                <td [innerHTML]="getCleanEmail(ticket.senderEmail || ticket.SenderEmail) | highlight: filterKeyword">
+                </td>
+                <td class="col-subject">
+                  <span *ngIf="ticket.fetchedSubject"
+                    [innerHTML]="ticket.fetchedSubject | highlight: filterKeyword"></span>
+                  <span *ngIf="!ticket.fetchedSubject" class="skeleton-loader text-skeleton"></span>
+                </td>
+                <td class="col-request"
+                  [innerHTML]="(ticket.requestType || ticket.RequestType || ticket.request_Type) | highlight: filterKeyword">
+                </td>
+                <td class="col-target"
+                  [innerHTML]="(ticket.targetType || ticket.TargetType || 'N/A') | highlight: filterKeyword"></td>
+                <td>{{ (ticket.created_At || ticket.CreatedAt) | date:'mediumDate' }}</td>
+                <td><span class="badge" [ngClass]="(ticket.status || ticket.Status || '').toLowerCase()">{{
+                    ticket.status || ticket.Status }}</span></td>
+                <td>
+                  <span
+                    *ngIf="(ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus) === 'Available'"
+                    class="badge available">Available</span>
+                  <span
+                    *ngIf="(ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus) !== 'Available' && (ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus) !== 'Unavailable' && (ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus)"
+                    class="badge escalated">
+                    {{ ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus }}
+                  </span>
+                  <span
+                    *ngIf="!(ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus) || (ticket.esclationStatus || ticket.EsclationStatus || ticket.escalationStatus) === 'Unavailable'"
+                    class="badge unavailable">Unavailable</span>
+                </td>
+              </tr>
+              <tr *ngIf="tickets().length === 0">
+                <td colspan="8" class="empty-state">No tickets found.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+      <div class="modal-content email-modal" style="position: relative;" (click)="handleModalClick($event)">
+        <div class="modal-header email-modal-header">
+          <div class="email-subject-line" style="width: 100%;">
+            <h2 *ngIf="selectedTicket?.fetchedSubject">{{ selectedTicket?.fetchedSubject }}</h2>
+            <div *ngIf="!selectedTicket?.fetchedSubject" class="skeleton-loader title-skeleton"></div>
+            <span class="badge" [ngClass]="(selectedTicket?.status || selectedTicket?.Status || '').toLowerCase()">{{
+              selectedTicket?.status || selectedTicket?.Status }}</span>
+          </div>
+          <button class="close-btn" (click)="closeModal()">&times;</button>
+        </div>
+
+        <div class="modal-body email-modal-body">
+          <div class="email-meta">
+            <div class="email-sender-info">
+              <div class="avatar">{{ (selectedTicket?.senderName || selectedTicket?.SenderName || 'U').charAt(0) }}
+              </div>
+              <div class="sender-details">
+                <span class="sender-name">{{ selectedTicket?.senderName || selectedTicket?.SenderName || 'Unknown User'
+                  }}</span>
+                <span class="sender-email">{{ getCleanEmail(selectedTicket?.senderEmail || selectedTicket?.SenderEmail)
+                  }}</span>
+              </div>
+            </div>
+            <div class="email-timestamp">
+              {{ (selectedTicket?.created_At || selectedTicket?.CreatedAt || selectedTicket?.created_at) ?
+              ((selectedTicket?.created_At || selectedTicket?.CreatedAt || selectedTicket?.created_at) | date:'medium')
+              : 'Date unavailable' }}
+            </div>
+          </div>
+
+          <div class="email-tags">
+            <span class="tag"><strong>User ID:</strong> {{ selectedTicket?.user_Id || selectedTicket?.User_Id }}</span>
+            <span class="tag"><strong>Request Type:</strong> {{ selectedTicket?.requestType ||
+              selectedTicket?.RequestType }}</span>
+            <span class="tag" *ngIf="selectedTicket?.relatedId || selectedTicket?.RelatedId">
+              <strong>Related Entity ID:</strong>
+              <span style="position: relative; display: inline-block;">
+                <a (click)="toggleRelatedEntityDetails($event)" class="entity-id-link"
+                  style="cursor: pointer; color: #3b82f6; text-decoration: underline; transition: color 0.2s;">
+                  {{ selectedTicket?.relatedId || selectedTicket?.RelatedId }}
+                </a>
+
+                <div class="related-details-dropdown popover-box" [class.show]="showRelatedDetails"
+                  (click)="$event.stopPropagation()">
+                  <div class="popover-tail"></div>
+                  <div *ngIf="relatedEventLoading" class="skeleton-loader text-skeleton"></div>
+                  <div *ngIf="relatedEventError" style="color: #ef4444; font-size: 0.85rem;">Unable to load event
+                    details.</div>
+                  <div *ngIf="!relatedEventLoading && !relatedEventError && relatedEventDetails"
+                    style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: #1e293b;">
+                    <strong
+                      style="color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 4px;">{{
+                      relatedEventDetails.type || relatedEventDetails.Type }}: {{ relatedEventDetails.eventName ||
+                      relatedEventDetails.EventName }} </strong>
+                    <span style="display: flex; align-items: center; gap: 4px;">
+                      <strong>Id:</strong> #{{ relatedEventDetails.id || relatedEventDetails.Id }}
+                      <div style="position: relative; display: inline-flex; align-items: center;">
+                        <svg (click)="copyText(relatedEventDetails.id || relatedEventDetails.Id, 'relatedId')"
+                          style="cursor: pointer; color: #64748b;" xmlns="http://www.w3.org/2000/svg" width="14"
+                          height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span *ngIf="copiedState === 'relatedId'" class="copy-tooltip"
+                          style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; white-space: nowrap; pointer-events: none;">Copied</span>
+                      </div>
+                    </span>
+
+                    <ng-container *ngIf="(relatedEventDetails.type || relatedEventDetails.Type) === 'Booking'">
+                      <table style="width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 0.8rem;">
+                        <thead>
+                          <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                            <th style="padding: 4px; text-align: left; font-weight: 600;">Tier</th>
+                            <th style="padding: 4px; text-align: right; font-weight: 600;">Qty</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let t of (relatedEventDetails.ticketTiers || relatedEventDetails.TicketTiers)" style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 4px;">{{ t.tier || t.Tier }}</td>
+                            <td style="padding: 4px; text-align: right;">{{ t.quantity || t.Quantity }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                        <span><strong>Paid:</strong> {{ (relatedEventDetails.amountPaid || relatedEventDetails.AmountPaid) | currency:'INR':'symbol' }}</span>
+                        <span *ngIf="(relatedEventDetails.amountRefunded || relatedEventDetails.AmountRefunded) > 0" style="color: #ef4444;">
+                          <strong>Refunded:</strong> {{ (relatedEventDetails.amountRefunded || relatedEventDetails.AmountRefunded) | currency:'INR':'symbol' }}
+                        </span>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="(relatedEventDetails.type || relatedEventDetails.Type) === 'Event'">
+                      <span><strong>Upfront Paid:</strong> {{ (relatedEventDetails.upfrontPaid ||
+                        relatedEventDetails.UpfrontPaid) | currency:'INR':'symbol' }}</span>
+                      <span
+                        *ngIf="(relatedEventDetails.upfrontRefunded || relatedEventDetails.UpfrontRefunded) > 0"><strong>Upfront
+                          Refunded:</strong> {{ (relatedEventDetails.upfrontRefunded ||
+                        relatedEventDetails.UpfrontRefunded) | currency:'INR':'symbol' }}</span>
+                    </ng-container>
+                  </div>
+                </div>
+              </span>
+            </span>
+            <span class="tag" *ngIf="selectedTicket?.targetType || selectedTicket?.TargetType"><strong>Target
+                Type:</strong> {{ selectedTicket?.targetType || selectedTicket?.TargetType }}</span>
+            <span class="tag"><strong>Ticket ID:</strong> #{{ selectedTicketId }}</span>
+          </div>
+
+          <div class="email-message">
+            <p *ngIf="selectedTicket?.fetchedMessage">{{ selectedTicket?.fetchedMessage }}</p>
+            <div *ngIf="!selectedTicket?.fetchedMessage">
+              <div class="skeleton-loader text-skeleton" style="width: 100%; margin-bottom: 8px;"></div>
+              <div class="skeleton-loader text-skeleton" style="width: 80%; margin-bottom: 8px;"></div>
+              <div class="skeleton-loader text-skeleton" style="width: 90%;"></div>
+            </div>
+          </div>
+
+          <hr class="email-divider" />
+
+          <!-- Reply / Escalate actions -->
+          <div class="email-actions">
+            <!-- Respond Section -->
+            <div class="respond-section" *ngIf="!showEscalateForm">
+              <textarea class="form-textarea email-textarea" [(ngModel)]="respondText"
+                placeholder="Type your response to this ticket..."></textarea>
+              <div class="action-buttons" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-primary" (click)="respondToTicket()" [disabled]="!respondText">Send
+                    Response</button>
+                  <button class="btn btn-outline"
+                    *ngIf="selectedTicket?.esclationStatus === 'Available' || selectedTicket?.EsclationStatus === 'Available' || selectedTicket?.escalationStatus === 'Available'"
+                    (click)="showEscalateForm = true">
+                    Escalate
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Escalation Form Section -->
+            <div *ngIf="showEscalateForm" class="escalation-form">
+              <h4>Escalate Ticket #{{ selectedTicketId }}</h4>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label>Action</label>
+                  <select class="form-select" [(ngModel)]="action">
+                    <option *ngFor="let item of actions" [value]="item.key">{{ item.label }} ({{ item.key }})</option>
+                  </select>
+                </div>
+                <div class="form-group flex-1">
+                  <label>Target Type</label>
+                  <select class="form-select" [(ngModel)]="targetType">
+                    <option *ngFor="let item of targetTypes" [value]="item.key">{{ item.label }} ({{ item.key }})
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Remarks</label>
+                <textarea class="form-textarea" [(ngModel)]="remarks" placeholder="Enter escalation notes" rows="2"
+                  style="min-height: 60px;"></textarea>
+              </div>
+              <div class="action-buttons">
+                <button class="btn btn-primary" (click)="escalateSelectedTicket()">Submit Escalation</button>
+                <button class="btn btn-secondary" (click)="showEscalateForm = false">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="showSuccessAnim" class="success-tick-overlay">
+          <div class="success-checkmark-svg-wrap">
+            <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" style="stroke: #000;" />
+              <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" style="stroke: #000;" />
+            </svg>
+          </div>
+          <p class="success-anim-text" style="color: #000; font-weight: bold; margin-top: 16px; font-size: 1.1rem;">{{ successAnimText }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer [isAdmin]="true"></app-footer>

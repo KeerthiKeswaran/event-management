@@ -1,0 +1,39 @@
+<!-- Section 2: Popular Regions -->
+<section class="popular-regions-section" style="padding-top: 0;">
+  <div class="section-header centered">
+    <h2 class="section-title">Explore Cities</h2>
+    <p class="section-description">Explore top happenings in these highly active event communities.</p>
+  </div>
+
+  @if (isLoadingRegions()) {
+    <div class="cards-skeleton regions-grid">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <div class="skeleton-card" style="height: 250px; border-radius: 12px;"></div>
+      }
+    </div>
+  } @else {
+    <div class="regions-grid">
+      @for (reg of homeRegions(); track reg.region_Id) {
+        <div class="region-card" (click)="onPopularRegionSelect(reg.region_Id)">
+          @if (getRegionImage(reg.region_Id) && !hasImageError(reg.region_Id)) {
+            <img [src]="getRegionImage(reg.region_Id)" [alt]="reg.region_Name" class="region-bg" (error)="onImageError(reg.region_Id)">
+            <div class="region-card-overlay"></div>
+            <div class="region-info">
+              <h3>{{ reg.region_Name }}</h3>
+              <span class="region-badge-btn">Explore →</span>
+            </div>
+          } @else {
+            <!-- Stylish Text Placeholder when image is missing or broken -->
+            <div class="region-placeholder">
+              <div class="region-watermark">{{ reg.region_Name }}</div>
+              <div class="region-placeholder-content">
+                <div class="region-front-title">{{ reg.region_Name }}</div>
+                <span class="region-badge-btn placeholder-badge">Explore →</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

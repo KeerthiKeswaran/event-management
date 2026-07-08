@@ -1,0 +1,116 @@
+<app-navbar></app-navbar>
+
+<div class="organizer-layout">
+  <!-- Left Side Slider/Navigation Panel -->
+  <aside class="organizer-sidebar">
+    <nav class="sidebar-nav">
+      <a routerLink="/myevents" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidebar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/myevents/all" routerLinkActive="active" class="sidebar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Events</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Right Content Space -->
+  <div class="organizer-content">
+    <!-- Header -->
+    <div class="organizer-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Event metrics and sales overview</p>
+      </div>
+      <button class="btn-primary" (click)="navigateToCreate()">+ Create Event</button>
+    </div>
+
+    @if (isLoading()) {
+      <div class="skeleton-grid">
+        <div class="skeleton-card skeleton-pulse" style="height: 72px; border-radius: 8px; background: rgba(0,0,0,0.04);"></div>
+        <div class="skeleton-card skeleton-pulse" style="height: 72px; border-radius: 8px; background: rgba(0,0,0,0.04);"></div>
+        <div class="skeleton-card skeleton-pulse" style="height: 72px; border-radius: 8px; background: rgba(0,0,0,0.04);"></div>
+      </div>
+      
+      <div class="skeleton-panel skeleton-pulse" style="height: 280px; margin-top: 24px; border-radius: 8px; background: rgba(0,0,0,0.04);"></div>
+    } @else {
+      <!-- Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Live Events</span>
+          <span class="metric-number">{{ liveEventsCount() }}</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-label">Completed Events</span>
+          <span class="metric-number">{{ completedEventsCount() }}</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-label">Total Tickets Sold</span>
+          <span class="metric-number">{{ ticketsSold() }}</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-label">Total Earnings</span>
+          <span class="metric-number">₹{{ netEarnings() | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <!-- Managed Events Panel -->
+      <div class="events-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Upcoming Events</h2>
+          <a routerLink="/myevents/all" class="panel-action">View all</a>
+        </div>
+
+        @if (upcomingEvents().length === 0) {
+          <div class="empty-state">
+            <p>No upcoming events. Click <strong>Create Event</strong> to get started.</p>
+          </div>
+        } @else {
+          <div class="upcoming-list">
+            @for (event of upcomingEvents(); track event.event_Id) {
+              <div class="upcoming-item-card" (click)="openEventModal(event)" style="cursor: pointer;">
+                <div class="item-header">
+                  <div class="item-title-group">
+                    <span class="item-title">{{ event.title }}</span>
+                    <span class="item-id">EVT-{{ event.event_Id }}</span>
+                  </div>
+                  <span class="status-badge" [class]="'status-' + event.status.toLowerCase()">{{ event.status }}</span>
+                </div>
+
+                <div class="item-details">
+                  <span class="detail-tag">{{ event.date_Time | date:'mediumDate' }}</span>
+                  <span class="detail-tag">{{ event.venue_Name || 'Virtual Session' }}</span>
+                </div>
+
+                <div class="item-stats-row">
+                  <div class="stat-box">
+                    <span class="stat-label">Sold</span>
+                    <span class="stat-value">{{ event.tickets_Sold }}</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-label">Earned</span>
+                    <span class="stat-value">₹{{ event.net_Earnings | number:'1.2-2' }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+@if (selectedEvent()) {
+  <app-event-details-modal 
+    [event]="selectedEvent()" 
+    (close)="closeEventModal()"
+    (updated)="refreshEventDetails()">
+  </app-event-details-modal>
+}
+
+<app-footer></app-footer>

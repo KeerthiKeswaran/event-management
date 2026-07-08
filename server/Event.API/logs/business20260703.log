@@ -1,0 +1,1468 @@
+2026-07-03 14:36:19.692 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 14:36:20.680 +05:30 [INF] Checking 0 completed events for dismissed report payouts.
+14:36:20.539 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:36:20.547 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:06:20.5476220Z". Cutoff time is "2026-07-03T09:01:20.5476210Z".
+2026-07-03 14:36:20.631 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:36:20.639 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:06:20.6393080Z".
+2026-07-03 14:36:21.581 +05:30 [INF] Found 1 completed events to release.
+2026-07-03 14:36:21.591 +05:30 [INF] Processing completion for Event ID 11985: 'Tamizha Standup comedy'...
+2026-07-03 14:36:22.729 +05:30 [INF] Completed processing for Event ID 11985.
+2026-07-03 14:36:22.729 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:37:20.724 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:37:20.759 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:37:22.742 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:07:22.7421000Z". Cutoff time is "2026-07-03T09:02:22.7420880Z".
+2026-07-03 14:37:22.945 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:37:22.946 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:07:22.9467970Z". Cutoff time is "2026-07-03T09:02:22.9467960Z".
+2026-07-03 14:37:23.062 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:37:23.063 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:07:23.0629990Z".
+2026-07-03 14:37:23.140 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:37:23.140 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:38:20.856 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:38:20.932 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:38:23.154 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:08:23.1541700Z". Cutoff time is "2026-07-03T09:03:23.1541540Z".
+2026-07-03 14:38:23.379 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:38:23.380 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:08:23.3805840Z". Cutoff time is "2026-07-03T09:03:23.3805840Z".
+2026-07-03 14:38:23.464 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:38:23.465 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:08:23.4653750Z".
+2026-07-03 14:38:23.486 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:38:23.486 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:39:21.010 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:39:21.043 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:39:23.528 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:09:23.5276950Z". Cutoff time is "2026-07-03T09:04:23.5276780Z".
+2026-07-03 14:39:23.577 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:39:23.578 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:09:23.5783750Z". Cutoff time is "2026-07-03T09:04:23.5783740Z".
+2026-07-03 14:39:23.594 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:39:23.595 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:09:23.5952550Z".
+2026-07-03 14:39:23.617 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:39:23.619 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:40:21.073 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:40:21.103 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:40:23.632 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:10:23.6325450Z". Cutoff time is "2026-07-03T09:05:23.6325280Z".
+2026-07-03 14:40:23.665 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:40:23.666 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:10:23.6661240Z". Cutoff time is "2026-07-03T09:05:23.6661230Z".
+2026-07-03 14:40:23.688 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:40:23.688 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:10:23.6889150Z".
+2026-07-03 14:40:23.708 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:40:23.708 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:41:21.154 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:41:21.410 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:41:23.724 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:11:23.7248340Z". Cutoff time is "2026-07-03T09:06:23.7248190Z".
+2026-07-03 14:41:23.758 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:41:23.759 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:11:23.7592790Z". Cutoff time is "2026-07-03T09:06:23.7592790Z".
+2026-07-03 14:41:23.777 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:41:23.780 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:11:23.7801070Z".
+2026-07-03 14:41:23.813 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:41:23.813 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:42:21.496 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:42:21.553 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:42:23.827 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:12:23.8277120Z". Cutoff time is "2026-07-03T09:07:23.8276960Z".
+2026-07-03 14:42:23.863 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:42:23.863 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:12:23.8639620Z". Cutoff time is "2026-07-03T09:07:23.8639610Z".
+2026-07-03 14:42:23.875 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:42:23.879 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:12:23.8797690Z".
+2026-07-03 14:42:23.893 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:42:23.893 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:43:21.638 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:43:21.704 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:43:23.917 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:13:23.9172060Z". Cutoff time is "2026-07-03T09:08:23.9171480Z".
+2026-07-03 14:43:23.949 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:43:23.951 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:13:23.9510350Z". Cutoff time is "2026-07-03T09:08:23.9510330Z".
+2026-07-03 14:43:23.970 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:43:23.971 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:13:23.9716360Z".
+2026-07-03 14:43:23.982 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:43:23.982 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:44:21.733 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:44:21.763 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:44:23.987 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:14:23.9872890Z". Cutoff time is "2026-07-03T09:09:23.9869610Z".
+2026-07-03 14:44:24.132 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:44:24.134 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:14:24.1342960Z". Cutoff time is "2026-07-03T09:09:24.1342920Z".
+2026-07-03 14:44:24.146 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:44:24.147 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:14:24.1474970Z".
+2026-07-03 14:44:24.161 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:44:24.161 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:45:21.792 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:45:21.805 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:45:24.176 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:15:24.1758590Z". Cutoff time is "2026-07-03T09:10:24.1758030Z".
+2026-07-03 14:45:24.208 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:45:24.209 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:15:24.2090040Z". Cutoff time is "2026-07-03T09:10:24.2090030Z".
+2026-07-03 14:45:24.220 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:45:24.220 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:15:24.2208440Z".
+2026-07-03 14:45:24.252 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:45:24.253 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:46:21.824 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:46:21.843 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:46:24.258 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:16:24.2583120Z". Cutoff time is "2026-07-03T09:11:24.2583030Z".
+2026-07-03 14:46:24.273 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:46:24.274 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:16:24.2744760Z". Cutoff time is "2026-07-03T09:11:24.2744660Z".
+2026-07-03 14:46:24.281 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:46:24.282 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:16:24.2823560Z".
+2026-07-03 14:46:24.299 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:46:24.299 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:47:21.870 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:47:21.882 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:47:24.313 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:17:24.3136070Z". Cutoff time is "2026-07-03T09:12:24.3136070Z".
+2026-07-03 14:47:24.350 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:47:24.352 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:17:24.3520530Z". Cutoff time is "2026-07-03T09:12:24.3520530Z".
+2026-07-03 14:47:24.367 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:47:24.367 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:17:24.3677770Z".
+2026-07-03 14:47:24.385 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:47:24.385 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:48:21.908 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:48:21.923 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:48:24.393 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:18:24.3929120Z". Cutoff time is "2026-07-03T09:13:24.3929110Z".
+2026-07-03 14:48:24.419 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:48:24.420 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:18:24.4200890Z". Cutoff time is "2026-07-03T09:13:24.4200890Z".
+2026-07-03 14:48:24.427 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:48:24.427 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:18:24.4278670Z".
+2026-07-03 14:48:24.446 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:48:24.446 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:49:21.946 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:49:21.973 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:49:24.453 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:19:24.4535000Z". Cutoff time is "2026-07-03T09:14:24.4535000Z".
+2026-07-03 14:49:24.470 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:49:24.471 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:19:24.4715110Z". Cutoff time is "2026-07-03T09:14:24.4715100Z".
+2026-07-03 14:49:24.479 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:49:24.481 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:19:24.4812250Z".
+2026-07-03 14:49:24.500 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:49:24.500 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:50:21.988 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:50:22.022 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:50:24.506 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:20:24.5060220Z". Cutoff time is "2026-07-03T09:15:24.5060220Z".
+2026-07-03 14:50:24.521 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:50:24.521 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:20:24.5213970Z". Cutoff time is "2026-07-03T09:15:24.5213970Z".
+2026-07-03 14:50:24.528 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:50:24.528 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:20:24.5288890Z".
+2026-07-03 14:50:24.549 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:50:24.549 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:51:22.044 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:51:22.080 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:51:24.559 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:21:24.5594880Z". Cutoff time is "2026-07-03T09:16:24.5594880Z".
+2026-07-03 14:51:24.570 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:51:24.570 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:21:24.5709160Z". Cutoff time is "2026-07-03T09:16:24.5709160Z".
+2026-07-03 14:51:24.585 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:51:24.585 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:21:24.5857290Z".
+2026-07-03 14:51:24.614 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:51:24.614 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:52:22.094 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:52:22.109 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:52:24.618 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:22:24.6186930Z". Cutoff time is "2026-07-03T09:17:24.6186930Z".
+2026-07-03 14:52:24.644 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:52:24.645 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:22:24.6452980Z". Cutoff time is "2026-07-03T09:17:24.6452980Z".
+2026-07-03 14:52:24.651 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:52:24.652 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:22:24.6520860Z".
+2026-07-03 14:52:24.665 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:52:24.665 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:53:22.142 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:53:22.187 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:53:24.672 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:23:24.6721560Z". Cutoff time is "2026-07-03T09:18:24.6721560Z".
+2026-07-03 14:53:24.695 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:53:24.695 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:23:24.6959000Z". Cutoff time is "2026-07-03T09:18:24.6959000Z".
+2026-07-03 14:53:24.700 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:53:24.700 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:23:24.7007760Z".
+2026-07-03 14:53:24.715 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:53:24.715 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:54:22.216 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:54:22.274 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:54:24.721 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:24:24.7218150Z". Cutoff time is "2026-07-03T09:19:24.7218150Z".
+2026-07-03 14:54:24.749 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:54:24.750 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:24:24.7503180Z". Cutoff time is "2026-07-03T09:19:24.7503180Z".
+2026-07-03 14:54:24.758 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:54:24.758 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:24:24.7588290Z".
+2026-07-03 14:54:24.777 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:54:24.777 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:55:22.308 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:55:22.343 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:55:24.787 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:25:24.7870550Z". Cutoff time is "2026-07-03T09:20:24.7870550Z".
+2026-07-03 14:55:24.805 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:55:24.806 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:25:24.8064630Z". Cutoff time is "2026-07-03T09:20:24.8064630Z".
+2026-07-03 14:55:24.813 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:55:24.813 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:25:24.8136680Z".
+2026-07-03 14:55:24.823 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:55:24.823 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:56:22.377 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:56:22.392 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:56:24.828 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:26:24.8283600Z". Cutoff time is "2026-07-03T09:21:24.8283600Z".
+2026-07-03 14:56:24.855 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:56:24.856 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:26:24.8563650Z". Cutoff time is "2026-07-03T09:21:24.8563640Z".
+2026-07-03 14:56:24.863 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:56:24.865 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:26:24.8651800Z".
+2026-07-03 14:56:24.881 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:56:24.881 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:57:22.416 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:57:22.482 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:57:24.896 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:27:24.8966760Z". Cutoff time is "2026-07-03T09:22:24.8966750Z".
+2026-07-03 14:57:24.919 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:57:24.920 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:27:24.9201990Z". Cutoff time is "2026-07-03T09:22:24.9201990Z".
+2026-07-03 14:57:24.929 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:57:24.930 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:27:24.9304270Z".
+2026-07-03 14:57:24.941 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:57:24.941 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:58:22.495 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:58:22.510 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:58:24.971 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:28:24.9715000Z". Cutoff time is "2026-07-03T09:23:24.9715000Z".
+2026-07-03 14:58:25.033 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:58:25.034 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:28:25.0343120Z". Cutoff time is "2026-07-03T09:23:25.0343110Z".
+2026-07-03 14:58:25.059 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:58:25.060 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:28:25.0601110Z".
+2026-07-03 14:58:25.097 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:58:25.097 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 14:59:22.525 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 14:59:22.564 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 14:59:25.102 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:29:25.1026740Z". Cutoff time is "2026-07-03T09:24:25.1026740Z".
+2026-07-03 14:59:25.117 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 14:59:25.118 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:29:25.1185020Z". Cutoff time is "2026-07-03T09:24:25.1185020Z".
+2026-07-03 14:59:25.125 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 14:59:25.125 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:29:25.1256580Z".
+2026-07-03 14:59:25.143 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 14:59:25.143 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:00:22.575 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:00:22.590 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:00:25.149 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:30:25.1490170Z". Cutoff time is "2026-07-03T09:25:25.1490170Z".
+2026-07-03 15:00:25.162 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:00:25.163 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:30:25.1634250Z". Cutoff time is "2026-07-03T09:25:25.1634250Z".
+2026-07-03 15:00:25.171 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:00:25.172 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:30:25.1722500Z".
+2026-07-03 15:00:25.191 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:00:25.192 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:01:22.615 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:01:22.659 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:01:25.205 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:31:25.2059010Z". Cutoff time is "2026-07-03T09:26:25.2059000Z".
+2026-07-03 15:01:25.230 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:01:25.231 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:31:25.2310930Z". Cutoff time is "2026-07-03T09:26:25.2310930Z".
+2026-07-03 15:01:25.236 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:01:25.237 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:31:25.2371870Z".
+2026-07-03 15:01:25.248 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:01:25.248 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:02:22.678 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:02:22.704 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:02:25.254 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:32:25.2547180Z". Cutoff time is "2026-07-03T09:27:25.2547180Z".
+2026-07-03 15:02:25.273 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:02:25.274 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:32:25.2742650Z". Cutoff time is "2026-07-03T09:27:25.2742650Z".
+2026-07-03 15:02:25.281 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:02:25.282 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:32:25.2821810Z".
+2026-07-03 15:02:25.292 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:02:25.292 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:03:22.722 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:03:22.917 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:03:25.310 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:33:25.3100290Z". Cutoff time is "2026-07-03T09:28:25.3100290Z".
+2026-07-03 15:03:25.345 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:03:25.346 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:33:25.3462850Z". Cutoff time is "2026-07-03T09:28:25.3462850Z".
+2026-07-03 15:03:25.353 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:03:25.353 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:33:25.3535420Z".
+2026-07-03 15:03:25.361 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:03:25.361 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:04:23.051 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:04:23.110 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:04:25.366 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:34:25.3663980Z". Cutoff time is "2026-07-03T09:29:25.3663980Z".
+2026-07-03 15:04:25.387 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:04:25.387 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:34:25.3874900Z". Cutoff time is "2026-07-03T09:29:25.3874900Z".
+2026-07-03 15:04:25.393 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:04:25.393 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:34:25.3936520Z".
+2026-07-03 15:04:25.413 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:04:25.413 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:05:23.189 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:05:23.244 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:05:25.420 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:35:25.4201020Z". Cutoff time is "2026-07-03T09:30:25.4201020Z".
+2026-07-03 15:05:25.461 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:05:25.462 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:35:25.4621940Z". Cutoff time is "2026-07-03T09:30:25.4621930Z".
+2026-07-03 15:05:25.474 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:05:25.475 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:35:25.4750870Z".
+2026-07-03 15:05:25.519 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:05:25.520 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:06:23.281 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:06:23.368 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:06:25.531 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:36:25.5313510Z". Cutoff time is "2026-07-03T09:31:25.5313510Z".
+2026-07-03 15:06:25.560 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:06:25.561 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:36:25.5611140Z". Cutoff time is "2026-07-03T09:31:25.5611140Z".
+2026-07-03 15:06:25.579 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:06:25.579 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:36:25.5798600Z".
+2026-07-03 15:06:25.606 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:06:25.607 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:07:23.409 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:07:23.515 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:07:25.620 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:37:25.6206840Z". Cutoff time is "2026-07-03T09:32:25.6206840Z".
+2026-07-03 15:07:25.636 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:07:25.636 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:37:25.6365930Z". Cutoff time is "2026-07-03T09:32:25.6365930Z".
+2026-07-03 15:07:25.643 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:07:25.643 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:37:25.6434030Z".
+2026-07-03 15:07:25.651 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:07:25.651 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:08:23.540 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:08:23.589 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:08:25.653 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:38:25.6531760Z". Cutoff time is "2026-07-03T09:33:25.6531750Z".
+2026-07-03 15:08:25.666 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:08:25.667 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:38:25.6671290Z". Cutoff time is "2026-07-03T09:33:25.6671280Z".
+2026-07-03 15:08:25.677 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:08:25.678 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:38:25.6783340Z".
+2026-07-03 15:08:25.689 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:08:25.689 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:09:23.609 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:09:23.652 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:09:25.691 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:39:25.6914330Z". Cutoff time is "2026-07-03T09:34:25.6914320Z".
+2026-07-03 15:09:25.727 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:09:25.727 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:39:25.7277380Z". Cutoff time is "2026-07-03T09:34:25.7277380Z".
+2026-07-03 15:09:25.740 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:09:25.740 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:39:25.7407890Z".
+2026-07-03 15:09:25.750 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:09:25.750 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:10:23.674 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:10:23.691 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:10:25.764 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:40:25.7641740Z". Cutoff time is "2026-07-03T09:35:25.7641740Z".
+2026-07-03 15:10:25.778 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:10:25.778 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:40:25.7787360Z". Cutoff time is "2026-07-03T09:35:25.7787360Z".
+2026-07-03 15:10:25.785 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:10:25.785 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:40:25.7857550Z".
+2026-07-03 15:10:25.795 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:10:25.795 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:11:23.702 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:11:23.820 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:11:25.798 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:41:25.7988040Z". Cutoff time is "2026-07-03T09:36:25.7988040Z".
+2026-07-03 15:11:25.820 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:11:25.820 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:41:25.8205410Z". Cutoff time is "2026-07-03T09:36:25.8205410Z".
+2026-07-03 15:11:25.826 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:11:25.826 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:41:25.8268470Z".
+2026-07-03 15:11:25.839 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:11:25.839 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:12:23.869 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:12:23.905 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:12:25.849 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:42:25.8497750Z". Cutoff time is "2026-07-03T09:37:25.8497750Z".
+2026-07-03 15:12:25.867 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:12:25.868 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:42:25.8680680Z". Cutoff time is "2026-07-03T09:37:25.8680680Z".
+2026-07-03 15:12:25.873 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:12:25.873 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:42:25.8732970Z".
+2026-07-03 15:12:25.886 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:12:25.886 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:13:23.957 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:13:23.977 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:13:25.890 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:43:25.8909060Z". Cutoff time is "2026-07-03T09:38:25.8909060Z".
+2026-07-03 15:13:25.902 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:13:25.903 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:43:25.9031820Z". Cutoff time is "2026-07-03T09:38:25.9031820Z".
+2026-07-03 15:13:25.911 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:13:25.912 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:43:25.9121600Z".
+2026-07-03 15:13:25.921 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:13:25.921 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:14:23.986 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:14:24.016 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:14:25.932 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:44:25.9325900Z". Cutoff time is "2026-07-03T09:39:25.9325900Z".
+2026-07-03 15:14:25.956 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:14:25.957 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:44:25.9570550Z". Cutoff time is "2026-07-03T09:39:25.9570550Z".
+2026-07-03 15:14:25.962 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:14:25.963 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:44:25.9634340Z".
+2026-07-03 15:14:25.972 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:14:25.972 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:15:24.035 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:15:24.128 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:15:25.974 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:45:25.9748360Z". Cutoff time is "2026-07-03T09:40:25.9748350Z".
+2026-07-03 15:15:25.986 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:15:25.986 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:45:25.9865620Z". Cutoff time is "2026-07-03T09:40:25.9865620Z".
+2026-07-03 15:15:25.995 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:15:25.995 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:45:25.9955760Z".
+2026-07-03 15:15:26.004 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:15:26.004 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:16:24.166 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:16:24.221 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:16:26.008 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:46:26.0089360Z". Cutoff time is "2026-07-03T09:41:26.0089360Z".
+2026-07-03 15:16:26.023 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:16:26.023 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:46:26.0237590Z". Cutoff time is "2026-07-03T09:41:26.0237590Z".
+2026-07-03 15:16:26.033 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:16:26.033 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:46:26.0336650Z".
+2026-07-03 15:16:26.046 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:16:26.046 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:17:24.248 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:17:24.305 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:17:26.064 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:47:26.0646850Z". Cutoff time is "2026-07-03T09:42:26.0646850Z".
+2026-07-03 15:17:26.079 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:17:26.079 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:47:26.0798990Z". Cutoff time is "2026-07-03T09:42:26.0798990Z".
+2026-07-03 15:17:26.086 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:17:26.086 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:47:26.0863730Z".
+2026-07-03 15:17:26.100 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:17:26.100 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:18:24.325 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:18:24.342 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:18:26.108 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:48:26.1082740Z". Cutoff time is "2026-07-03T09:43:26.1082730Z".
+2026-07-03 15:18:26.130 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:18:26.131 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:48:26.1312740Z". Cutoff time is "2026-07-03T09:43:26.1312730Z".
+2026-07-03 15:18:26.142 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:18:26.142 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:48:26.1424830Z".
+2026-07-03 15:18:26.151 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:18:26.151 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:19:24.352 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:19:24.365 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:19:26.155 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:49:26.1554370Z". Cutoff time is "2026-07-03T09:44:26.1554370Z".
+2026-07-03 15:19:26.169 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:19:26.170 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:49:26.1701360Z". Cutoff time is "2026-07-03T09:44:26.1701360Z".
+2026-07-03 15:19:26.176 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:19:26.176 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:49:26.1768790Z".
+2026-07-03 15:19:26.185 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:19:26.185 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:20:24.379 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:20:24.424 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:20:26.196 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:50:26.1963100Z". Cutoff time is "2026-07-03T09:45:26.1963100Z".
+2026-07-03 15:20:26.208 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:20:26.208 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:50:26.2088070Z". Cutoff time is "2026-07-03T09:45:26.2088070Z".
+2026-07-03 15:20:26.219 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:20:26.219 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:50:26.2197760Z".
+2026-07-03 15:20:26.231 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:20:26.231 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:21:24.437 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:21:24.503 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:21:26.237 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:51:26.2376920Z". Cutoff time is "2026-07-03T09:46:26.2376910Z".
+2026-07-03 15:21:26.261 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:21:26.262 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:51:26.2621320Z". Cutoff time is "2026-07-03T09:46:26.2621320Z".
+2026-07-03 15:21:26.268 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:21:26.268 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:51:26.2689650Z".
+2026-07-03 15:21:26.280 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:21:26.280 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:22:24.518 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:22:24.702 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:22:26.285 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:52:26.2850370Z". Cutoff time is "2026-07-03T09:47:26.2850370Z".
+2026-07-03 15:22:26.312 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:22:26.313 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:52:26.3132710Z". Cutoff time is "2026-07-03T09:47:26.3132710Z".
+2026-07-03 15:22:26.324 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:22:26.324 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:52:26.3245400Z".
+2026-07-03 15:22:26.373 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:22:26.373 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:23:24.804 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:23:24.840 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:23:26.378 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:53:26.3785610Z". Cutoff time is "2026-07-03T09:48:26.3785610Z".
+2026-07-03 15:23:26.395 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:23:26.396 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:53:26.3961450Z". Cutoff time is "2026-07-03T09:48:26.3961450Z".
+2026-07-03 15:23:26.406 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:23:26.407 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:53:26.4070030Z".
+2026-07-03 15:23:26.425 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:23:26.425 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:24:24.873 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:24:24.939 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:24:26.437 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:54:26.4374040Z". Cutoff time is "2026-07-03T09:49:26.4374040Z".
+2026-07-03 15:24:26.468 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:24:26.468 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:54:26.4684480Z". Cutoff time is "2026-07-03T09:49:26.4684470Z".
+2026-07-03 15:24:26.477 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:24:26.478 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:54:26.4781550Z".
+2026-07-03 15:24:26.493 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:24:26.493 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:25:24.963 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:25:24.992 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:25:26.498 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:55:26.4980260Z". Cutoff time is "2026-07-03T09:50:26.4980260Z".
+2026-07-03 15:25:26.520 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:25:26.520 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:55:26.5206630Z". Cutoff time is "2026-07-03T09:50:26.5206620Z".
+2026-07-03 15:25:26.528 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:25:26.528 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:55:26.5287200Z".
+2026-07-03 15:25:26.541 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:25:26.541 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:26:25.026 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:26:25.049 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:26:26.543 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:56:26.5438100Z". Cutoff time is "2026-07-03T09:51:26.5438100Z".
+2026-07-03 15:26:26.554 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:26:26.554 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:56:26.5549390Z". Cutoff time is "2026-07-03T09:51:26.5549390Z".
+2026-07-03 15:26:26.559 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:26:26.559 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:56:26.5597650Z".
+2026-07-03 15:26:26.588 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:26:26.588 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:27:25.071 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:27:25.103 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:27:26.600 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:57:26.6003800Z". Cutoff time is "2026-07-03T09:52:26.6003800Z".
+2026-07-03 15:27:26.616 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:27:26.616 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:57:26.6169500Z". Cutoff time is "2026-07-03T09:52:26.6169500Z".
+2026-07-03 15:27:26.622 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:27:26.623 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:57:26.6230650Z".
+2026-07-03 15:27:26.632 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:27:26.632 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:28:25.125 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:28:25.143 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:28:26.634 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:58:26.6347910Z". Cutoff time is "2026-07-03T09:53:26.6347900Z".
+2026-07-03 15:28:26.658 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:28:26.658 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:58:26.6589410Z". Cutoff time is "2026-07-03T09:53:26.6589400Z".
+2026-07-03 15:28:26.666 +05:30 [INF] Expiring unconfirmed Event ID 11986: 'My India Startup Workshop' created by Organizer ID 10659.
+2026-07-03 15:28:26.697 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 1.
+2026-07-03 15:28:26.698 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:58:26.6980390Z".
+2026-07-03 15:28:26.708 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:28:26.708 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:29:25.176 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:29:25.469 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:29:26.713 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T09:59:26.7132990Z". Cutoff time is "2026-07-03T09:54:26.7132990Z".
+2026-07-03 15:29:26.904 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:29:26.906 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T09:59:26.9062140Z". Cutoff time is "2026-07-03T09:54:26.9062130Z".
+2026-07-03 15:29:26.918 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:29:26.919 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T09:59:26.9193140Z".
+2026-07-03 15:29:26.939 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:29:26.939 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:30:25.498 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:30:25.579 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:30:26.944 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:00:26.9445750Z". Cutoff time is "2026-07-03T09:55:26.9445750Z".
+2026-07-03 15:30:26.969 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:30:26.969 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:00:26.9698130Z". Cutoff time is "2026-07-03T09:55:26.9698130Z".
+2026-07-03 15:30:26.978 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:30:26.979 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:00:26.9791190Z".
+2026-07-03 15:30:27.002 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:30:27.002 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:31:25.604 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:31:25.670 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:31:27.005 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:01:27.0052700Z". Cutoff time is "2026-07-03T09:56:27.0052700Z".
+2026-07-03 15:31:27.035 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:31:27.036 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:01:27.0361110Z". Cutoff time is "2026-07-03T09:56:27.0361110Z".
+2026-07-03 15:31:27.041 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:31:27.042 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:01:27.0425140Z".
+2026-07-03 15:31:27.055 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:31:27.055 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:32:25.702 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:32:26.431 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:32:27.063 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:02:27.0639030Z". Cutoff time is "2026-07-03T09:57:27.0639020Z".
+2026-07-03 15:32:27.076 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:32:27.076 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:02:27.0766350Z". Cutoff time is "2026-07-03T09:57:27.0766350Z".
+2026-07-03 15:32:27.082 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:32:27.082 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:02:27.0829380Z".
+2026-07-03 15:32:27.091 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:32:27.091 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:33:26.457 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:33:26.505 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:33:27.092 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:03:27.0928350Z". Cutoff time is "2026-07-03T09:58:27.0928350Z".
+2026-07-03 15:33:27.103 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:33:27.104 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:03:27.1040310Z". Cutoff time is "2026-07-03T09:58:27.1040310Z".
+2026-07-03 15:33:27.111 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:33:27.111 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:03:27.1119460Z".
+2026-07-03 15:33:27.121 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:33:27.121 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:34:26.531 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:34:26.580 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:34:27.123 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:04:27.1235020Z". Cutoff time is "2026-07-03T09:59:27.1235020Z".
+2026-07-03 15:34:27.136 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:34:27.136 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:04:27.1369640Z". Cutoff time is "2026-07-03T09:59:27.1369640Z".
+2026-07-03 15:34:27.146 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:34:27.146 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:04:27.1469270Z".
+2026-07-03 15:34:27.155 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:34:27.155 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:35:26.603 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:35:26.667 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:35:27.158 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:05:27.1580140Z". Cutoff time is "2026-07-03T10:00:27.1580140Z".
+2026-07-03 15:35:27.171 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:35:27.172 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:05:27.1723690Z". Cutoff time is "2026-07-03T10:00:27.1723680Z".
+2026-07-03 15:35:27.181 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:35:27.181 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:05:27.1819470Z".
+2026-07-03 15:35:27.195 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:35:27.195 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:36:26.683 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:36:26.741 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:36:27.198 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:06:27.1985290Z". Cutoff time is "2026-07-03T10:01:27.1985280Z".
+2026-07-03 15:36:27.212 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:36:27.213 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:06:27.2135150Z". Cutoff time is "2026-07-03T10:01:27.2135150Z".
+2026-07-03 15:36:27.224 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:36:27.225 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:06:27.2253140Z".
+2026-07-03 15:36:27.241 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:36:27.241 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:37:26.755 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:37:26.778 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:37:27.245 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:07:27.2450210Z". Cutoff time is "2026-07-03T10:02:27.2450210Z".
+2026-07-03 15:37:27.257 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:37:27.257 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:07:27.2579060Z". Cutoff time is "2026-07-03T10:02:27.2579060Z".
+2026-07-03 15:37:27.267 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:37:27.268 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:07:27.2683330Z".
+2026-07-03 15:37:27.296 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:37:27.296 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:38:26.796 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:38:26.834 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:38:27.298 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:08:27.2984300Z". Cutoff time is "2026-07-03T10:03:27.2984290Z".
+2026-07-03 15:38:27.315 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:38:27.316 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:08:27.3164150Z". Cutoff time is "2026-07-03T10:03:27.3164150Z".
+2026-07-03 15:38:27.326 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:38:27.326 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:08:27.3265090Z".
+2026-07-03 15:38:27.346 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:38:27.346 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:39:26.855 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:39:26.885 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:39:27.350 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:09:27.3508140Z". Cutoff time is "2026-07-03T10:04:27.3508140Z".
+2026-07-03 15:39:27.365 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:39:27.366 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:09:27.3666570Z". Cutoff time is "2026-07-03T10:04:27.3666570Z".
+2026-07-03 15:39:27.376 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:39:27.377 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:09:27.3772650Z".
+2026-07-03 15:39:27.393 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:39:27.393 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:40:26.893 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:40:26.910 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:40:27.396 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:10:27.3965740Z". Cutoff time is "2026-07-03T10:05:27.3965740Z".
+2026-07-03 15:40:27.401 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:40:27.401 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:10:27.4019960Z". Cutoff time is "2026-07-03T10:05:27.4019960Z".
+2026-07-03 15:40:27.405 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:40:27.406 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:10:27.4062060Z".
+2026-07-03 15:40:27.428 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:40:27.428 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:41:26.924 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:41:26.940 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:41:27.433 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:11:27.4338060Z". Cutoff time is "2026-07-03T10:06:27.4338060Z".
+2026-07-03 15:41:27.447 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:41:27.448 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:11:27.4485690Z". Cutoff time is "2026-07-03T10:06:27.4485690Z".
+2026-07-03 15:41:27.461 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:41:27.462 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:11:27.4629230Z".
+2026-07-03 15:41:27.488 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:41:27.488 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:42:26.949 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:42:26.966 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:42:27.494 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:12:27.4940060Z". Cutoff time is "2026-07-03T10:07:27.4940050Z".
+2026-07-03 15:42:27.504 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:42:27.504 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:12:27.5046520Z". Cutoff time is "2026-07-03T10:07:27.5046510Z".
+2026-07-03 15:42:27.511 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:42:27.512 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:12:27.5128230Z".
+2026-07-03 15:42:27.532 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:42:27.532 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:43:26.990 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:43:27.008 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:43:27.535 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:13:27.5351040Z". Cutoff time is "2026-07-03T10:08:27.5351040Z".
+2026-07-03 15:43:27.544 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:43:27.545 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:13:27.5452300Z". Cutoff time is "2026-07-03T10:08:27.5452300Z".
+2026-07-03 15:43:27.557 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:43:27.558 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:13:27.5582850Z".
+2026-07-03 15:43:27.572 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:43:27.572 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:44:27.030 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:44:27.047 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:44:27.576 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:14:27.5760760Z". Cutoff time is "2026-07-03T10:09:27.5760760Z".
+2026-07-03 15:44:27.591 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:44:27.592 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:14:27.5928800Z". Cutoff time is "2026-07-03T10:09:27.5928800Z".
+2026-07-03 15:44:27.602 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:44:27.602 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:14:27.6026600Z".
+2026-07-03 15:44:27.622 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:44:27.622 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:45:27.062 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:45:27.147 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:45:27.626 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:15:27.6263110Z". Cutoff time is "2026-07-03T10:10:27.6263100Z".
+2026-07-03 15:45:27.638 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:45:27.638 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:15:27.6389320Z". Cutoff time is "2026-07-03T10:10:27.6389320Z".
+2026-07-03 15:45:27.651 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:45:27.651 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:15:27.6516680Z".
+2026-07-03 15:45:27.669 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:45:27.669 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:46:27.168 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:46:27.247 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:46:27.685 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:16:27.6853600Z". Cutoff time is "2026-07-03T10:11:27.6853590Z".
+2026-07-03 15:46:27.697 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:46:27.698 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:16:27.6988310Z". Cutoff time is "2026-07-03T10:11:27.6988310Z".
+2026-07-03 15:46:27.704 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:46:27.705 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:16:27.7057130Z".
+2026-07-03 15:46:27.724 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:46:27.725 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:47:27.283 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:47:27.309 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:47:27.728 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:17:27.7283330Z". Cutoff time is "2026-07-03T10:12:27.7283320Z".
+2026-07-03 15:47:27.740 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:47:27.741 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:17:27.7414950Z". Cutoff time is "2026-07-03T10:12:27.7414940Z".
+2026-07-03 15:47:27.753 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:47:27.754 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:17:27.7545840Z".
+2026-07-03 15:47:27.773 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:47:27.773 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:48:27.320 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:48:27.347 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:48:27.778 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:18:27.7783300Z". Cutoff time is "2026-07-03T10:13:27.7783290Z".
+2026-07-03 15:48:27.789 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:48:27.789 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:18:27.7899610Z". Cutoff time is "2026-07-03T10:13:27.7899610Z".
+2026-07-03 15:48:27.796 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:48:27.796 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:18:27.7967340Z".
+2026-07-03 15:48:27.825 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:48:27.825 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:49:27.367 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:49:27.411 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:49:27.828 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:19:27.8287160Z". Cutoff time is "2026-07-03T10:14:27.8287160Z".
+2026-07-03 15:49:27.926 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:49:27.928 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:19:27.9281250Z". Cutoff time is "2026-07-03T10:14:27.9281250Z".
+2026-07-03 15:49:27.939 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:49:27.940 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:19:27.9404960Z".
+2026-07-03 15:49:27.969 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:49:27.969 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:50:27.435 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:50:27.475 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:50:27.973 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:20:27.9739870Z". Cutoff time is "2026-07-03T10:15:27.9739870Z".
+2026-07-03 15:50:27.987 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:50:27.989 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:20:27.9896060Z". Cutoff time is "2026-07-03T10:15:27.9896060Z".
+2026-07-03 15:50:28.011 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:50:28.014 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:20:28.0142060Z".
+2026-07-03 15:50:28.044 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:50:28.044 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:51:27.496 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:51:27.562 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:51:28.047 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:21:28.0470410Z". Cutoff time is "2026-07-03T10:16:28.0470400Z".
+2026-07-03 15:51:28.069 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:51:28.070 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:21:28.0703510Z". Cutoff time is "2026-07-03T10:16:28.0703510Z".
+2026-07-03 15:51:28.080 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:51:28.081 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:21:28.0819990Z".
+2026-07-03 15:51:28.100 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:51:28.100 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:52:27.595 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:52:27.619 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:52:28.104 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:22:28.1047380Z". Cutoff time is "2026-07-03T10:17:28.1047380Z".
+2026-07-03 15:52:28.115 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:52:28.116 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:22:28.1163290Z". Cutoff time is "2026-07-03T10:17:28.1163290Z".
+2026-07-03 15:52:28.122 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:52:28.123 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:22:28.1231990Z".
+2026-07-03 15:52:28.143 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:52:28.143 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:53:27.636 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:53:27.664 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:53:28.149 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:23:28.1495530Z". Cutoff time is "2026-07-03T10:18:28.1495520Z".
+2026-07-03 15:53:28.164 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:53:28.164 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:23:28.1649990Z". Cutoff time is "2026-07-03T10:18:28.1649990Z".
+2026-07-03 15:53:28.175 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:53:28.176 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:23:28.1766720Z".
+2026-07-03 15:53:28.203 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:53:28.203 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:54:27.619 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:54:27.654 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:54:28.148 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:24:28.1486190Z". Cutoff time is "2026-07-03T10:19:28.1486190Z".
+2026-07-03 15:54:28.162 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:54:28.163 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:24:28.1632360Z". Cutoff time is "2026-07-03T10:19:28.1632350Z".
+2026-07-03 15:54:28.172 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:54:28.174 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:24:28.1740310Z".
+2026-07-03 15:54:28.197 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:54:28.197 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:55:27.677 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:55:27.690 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:55:28.204 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:25:28.2044680Z". Cutoff time is "2026-07-03T10:20:28.2044680Z".
+2026-07-03 15:55:28.218 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:55:28.219 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:25:28.2198920Z". Cutoff time is "2026-07-03T10:20:28.2198920Z".
+2026-07-03 15:55:28.229 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:55:28.230 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:25:28.2304970Z".
+2026-07-03 15:55:28.254 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:55:28.254 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:56:27.709 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:56:27.761 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:56:28.258 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:26:28.2581380Z". Cutoff time is "2026-07-03T10:21:28.2581380Z".
+2026-07-03 15:56:28.269 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:56:28.269 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:26:28.2697370Z". Cutoff time is "2026-07-03T10:21:28.2697370Z".
+2026-07-03 15:56:28.277 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:56:28.278 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:26:28.2789450Z".
+2026-07-03 15:56:28.302 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:56:28.302 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:57:27.783 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:57:27.825 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:57:28.306 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:27:28.3065690Z". Cutoff time is "2026-07-03T10:22:28.3065690Z".
+2026-07-03 15:57:28.320 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:57:28.321 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:27:28.3216510Z". Cutoff time is "2026-07-03T10:22:28.3216510Z".
+2026-07-03 15:57:28.331 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:57:28.332 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:27:28.3325210Z".
+2026-07-03 15:57:28.353 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:57:28.353 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:58:27.847 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:58:27.869 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:58:28.358 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:28:28.3586550Z". Cutoff time is "2026-07-03T10:23:28.3586550Z".
+2026-07-03 15:58:28.374 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:58:28.375 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:28:28.3750620Z". Cutoff time is "2026-07-03T10:23:28.3750620Z".
+2026-07-03 15:58:28.384 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:58:28.385 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:28:28.3856820Z".
+2026-07-03 15:58:28.409 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:58:28.409 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 15:59:27.891 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 15:59:27.951 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 15:59:28.416 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:29:28.4167830Z". Cutoff time is "2026-07-03T10:24:28.4167830Z".
+2026-07-03 15:59:28.445 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 15:59:28.446 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:29:28.4460600Z". Cutoff time is "2026-07-03T10:24:28.4460590Z".
+2026-07-03 15:59:28.463 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 15:59:28.464 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:29:28.4642870Z".
+2026-07-03 15:59:28.490 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 15:59:28.490 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:00:27.982 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:00:28.030 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:00:28.496 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:30:28.4962720Z". Cutoff time is "2026-07-03T10:25:28.4962720Z".
+2026-07-03 16:00:28.510 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:00:28.511 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:30:28.5117690Z". Cutoff time is "2026-07-03T10:25:28.5117690Z".
+2026-07-03 16:00:28.521 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:00:28.521 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:30:28.5217820Z".
+2026-07-03 16:00:28.543 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:00:28.543 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:01:28.100 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:01:28.155 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:01:28.550 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:31:28.5506180Z". Cutoff time is "2026-07-03T10:26:28.5506170Z".
+2026-07-03 16:01:28.569 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:01:28.570 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:31:28.5707150Z". Cutoff time is "2026-07-03T10:26:28.5707140Z".
+2026-07-03 16:01:28.583 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:01:28.585 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:31:28.5850010Z".
+2026-07-03 16:01:28.611 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:01:28.611 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:02:28.176 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:02:28.204 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:02:28.615 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:32:28.6150300Z". Cutoff time is "2026-07-03T10:27:28.6150290Z".
+2026-07-03 16:02:28.625 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:02:28.626 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:32:28.6264020Z". Cutoff time is "2026-07-03T10:27:28.6264020Z".
+2026-07-03 16:02:28.635 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:02:28.636 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:32:28.6368920Z".
+2026-07-03 16:02:28.658 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:02:28.658 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:03:28.218 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:03:28.248 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:03:28.662 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:33:28.6623350Z". Cutoff time is "2026-07-03T10:28:28.6623350Z".
+2026-07-03 16:03:28.673 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:03:28.674 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:33:28.6748900Z". Cutoff time is "2026-07-03T10:28:28.6748900Z".
+2026-07-03 16:03:28.684 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:03:28.685 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:33:28.6855570Z".
+2026-07-03 16:03:28.711 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:03:28.711 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:04:28.273 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:04:28.292 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:04:28.714 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:34:28.7144210Z". Cutoff time is "2026-07-03T10:29:28.7144200Z".
+2026-07-03 16:04:28.730 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:04:28.730 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:34:28.7307900Z". Cutoff time is "2026-07-03T10:29:28.7307900Z".
+2026-07-03 16:04:28.736 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:04:28.736 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:34:28.7369350Z".
+2026-07-03 16:04:28.752 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:04:28.752 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:05:28.305 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:05:28.349 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:05:28.752 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:35:28.7528530Z". Cutoff time is "2026-07-03T10:30:28.7528530Z".
+2026-07-03 16:05:28.762 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:05:28.762 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:35:28.7624850Z". Cutoff time is "2026-07-03T10:30:28.7624850Z".
+2026-07-03 16:05:28.770 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:05:28.771 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:35:28.7717700Z".
+2026-07-03 16:05:28.788 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:05:28.788 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:06:28.367 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:06:28.466 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:06:28.789 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:36:28.7895000Z". Cutoff time is "2026-07-03T10:31:28.7894990Z".
+2026-07-03 16:06:28.845 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:06:28.846 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:36:28.8461580Z". Cutoff time is "2026-07-03T10:31:28.8461580Z".
+2026-07-03 16:06:28.860 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:06:28.861 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:36:28.8610920Z".
+2026-07-03 16:06:28.881 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:06:28.881 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:07:28.507 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:07:28.687 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:07:28.883 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:37:28.8835900Z". Cutoff time is "2026-07-03T10:32:28.8835900Z".
+2026-07-03 16:07:29.132 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:07:29.136 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:37:29.1363260Z". Cutoff time is "2026-07-03T10:32:29.1363250Z".
+2026-07-03 16:07:29.159 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:07:29.162 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:37:29.1621610Z".
+2026-07-03 16:07:29.198 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:07:29.198 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:08:28.712 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:08:28.732 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:08:29.203 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:38:29.2038510Z". Cutoff time is "2026-07-03T10:33:29.2038510Z".
+2026-07-03 16:08:29.213 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:08:29.214 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:38:29.2144020Z". Cutoff time is "2026-07-03T10:33:29.2144020Z".
+2026-07-03 16:08:29.220 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:08:29.220 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:38:29.2209690Z".
+2026-07-03 16:08:29.244 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:08:29.244 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:09:28.785 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:09:28.913 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:09:29.248 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T10:39:29.2485870Z". Cutoff time is "2026-07-03T10:34:29.2485860Z".
+2026-07-03 16:09:29.264 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:09:29.265 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:39:29.2650120Z". Cutoff time is "2026-07-03T10:34:29.2650120Z".
+2026-07-03 16:09:29.279 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:09:29.280 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:39:29.2803090Z".
+2026-07-03 16:09:29.316 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:09:29.316 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:10:28.973 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:10:30.027 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T10:40:29.3342000Z". Cutoff time is "2026-07-03T10:35:29.3341990Z".
+2026-07-03 16:10:30.060 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:10:30.061 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:40:30.0612170Z". Cutoff time is "2026-07-03T10:35:30.0612160Z".
+2026-07-03 16:10:30.073 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:10:30.073 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:40:30.0739070Z".
+2026-07-03 16:10:30.109 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:10:30.109 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:11:30.053 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:11:30.186 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T10:41:30.1159530Z". Cutoff time is "2026-07-03T10:36:30.1159520Z".
+2026-07-03 16:11:30.190 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:11:30.190 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:41:30.1909240Z". Cutoff time is "2026-07-03T10:36:30.1909240Z".
+2026-07-03 16:11:30.199 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:11:30.200 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:41:30.2002180Z".
+2026-07-03 16:11:30.220 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:11:30.220 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:12:30.202 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:12:30.252 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:12:30.262 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:12:30.262 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:42:30.2626870Z". Cutoff time is "2026-07-03T10:37:30.2626860Z".
+2026-07-03 16:12:30.270 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:12:30.270 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:42:30.2707370Z".
+2026-07-03 16:12:30.297 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:12:30.297 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:13:30.301 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:13:30.337 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:13:30.340 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:13:30.341 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:43:30.3410070Z". Cutoff time is "2026-07-03T10:38:30.3410070Z".
+2026-07-03 16:13:30.353 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:13:30.353 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:43:30.3536890Z".
+2026-07-03 16:13:30.376 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:13:30.376 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:14:30.379 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:14:30.428 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:14:30.434 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:14:30.435 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:44:30.4353950Z". Cutoff time is "2026-07-03T10:39:30.4353950Z".
+2026-07-03 16:14:30.448 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:14:30.449 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:44:30.4492480Z".
+2026-07-03 16:14:30.469 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:14:30.469 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:15:30.473 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:15:30.502 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:15:30.504 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:15:30.505 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:45:30.5051330Z". Cutoff time is "2026-07-03T10:40:30.5051330Z".
+2026-07-03 16:15:30.515 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:15:30.515 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:45:30.5153220Z".
+2026-07-03 16:15:30.533 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:15:30.533 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:16:30.536 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:16:30.621 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:16:30.624 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:16:30.624 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:46:30.6247280Z". Cutoff time is "2026-07-03T10:41:30.6247280Z".
+2026-07-03 16:16:30.630 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:16:30.631 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:46:30.6314960Z".
+2026-07-03 16:16:30.661 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:16:30.661 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:17:30.733 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:17:31.303 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:17:31.316 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:17:31.317 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:47:31.3178180Z". Cutoff time is "2026-07-03T10:42:31.3178180Z".
+2026-07-03 16:17:31.345 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:17:31.350 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:47:31.3507500Z".
+2026-07-03 16:17:31.453 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:17:31.453 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:18:31.342 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:18:31.513 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T10:48:31.4573710Z". Cutoff time is "2026-07-03T10:43:31.4573710Z".
+2026-07-03 16:18:31.540 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:18:31.541 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:48:31.5415410Z". Cutoff time is "2026-07-03T10:43:31.5415410Z".
+2026-07-03 16:18:31.549 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:18:31.549 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:48:31.5499080Z".
+2026-07-03 16:18:31.567 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:18:31.567 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:19:31.568 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:19:31.598 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:19:31.602 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:19:31.603 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:49:31.6034300Z". Cutoff time is "2026-07-03T10:44:31.6034300Z".
+2026-07-03 16:19:31.615 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:19:31.616 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:49:31.6165130Z".
+2026-07-03 16:19:31.634 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:19:31.634 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:20:31.637 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:20:31.685 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:20:31.689 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:20:31.689 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:50:31.6897950Z". Cutoff time is "2026-07-03T10:45:31.6897950Z".
+2026-07-03 16:20:31.707 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:20:31.708 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:50:31.7081720Z".
+2026-07-03 16:20:31.724 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:20:31.724 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:21:31.699 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:21:31.760 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T10:51:31.7274750Z". Cutoff time is "2026-07-03T10:46:31.7274750Z".
+2026-07-03 16:21:31.763 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:21:31.764 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:51:31.7646610Z". Cutoff time is "2026-07-03T10:46:31.7646610Z".
+2026-07-03 16:21:31.773 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:21:31.773 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:51:31.7739590Z".
+2026-07-03 16:21:31.792 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:21:31.792 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:22:31.799 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:22:31.858 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:22:31.865 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:22:31.866 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:52:31.8662820Z". Cutoff time is "2026-07-03T10:47:31.8662820Z".
+2026-07-03 16:22:31.873 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:22:31.874 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:52:31.8744660Z".
+2026-07-03 16:22:31.896 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:22:31.896 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:23:31.902 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:23:31.946 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:23:31.951 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:23:31.951 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:53:31.9517570Z". Cutoff time is "2026-07-03T10:48:31.9517560Z".
+2026-07-03 16:23:31.958 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:23:31.959 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:53:31.9590090Z".
+2026-07-03 16:23:31.975 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:23:31.975 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:24:31.980 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:24:32.019 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:24:32.022 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:24:32.022 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:54:32.0229970Z". Cutoff time is "2026-07-03T10:49:32.0229970Z".
+2026-07-03 16:24:32.031 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:24:32.031 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:54:32.0316710Z".
+2026-07-03 16:24:32.049 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:24:32.049 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:25:32.052 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:25:32.101 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:25:32.104 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:25:32.105 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:55:32.1053200Z". Cutoff time is "2026-07-03T10:50:32.1053200Z".
+2026-07-03 16:25:32.119 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:25:32.120 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:55:32.1200820Z".
+2026-07-03 16:25:32.137 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:25:32.137 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:26:32.124 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:26:32.174 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T10:56:32.1475880Z". Cutoff time is "2026-07-03T10:51:32.1475880Z".
+2026-07-03 16:26:32.174 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:26:32.175 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:56:32.1754520Z". Cutoff time is "2026-07-03T10:51:32.1754520Z".
+2026-07-03 16:26:32.181 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:26:32.182 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:56:32.1822740Z".
+2026-07-03 16:26:32.204 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:26:32.204 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:27:32.194 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:27:32.232 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T10:57:32.2199020Z". Cutoff time is "2026-07-03T10:52:32.2199020Z".
+2026-07-03 16:27:32.251 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:27:32.252 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:57:32.2523080Z". Cutoff time is "2026-07-03T10:52:32.2523080Z".
+2026-07-03 16:27:32.260 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:27:32.260 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:57:32.2604480Z".
+2026-07-03 16:27:32.277 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:27:32.277 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:28:32.279 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:28:32.320 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:28:32.324 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:28:32.325 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:58:32.3251480Z". Cutoff time is "2026-07-03T10:53:32.3251480Z".
+2026-07-03 16:28:32.333 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:28:32.333 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:58:32.3334580Z".
+2026-07-03 16:28:32.360 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:28:32.360 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:29:32.334 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:29:32.393 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:29:32.390 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:29:32.391 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T10:59:32.3916480Z". Cutoff time is "2026-07-03T10:54:32.3916470Z".
+2026-07-03 16:29:32.402 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:29:32.402 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T10:59:32.4028810Z".
+2026-07-03 16:29:32.418 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:29:32.418 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:30:32.409 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:30:32.442 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:00:32.4219530Z". Cutoff time is "2026-07-03T10:55:32.4219530Z".
+2026-07-03 16:30:32.449 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:30:32.449 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:00:32.4495670Z". Cutoff time is "2026-07-03T10:55:32.4495670Z".
+2026-07-03 16:30:32.454 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:30:32.455 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:00:32.4551080Z".
+2026-07-03 16:30:32.475 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:30:32.475 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:31:32.452 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:31:32.619 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:01:32.4804450Z". Cutoff time is "2026-07-03T10:56:32.4804440Z".
+2026-07-03 16:31:32.627 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:31:32.628 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:01:32.6284750Z". Cutoff time is "2026-07-03T10:56:32.6284750Z".
+2026-07-03 16:31:32.637 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:31:32.638 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:01:32.6389040Z".
+2026-07-03 16:31:32.659 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:31:32.659 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:32:32.642 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:32:32.711 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:32:32.784 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:32:32.785 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:02:32.7859660Z". Cutoff time is "2026-07-03T10:57:32.7859660Z".
+2026-07-03 16:32:32.796 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:32:32.797 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:02:32.7973610Z".
+2026-07-03 16:32:32.816 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:32:32.816 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:33:32.794 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:33:32.856 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:33:32.854 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:33:32.855 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:03:32.8553320Z". Cutoff time is "2026-07-03T10:58:32.8553310Z".
+2026-07-03 16:33:32.863 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:33:32.863 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:03:32.8637890Z".
+2026-07-03 16:33:32.881 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:33:32.881 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:34:32.873 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:34:32.910 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:34:32.908 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:34:32.908 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:04:32.9086910Z". Cutoff time is "2026-07-03T10:59:32.9086910Z".
+2026-07-03 16:34:32.914 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:34:32.914 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:04:32.9147160Z".
+2026-07-03 16:34:32.931 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:34:32.931 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:35:32.925 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:35:32.954 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:05:32.9360340Z". Cutoff time is "2026-07-03T11:00:32.9360330Z".
+2026-07-03 16:35:32.965 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:35:32.966 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:05:32.9661060Z". Cutoff time is "2026-07-03T11:00:32.9661060Z".
+2026-07-03 16:35:32.978 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:35:32.979 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:05:32.9793990Z".
+2026-07-03 16:35:33.001 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:35:33.001 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:36:32.974 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:36:33.084 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:36:33.200 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:36:33.201 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:06:33.2014940Z". Cutoff time is "2026-07-03T11:01:33.2014940Z".
+2026-07-03 16:36:33.206 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:36:33.207 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:06:33.2071420Z".
+2026-07-03 16:36:33.234 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:36:33.234 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:37:33.484 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:37:34.741 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:37:34.888 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:37:34.892 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:07:34.8925150Z". Cutoff time is "2026-07-03T11:02:34.8925150Z".
+2026-07-03 16:37:34.957 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:37:34.957 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:07:34.9577300Z".
+2026-07-03 16:37:35.055 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:37:35.057 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:38:35.008 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:38:35.139 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:08:35.0687400Z". Cutoff time is "2026-07-03T11:03:35.0687390Z".
+2026-07-03 16:38:35.160 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:38:35.161 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:08:35.1613430Z". Cutoff time is "2026-07-03T11:03:35.1613430Z".
+2026-07-03 16:38:35.174 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:38:35.174 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:08:35.1744920Z".
+2026-07-03 16:38:35.198 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:38:35.198 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:39:35.213 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:39:35.378 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:09:35.2136340Z". Cutoff time is "2026-07-03T11:04:35.2136340Z".
+2026-07-03 16:39:35.406 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:39:35.407 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:09:35.4070480Z". Cutoff time is "2026-07-03T11:04:35.4070480Z".
+2026-07-03 16:39:35.432 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:39:35.433 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:09:35.4333280Z".
+2026-07-03 16:39:35.465 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:39:35.465 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:40:35.438 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:40:35.609 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:10:35.4722170Z". Cutoff time is "2026-07-03T11:05:35.4722170Z".
+2026-07-03 16:40:35.622 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:40:35.623 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:10:35.6233860Z". Cutoff time is "2026-07-03T11:05:35.6233850Z".
+2026-07-03 16:40:35.636 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:40:35.637 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:10:35.6372380Z".
+2026-07-03 16:40:35.785 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:40:35.785 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:41:14.236 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:41:14.689 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:41:14.666 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:41:14.667 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:11:14.6676210Z". Cutoff time is "2026-07-03T11:06:14.6676210Z".
+2026-07-03 16:41:14.686 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:41:14.689 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:11:14.6892850Z".
+2026-07-03 16:41:14.793 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:41:14.793 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:42:15.448 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:42:15.569 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:42:15.702 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:42:15.704 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:12:15.7040850Z". Cutoff time is "2026-07-03T11:07:15.7040840Z".
+2026-07-03 16:42:15.726 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:42:15.728 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:12:15.7282960Z".
+2026-07-03 16:42:15.795 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:42:15.796 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:44:47.295 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:44:47.852 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:44:47.796 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:44:47.799 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:14:47.7996610Z". Cutoff time is "2026-07-03T11:09:47.7996390Z".
+2026-07-03 16:44:47.827 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:44:47.832 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:14:47.8321890Z".
+2026-07-03 16:44:47.917 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:44:47.917 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:45:48.053 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:45:48.098 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:45:48.110 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:45:48.114 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:15:48.1142400Z". Cutoff time is "2026-07-03T11:10:48.1142390Z".
+2026-07-03 16:45:48.147 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:45:48.147 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:15:48.1477250Z".
+2026-07-03 16:45:48.307 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:45:48.308 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:46:48.158 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:46:48.222 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:46:48.318 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:16:48.3189550Z". Cutoff time is "2026-07-03T11:11:48.3189540Z".
+2026-07-03 16:46:48.335 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:46:48.335 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:16:48.3354790Z". Cutoff time is "2026-07-03T11:11:48.3354780Z".
+2026-07-03 16:46:48.348 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:46:48.349 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:16:48.3496620Z".
+2026-07-03 16:46:48.385 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:46:48.385 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:47:48.306 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:47:48.389 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:47:48.388 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:17:48.3885090Z". Cutoff time is "2026-07-03T11:12:48.3885080Z".
+2026-07-03 16:47:48.414 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:47:48.414 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:17:48.4145850Z". Cutoff time is "2026-07-03T11:12:48.4145850Z".
+2026-07-03 16:47:48.426 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:47:48.426 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:17:48.4264500Z".
+2026-07-03 16:47:48.439 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:47:48.439 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:48:48.594 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:48:49.163 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:48:49.126 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:48:49.153 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:18:49.1536090Z". Cutoff time is "2026-07-03T11:13:49.1536070Z".
+2026-07-03 16:48:49.353 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:48:49.354 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:18:49.3548920Z".
+2026-07-03 16:48:49.422 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:48:49.422 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:49:49.368 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:49:49.462 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:19:49.4238750Z". Cutoff time is "2026-07-03T11:14:49.4238740Z".
+2026-07-03 16:49:49.467 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:49:49.468 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:19:49.4683200Z". Cutoff time is "2026-07-03T11:14:49.4683190Z".
+2026-07-03 16:49:49.477 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:49:49.477 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:19:49.4775930Z".
+2026-07-03 16:49:49.498 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:49:49.499 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:50:17.690 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:50:18.061 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+16:50:18.039 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:50:18.040 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:20:18.0408200Z". Cutoff time is "2026-07-03T11:15:18.0408190Z".
+2026-07-03 16:50:18.055 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:50:18.059 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:20:18.0590790Z".
+2026-07-03 16:50:18.136 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:50:18.136 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:51:18.201 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 16:51:18.273 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:51:18.277 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:51:18.279 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:21:18.2791960Z". Cutoff time is "2026-07-03T11:16:18.2791950Z".
+2026-07-03 16:51:18.293 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:51:18.296 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:21:18.2964040Z".
+2026-07-03 16:51:18.319 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:51:18.319 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:52:18.293 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:52:18.312 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:52:18.324 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:22:18.3239980Z". Cutoff time is "2026-07-03T11:17:18.3239980Z".
+2026-07-03 16:52:18.340 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:52:18.341 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:22:18.3412400Z". Cutoff time is "2026-07-03T11:17:18.3412400Z".
+2026-07-03 16:52:18.349 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:52:18.349 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:22:18.3499690Z".
+2026-07-03 16:52:18.360 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:52:18.360 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:53:18.342 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:53:18.400 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:23:18.3677500Z". Cutoff time is "2026-07-03T11:18:18.3677490Z".
+2026-07-03 16:53:18.465 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:53:18.465 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:23:18.4655590Z". Cutoff time is "2026-07-03T11:18:18.4655580Z".
+2026-07-03 16:53:18.492 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:53:18.493 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:23:18.4933780Z".
+2026-07-03 16:53:18.591 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:53:18.592 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:54:18.447 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:54:18.474 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:54:18.594 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:24:18.5948850Z". Cutoff time is "2026-07-03T11:19:18.5948850Z".
+2026-07-03 16:54:18.606 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:54:18.606 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:24:18.6066070Z". Cutoff time is "2026-07-03T11:19:18.6066060Z".
+2026-07-03 16:54:18.620 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:54:18.621 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:24:18.6212800Z".
+2026-07-03 16:54:18.636 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:54:18.636 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:55:18.507 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:55:18.602 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 16:55:18.639 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:25:18.6399440Z". Cutoff time is "2026-07-03T11:20:18.6399440Z".
+2026-07-03 16:55:18.650 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:55:18.650 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:25:18.6503860Z". Cutoff time is "2026-07-03T11:20:18.6503850Z".
+2026-07-03 16:55:18.668 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:55:18.669 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:25:18.6694990Z".
+2026-07-03 16:55:18.683 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:55:18.683 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:56:18.632 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:56:18.734 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:26:18.6847960Z". Cutoff time is "2026-07-03T11:21:18.6847960Z".
+2026-07-03 16:56:18.767 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:56:18.768 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:26:18.7681970Z". Cutoff time is "2026-07-03T11:21:18.7681970Z".
+2026-07-03 16:56:18.776 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:56:18.776 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:26:18.7768400Z".
+2026-07-03 16:56:18.791 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:56:18.791 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:57:18.757 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:57:18.839 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:27:18.7984240Z". Cutoff time is "2026-07-03T11:22:18.7984240Z".
+2026-07-03 16:57:18.847 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:57:18.849 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:27:18.8497180Z". Cutoff time is "2026-07-03T11:22:18.8497170Z".
+2026-07-03 16:57:18.864 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:57:18.864 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:27:18.8648540Z".
+2026-07-03 16:57:18.885 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:57:18.885 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:58:18.867 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:58:18.956 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:28:18.8924760Z". Cutoff time is "2026-07-03T11:23:18.8924760Z".
+2026-07-03 16:58:18.962 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:58:18.966 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:28:18.9660420Z". Cutoff time is "2026-07-03T11:23:18.9660410Z".
+2026-07-03 16:58:18.974 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:58:18.974 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:28:18.9748290Z".
+2026-07-03 16:58:18.984 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:58:18.984 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 16:59:18.988 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 16:59:19.035 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 16:59:19.042 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 16:59:19.042 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:29:19.0427200Z". Cutoff time is "2026-07-03T11:24:19.0427190Z".
+2026-07-03 16:59:19.048 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 16:59:19.049 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:29:19.0496290Z".
+2026-07-03 16:59:19.090 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 16:59:19.090 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:00:19.055 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:00:19.150 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:30:19.0928500Z". Cutoff time is "2026-07-03T11:25:19.0928350Z".
+2026-07-03 17:00:19.162 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:00:19.163 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:30:19.1632440Z". Cutoff time is "2026-07-03T11:25:19.1632440Z".
+2026-07-03 17:00:19.171 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:00:19.171 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:30:19.1718280Z".
+2026-07-03 17:00:19.200 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:00:19.200 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:01:19.219 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:01:19.338 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:01:19.340 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:01:19.340 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:31:19.3406680Z". Cutoff time is "2026-07-03T11:26:19.3406680Z".
+2026-07-03 17:01:19.376 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:01:19.377 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:31:19.3772530Z".
+2026-07-03 17:01:19.396 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:01:19.396 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:02:19.419 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:02:19.600 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:02:19.644 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:02:19.645 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:32:19.6451440Z". Cutoff time is "2026-07-03T11:27:19.6451430Z".
+2026-07-03 17:02:19.658 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:02:19.659 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:32:19.6592270Z".
+2026-07-03 17:02:19.678 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:02:19.678 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:03:19.706 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:03:20.314 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:33:19.7060420Z". Cutoff time is "2026-07-03T11:28:19.7059980Z".
+2026-07-03 17:03:20.349 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:03:20.351 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:33:20.3513760Z". Cutoff time is "2026-07-03T11:28:20.3513220Z".
+2026-07-03 17:03:20.382 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:03:20.382 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:33:20.3829600Z".
+2026-07-03 17:03:20.417 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:03:20.417 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:04:20.400 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:04:20.480 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:04:20.486 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:04:20.488 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:34:20.4884540Z". Cutoff time is "2026-07-03T11:29:20.4884530Z".
+2026-07-03 17:04:20.495 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:04:20.496 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:34:20.4961420Z".
+2026-07-03 17:04:20.506 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:04:20.506 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:05:20.510 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:05:20.623 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:05:20.627 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:05:20.627 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:35:20.6278710Z". Cutoff time is "2026-07-03T11:30:20.6278680Z".
+2026-07-03 17:05:20.636 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:05:20.637 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:35:20.6377220Z".
+2026-07-03 17:05:20.654 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:05:20.654 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:06:20.663 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:06:20.713 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:06:21.021 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:06:21.022 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:36:21.0222110Z". Cutoff time is "2026-07-03T11:31:21.0222110Z".
+2026-07-03 17:06:21.058 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:06:21.059 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:36:21.0593550Z".
+2026-07-03 17:06:21.115 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:06:21.115 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:07:21.141 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:07:21.227 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:07:21.239 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:07:21.240 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:37:21.2402360Z". Cutoff time is "2026-07-03T11:32:21.2402360Z".
+2026-07-03 17:07:21.260 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:07:21.262 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:37:21.2625710Z".
+2026-07-03 17:07:21.355 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:07:21.355 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:08:21.274 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:08:21.532 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:38:21.3607900Z". Cutoff time is "2026-07-03T11:33:21.3607890Z".
+2026-07-03 17:08:21.629 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:08:21.630 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:38:21.6300720Z". Cutoff time is "2026-07-03T11:33:21.6300710Z".
+2026-07-03 17:08:21.658 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:08:21.658 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:38:21.6588310Z".
+2026-07-03 17:08:21.840 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:08:21.840 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:09:21.698 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:09:21.761 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 17:09:21.844 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:39:21.8442020Z". Cutoff time is "2026-07-03T11:34:21.8441990Z".
+2026-07-03 17:09:21.869 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:09:21.869 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:39:21.8696320Z". Cutoff time is "2026-07-03T11:34:21.8696310Z".
+2026-07-03 17:09:21.875 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:09:21.876 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:39:21.8765040Z".
+2026-07-03 17:09:21.902 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:09:21.902 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:10:21.797 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:10:21.892 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 17:10:21.904 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:40:21.9039960Z". Cutoff time is "2026-07-03T11:35:21.9039950Z".
+2026-07-03 17:10:21.927 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:10:21.927 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:40:21.9272790Z". Cutoff time is "2026-07-03T11:35:21.9272780Z".
+2026-07-03 17:10:21.932 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:10:21.932 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:40:21.9325160Z".
+2026-07-03 17:10:21.952 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:10:21.952 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:11:21.930 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:11:21.963 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:41:21.9548420Z". Cutoff time is "2026-07-03T11:36:21.9548350Z".
+2026-07-03 17:11:21.976 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:11:21.977 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:41:21.9774660Z". Cutoff time is "2026-07-03T11:36:21.9774660Z".
+2026-07-03 17:11:21.988 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:11:21.989 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:41:21.9891570Z".
+2026-07-03 17:11:22.008 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:11:22.009 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:12:21.985 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:12:22.040 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:42:22.0138460Z". Cutoff time is "2026-07-03T11:37:22.0138080Z".
+2026-07-03 17:12:22.038 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:12:22.038 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:42:22.0385300Z". Cutoff time is "2026-07-03T11:37:22.0385300Z".
+2026-07-03 17:12:22.043 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:12:22.044 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:42:22.0440640Z".
+2026-07-03 17:12:22.083 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:12:22.083 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:13:22.050 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:13:22.061 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 17:13:22.089 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:43:22.0891700Z". Cutoff time is "2026-07-03T11:38:22.0891670Z".
+2026-07-03 17:13:22.113 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:13:22.113 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:43:22.1139010Z". Cutoff time is "2026-07-03T11:38:22.1139010Z".
+2026-07-03 17:13:22.119 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:13:22.119 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:43:22.1193650Z".
+2026-07-03 17:13:22.132 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:13:22.132 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:14:22.095 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:14:22.130 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 17:14:22.137 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:44:22.1378200Z". Cutoff time is "2026-07-03T11:39:22.1378130Z".
+2026-07-03 17:14:22.157 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:14:22.158 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:44:22.1580470Z". Cutoff time is "2026-07-03T11:39:22.1580460Z".
+2026-07-03 17:14:22.163 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:14:22.164 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:44:22.1648260Z".
+2026-07-03 17:14:22.179 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:14:22.179 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:15:22.181 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:15:22.280 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:15:22.282 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:15:22.283 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:45:22.2832910Z". Cutoff time is "2026-07-03T11:40:22.2832900Z".
+2026-07-03 17:15:22.291 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:15:22.292 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:45:22.2922140Z".
+2026-07-03 17:15:22.303 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:15:22.303 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:16:22.305 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:16:22.353 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:16:22.359 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:16:22.360 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:46:22.3602760Z". Cutoff time is "2026-07-03T11:41:22.3602760Z".
+2026-07-03 17:16:22.390 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:16:22.392 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:46:22.3920030Z".
+2026-07-03 17:16:22.408 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:16:22.408 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:17:22.384 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:17:22.468 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:17:22.471 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:17:22.471 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:47:22.4719970Z". Cutoff time is "2026-07-03T11:42:22.4719970Z".
+2026-07-03 17:17:22.496 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:17:22.497 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:47:22.4971390Z".
+2026-07-03 17:17:22.514 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:17:22.514 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:18:22.480 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:18:22.500 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+2026-07-03 17:18:22.517 +05:30 [INF] ReleaseExpiredEventBookingAsync job started at "2026-07-03T11:48:22.5173890Z". Cutoff time is "2026-07-03T11:43:22.5173770Z".
+2026-07-03 17:18:22.533 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:18:22.533 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:48:22.5336770Z". Cutoff time is "2026-07-03T11:43:22.5336560Z".
+2026-07-03 17:18:22.538 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:18:22.539 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:48:22.5390760Z".
+2026-07-03 17:18:22.550 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:18:22.550 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:19:22.540 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:19:22.576 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:19:22.582 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:19:22.584 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:49:22.5844420Z". Cutoff time is "2026-07-03T11:44:22.5844410Z".
+2026-07-03 17:19:22.596 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:19:22.596 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:49:22.5969160Z".
+2026-07-03 17:19:22.606 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:19:22.606 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:20:22.613 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:20:22.895 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:20:22.900 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:20:22.901 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:50:22.9014040Z". Cutoff time is "2026-07-03T11:45:22.9014030Z".
+2026-07-03 17:20:22.911 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:20:22.912 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:50:22.9124050Z".
+2026-07-03 17:20:22.941 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:20:22.941 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:21:22.923 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:21:22.972 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:51:22.9436810Z". Cutoff time is "2026-07-03T11:46:22.9436800Z".
+2026-07-03 17:21:22.977 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:21:22.977 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:51:22.9778030Z". Cutoff time is "2026-07-03T11:46:22.9778030Z".
+2026-07-03 17:21:22.983 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:21:22.984 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:51:22.9844630Z".
+2026-07-03 17:21:22.998 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:21:22.998 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:22:23.000 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:22:23.037 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:22:23.039 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:22:23.040 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:52:23.0400590Z". Cutoff time is "2026-07-03T11:47:23.0400590Z".
+2026-07-03 17:22:23.055 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:22:23.056 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:52:23.0560410Z".
+2026-07-03 17:22:23.076 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:22:23.076 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:23:23.079 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:23:23.154 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:23:23.172 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:23:23.172 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:53:23.1729630Z". Cutoff time is "2026-07-03T11:48:23.1729630Z".
+2026-07-03 17:23:23.179 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:23:23.179 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:53:23.1794690Z".
+2026-07-03 17:23:23.192 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:23:23.192 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:24:23.212 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:24:23.303 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:24:23.314 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:24:23.315 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:54:23.3154410Z". Cutoff time is "2026-07-03T11:49:23.3154410Z".
+2026-07-03 17:24:23.322 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:24:23.322 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:54:23.3223850Z".
+2026-07-03 17:24:23.336 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:24:23.336 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:25:23.357 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:25:23.571 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:25:23.575 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:25:23.576 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:55:23.5766270Z". Cutoff time is "2026-07-03T11:50:23.5766270Z".
+2026-07-03 17:25:23.643 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:25:23.647 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:55:23.6471530Z".
+2026-07-03 17:25:23.704 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:25:23.704 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:26:23.637 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:26:23.733 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T11:56:23.7075390Z". Cutoff time is "2026-07-03T11:51:23.7075390Z".
+2026-07-03 17:26:23.757 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:26:23.757 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:56:23.7573340Z". Cutoff time is "2026-07-03T11:51:23.7573340Z".
+2026-07-03 17:26:23.764 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:26:23.765 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:56:23.7654880Z".
+2026-07-03 17:26:23.785 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:26:23.785 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:27:23.789 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:27:24.040 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:27:24.042 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:27:24.043 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:57:24.0435040Z". Cutoff time is "2026-07-03T11:52:24.0435040Z".
+2026-07-03 17:27:24.062 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:27:24.063 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:57:24.0633100Z".
+2026-07-03 17:27:24.091 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:27:24.091 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:28:24.073 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:28:24.132 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:28:24.137 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:28:24.137 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:58:24.1377500Z". Cutoff time is "2026-07-03T11:53:24.1377500Z".
+2026-07-03 17:28:24.146 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:28:24.146 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:58:24.1464290Z".
+2026-07-03 17:28:24.155 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:28:24.155 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:29:24.230 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:29:24.867 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+17:29:24.864 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:29:24.867 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T11:59:24.8677460Z". Cutoff time is "2026-07-03T11:54:24.8677390Z".
+2026-07-03 17:29:24.902 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:29:24.902 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T11:59:24.9028190Z".
+2026-07-03 17:29:24.931 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:29:24.931 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:30:24.894 +05:30 [INF] ProcessDismissedPayoutsAsync job started.
+2026-07-03 17:30:25.140 +05:30 [INF] Checking 1 completed events for dismissed report payouts.
+T12:00:24.9345080Z". Cutoff time is "2026-07-03T11:55:24.9345080Z".
+2026-07-03 17:30:25.143 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:30:25.144 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T12:00:25.1441390Z". Cutoff time is "2026-07-03T11:55:25.1441390Z".
+2026-07-03 17:30:25.149 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:30:25.150 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T12:00:25.1501660Z".
+2026-07-03 17:30:25.163 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:30:25.163 +05:30 [INF] ReleaseCompletedEventsAsync job completed.
+2026-07-03 17:31:25.165 +05:30 [INF] ReleaseExpiredEventBookingAsync job starte2026-07-03 17:31:25.178 +05:30 [INF] Checking 1 completed events for dismissed repor2026-07-03 17:31:25.184 +05:30 [INF] ReleaseExpiredEventBookingAsync job completed. Total bookings expired: 0.
+2026-07-03 17:31:25.186 +05:30 [INF] ReleaseExpiredEventCreationAsync job started at "2026-07-03T12:01:25.1869530Z". Cutoff time is "2026-07-03T11:56:25.1869520Z".
+2026-07-03 17:31:25.195 +05:30 [INF] ReleaseExpiredEventCreationAsync job completed. Total events expired: 0.
+2026-07-03 17:31:25.195 +05:30 [INF] ReleaseCompletedEventsAsync job started at "2026-07-03T12:01:25.1958010Z".
+2026-07-03 17:31:25.205 +05:30 [INF] Found 0 completed events to release.
+2026-07-03 17:31:25.205 +05:30 [INF] ReleaseCompletedEventsAsync job completed.

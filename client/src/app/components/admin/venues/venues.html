@@ -1,0 +1,124 @@
+<app-navbar [isAdmin]="true"></app-navbar>
+
+<div class="admin-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Venues</h1>
+        <p class="page-sub">Manage registered venues and register new ones</p>
+      </div>
+      <button class="btn btn-primary" (click)="openModal()">+ Register</button>
+    </div>
+
+
+    <div class="section-panel">
+      <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0;">All Venues ({{ venues().length }})</h2>
+        <div style="flex-grow: 1;"></div>
+        <button #refreshBtn class="icon-btn refresh-btn" (click)="refreshBtn.classList.add('spinning-active'); loadVenues()" (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh" [class.spinning]="loading()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+        </button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" (click)="toggleSort('name')">Name <span class="sort-arrow">{{ sortColumn() === 'name' ? (sortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th class="sortable" (click)="toggleSort('address')">Address <span class="sort-arrow">{{ sortColumn() === 'address' ? (sortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th class="sortable" (click)="toggleSort('region_Id')">Region <span class="sort-arrow">{{ sortColumn() === 'region_Id' ? (sortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th class="sortable" (click)="toggleSort('hourly_Price')">Hourly Price <span class="sort-arrow">{{ sortColumn() === 'hourly_Price' ? (sortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              <th class="sortable" (click)="toggleSort('is_Available')">Status <span class="sort-arrow">{{ sortColumn() === 'is_Available' ? (sortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="loading()">
+              <tr *ngFor="let _ of [1,2,3,4,5]">
+                <td><div class="skeleton-table-cell" style="width: 140px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 200px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 80px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 70px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 60px;"></div></td>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="!loading()">
+              <tr *ngFor="let venue of sortedVenues()">
+                <td class="cell-primary">{{ venue.name || venue.Name }}</td>
+                <td>{{ venue.address || venue.Address }}</td>
+                <td>{{ venue.region_Id || venue.Region_Id }}</td>
+                <td>₹{{ venue.hourly_Price || venue.Hourly_Price }}</td>
+                <td><span class="badge" [ngClass]="(venue.is_Available ?? venue.Is_Available) ? 'active' : 'inactive'">{{ (venue.is_Available ?? venue.Is_Available) ? 'Active' : 'Inactive' }}</span></td>
+              </tr>
+              <tr *ngIf="venues().length === 0">
+                <td colspan="5" class="empty-state">No venues registered yet.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" style="position: relative;" (click)="$event.stopPropagation()">
+    
+    <div *ngIf="showSuccessAnimation" class="success-tick-overlay" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; background: var(--bg-canvas); border-radius: var(--radius);">
+      <div class="success-checkmark-svg-wrap">
+        <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <p class="success-text">Venue Registered Successfully</p>
+    </div>
+
+    <div class="modal-header">
+      <h3>Register New Venue</h3>
+      <button class="modal-close" (click)="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body" style="position: relative;">
+      <div *ngIf="successMessage()" class="alert alert-success">{{ successMessage() }}</div>
+      <span *ngIf="modalErrorMessage()" style="position: absolute; top: 4px; left: 0; width: 100%; text-align: center; font-size: 11.5px; color: #ef4444; font-weight: 600; z-index: 10;">{{ modalErrorMessage() }}</span>
+      <div class="form-group">
+        <label>Region</label>
+        <select class="form-select" [(ngModel)]="selectedRegionId">
+          <option value="">Select region</option>
+          <option *ngFor="let region of regions()" [value]="region.region_Id || region.Region_Id">{{ region.region_Name || region.Region_Name || region.name || region.Name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Venue Name</label>
+        <input class="form-input" [(ngModel)]="venueName" placeholder="Enter venue name" />
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <input class="form-input" [(ngModel)]="address" placeholder="Enter address" />
+      </div>
+      <div class="form-group">
+        <label>Hourly Price (₹)</label>
+        <input class="form-input" type="number" [(ngModel)]="hourlyPrice" placeholder="Enter hourly price" />
+      </div>
+      
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label style="margin-bottom: 0;">Seat Tiers & Capacities</label>
+          <button class="btn btn-xs btn-outline" (click)="addSeatTier()">+ Add Tier</button>
+        </div>
+        <div *ngFor="let tier of seatTiers; let i = index" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+          <input class="form-input" style="flex: 1;" [(ngModel)]="tier.tier_Name" placeholder="Tier Name (e.g., Gold)" />
+          <input class="form-input" type="number" style="width: 120px;" [(ngModel)]="tier.total_Seats" placeholder="Capacity" />
+          <button class="btn btn-xs btn-outline" style="padding: 4px 8px; border-color: var(--accent); color: var(--accent);" *ngIf="seatTiers.length > 1" (click)="removeSeatTier(i)">&times;</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="closeModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="createVenue()">Register</button>
+    </div>
+  </div>
+</div>
+
+<app-footer [isAdmin]="true"></app-footer>

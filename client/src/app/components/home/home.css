@@ -1,0 +1,27 @@
+/* Global variables scope for Home Component */
+:host {
+  --color-accent: #C41E3A;
+  --color-accent-hover: #A3182E;
+  --color-canvas-bg: #FFFFFF;
+  --color-neutral-dark: #121212;
+  --color-neutral-mid: #2C2C2E;
+  --color-neutral-light: #8E8E93;
+  --color-border: #E5E5EA;
+
+  --font-family: 'Inter', sans-serif;
+  --radius-common: 8px;
+  --nav-height: 64px;
+
+  display: block;
+}
+
+.home-root {
+  background-color: var(--color-canvas-bg);
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}

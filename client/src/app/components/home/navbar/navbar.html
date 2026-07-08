@@ -1,0 +1,226 @@
+<!-- Minimal Navigation Bar -->
+<nav class="navbar" (click)="closeDropdowns()">
+  <div class="nav-container">
+    
+    <!-- Left: Logo -->
+    <a class="nav-logo" [routerLink]="isAdmin ? '/admin/dashboard' : (isFinance ? '/finance/dashboard' : '/')">
+      <img src="/logo.png" alt="Event Management Logo" class="logo-img">
+    </a>
+
+    <!-- Center: Unified Search Tool in Nav -->
+    @if (!isMinimal) {
+      @if (!isAdmin && !isFinance) {
+      <div class="nav-search-bar" (click)="$event.stopPropagation()">
+        <form (ngSubmit)="onSearchSubmit()" class="search-form">
+          <span class="search-icon-wrapper">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <div class="search-input-wrap">
+            <input 
+              type="text" 
+              [ngModel]="searchKeyword()" 
+              (ngModelChange)="onSearchInput($event)"
+              name="searchKeyword" 
+              placeholder="Search events, seminars, concerts..." 
+              class="search-input"
+              autocomplete="off"
+              (focus)="showRecommendations.set(true)"
+            />
+            @if (showRecommendations() && recommendations().length > 0) {
+              <div class="search-recommendations-dropdown">
+                @for (rec of recommendations(); track rec.event_Id) {
+                  <div class="recommendation-item" (click)="selectRecommendation(rec)">
+                    <div class="rec-details">
+                      <span class="rec-title">{{ rec.title }}</span>
+                      <span class="rec-meta">
+                        <svg class="rec-location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                          <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        {{ rec.venue_Name }}, {{ rec.venue_Region_Name }}
+                      </span>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+          <div class="vertical-divider"></div>
+          <div class="location-picker-trigger" (click)="onLocationPickerClick($event)">
+            <svg class="icon pin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span class="location-name">{{ currentLocationName }}</span>
+            <svg class="icon arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <button type="submit" class="search-btn">
+            Search
+          </button>
+        </form>
+      </div>
+    } @else {
+      <div class="nav-search-bar global-search" (click)="$event.stopPropagation()" style="flex: 1; max-width: 600px; margin: 0 20px;">
+        <form (submit)="$event.preventDefault()" class="search-form">
+          <span class="search-icon-wrapper">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <div class="search-input-wrap" style="width: 100%;">
+            <input 
+              type="text" 
+              [ngModel]="searchKeyword()" 
+              (ngModelChange)="onSearchInput($event)"
+              name="searchKeyword" 
+              placeholder="Search Events & Bookings globally..." 
+              class="search-input"
+              autocomplete="off"
+              (focus)="showRecommendations.set(true)"
+              style="width: 100%; border-radius: 4px;"
+            />
+            @if (showRecommendations() && (globalRecommendations().events.length > 0 || globalRecommendations().bookings.length > 0)) {
+              <div class="search-recommendations-dropdown" style="width: 400px;">
+                @if (globalRecommendations().events.length > 0) {
+                  <div class="rec-group-title" style="padding: 8px 12px; font-weight: bold; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 0.8rem; color: #475569;">EVENTS</div>
+                  @for (ev of globalRecommendations().events; track ev.eventId) {
+                    <div class="recommendation-item" [routerLink]="(isAdmin ? '/admin/dashboard' : '/finance/dashboard')" [queryParams]="{ eventId: ev.eventId }">
+                      <div class="rec-details">
+                        <span class="rec-title" [innerHTML]="'#' + ev.eventId + ' - ' + (ev.title || 'Untitled') | highlight:searchKeyword()"></span>
+                        <span class="rec-meta">
+                          Status: <span [innerHTML]="ev.status | highlight:searchKeyword()"></span> | 
+                          Date: {{ ev.date | date:'shortDate' }} | 
+                          Venue: <span [innerHTML]="ev.venueName | highlight:searchKeyword()"></span>
+                        </span>
+                      </div>
+                    </div>
+                  }
+                }
+                
+                @if (globalRecommendations().bookings.length > 0) {
+                  <div class="rec-group-title" style="padding: 8px 12px; font-weight: bold; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 0.8rem; color: #475569;">BOOKINGS</div>
+                  @for (bk of globalRecommendations().bookings; track bk.bookingId) {
+                    <div class="recommendation-item" [routerLink]="'/finance/transactions'" [queryParams]="{ bookingId: bk.bookingId }">
+                      <div class="rec-details">
+                        <span class="rec-title" [innerHTML]="'Booking #' + bk.bookingId | highlight:searchKeyword()"></span>
+                        <span class="rec-meta">
+                          Event: <span [innerHTML]="'#' + bk.eventId | highlight:searchKeyword()"></span> | 
+                          Status: <span [innerHTML]="bk.status | highlight:searchKeyword()"></span> | 
+                          Date: {{ bk.date | date:'shortDate' }}
+                        </span>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </form>
+      </div>
+      }
+    }
+
+    <!-- Right: Booking, Create Event, and Profile Dropdown -->
+    @if (!isMinimal) {
+      <div class="nav-actions">
+        @if (isLoggedIn) {
+        @if (!isAdmin && !isFinance) {
+          <!-- Create Event Option -->
+          <a class="nav-link" (click)="triggerCreateEventAction()" title="Create Event">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+              <line x1="12" y1="13" x2="12" y2="17"></line>
+              <line x1="10" y1="15" x2="14" y2="15"></line>
+            </svg>
+            <span>Create Event</span>
+          </a>
+
+          <a class="nav-link" (click)="triggerBookingAction()" title="Bookings">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Bookings</span>
+          </a>
+        }
+
+        <!-- Profile Dropdown Button -->
+        <div class="profile-container" (click)="$event.stopPropagation()">
+          <button class="profile-btn" (click)="toggleProfileDropdown($event)">
+            <div class="avatar-fallback">
+              {{ (displayName).substring(0, 1).toUpperCase() }}
+            </div>
+            <span class="user-name-label">{{ displayName }}</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <!-- Profile Dropdown Panel -->
+          <div class="dropdown-menu profile-dropdown" [class.show]="isProfileDropdownOpen()">
+            <div class="dropdown-header">
+              <p class="header-name">{{ displayName }}</p>
+              @if (displayEmail) {
+                <p class="header-email">{{ displayEmail }}</p>
+              }
+            </div>
+            <div class="dropdown-divider"></div>
+            
+            @if (isAdmin) {
+              <a class="dropdown-item" (click)="triggerAccountSettingsAction()">
+                Account Settings
+              </a>
+            } @else if (isFinance) {
+              <a class="dropdown-item" (click)="triggerAccountSettingsAction()">
+                Account Settings
+              </a>
+            } @else {
+              <a class="dropdown-item" (click)="onSearchSubmit()">
+                Browse Events
+              </a>
+              <a class="dropdown-item" (click)="triggerManageMyEventsAction()">
+                Manage My Events
+              </a>
+              <a class="dropdown-item" (click)="triggerBookingAction()">
+                Bookings
+              </a>
+              <a class="dropdown-item" (click)="triggerGetHelpAction()">
+                Get Help
+              </a>
+              <a class="dropdown-item" (click)="triggerAccountSettingsAction()">
+                Account Settings
+              </a>
+            }
+            
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item logout-item" (click)="onLogout()">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span>Log out</span>
+            </a>
+            </div>
+          </div>
+        } @else {
+          <a routerLink="/login" class="nav-link login-link">Login</a>
+          <a routerLink="/register" class="nav-link btn-primary">Sign up</a>
+        }
+      </div>
+    }
+
+  </div>
+</nav>

@@ -1,0 +1,105 @@
+<div class="split-root">
+  
+  <!-- Left Side: Appealing branding & illustration -->
+  <div class="split-left">
+    <div class="left-overlay"></div>
+    <div class="left-content">
+      <div class="left-header">
+        <img src="/logo.png" alt="Event Management Logo" class="brand-logo">
+      </div>
+      <div class="left-body">
+        <h1 class="appealing-title">Global Finance & Auditing.</h1>
+        <p class="appealing-text">
+          Finance management access for monitoring master transactions, approving escalated refunds, and initiating payouts.
+        </p>
+      </div>
+      <div class="left-footer">
+        <p class="copyright">&copy; 2026 EventManagement Inc. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="split-right">
+    <div class="form-container">
+      
+      <div class="header-section">
+        <h2>Finance Portal</h2>
+        <p class="subtitle">Secure entry for the financial management team.</p>
+      </div>
+
+      <div *ngIf="errorMessage()" class="alert alert-error">{{ errorMessage() }}</div>
+      <div *ngIf="successMessage()" class="alert alert-success">{{ successMessage() }}</div>
+
+      <!-- Step 1: Credentials -->
+      <form *ngIf="step() === 1" [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+        <div class="form-group">
+          <label for="adminId">Finance ID</label>
+          <input 
+            type="text" 
+            id="adminId" 
+            formControlName="adminId" 
+            placeholder="FIN_12345" 
+            class="form-control"
+            [class.invalid]="loginForm.get('adminId')?.invalid && loginForm.get('adminId')?.touched"
+            [readonly]="loading()"
+          />
+          <div class="error-text" *ngIf="loginForm.get('adminId')?.invalid && loginForm.get('adminId')?.touched">
+            <span *ngIf="loginForm.get('adminId')?.hasError('required')">Finance ID is required.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password" 
+            placeholder="••••••••" 
+            class="form-control"
+            [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            [readonly]="loading()"
+          />
+          <div class="error-text" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <span *ngIf="loginForm.get('password')?.hasError('required')">Password is required.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="loading()">
+          {{ loading() ? 'Authenticating...' : 'Sign In' }}
+        </button>
+      </form>
+
+      <!-- Step 2: OTP Verification -->
+      <form *ngIf="step() === 2" [formGroup]="otpForm" (ngSubmit)="verifyOtp()" class="login-form">
+        <div class="form-group">
+          <label for="otp">Enter 6-Digit OTP</label>
+          <div class="otp-input-group">
+            <input 
+              type="text" 
+              id="otp" 
+              formControlName="otp" 
+              placeholder="123456" 
+              maxlength="6" 
+              class="form-control"
+              [class.invalid]="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched"
+              [readonly]="loading()"
+            />
+            <button type="button" class="btn-resend" (click)="resendOtp()" title="Resend OTP" [disabled]="loading()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            </button>
+          </div>
+          <div class="error-text" *ngIf="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched">
+            <span *ngIf="otpForm.get('otp')?.hasError('required')">OTP is required.</span>
+            <span *ngIf="otpForm.get('otp')?.hasError('pattern')">OTP must be exactly 6 digits.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="loading()">
+          {{ loading() ? 'Verifying...' : 'Verify OTP' }}
+        </button>
+      </form>
+      
+    </div>
+  </div>
+</div>

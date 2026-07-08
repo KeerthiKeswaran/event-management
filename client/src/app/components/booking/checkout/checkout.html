@@ -1,0 +1,127 @@
+<app-navbar></app-navbar>
+
+<div class="checkout-page-container">
+
+  <!-- ==================== STEP 2: CONFIRMATION ==================== -->
+  @if (currentStep() === 'confirmation') {
+    
+    @if (isSuccessTickAnimating() || !confirmedBooking()) {
+      <!-- Fullscreen/large pulsing success checkmark animation (Centered on page) -->
+      <div class="success-tick-wrapper">
+        <div class="success-checkmark-svg-wrap">
+          <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        <h2 class="animate-confirm-title">Booking Confirmed!</h2>
+        <p class="animate-confirm-sub">Preparing your ticket details...</p>
+      </div>
+    } @else {
+      <!-- Normal ticket details shown AFTER the animation -->
+      <div class="confirmation-page">
+        <div class="confirmation-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h2 class="confirm-title">Booking Confirmed!</h2>
+        <p class="confirm-sub">Your tickets have been reserved. Check your account dashboard or email for details.</p>
+
+        <div class="confirm-card">
+          <div class="confirm-event-header">
+            @if (confirmedBooking()!.event_Image_Url) {
+              <img [src]="confirmedBooking()!.event_Image_Url" [alt]="confirmedBooking()!.event_Title" class="confirm-event-img">
+              <div class="confirm-event-overlay"></div>
+            }
+            <div class="confirm-event-info">
+              <h3>{{ confirmedBooking()!.event_Title }}</h3>
+              <p>{{ formatDate(confirmedBooking()!.event_Date_Time) }} · {{ formatTime(confirmedBooking()!.event_Date_Time) }}</p>
+              <p>{{ confirmedBooking()!.event_Venue }}</p>
+            </div>
+          </div>
+
+          <div class="confirm-details invoice-style">
+            <div class="invoice-header-row">
+              <span class="label">Booking ID</span>
+              <span class="value">#{{ confirmedBooking()!.booking_Id }}</span>
+            </div>
+            <div class="invoice-header-row">
+              <span class="label">Status</span>
+              <span class="value status-confirmed">{{ confirmedBooking()!.booking_Status }}</span>
+            </div>
+            
+            <div class="invoice-divider"></div>
+            
+            @for (detail of confirmedBooking()!.details; track detail.tier_Name) {
+              <div class="invoice-item-row">
+                <span class="item-desc">{{ detail.tier_Name }} × {{ detail.quantity }}</span>
+                <span class="item-amount">{{ formatCurrency(detail.price * detail.quantity) }}</span>
+              </div>
+            }
+            
+            <div class="invoice-divider dashed"></div>
+            
+            <div class="invoice-sub-row">
+              <span class="label">Subtotal</span>
+              <span class="value">{{ formatCurrency(invoiceSubtotal()) }}</span>
+            </div>
+            <div class="invoice-sub-row">
+              <span class="label">Platform Fee</span>
+              <span class="value">{{ formatCurrency(invoiceFee()) }}</span>
+            </div>
+            <div class="invoice-sub-row">
+              <span class="label">GST ({{ gstPercentage() }}%)</span>
+              <span class="value">{{ formatCurrency(invoiceGst()) }}</span>
+            </div>
+            
+            <div class="invoice-divider"></div>
+            
+            <div class="invoice-total-row">
+              <span class="label">Total Paid</span>
+              <span class="value grand-total">{{ formatCurrency(confirmedBooking()!.total_Amount) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="confirm-actions">
+          <button class="qr-btn" (click)="openQrModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><polyline points="14 14 14 17 17 17 17 14 20 14 20 20 14 20"/></svg>
+            View QR Code
+          </button>
+          <button class="cta-btn-dashboard" [routerLink]="['/bookings']">Go to My Bookings</button>
+        </div>
+      </div>
+    }
+  }
+
+</div>
+
+<!-- Global Footer -->
+<app-footer></app-footer>
+
+<!-- ────────────── QR CODE MODAL ────────────── -->
+@if (showQrModal() && confirmedBooking()) {
+  <div class="modal-backdrop" (click)="closeQrModal()">
+    <div class="qr-modal" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeQrModal()">✕</button>
+      <h3 class="qr-modal-title">Your Entry QR Code</h3>
+      <p class="qr-modal-sub">Present this at the venue entrance for check-in.</p>
+
+      <div class="qr-code-display">
+        <img [src]="confirmedBooking()!.qr_Code_Path" alt="Your Entry QR Code" class="qr-real-image" />
+      </div>
+
+      <p class="qr-booking-id">Booking #{{ confirmedBooking()?.booking_Id }}</p>
+      
+      @if (confirmedBooking()?.qr_Code_Path) {
+        <button class="qr-download-btn" (click)="downloadQrCode(confirmedBooking()!.qr_Code_Path!, confirmedBooking()!.booking_Id)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download QR
+        </button>
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,157 @@
+<app-navbar [isAdmin]="true"></app-navbar>
+
+<div class="admin-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Platform overview and event management</p>
+      </div>
+    </div>
+
+    <div *ngIf="loading() && !stats()" class="loading-state">Loading dashboard data...</div>
+    <ng-container *ngIf="!loading() || stats()">
+      <div *ngIf="errorMessage()" class="alert alert-error">{{ errorMessage() }}</div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">{{ stats()?.summary?.totalUsers ?? stats()?.Summary?.totalUsers ?? 0 }}</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ stats()?.summary?.totalLiveEvents ?? stats()?.Summary?.totalLiveEvents ?? 0 }}</div>
+          <div class="stat-label">Live Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ stats()?.staffMetrics?.totalStaff ?? stats()?.StaffMetrics?.totalStaff ?? 0 }}</div>
+          <div class="stat-label">Total Staff</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ stats()?.staffMetrics?.allocationPercentage ?? stats()?.StaffMetrics?.allocationPercentage ?? 0 }}%</div>
+          <div class="stat-label">Staff Allocation</div>
+        </div>
+      </div>
+
+      <div class="section-panel">
+        <div class="panel-header">
+          <div class="filter-bar" style="display: flex; align-items: center; gap: 12px; width: 100%;">
+            <select class="filter-select" [(ngModel)]="filters.eventType" (ngModelChange)="onFilterChange()">
+              <option value="">All Types</option>
+              <option value="Physical">Physical</option>
+              <option value="Virtual">Virtual</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+            <select class="filter-select" [(ngModel)]="filters.status" (ngModelChange)="onFilterChange()">
+              <option value="">All Status</option>
+              <option value="Live">Live</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <input class="filter-input date-input" type="date" [(ngModel)]="dateFrom" (ngModelChange)="onFilterChange()" />
+            <input class="filter-input date-input" type="date" [(ngModel)]="dateTo" (ngModelChange)="onFilterChange()" />
+            <button class="btn btn-outline btn-sm" (click)="clearFilters()" style="color: #ef4444; border-color: #ef4444;">Clear</button>
+
+            <div style="flex-grow: 1;"></div>
+            <button #refreshBtn class="icon-btn refresh-btn" (click)="refreshBtn.classList.add('spinning-active'); loadDashboard()" (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh" [class.spinning]="loading()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th class="sortable" (click)="toggleSort('title')">Title <span class="sort-arrow">{{ sortColumn === 'title' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleSort('eventType')">Type <span class="sort-arrow">{{ sortColumn === 'eventType' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleSort('status')">Status <span class="sort-arrow">{{ sortColumn === 'status' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleSort('dateTime')">Date <span class="sort-arrow">{{ sortColumn === 'dateTime' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th>Time</th>
+                <th class="sortable" (click)="toggleSort('venueName')">Venue <span class="sort-arrow">{{ sortColumn === 'venueName' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleSort('organizerName')">Organizer <span class="sort-arrow">{{ sortColumn === 'organizerName' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleSort('allocatedStaffCount')">Staff <span class="sort-arrow">{{ sortColumn === 'allocatedStaffCount' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="loading()">
+                <tr *ngFor="let _ of [1,2,3,4,5]">
+                  <td><div class="skeleton-table-cell" style="width: 140px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 80px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 70px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 90px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 60px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 120px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 130px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 40px;"></div></td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="!loading()">
+                <tr *ngFor="let ev of events()" (click)="openEventModal(ev)" class="clickable-row">
+                  <td class="cell-primary">{{ ev.title || ev.Title }}</td>
+                  <td><span class="badge" [ngClass]="(ev.eventType || ev.EventType || '').toLowerCase()">{{ ev.eventType || ev.EventType }}</span></td>
+                  <td><span class="badge status" [ngClass]="(ev.status || ev.Status || '').toLowerCase().replace(' ', '-')">{{ ev.status || ev.Status }}</span></td>
+                  <td class="cell-date">{{ formatEventDate(ev.dateTime || ev.DateTime) }}</td>
+                  <td class="cell-time">{{ formatEventTime(ev.dateTime || ev.DateTime) }}</td>
+                  <td>{{ ev.venueName || ev.VenueName || 'N/A' }}</td>
+                  <td>{{ ev.organizerName || ev.OrganizerName || 'N/A' }}</td>
+                  <td>{{ ev.allocatedStaffCount || ev.AllocatedStaffCount || 0 }}</td>
+                </tr>
+                <tr *ngIf="events().length === 0">
+                  <td colspan="8" class="empty-state">No events found.</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination" *ngIf="totalCount() > filters.size">
+          <button class="btn btn-outline btn-sm" [disabled]="filters.page <= 1" (click)="changePage(-1)">Previous</button>
+          <span class="page-info">Page {{ filters.page }} of {{ Math.ceil(totalCount() / filters.size) }}</span>
+          <button class="btn btn-outline btn-sm" [disabled]="filters.page * filters.size >= totalCount()" (click)="changePage(1)">Next</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showEventModal" (click)="closeEventModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Event Details</h3>
+      <button class="modal-close" (click)="closeEventModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="selectedEvent">
+        <div class="detail-row"><label>Title</label><span>{{ selectedEvent.title || selectedEvent.Title }}</span></div>
+        <div class="detail-row"><label>Type</label><span>{{ selectedEvent.eventType || selectedEvent.EventType }}</span></div>
+        <div class="detail-row"><label>Status</label><span class="badge status" [ngClass]="(selectedEvent.status || selectedEvent.Status || '').toLowerCase().replace(' ', '-')">{{ selectedEvent.status || selectedEvent.Status }}</span></div>
+        <div class="detail-row"><label>Date</label><span>{{ (selectedEvent.dateTime || selectedEvent.DateTime) | date:'medium' }}</span></div>
+        <div class="detail-row"><label>Organizer</label><span>{{ selectedEvent.organizerName || selectedEvent.OrganizerName }}</span></div>
+        <ng-container *ngIf="(selectedEvent.eventType || selectedEvent.EventType) !== 'Virtual'; else virtualVenueLine">
+          <div class="detail-row"><label>Venue</label><span>{{ selectedEvent.venueName || selectedEvent.VenueName || 'N/A' }}</span></div>
+        </ng-container>
+        <div class="detail-row"><label>Staff</label><span>{{ selectedEvent.allocatedStaffCount || selectedEvent.AllocatedStaffCount || 0 }}</span></div>
+        <hr class="divider" />
+        <ng-container *ngIf="(selectedEvent.eventType || selectedEvent.EventType) !== 'Virtual'">
+          <div class="detail-row">
+            <label>Assign Venue</label>
+            <select class="form-select" [(ngModel)]="selectedVenueId">
+              <option [value]="null">Select venue...</option>
+              <option *ngFor="let v of allVenues()" [value]="v.venue_Id || v.Venue_Id">{{ v.name || v.Name }} ({{ v.region_Id || v.Region_Id }})</option>
+            </select>
+          </div>
+          <div *ngIf="venueUpdateMessage()" class="alert" [ngClass]="venueUpdateMessage()?.includes('successfully') ? 'alert-success' : 'alert-error'">{{ venueUpdateMessage() }}</div>
+          <button class="btn btn-primary" (click)="updateEventVenue()" [disabled]="!selectedVenueId">Update Venue</button>
+        </ng-container>
+        <ng-template #virtualVenueLine>
+          <div class="detail-row"><label>Venue</label><span class="text-muted">Virtual event — no venue</span></div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer [isAdmin]="true"></app-footer>

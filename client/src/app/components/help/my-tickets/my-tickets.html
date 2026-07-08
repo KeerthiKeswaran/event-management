@@ -1,0 +1,91 @@
+<app-navbar></app-navbar>
+
+<div class="my-tickets-page">
+
+  <!-- Header -->
+  <div class="tickets-header-section">
+    <button class="back-link-btn" (click)="backToSupport()">
+      ← Back to Support
+    </button>
+    <h1 class="page-title">Your Raised Tickets</h1>
+    <p class="page-sub">Review the status, details, and updates for all support requests you have raised on the platform.</p>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="tickets-filter-bar">
+    <div class="dropdown-container">
+      <label class="filter-label" for="statusFilter">Status Filter:</label>
+      <select id="statusFilter" class="filter-select" [ngModel]="selectedStatusFilter()" (ngModelChange)="setFilter($event)">
+        <option value="All">All Tickets</option>
+        <option value="Open">Open Cases</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved Cases</option>
+      </select>
+    </div>
+    
+    <div class="tickets-count-label">
+      Showing {{ filteredTickets().length }} ticket{{ filteredTickets().length !== 1 ? 's' : '' }}
+    </div>
+  </div>
+
+  <!-- Tickets list -->
+  <div class="tickets-list-wrapper">
+    @for (ticket of filteredTickets(); track ticket.ticketId) {
+      <div class="ticket-card-item">
+        
+        <!-- Header -->
+        <div class="ticket-card-header">
+          <div class="ticket-meta-info">
+            <span class="ticket-id-badge">{{ ticket.ticketId }}</span>
+            <span class="ticket-category-tag">{{ ticket.category }}</span>
+          </div>
+          <span class="status-badge" [class]="'status-' + ticket.status.toLowerCase().replace(' ', '')">
+            {{ ticket.status }}
+          </span>
+        </div>
+
+        <!-- Body -->
+        <div class="ticket-card-body">
+          <h3 class="ticket-card-subject">{{ ticket.subject }}</h3>
+          
+          <div class="ticket-booking-ref-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="meta-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Selected Booking: <strong>#{{ ticket.bookingId }}</strong>
+          </div>
+
+          <p class="ticket-card-description">{{ ticket.details }}</p>
+
+          @if (ticket.status === 'Resolved' && ticket.response) {
+            <div class="ticket-response-box" style="margin-top: 16px; padding: 16px; background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; border-radius: 4px;">
+              <h4 style="margin: 0 0 8px 0; color: #10b981; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Support Response</h4>
+              <p style="margin: 0; color: var(--text-primary); font-size: 14px; line-height: 1.5;">{{ ticket.response }}</p>
+            </div>
+          }
+        </div>
+
+        <!-- Footer -->
+        <div class="ticket-card-footer">
+          <span class="ticket-date-label">Created on {{ ticket.createdAt }}</span>
+        </div>
+
+      </div>
+    } @empty {
+      @if (isLoading()) {
+        <div class="skeleton-loader text-skeleton" style="height: 120px; border-radius: 8px; margin-top: 20px;"></div>
+      } @else {
+        <div class="empty-tickets-view">
+          <div class="empty-icon-wrap">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3>No support tickets found</h3>
+          <p>There are no support tickets in your account matching the status "{{ selectedStatusFilter() }}".</p>
+          <button class="create-ticket-now-btn" routerLink="/raise-ticket">Raise a Support Ticket</button>
+        </div>
+      }
+    }
+  </div>
+
+</div>
+
+<!-- Global Footer -->
+<app-footer></app-footer>

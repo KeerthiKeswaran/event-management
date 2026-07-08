@@ -1,0 +1,298 @@
+<div class="split-root">
+  
+  <!-- Left Side: Appealing branding & illustration -->
+  <div class="split-left">
+    <div class="left-overlay"></div>
+    <div class="left-content">
+      <div class="left-header">
+        <img src="/logo.png" alt="Event Management Logo" class="brand-logo">
+      </div>
+      <div class="left-body">
+        <h1 class="appealing-title">Join a Global Community of Event Goers.</h1>
+        <p class="appealing-text">
+          Create an account to book seats, manage your schedule, and check in cleanly with digital tickets.
+        </p>
+      </div>
+      <div class="left-footer">
+        <p class="copyright">&copy; 2026 EventManagement Inc. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Registration Form -->
+  <div class="split-right">
+    <div class="form-container">
+      
+      <!-- Back to login -->
+      <a [routerLink]="['/login']" [queryParams]="{ returnUrl: returnUrl }" class="back-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Login</span>
+      </a>
+
+      <div class="header-section">
+        <h2>Create Account</h2>
+        <p class="subtitle">Enter your details to create an attendee or organizer profile.</p>
+      </div>
+
+      <form (ngSubmit)="onSubmit($event)" class="register-form">
+        @if (errorMessage()) {
+          <div class="alert alert-error">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        @if (successMessage()) {
+          <div class="alert alert-success">
+            {{ successMessage() }}
+          </div>
+        }
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          @if (nameError()) {
+            <span class="field-error-msg">{{ nameError() }}</span>
+          }
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="name" 
+            name="name" 
+            placeholder="Enter your full name" 
+            required 
+            class="form-control"
+            [disabled]="isSubmitting()"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          @if (emailError()) {
+            <span class="field-error-msg">{{ emailError() }}</span>
+          }
+          <div class="input-action-wrapper">
+            <input 
+              type="email" 
+              id="email" 
+              [ngModel]="email" 
+              (ngModelChange)="onEmailChange($event)"
+              name="email" 
+              placeholder="Enter your email" 
+              required 
+              class="form-control"
+              [disabled]="isSubmitting()"
+            />
+            <button type="button" class="btn btn-outline send-otp-btn" (click)="sendOtp()" [disabled]="isSubmitting() || otpCountdown() > 0 || isCheckingEmail() || isEmailAvailable() === false">
+              @if (otpCountdown() > 0) {
+                Resend in {{ otpCountdown() }}s
+              } @else if (isOtpSent()) {
+                Resend
+              } @else {
+                Send OTP
+              }
+            </button>
+          </div>
+          @if (isCheckingEmail()) {
+            <span class="field-hint text-warning">Checking availability...</span>
+          } @else if (isEmailAvailable() === true) {
+            <span class="field-hint text-success">Email is available!</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <div class="otp-label-container">
+            <label for="otp">Email Verification (OTP)</label>
+            @if (isOtpSent()) {
+              <span class="otp-sent-indicator">OTP Sent!</span>
+            }
+          </div>
+          @if (otpError()) {
+            <span class="field-error-msg">{{ otpError() }}</span>
+          }
+          <div class="otp-input-container">
+            <input 
+              type="text" 
+              id="otp" 
+              [(ngModel)]="otp" 
+              (ngModelChange)="onOtpChange($event)"
+              name="otp" 
+              placeholder="Enter 6-digit code" 
+              required 
+              class="form-control otp-input"
+              [disabled]="isSubmitting() || !isOtpSent()"
+            />
+            <div class="otp-icon-indicator">
+              @if (isVerifyingOtp()) {
+                <span class="otp-spinner"></span>
+              } @else if (isOtpVerified()) {
+                <svg class="icon-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              } @else if (isOtpInvalid()) {
+                <svg class="icon-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mobileNumber">Mobile Number</label>
+          @if (mobileError()) {
+            <span class="field-error-msg">{{ mobileError() }}</span>
+          }
+          <input 
+            type="text" 
+            id="mobileNumber" 
+            [(ngModel)]="mobileNumber" 
+            name="mobileNumber" 
+            placeholder="9876543210" 
+            required 
+            class="form-control"
+            [disabled]="isSubmitting()"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          @if (passwordError()) {
+            <span class="field-error-msg">{{ passwordError() }}</span>
+          }
+          <input 
+            type="password" 
+            id="password" 
+            [(ngModel)]="password" 
+            name="password" 
+            placeholder="Create secure password" 
+            required 
+            class="form-control"
+            [disabled]="isSubmitting()"
+          />
+        </div>
+
+        <div class="consent-section">
+          @if (consentError()) {
+            <span class="field-error-msg">{{ consentError() }}</span>
+          }
+          <div class="checkbox-group">
+            <input 
+              type="checkbox" 
+              id="acceptPolicies" 
+              [ngModel]="hasAcceptedPolicies()" 
+              (ngModelChange)="hasAcceptedPolicies.set($event)"
+              name="hasAcceptedPolicies" 
+              required
+            />
+            <label for="acceptPolicies">
+              I agree to the <a href="#" class="consent-link" (click)="openConsent('terms', $event)">Terms and Conditions</a> and consent to the <a href="#" class="consent-link" (click)="openConsent('data_consent', $event)">Data Storage & Processing Policy</a> <span class="required-asterisk">*</span>
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <input 
+              type="checkbox" 
+              id="acceptMarketing" 
+              [ngModel]="hasMarketingConsent()" 
+              (ngModelChange)="hasMarketingConsent.set($event)"
+              name="hasMarketingConsent"
+            />
+            <label for="acceptMarketing">
+              I agree to receive promotional and marketing emails (Optional)
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" [disabled]="isSubmitting()">
+          {{ isSubmitting() ? 'Registering...' : 'Register' }}
+        </button>
+
+        <div class="form-footer-action">
+          <p>Already have an account? <a [routerLink]="['/login']" [queryParams]="{ returnUrl: returnUrl }" class="accent-link">Sign in instead</a></p>
+        </div>
+
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Consent Document Viewer Modal — PDF-viewer UI -->
+  @if (showConsentModal()) {
+    <div class="policy-doc-overlay" (click)="closeConsentModal()">
+      <div class="policy-doc-viewer" (click)="$event.stopPropagation()">
+
+        <!-- PDF Toolbar -->
+        <div class="pdf-toolbar">
+          <div class="pdf-toolbar-left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span class="pdf-doc-name">{{ consentModalTitle() }}</span>
+          </div>
+          <div class="pdf-toolbar-right">
+            <span class="pdf-page-info">Page 1 of 1</span>
+            <button class="pdf-close-btn" type="button" (click)="closeConsentModal()" aria-label="Close document">
+              &#x2715;
+            </button>
+          </div>
+        </div>
+
+        <!-- PDF Document Body -->
+        <div class="pdf-doc-body">
+          @if (isLoadingConsent()) {
+            <div class="pdf-page">
+              <div class="consent-skeleton-wrapper">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+              </div>
+            </div>
+          } @else {
+            <div class="pdf-page">
+              <!-- Document Header -->
+              <div class="pdf-doc-header">
+                <div class="pdf-doc-logo-mark">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="pdf-doc-title">{{ consentModalTitle() }}</h2>
+                  <p class="pdf-doc-meta">GetMyEvents</p>
+                </div>
+              </div>
+
+              <div class="pdf-divider"></div>
+
+              <!-- Dynamic consent content -->
+              <div class="consent-document-content" [innerHTML]="consentModalContent()"></div>
+
+              <div class="pdf-divider"></div>
+
+              <!-- Document Footer -->
+              <div class="pdf-doc-footer">
+                <span>GetMyEvents · help&#64;getmyevents.in · All rights reserved</span>
+                <span>Page 1 of 1</span>
+              </div>
+            </div>
+          }
+        </div>
+
+      </div><!-- /policy-doc-viewer -->
+    </div><!-- /policy-doc-overlay -->
+  }
+
+</div>

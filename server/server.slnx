@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="Event.API/Event.API.csproj" />
+  <Project Path="Event.Business/Event.Business.csproj" />
+  <Project Path="Event.Contracts/Event.Contracts.csproj" />
+  <Project Path="Event.Data/Event.Data.csproj" />
+  <Project Path="Event.Models/Event.Models.csproj" />
+  <Project Path="Event.Data.Tests/Event.Data.Tests.csproj" />
+  <Project Path="Event.Business.Tests/Event.Business.Tests.csproj" />
+</Solution>

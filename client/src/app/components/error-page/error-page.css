@@ -1,0 +1,61 @@
+.error-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffffff 0%, #fff0f2 100%);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.error-img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.error-code-huge {
+  font-size: 110px;
+  font-weight: 600; /* Bold */
+  letter-spacing: -2px;
+  line-height: 1;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.error-desc {
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.retry-btn {
+  margin-top: 24px;
+  padding: 12px 24px;
+  font-family: var(--font-primary, "Segoe UI", sans-serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  background: var(--primary-accent, #c41e3a);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.retry-btn:hover:not([disabled]) {
+  background: #a0172e;
+}
+
+.retry-btn[disabled] {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}

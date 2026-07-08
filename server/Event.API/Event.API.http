@@ -1,0 +1,65 @@
+@Event.API_HostAddress = http://localhost:5106
+
+### 1. Send OTP (Change recipient email to your own email to test)
+POST {{Event.API_HostAddress}}/api/auth/send-otp
+Content-Type: application/json
+
+{
+  "email": "keshwarankeerthi@gmail.com",
+  "purpose": "registration"
+}
+
+### 2. User Registration (Provide the 6-digit OTP sent to your email)
+POST {{Event.API_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Keerthi Keswaran",
+  "email": "keshwarankeerthi@gmail.com",
+  "mobileNumber": "9876543210",
+  "password": "SecurePassword123!",
+  "consentedTermsId": 1,
+  "hasMarketingConsent": true,
+  "otp": "REPLACE_WITH_OTP_FROM_EMAIL"
+}
+
+### 3. User Login
+# @name login
+POST {{Event.API_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "keshwarankeerthi@gmail.com",
+  "password": "SecurePassword123!"
+}
+
+### 4. Create a Booking (Requires a valid Live Event ID in your DB)
+# Set X-User-Id to your registered User ID (e.g. 1)
+POST {{Event.API_HostAddress}}/api/booking
+Content-Type: application/json
+X-User-Id: 1
+
+{
+  "eventId": 1,
+  "tierQuantities": {
+    "Elite": 1
+  }
+}
+
+### 5. Confirm Payment (Processes real test charge via Stripe)
+# Replace {bookingId} with the booking ID returned by the previous step
+POST {{Event.API_HostAddress}}/api/booking/1/confirm
+Content-Type: application/json
+
+{
+  "stripeChargeId": "tok_visa",
+  "paymentMethod": "Card"
+}
+
+### 6. Cancel Booking (Processes real test refund via Stripe)
+# Replace {bookingId} with the booking ID you want to cancel
+POST {{Event.API_HostAddress}}/api/booking/1/cancel
+Content-Type: application/json
+X-User-Id: 1
+
+###

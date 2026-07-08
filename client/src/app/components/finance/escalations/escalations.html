@@ -1,0 +1,348 @@
+<app-navbar [isFinance]="true"></app-navbar>
+
+<div class="finance-layout">
+  <app-finance-sidebar></app-finance-sidebar>
+
+  <div class="finance-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Escalations</h1>
+        <p class="page-sub">Review, approve, or decline escalated admin actions</p>
+      </div>
+    </div>
+
+    <div *ngIf="successMessage()" class="alert alert-success">{{ successMessage() }}</div>
+    <div *ngIf="errorMessage() && !isModalOpen" class="alert alert-error">{{ errorMessage() }}</div>
+
+    <div class="section-panel">
+      <div class="panel-header">
+        <h2 style="margin: 0; font-size: 18px; font-weight: 700;">Action Queue</h2>
+        <div style="flex-grow: 1;"></div>
+        <button #refreshBtn class="icon-btn refresh-btn"
+          (click)="refreshBtn.classList.add('spinning-active'); loadActions()"
+          (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh"
+          [class.spinning]="loading()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+            <path d="M21 3v5h-5"></path>
+            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+            <path d="M8 16H3v5"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 90px;">Ticket ID</th>
+              <th>Attendee Email</th>
+              <th>Subject</th>
+              <th class="sortable" (click)="toggleSort('actionType')" style="width: 80px;">
+                Escalation Type <span class="sort-arrow">{{ sortColumn() === 'actionType' ? (sortDirection() === 'asc' ?
+                  '▲' : '▼') : '⇅' }}</span>
+              </th>
+              <th class="sortable" (click)="toggleSort('targetType')" style="width: 100px;">
+                Target Type <span class="sort-arrow">{{ sortColumn() === 'targetType' ? (sortDirection() === 'asc' ? '▲'
+                  : '▼') : '⇅' }}</span>
+              </th>
+              <th class="sortable" (click)="toggleSort('createdAt')" style="width: 100px;">
+                Created At <span class="sort-arrow">{{ sortColumn() === 'createdAt' ? (sortDirection() === 'asc' ? '▲' :
+                  '▼') : '⇅' }}</span>
+              </th>
+              <th style="text-align: center;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="loading()">
+              <tr *ngFor="let _ of [1,2,3,4,5]">
+                <td>
+                  <div class="skeleton-table-cell" style="width: 50px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 180px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 100px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 90px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 90px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 80px;"></div>
+                </td>
+                <td>
+                  <div class="skeleton-table-cell" style="width: 80px; margin: 0 auto;"></div>
+                </td>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="!loading()">
+              <tr *ngFor="let act of sortedActions()" class="clickable-row" (click)="openModal(act)">
+                <td class="cell-primary">#{{ getTicketId(act) ?? '—' }}</td>
+                <td class="cell-email">{{ getSenderEmail(act) }}</td>
+                <td class="cell-subject">{{ getSubject(act) }}</td>
+                <td><span class="badge type-badge">{{ getEscalationType(act) }}</span></td>
+                <td><span class="badge target-badge">{{ getTargetType(act) }}</span></td>
+                <td>{{ act.createdAt | date:'mediumDate' }}</td>
+                <td style="text-align: center;">
+                  <span class="badge status" [ngClass]="getStatusClass(getActionStatus(act))">{{ getActionStatus(act)
+                    }}</span>
+                </td>
+              </tr>
+              <tr *ngIf="actions().length === 0">
+                <td colspan="7" class="empty-state">No escalations found.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DETAIL MODAL ===== -->
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+  <div class="modal-content esc-modal" style="position: relative;" (click)="handleModalClick($event)">
+
+
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-title-row">
+        <div>
+          <h3>Escalation Details</h3>
+          <span class="modal-subtitle">Action #{{ getActionId(selectedAction) }}
+            <span *ngIf="getTicketId(selectedAction) as tid"> · Ticket #{{ tid }}</span>
+          </span>
+        </div>
+        <span class="badge status" [ngClass]="getStatusClass(getActionStatus(selectedAction))">{{
+          getActionStatus(selectedAction) }}</span>
+      </div>
+      <button class="modal-close" (click)="closeModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="errorMessage()" class="alert alert-error" style="margin-bottom: 12px;">{{ errorMessage() }}</div>
+
+      <!-- Row 1: Sender -->
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Attendee Email</label>
+          <span>{{ getSenderEmail(selectedAction) }}</span>
+        </div>
+        <div class="info-item">
+          <label>Action ID</label>
+          <span class="cell-primary">#{{ getActionId(selectedAction) }}</span>
+        </div>
+        <div class="info-item">
+          <label>Ticket ID</label>
+          <span>#{{ getTicketId(selectedAction) ?? '—' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Admin ID</label>
+          <span>{{ selectedAction?.adminId ?? selectedAction?.AdminId ?? '—' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Escalation Type</label>
+          <span><span class="badge type-badge">{{ getEscalationType(selectedAction) }}</span></span>
+        </div>
+        <div class="info-item">
+          <label>Target Type</label>
+          <span><span class="badge target-badge">{{ getTargetType(selectedAction) }}</span></span>
+        </div>
+        <div class="info-item">
+          <label>Created At</label>
+          <span>{{ selectedAction?.createdAt | date:'medium' }}</span>
+        </div>
+        <div class="info-item" *ngIf="selectedAction?.relatedId || selectedAction?.RelatedId">
+          <label>Event / Booking ID</label>
+          <span style="position: relative; display: inline-flex; align-items: center; gap: 6px;">
+            <a class="entity-link" (click)="toggleRelatedEntity($event)">
+              {{ selectedAction?.relatedId ?? selectedAction?.RelatedId }}
+            </a>
+
+            <!-- Related Entity Popover -->
+            <div class="popover-box" [class.show]="showRelatedDetails" (click)="$event.stopPropagation()">
+              <div class="popover-tail"></div>
+              <div *ngIf="relatedEntityLoading" class="popover-loading">
+                <div class="spinner-sm"></div> Loading...
+              </div>
+              <div *ngIf="relatedEntityError" class="popover-error">Unable to load details.</div>
+              <div *ngIf="!relatedEntityLoading && !relatedEntityError && relatedEntityDetails" class="popover-details">
+                <strong class="popover-title"
+                  style="margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #e2e8f0; display: block;">
+                  {{ relatedEntityDetails.type || relatedEntityDetails.Type }}: {{ relatedEntityDetails.eventName ||
+                  relatedEntityDetails.EventName }}
+                </strong>
+                <div class="popover-row">
+                  <span>ID:</span>
+                  <span style="display: flex; align-items: center; gap: 4px;">#{{ relatedEntityDetails.id ||
+                    relatedEntityDetails.Id }}
+                    <div style="position: relative; display: inline-flex; align-items: center;">
+                      <svg (click)="copyText(relatedEntityDetails.id || relatedEntityDetails.Id, 'relatedId')"
+                        class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                      <span *ngIf="copiedState === 'relatedId'" class="copy-tooltip"
+                        style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; white-space: nowrap; pointer-events: none;">Copied</span>
+                    </div>
+                  </span>
+                </div>
+
+                <ng-container *ngIf="(relatedEntityDetails.type || relatedEntityDetails.Type) === 'Booking'">
+                  <div class="popover-row" style="flex-direction: column; align-items: flex-start; margin-top: 4px;">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 12px; color: var(--text-secondary);">
+                      <thead>
+                        <tr style="background: var(--bg-surface); border-bottom: 1px solid var(--border);">
+                          <th style="padding: 4px; text-align: left; font-weight: 500;">Tier</th>
+                          <th style="padding: 4px; text-align: right; font-weight: 500;">Qty</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let t of (relatedEntityDetails.ticketTiers || relatedEntityDetails.TicketTiers)" style="border-bottom: 1px solid var(--border);">
+                          <td style="padding: 4px;">{{ t.tier || t.Tier }}</td>
+                          <td style="padding: 4px; text-align: right;">{{ t.quantity || t.Quantity }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="popover-row" style="margin-top: 8px;">
+                    <span>Paid:</span><span>{{ (relatedEntityDetails.amountPaid || relatedEntityDetails.AmountPaid) | currency:'INR':'symbol' }}</span>
+                  </div>
+                  <div class="popover-row" *ngIf="(relatedEntityDetails.amountRefunded || relatedEntityDetails.AmountRefunded) > 0">
+                    <span>Refunded:</span><span style="color: #ef4444;">{{ (relatedEntityDetails.amountRefunded || relatedEntityDetails.AmountRefunded) | currency:'INR':'symbol' }}</span>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="(relatedEntityDetails.type || relatedEntityDetails.Type) === 'Event'">
+                  <div class="popover-row">
+                    <span>Upfront Paid:</span><span>{{ (relatedEntityDetails.upfrontPaid || relatedEntityDetails.UpfrontPaid) | currency:'INR':'symbol' }}</span>
+                  </div>
+                  <div class="popover-row" *ngIf="(relatedEntityDetails.upfrontRefunded || relatedEntityDetails.UpfrontRefunded) > 0">
+                    <span>Upfront Refunded:</span><span style="color: #ef4444;">{{ (relatedEntityDetails.upfrontRefunded || relatedEntityDetails.UpfrontRefunded) | currency:'INR':'symbol' }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <!-- Subject & Message -->
+      <div class="info-block" *ngIf="getSubject(selectedAction) !== '—'">
+        <label>Subject</label>
+        <p>{{ getSubject(selectedAction) }}</p>
+      </div>
+
+      <div class="info-block" *ngIf="selectedAction?.details?.Message || selectedAction?.details?.message">
+        <label>Message</label>
+        <p class="message-body">{{ selectedAction?.details?.Message || selectedAction?.details?.message }}</p>
+      </div>
+
+      <div class="info-block" *ngIf="selectedAction?.remarks || selectedAction?.Remarks">
+        <label>Admin Remarks</label>
+        <p class="message-body">{{ selectedAction?.remarks || selectedAction?.Remarks }}</p>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Action Buttons — only if Pending -->
+      <ng-container *ngIf="getActionStatus(selectedAction) === 'Pending' && !showApproveForm && !showDeclineConfirm">
+        <div class="action-btns">
+          <button class="btn btn-primary" (click)="startApprove()">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Approve
+          </button>
+          <button class="btn btn-danger" (click)="startDecline()">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Decline
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- ===== APPROVE FORM ===== -->
+      <div class="approve-form" *ngIf="showApproveForm">
+        <h4 class="form-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="form-icon">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Approve Action #{{ getActionId(selectedAction) }}
+        </h4>
+
+        <div class="form-field">
+          <label>Refund Type <span class="required">*</span></label>
+          <select class="form-select" [(ngModel)]="refundType">
+            <option value="">Select refund type...</option>
+            <option *ngFor="let rt of refundTypes" [value]="rt.code">{{ rt.label }}</option>
+          </select>
+          <p class="field-hint" *ngIf="refundType === 'FUL'">100% of the original payment will be refunded.</p>
+          <p class="field-hint" *ngIf="refundType === 'DYN'">Refund calculated based on time remaining before event.</p>
+          <p class="field-hint" *ngIf="refundType === 'REM'">Remaining balance after any prior deductions refunded.</p>
+          <p class="field-hint danger" *ngIf="refundType === 'NOR'">No refund will be issued. Confirm before proceeding.
+          </p>
+        </div>
+
+        <div class="form-field">
+          <label>Message to Attendee <span class="optional">(optional)</span></label>
+          <textarea class="form-textarea" [(ngModel)]="approveMessage" rows="3"
+            placeholder="Provide a note for the attendee..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-outline" (click)="cancelApprove()">Cancel</button>
+          <button class="btn btn-primary" (click)="proceedApprove()" [disabled]="!refundType || approving">
+            <span *ngIf="approving" class="spinner-sm inline-spinner"></span>
+            {{ approving ? 'Processing...' : 'Proceed' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== DECLINE FORM ===== -->
+      <div class="decline-form" *ngIf="showDeclineConfirm">
+        <h4 class="form-title danger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="form-icon">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          Decline Action #{{ getActionId(selectedAction) }}
+        </h4>
+
+        <div class="form-field">
+          <label>Reason for Declining <span class="required">*</span></label>
+          <textarea class="form-textarea" [(ngModel)]="declineRemarks" rows="3"
+            placeholder="Provide a clear reason..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-outline" (click)="cancelDecline()">Cancel</button>
+          <button class="btn btn-danger" (click)="proceedDecline()" [disabled]="!declineRemarks.trim() || declining">
+            <span *ngIf="declining" class="spinner-sm inline-spinner"></span>
+            {{ declining ? 'Processing...' : 'Confirm Decline' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <!-- Action Processed Success Animation -->
+    <div *ngIf="actionProcessed" class="success-tick-overlay" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; background: rgba(255,255,255,0.9); border-radius: var(--radius);">
+      <div class="success-checkmark-svg-wrap">
+        <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <p class="success-text" style="margin-top: 16px; font-weight: bold;">Escalation #{{ processedActionId }} has been {{ processedStatusText }}</p>
+    </div>
+  </div>
+</div>
+
+<app-footer [isFinance]="true"></app-footer>

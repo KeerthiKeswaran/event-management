@@ -1,0 +1,997 @@
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: AdminRepository
+FUNCTION: AddAsync
+CASE: Create new admin
+INPUT: {"Admin_Id":"ADM_6012","Name":"Platform Administrator","Email":"admin_8549@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+OUTPUT: {"Admin_Id":"ADM_6012","Name":"Platform Administrator","Email":"admin_8549@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: AdminRepository
+FUNCTION: DeleteAsync
+CASE: Remove admin from database
+INPUT: {"Admin_Id":"ADM_3156","Name":"Platform Administrator","Email":"admin_4144@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: AdminRepository
+FUNCTION: GetAllAsync
+CASE: List all admins
+INPUT: null
+OUTPUT: "Total Admins: 4"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: AdminRepository
+FUNCTION: GetByAdminIdAsync
+CASE: Retrieve admin by admin ID custom method
+INPUT: "ADM_3480"
+OUTPUT: {"Admin_Id":"ADM_3480","Name":"Platform Administrator","Email":"admin_2231@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: AdminRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve admin by ID
+INPUT: "ADM_3827"
+OUTPUT: {"Admin_Id":"ADM_3827","Name":"Platform Administrator","Email":"admin_6122@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: AdminRepository
+FUNCTION: UpdateAsync
+CASE: Update admin name to Admin Updated
+INPUT: {"Admin_Id":"ADM_7351","Name":"Admin Updated","Email":"admin_8871@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+OUTPUT: {"Admin_Id":"ADM_7351","Name":"Admin Updated","Email":"admin_8871@example.com","Password_Hash":"hashed_admin_pw","Password_Reset_Token":null,"UpdatedSettings":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingPaymentRepository
+FUNCTION: AddAsync
+CASE: Create booking payment
+INPUT: {"Booking_Payment_Id":10317,"Booking_Id":10839,"Booking":{"Booking_Id":10839,"Attendee_Id":10576,"Attendee":{"User_Id":10576,"Name":"Test Attendee","Email":"test_attendee_3109@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"90bb034f-00bc-4f87-ab8f-f46bb44ca36e","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11945,"Event":{"Event_Id":11945,"Organizer_Id":10577,"Organizer":{"User_Id":10577,"Name":"Test Organizer","Email":"test_organizer_7078@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c876495a-593f-4687-8b44-4abdb069b078","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.345721Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.390607Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001446,"Transaction":{"Transaction_Id":1000000000001446,"Sender_Id":"Attendee_User_10576","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.401682Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:56.443469Z"}
+OUTPUT: {"Booking_Payment_Id":10317,"Booking_Id":10839,"Booking":{"Booking_Id":10839,"Attendee_Id":10576,"Attendee":{"User_Id":10576,"Name":"Test Attendee","Email":"test_attendee_3109@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"90bb034f-00bc-4f87-ab8f-f46bb44ca36e","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11945,"Event":{"Event_Id":11945,"Organizer_Id":10577,"Organizer":{"User_Id":10577,"Name":"Test Organizer","Email":"test_organizer_7078@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c876495a-593f-4687-8b44-4abdb069b078","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.345721Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.390607Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001446,"Transaction":{"Transaction_Id":1000000000001446,"Sender_Id":"Attendee_User_10576","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.401682Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:56.443469Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingPaymentRepository
+FUNCTION: DeleteAsync
+CASE: Remove payment from database
+INPUT: {"Booking_Payment_Id":10318,"Booking_Id":10840,"Booking":{"Booking_Id":10840,"Attendee_Id":10578,"Attendee":{"User_Id":10578,"Name":"Test Attendee","Email":"test_attendee_3148@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1b6f251c-5f59-45cf-8a21-d1b276f3476e","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11946,"Event":{"Event_Id":11946,"Organizer_Id":10579,"Organizer":{"User_Id":10579,"Name":"Test Organizer","Email":"test_organizer_1007@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"196dc9da-b667-4332-ba4f-4c889a88035a","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.482547Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.484457Z","Virtual_Url":null,"Details":[],"Payments":[]},"Transaction_Id":1000000000001447,"Transaction":{"Transaction_Id":1000000000001447,"Sender_Id":"Attendee_User_10578","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.484581Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:56.488792Z"}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingPaymentRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve booking payment by ID
+INPUT: 10319
+OUTPUT: {"Booking_Payment_Id":10319,"Booking_Id":10841,"Booking":{"Booking_Id":10841,"Attendee_Id":10580,"Attendee":{"User_Id":10580,"Name":"Test Attendee","Email":"test_attendee_2191@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"6e4f5f13-d881-4e75-b48f-879cdc8fbd8f","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11947,"Event":{"Event_Id":11947,"Organizer_Id":10581,"Organizer":{"User_Id":10581,"Name":"Test Organizer","Email":"test_organizer_9724@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"99287980-a38a-4b92-a575-7107f431d252","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.505394Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.50674Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001448,"Transaction":{"Transaction_Id":1000000000001448,"Sender_Id":"Attendee_User_10580","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.506879Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:56.509724Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingPaymentRepository
+FUNCTION: GetPaymentsByBookingIdAsync
+CASE: Retrieve payments for Booking ID
+INPUT: 10842
+OUTPUT: [{"Booking_Payment_Id":10320,"Booking_Id":10842,"Booking":{"Booking_Id":10842,"Attendee_Id":10582,"Attendee":{"User_Id":10582,"Name":"Test Attendee","Email":"test_attendee_2532@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c90621ee-742e-4b94-abb7-322956c9ad95","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11948,"Event":{"Event_Id":11948,"Organizer_Id":10583,"Organizer":{"User_Id":10583,"Name":"Test Organizer","Email":"test_organizer_6557@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"0a9044b2-c8bc-4449-8c9e-7d1c300edb77","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.52091Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.522186Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001449,"Transaction":{"Transaction_Id":1000000000001449,"Sender_Id":"Attendee_User_10582","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.522243Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:56.524284Z"}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingPaymentRepository
+FUNCTION: GetSuccessPaymentByBookingIdAsync
+CASE: Retrieve success payment for Booking ID
+INPUT: 10843
+OUTPUT: {"Booking_Payment_Id":10321,"Booking_Id":10843,"Booking":{"Booking_Id":10843,"Attendee_Id":10584,"Attendee":{"User_Id":10584,"Name":"Test Attendee","Email":"test_attendee_5310@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c89e17b4-136e-4c9e-8a3d-cc88ed50bd37","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11949,"Event":{"Event_Id":11949,"Organizer_Id":10585,"Organizer":{"User_Id":10585,"Name":"Test Organizer","Email":"test_organizer_1908@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"6d4ac361-c0ea-4f09-9f85-8d93ea3e22d1","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.567844Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.569034Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001450,"Transaction":{"Transaction_Id":1000000000001450,"Sender_Id":"Attendee_User_10584","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.569077Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:56.570583Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingPaymentRepository
+FUNCTION: UpdateAsync
+CASE: Update payment status
+INPUT: {"Booking_Payment_Id":10322,"Booking_Id":10844,"Booking":{"Booking_Id":10844,"Attendee_Id":10586,"Attendee":{"User_Id":10586,"Name":"Test Attendee","Email":"test_attendee_1548@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"ae72808e-7b58-4c37-8836-6877750d946b","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11950,"Event":{"Event_Id":11950,"Organizer_Id":10587,"Organizer":{"User_Id":10587,"Name":"Test Organizer","Email":"test_organizer_3733@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c638fdb9-fc47-4726-9125-9bd62357424f","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.608827Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.610472Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001451,"Transaction":{"Transaction_Id":1000000000001451,"Sender_Id":"Attendee_User_10586","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.610536Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Refunded","Created_At":"2026-06-30T07:04:56.612443Z"}
+OUTPUT: {"Booking_Payment_Id":10322,"Booking_Id":10844,"Booking":{"Booking_Id":10844,"Attendee_Id":10586,"Attendee":{"User_Id":10586,"Name":"Test Attendee","Email":"test_attendee_1548@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"ae72808e-7b58-4c37-8836-6877750d946b","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11950,"Event":{"Event_Id":11950,"Organizer_Id":10587,"Organizer":{"User_Id":10587,"Name":"Test Organizer","Email":"test_organizer_3733@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c638fdb9-fc47-4726-9125-9bd62357424f","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Live Stream","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.608827Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.610472Z","Virtual_Url":null,"Details":[],"Payments":[null]},"Transaction_Id":1000000000001451,"Transaction":{"Transaction_Id":1000000000001451,"Sender_Id":"Attendee_User_10586","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":0,"Amount":150.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:56.610536Z","BookingPayments":[null],"UpfrontPayments":[],"Payouts":[]},"Amount":150.00,"Platform_Fee_Cut":7.50,"Payment_Status":"Refunded","Created_At":"2026-06-30T07:04:56.612443Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: AddAsync
+CASE: Create new booking
+INPUT: {"Booking_Id":10845,"Attendee_Id":10588,"Attendee":{"User_Id":10588,"Name":"Test Attendee","Email":"test_attendee_6369@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"7c38126b-1e57-4ce3-bb34-06f79faae155","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11951,"Event":{"Event_Id":11951,"Organizer_Id":10589,"Organizer":{"User_Id":10589,"Name":"Test Organizer","Email":"test_organizer_3331@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c1cdeddd-214d-46ea-ab05-9bec7f2b9b39","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 7914","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.668733Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.6701Z","Virtual_Url":null,"Details":[],"Payments":[]}
+OUTPUT: {"Booking_Id":10845,"Attendee_Id":10588,"Attendee":{"User_Id":10588,"Name":"Test Attendee","Email":"test_attendee_6369@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"7c38126b-1e57-4ce3-bb34-06f79faae155","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11951,"Event":{"Event_Id":11951,"Organizer_Id":10589,"Organizer":{"User_Id":10589,"Name":"Test Organizer","Email":"test_organizer_3331@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c1cdeddd-214d-46ea-ab05-9bec7f2b9b39","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 7914","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.668733Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.6701Z","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: DeleteAsync
+CASE: Remove booking from database
+INPUT: {"Booking_Id":10846,"Attendee_Id":10590,"Attendee":{"User_Id":10590,"Name":"Test Attendee","Email":"test_attendee_5763@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"eb97ff75-e6db-4d87-a0c6-d49e8069aafb","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11952,"Event":{"Event_Id":11952,"Organizer_Id":10591,"Organizer":{"User_Id":10591,"Name":"Test Organizer","Email":"test_organizer_1071@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"bb353be4-742b-44b0-a904-8277b22f9747","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 4816","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.676072Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.677414Z","Virtual_Url":null,"Details":[],"Payments":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: GetBookingBySecretHashAsync
+CASE: Retrieve booking by secret hash
+INPUT: "hashed_secret_key_999"
+OUTPUT: {"Booking_Id":10847,"Attendee_Id":10592,"Attendee":{"User_Id":10592,"Name":"Test Attendee","Email":"test_attendee_6343@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"c40d605e-17cd-4fef-be06-112479ac184e","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11953,"Event":{"Event_Id":11953,"Organizer_Id":10593,"Organizer":{"User_Id":10593,"Name":"Test Organizer","Email":"test_organizer_1755@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"0035c07e-da1f-4bf8-8cd9-60fe378784a9","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 2034","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.695866Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":"hashed_secret_key_999","CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.697956Z","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: GetBookingDetailsAsync
+CASE: Retrieve booking details with relations
+INPUT: 10848
+OUTPUT: {"Booking_Id":10848,"Attendee_Id":10594,"Attendee":{"User_Id":10594,"Name":"Test Attendee","Email":"test_attendee_8624@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"520aa08c-36f5-4569-898a-b42381d3077f","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11954,"Event":{"Event_Id":11954,"Organizer_Id":10595,"Organizer":{"User_Id":10595,"Name":"Test Organizer","Email":"test_organizer_1006@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"41636ca2-7713-4f49-925c-7a0cc9f5281b","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 4848","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.759922Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.762606Z","Virtual_Url":null,"Details":[{"Booking_Id":10848,"Booking":null,"Tier_Name":"Elite","Quantity":2}],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: GetBookingsByEventIdAsync
+CASE: Retrieve bookings for Event ID
+INPUT: 11955
+OUTPUT: [{"Booking_Id":10849,"Attendee_Id":10596,"Attendee":{"User_Id":10596,"Name":"Test Attendee","Email":"test_attendee_2502@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"3192e723-395d-47dc-9034-bc2325b2b8bd","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11955,"Event":{"Event_Id":11955,"Organizer_Id":10597,"Organizer":{"User_Id":10597,"Name":"Test Organizer","Email":"test_organizer_2649@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"dc98eed7-26ab-4f61-bb7a-55ee88292ee6","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 2090","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.805322Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.807399Z","Virtual_Url":null,"Details":[],"Payments":[]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: GetBookingsByUserIdAsync
+CASE: Retrieve bookings for User ID
+INPUT: 10598
+OUTPUT: [{"Booking_Id":10850,"Attendee_Id":10598,"Attendee":{"User_Id":10598,"Name":"Test Attendee","Email":"test_attendee_3773@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"e73dc6b7-fedf-4b75-beac-a63d17023b4e","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11956,"Event":{"Event_Id":11956,"Organizer_Id":10599,"Organizer":{"User_Id":10599,"Name":"Test Organizer","Email":"test_organizer_6268@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"9a8f1af0-7d4f-4ebc-b95c-f665033afbf4","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 6121","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.841331Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.843059Z","Virtual_Url":null,"Details":[],"Payments":[]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve booking by ID
+INPUT: 10851
+OUTPUT: {"Booking_Id":10851,"Attendee_Id":10600,"Attendee":{"User_Id":10600,"Name":"Test Attendee","Email":"test_attendee_6097@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"be62028d-973f-4d52-92be-295d265784c2","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11957,"Event":{"Event_Id":11957,"Organizer_Id":10601,"Organizer":{"User_Id":10601,"Name":"Test Organizer","Email":"test_organizer_8015@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"a2d12321-f037-44f1-bb8d-3676927f7952","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 2801","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.864391Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.865553Z","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: TransactionCommit
+CASE: Begin, Add and Commit Transaction
+INPUT: 10852
+OUTPUT: {"Booking_Id":10852,"Attendee_Id":10602,"Attendee":null,"Event_Id":11958,"Event":null,"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.879473Z","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: TransactionRollback
+CASE: Begin, Delete and Rollback Transaction
+INPUT: 10853
+OUTPUT: {"Booking_Id":10853,"Attendee_Id":10604,"Attendee":null,"Event_Id":11959,"Event":null,"Booking_Status":"Payment Pending","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.933109Z","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+REPO: BookingRepository
+FUNCTION: UpdateAsync
+CASE: Update booking status
+INPUT: {"Booking_Id":10854,"Attendee_Id":10606,"Attendee":{"User_Id":10606,"Name":"Test Attendee","Email":"test_attendee_7872@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"8392b134-b7b4-4ce7-9676-1140c5d90d40","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11960,"Event":{"Event_Id":11960,"Organizer_Id":10607,"Organizer":{"User_Id":10607,"Name":"Test Organizer","Email":"test_organizer_8185@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"363f03ae-e4e6-4e42-9cc0-624e0ac8c2e5","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 6475","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.95855Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Confirmed","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.960143Z","Virtual_Url":null,"Details":[],"Payments":[]}
+OUTPUT: {"Booking_Id":10854,"Attendee_Id":10606,"Attendee":{"User_Id":10606,"Name":"Test Attendee","Email":"test_attendee_7872@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"8392b134-b7b4-4ce7-9676-1140c5d90d40","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[null],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Event_Id":11960,"Event":{"Event_Id":11960,"Organizer_Id":10607,"Organizer":{"User_Id":10607,"Name":"Test Organizer","Email":"test_organizer_8185@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"363f03ae-e4e6-4e42-9cc0-624e0ac8c2e5","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Webinar 6475","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:56.95855Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[null],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Booking_Status":"Confirmed","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Pending","Created_At":"2026-06-30T07:04:56.960143Z","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [WRN] Failed to rollback test transaction: This NpgsqlTransaction has completed; it is no longer usable.
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: AddAsync
+CASE: Create new event
+INPUT: {"Event_Id":11961,"Organizer_Id":10608,"Organizer":{"User_Id":10608,"Name":"Test Organizer","Email":"test_organizer_9498@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1b0eacfa-f607-47fb-bd66-53748d61c182","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10788,"Venue":{"Venue_Id":10788,"Region_Id":"REG_3678","Region":{"Region_Id":"REG_3678","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 7301","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.00555Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: {"Event_Id":11961,"Organizer_Id":10608,"Organizer":{"User_Id":10608,"Name":"Test Organizer","Email":"test_organizer_9498@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1b0eacfa-f607-47fb-bd66-53748d61c182","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10788,"Venue":{"Venue_Id":10788,"Region_Id":"REG_3678","Region":{"Region_Id":"REG_3678","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 7301","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.00555Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: AddFeedbackAsync
+CASE: Submit event feedback
+INPUT: {"Feedback_Id":10054,"Event_Id":11962,"Event":{"Event_Id":11962,"Organizer_Id":10609,"Organizer":{"User_Id":10609,"Name":"Test Organizer","Email":"test_organizer_8860@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1117b2da-9bd4-4bbb-a0d6-c1e43076cbca","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[null],"Reports":[]},"Venue_Id":10789,"Venue":{"Venue_Id":10789,"Region_Id":"REG_3116","Region":{"Region_Id":"REG_3116","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 4378","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.023812Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[null],"Reports":[]},"Attendee_Id":10609,"Attendee":{"User_Id":10609,"Name":"Test Organizer","Email":"test_organizer_8860@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1117b2da-9bd4-4bbb-a0d6-c1e43076cbca","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[{"Event_Id":11962,"Organizer_Id":10609,"Organizer":null,"Venue_Id":10789,"Venue":{"Venue_Id":10789,"Region_Id":"REG_3116","Region":{"Region_Id":"REG_3116","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 4378","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.023812Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[null],"Reports":[]}],"Bookings":[],"SupportTickets":[],"Feedbacks":[null],"Reports":[]},"Rating":5,"Review":"Great event!"}
+OUTPUT: {"Feedback_Id":10054,"Event_Id":11962,"Event":{"Event_Id":11962,"Organizer_Id":10609,"Organizer":{"User_Id":10609,"Name":"Test Organizer","Email":"test_organizer_8860@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1117b2da-9bd4-4bbb-a0d6-c1e43076cbca","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[null],"Reports":[]},"Venue_Id":10789,"Venue":{"Venue_Id":10789,"Region_Id":"REG_3116","Region":{"Region_Id":"REG_3116","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 4378","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.023812Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[null],"Reports":[]},"Attendee_Id":10609,"Attendee":{"User_Id":10609,"Name":"Test Organizer","Email":"test_organizer_8860@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"1117b2da-9bd4-4bbb-a0d6-c1e43076cbca","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[{"Event_Id":11962,"Organizer_Id":10609,"Organizer":null,"Venue_Id":10789,"Venue":{"Venue_Id":10789,"Region_Id":"REG_3116","Region":{"Region_Id":"REG_3116","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 4378","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.023812Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[null],"Reports":[]}],"Bookings":[],"SupportTickets":[],"Feedbacks":[null],"Reports":[]},"Rating":5,"Review":"Great event!"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: AddReportAsync
+CASE: Submit event report
+INPUT: {"Report_Id":10053,"Event_Id":11963,"Event":{"Event_Id":11963,"Organizer_Id":10610,"Organizer":{"User_Id":10610,"Name":"Test Organizer","Email":"test_organizer_7828@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"d207cf53-df41-41ae-bffa-08dd5c69f583","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[null]},"Venue_Id":10790,"Venue":{"Venue_Id":10790,"Region_Id":"REG_6222","Region":{"Region_Id":"REG_6222","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 6879","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.058833Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[null]},"Reporter_Id":10610,"Reporter":{"User_Id":10610,"Name":"Test Organizer","Email":"test_organizer_7828@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"d207cf53-df41-41ae-bffa-08dd5c69f583","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[{"Event_Id":11963,"Organizer_Id":10610,"Organizer":null,"Venue_Id":10790,"Venue":{"Venue_Id":10790,"Region_Id":"REG_6222","Region":{"Region_Id":"REG_6222","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 6879","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.058833Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[null]}],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[null]},"ReportUrl":"/assets/events/10001/reports/10002_report.json","ResponseAction":null,"Created_At":"2026-06-30T07:04:57.060576Z"}
+OUTPUT: {"Report_Id":10053,"Event_Id":11963,"Event":{"Event_Id":11963,"Organizer_Id":10610,"Organizer":{"User_Id":10610,"Name":"Test Organizer","Email":"test_organizer_7828@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"d207cf53-df41-41ae-bffa-08dd5c69f583","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[null]},"Venue_Id":10790,"Venue":{"Venue_Id":10790,"Region_Id":"REG_6222","Region":{"Region_Id":"REG_6222","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 6879","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.058833Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[null]},"Reporter_Id":10610,"Reporter":{"User_Id":10610,"Name":"Test Organizer","Email":"test_organizer_7828@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"d207cf53-df41-41ae-bffa-08dd5c69f583","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[{"Event_Id":11963,"Organizer_Id":10610,"Organizer":null,"Venue_Id":10790,"Venue":{"Venue_Id":10790,"Region_Id":"REG_6222","Region":{"Region_Id":"REG_6222","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 6879","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.058833Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[null]}],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[null]},"ReportUrl":"/assets/events/10001/reports/10002_report.json","ResponseAction":null,"Created_At":"2026-06-30T07:04:57.060576Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: DeleteAsync
+CASE: Remove event from database
+INPUT: {"Event_Id":11964,"Organizer_Id":10611,"Organizer":{"User_Id":10611,"Name":"Test Organizer","Email":"test_organizer_6321@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"44fdb750-5dc3-4876-b02a-b2cbc6091207","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10791,"Venue":{"Venue_Id":10791,"Region_Id":"REG_5366","Region":{"Region_Id":"REG_5366","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 9809","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.092513Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: ExistsAsync
+CASE: Check if event ID exists
+INPUT: {"ValidId":11965,"InvalidId":99999}
+OUTPUT: {"ValidExists":true,"InvalidExists":false}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve event by ID
+INPUT: 11966
+OUTPUT: {"Event_Id":11966,"Organizer_Id":10613,"Organizer":{"User_Id":10613,"Name":"Test Organizer","Email":"test_organizer_5543@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"fbde34e5-92cc-41cf-87b0-bdb147bac328","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10793,"Venue":{"Venue_Id":10793,"Region_Id":"REG_6336","Region":{"Region_Id":"REG_6336","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 1177","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.119024Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: GetEventDetailsAsync
+CASE: Retrieve event details with venue
+INPUT: 11967
+OUTPUT: {"Event_Id":11967,"Organizer_Id":10614,"Organizer":{"User_Id":10614,"Name":"Test Organizer","Email":"test_organizer_8067@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"019fc262-f6d5-44fa-84ab-ea7f4ba53f62","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10794,"Venue":{"Venue_Id":10794,"Region_Id":"REG_6138","Region":{"Region_Id":"REG_6138","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 6463","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Annual Tech Conference","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.124746Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: SearchEventsAsync
+CASE: Search events with multiple filters
+INPUT: null
+OUTPUT: null
+RESULT: FAILED
+ERROR:   Assert.That(searchCategory.Items.Any(e => e.Event_Id == newEvent.Event_Id), Is.True)
+  Expected: True
+  But was:  False
+
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: EventRepository
+FUNCTION: UpdateAsync
+CASE: Update event title
+INPUT: {"Event_Id":11969,"Organizer_Id":10616,"Organizer":{"User_Id":10616,"Name":"Test Organizer","Email":"test_organizer_5983@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"dd4faefd-c790-4885-86b2-64891f042526","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10796,"Venue":{"Venue_Id":10796,"Region_Id":"REG_6768","Region":{"Region_Id":"REG_6768","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 9780","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Updated Title","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.271944Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: {"Event_Id":11969,"Organizer_Id":10616,"Organizer":{"User_Id":10616,"Name":"Test Organizer","Email":"test_organizer_5983@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"dd4faefd-c790-4885-86b2-64891f042526","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":10796,"Venue":{"Venue_Id":10796,"Region_Id":"REG_6768","Region":{"Region_Id":"REG_6768","No_Of_Staffs":5,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Grand Hall 9780","Address":"123 Main St","Hourly_Price":100.00,"Is_Available":true,"SeatCapacities":[],"Events":[null]},"Event_Type":"Physical","Title":"Updated Title","Category":"","Age_Category":"","Description_Url":"Largest event of the year","Image_Url":null,"Date_Time":"2026-07-10T07:04:57.271944Z","Duration_Hours":4.5,"Status":"Live","Requires_Staff":true,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: NotificationRepository
+FUNCTION: AddAsync
+CASE: Create notification
+INPUT: {"Notification_Id":10462,"Recipient_Email":"user1@example.com","MessageUrl":"Event.Business/assets/notifications/test_notification.json","Status":"Pending","Retry_Count":0,"Created_At":"2026-06-30T07:04:57.290056Z","Sent_At":null,"ErrorMessage":null}
+OUTPUT: {"Notification_Id":10462,"Recipient_Email":"user1@example.com","MessageUrl":"Event.Business/assets/notifications/test_notification.json","Status":"Pending","Retry_Count":0,"Created_At":"2026-06-30T07:04:57.290056Z","Sent_At":null,"ErrorMessage":null}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: NotificationRepository
+FUNCTION: DeleteAsync
+CASE: Remove notification from database
+INPUT: {"Notification_Id":10463,"Recipient_Email":"user1@example.com","MessageUrl":"Event.Business/assets/notifications/test_notification.json","Status":"Pending","Retry_Count":0,"Created_At":"2026-06-30T07:04:57.33054Z","Sent_At":null,"ErrorMessage":null}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: NotificationRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve notification by ID
+INPUT: 10464
+OUTPUT: {"Notification_Id":10464,"Recipient_Email":"user1@example.com","MessageUrl":"Event.Business/assets/notifications/test_notification.json","Status":"Pending","Retry_Count":0,"Created_At":"2026-06-30T07:04:57.341199Z","Sent_At":null,"ErrorMessage":null}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: NotificationRepository
+FUNCTION: GetFailedNotificationsForRetryAsync
+CASE: Retrieve failed notifications under max retries limit
+INPUT: {"MaxRetries":3,"Limit":10}
+OUTPUT: 1
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: NotificationRepository
+FUNCTION: GetPendingNotificationsAsync
+CASE: Retrieve pending notifications batch
+INPUT: 10
+OUTPUT: 4
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: NotificationRepository
+FUNCTION: UpdateAsync
+CASE: Update notification status to Sent
+INPUT: {"Notification_Id":10469,"Recipient_Email":"user1@example.com","MessageUrl":"Event.Business/assets/notifications/test_notification.json","Status":"Sent","Retry_Count":0,"Created_At":"2026-06-30T07:04:57.366614Z","Sent_At":"2026-06-30T07:04:57.367704Z","ErrorMessage":null}
+OUTPUT: {"Notification_Id":10469,"Recipient_Email":"user1@example.com","MessageUrl":"Event.Business/assets/notifications/test_notification.json","Status":"Sent","Retry_Count":0,"Created_At":"2026-06-30T07:04:57.366614Z","Sent_At":"2026-06-30T07:04:57.367704Z","ErrorMessage":null}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerPayoutRepository
+FUNCTION: AddAsync
+CASE: Create organizer payout
+INPUT: {"Payout_Id":10318,"Event_Id":11970,"Event":{"Event_Id":11970,"Organizer_Id":10617,"Organizer":{"User_Id":10617,"Name":"Test Organizer","Email":"test_organizer_2296@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"9c2e3f4e-0809-4fc4-8029-878a5fa7dfa9","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.373915Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[null],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001452,"Transaction":{"Transaction_Id":1000000000001452,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10617","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.374195Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[null]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Pending","Processed_At":"2026-06-30T07:04:57.375961Z"}
+OUTPUT: {"Payout_Id":10318,"Event_Id":11970,"Event":{"Event_Id":11970,"Organizer_Id":10617,"Organizer":{"User_Id":10617,"Name":"Test Organizer","Email":"test_organizer_2296@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"9c2e3f4e-0809-4fc4-8029-878a5fa7dfa9","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.373915Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[null],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001452,"Transaction":{"Transaction_Id":1000000000001452,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10617","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.374195Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[null]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Pending","Processed_At":"2026-06-30T07:04:57.375961Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerPayoutRepository
+FUNCTION: DeleteAsync
+CASE: Remove payout from database
+INPUT: {"Payout_Id":10319,"Event_Id":11971,"Event":{"Event_Id":11971,"Organizer_Id":10618,"Organizer":{"User_Id":10618,"Name":"Test Organizer","Email":"test_organizer_8022@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"9eba816d-7ec7-4352-b429-4924dbedea7f","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.398061Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001453,"Transaction":{"Transaction_Id":1000000000001453,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10618","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.39812Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Pending","Processed_At":"2026-06-30T07:04:57.399327Z"}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerPayoutRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve payout by ID
+INPUT: 10320
+OUTPUT: {"Payout_Id":10320,"Event_Id":11972,"Event":{"Event_Id":11972,"Organizer_Id":10619,"Organizer":{"User_Id":10619,"Name":"Test Organizer","Email":"test_organizer_9953@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"7d3c3d4c-2c86-42d2-bc01-20eb1658ea36","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.409285Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[null],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001454,"Transaction":{"Transaction_Id":1000000000001454,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10619","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.409385Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[null]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Pending","Processed_At":"2026-06-30T07:04:57.41122Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerPayoutRepository
+FUNCTION: GetPayoutByEventIdAsync
+CASE: Retrieve payout by Event ID
+INPUT: 11973
+OUTPUT: {"Payout_Id":10321,"Event_Id":11973,"Event":{"Event_Id":11973,"Organizer_Id":10620,"Organizer":{"User_Id":10620,"Name":"Test Organizer","Email":"test_organizer_2121@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"226dce1e-15a1-44d8-aab2-7d4f867f5fd0","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.415694Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[null],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001455,"Transaction":{"Transaction_Id":1000000000001455,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10620","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.415759Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[null]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Pending","Processed_At":"2026-06-30T07:04:57.417172Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerPayoutRepository
+FUNCTION: GetPendingPayoutsAsync
+CASE: Retrieve pending payouts
+INPUT: null
+OUTPUT: 4
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerPayoutRepository
+FUNCTION: UpdateAsync
+CASE: Update payout status to Success
+INPUT: {"Payout_Id":10323,"Event_Id":11975,"Event":{"Event_Id":11975,"Organizer_Id":10622,"Organizer":{"User_Id":10622,"Name":"Test Organizer","Email":"test_organizer_2519@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"f6a3a0dc-1a1c-43ef-8389-512831fe10a0","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.438654Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[null],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001457,"Transaction":{"Transaction_Id":1000000000001457,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10622","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.43872Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[null]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Success","Processed_At":"2026-06-30T07:04:57.44041Z"}
+OUTPUT: {"Payout_Id":10323,"Event_Id":11975,"Event":{"Event_Id":11975,"Organizer_Id":10622,"Organizer":{"User_Id":10622,"Name":"Test Organizer","Email":"test_organizer_2519@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"f6a3a0dc-1a1c-43ef-8389-512831fe10a0","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Virtual","Title":"Online Workshop","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.438654Z","Duration_Hours":0,"Status":"Completed","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[null],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001457,"Transaction":{"Transaction_Id":1000000000001457,"Sender_Id":"Platform_Escrow","Receiver_Id":"Organizer_User_10622","Transaction_Type":"OrganizerPayout","Related_Id":0,"Amount":1000.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.43872Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[null]},"Total_Ticket_Sales":1200.00,"Platform_Commission":200.00,"Payout_Amount":1000.00,"Payout_Status":"Success","Processed_At":"2026-06-30T07:04:57.44041Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerUpfrontPaymentRepository
+FUNCTION: AddAsync
+CASE: Create organizer upfront payment
+INPUT: {"Upfront_Payment_Id":10270,"Event_Id":11976,"Event":{"Event_Id":11976,"Organizer_Id":10623,"Organizer":{"User_Id":10623,"Name":"Test Organizer","Email":"test_organizer_6632@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"396bd4bc-5c41-4090-b1da-2c29d51f83c7","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.448318Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[null],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001458,"Transaction":{"Transaction_Id":1000000000001458,"Sender_Id":"Organizer_User_10623","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.448499Z","BookingPayments":[],"UpfrontPayments":[null],"Payouts":[]},"Amount":500.00,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:57.45004Z"}
+OUTPUT: {"Upfront_Payment_Id":10270,"Event_Id":11976,"Event":{"Event_Id":11976,"Organizer_Id":10623,"Organizer":{"User_Id":10623,"Name":"Test Organizer","Email":"test_organizer_6632@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"396bd4bc-5c41-4090-b1da-2c29d51f83c7","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.448318Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[null],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001458,"Transaction":{"Transaction_Id":1000000000001458,"Sender_Id":"Organizer_User_10623","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.448499Z","BookingPayments":[],"UpfrontPayments":[null],"Payouts":[]},"Amount":500.00,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:57.45004Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerUpfrontPaymentRepository
+FUNCTION: DeleteAsync
+CASE: Remove upfront payment from database
+INPUT: {"Upfront_Payment_Id":10271,"Event_Id":11977,"Event":{"Event_Id":11977,"Organizer_Id":10624,"Organizer":{"User_Id":10624,"Name":"Test Organizer","Email":"test_organizer_8628@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"148c5fed-a078-4da5-9e07-713695dcb5f5","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.463179Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001459,"Transaction":{"Transaction_Id":1000000000001459,"Sender_Id":"Organizer_User_10624","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.463244Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]},"Amount":500.00,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:57.464511Z"}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerUpfrontPaymentRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve upfront payment by ID
+INPUT: 10272
+OUTPUT: {"Upfront_Payment_Id":10272,"Event_Id":11978,"Event":{"Event_Id":11978,"Organizer_Id":10625,"Organizer":{"User_Id":10625,"Name":"Test Organizer","Email":"test_organizer_5129@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"a727f4dd-8b01-4010-99c0-a37d21d1d035","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.477615Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[null],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001460,"Transaction":{"Transaction_Id":1000000000001460,"Sender_Id":"Organizer_User_10625","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.477701Z","BookingPayments":[],"UpfrontPayments":[null],"Payouts":[]},"Amount":500.00,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:57.479324Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerUpfrontPaymentRepository
+FUNCTION: GetUpfrontPaymentsByEventIdAsync
+CASE: Retrieve upfront payments for Event ID
+INPUT: 11979
+OUTPUT: [{"Upfront_Payment_Id":10273,"Event_Id":11979,"Event":{"Event_Id":11979,"Organizer_Id":10626,"Organizer":{"User_Id":10626,"Name":"Test Organizer","Email":"test_organizer_7906@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"8b5300be-2474-4ec5-9a54-4cb99a84ed0a","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.484978Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[null],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001461,"Transaction":{"Transaction_Id":1000000000001461,"Sender_Id":"Organizer_User_10626","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.485043Z","BookingPayments":[],"UpfrontPayments":[null],"Payouts":[]},"Amount":500.00,"Payment_Status":"Success","Created_At":"2026-06-30T07:04:57.486614Z"}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: OrganizerUpfrontPaymentRepository
+FUNCTION: UpdateAsync
+CASE: Update upfront payment status to Refunded
+INPUT: {"Upfront_Payment_Id":10274,"Event_Id":11980,"Event":{"Event_Id":11980,"Organizer_Id":10627,"Organizer":{"User_Id":10627,"Name":"Test Organizer","Email":"test_organizer_7323@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"372b90a0-6035-4663-af37-73314a306398","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.497709Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[null],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001462,"Transaction":{"Transaction_Id":1000000000001462,"Sender_Id":"Organizer_User_10627","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.497767Z","BookingPayments":[],"UpfrontPayments":[null],"Payouts":[]},"Amount":500.00,"Payment_Status":"Refunded","Created_At":"2026-06-30T07:04:57.49913Z"}
+OUTPUT: {"Upfront_Payment_Id":10274,"Event_Id":11980,"Event":{"Event_Id":11980,"Organizer_Id":10627,"Organizer":{"User_Id":10627,"Name":"Test Organizer","Email":"test_organizer_7323@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"372b90a0-6035-4663-af37-73314a306398","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[null],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"Venue_Id":null,"Venue":null,"Event_Type":"Physical","Title":"Exposition","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"2026-06-30T07:04:57.497709Z","Duration_Hours":0,"Status":"Live","Requires_Staff":false,"Virtual_Url":null,"Virtual_Password_Hash":null,"TicketTiers":[],"Bookings":[],"UpfrontPayments":[null],"Payouts":[],"StaffAllocations":[],"Feedbacks":[],"Reports":[]},"Transaction_Id":1000000000001462,"Transaction":{"Transaction_Id":1000000000001462,"Sender_Id":"Organizer_User_10627","Receiver_Id":"Platform_Escrow","Transaction_Type":"OrganizerUpfrontPayment","Related_Id":0,"Amount":500.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.497767Z","BookingPayments":[],"UpfrontPayments":[null],"Payouts":[]},"Amount":500.00,"Payment_Status":"Refunded","Created_At":"2026-06-30T07:04:57.49913Z"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: PlatformSettingsRepository
+FUNCTION: AddAsync
+CASE: Create platform settings
+INPUT: {"Settings_Id":87128,"Staff_Flat_Rate":25.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.52794Z","Updated_By_Admin_Id":"ADM_777_7496","UpdatedByAdmin":{"Admin_Id":"ADM_777_7496","Name":"Settings Admin","Email":"settings_admin_7496@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[null]}}
+OUTPUT: {"Settings_Id":87128,"Staff_Flat_Rate":25.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.52794Z","Updated_By_Admin_Id":"ADM_777_7496","UpdatedByAdmin":{"Admin_Id":"ADM_777_7496","Name":"Settings Admin","Email":"settings_admin_7496@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[null]}}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: PlatformSettingsRepository
+FUNCTION: DeleteAsync
+CASE: Remove settings from database
+INPUT: {"Settings_Id":18573,"Staff_Flat_Rate":25.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.534187Z","Updated_By_Admin_Id":"ADM_777_7662","UpdatedByAdmin":{"Admin_Id":"ADM_777_7662","Name":"Settings Admin","Email":"settings_admin_7662@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[]}}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: PlatformSettingsRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve settings by ID
+INPUT: 54339
+OUTPUT: {"Settings_Id":54339,"Staff_Flat_Rate":25.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.542381Z","Updated_By_Admin_Id":"ADM_777_9128","UpdatedByAdmin":{"Admin_Id":"ADM_777_9128","Name":"Settings Admin","Email":"settings_admin_9128@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[null]}}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: PlatformSettingsRepository
+FUNCTION: GetSettingsAsync
+CASE: Retrieve global settings singleton
+INPUT: null
+OUTPUT: {"Settings_Id":1,"Staff_Flat_Rate":25.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.547552Z","Updated_By_Admin_Id":"ADM_777_3663","UpdatedByAdmin":{"Admin_Id":"ADM_777_3663","Name":"Settings Admin","Email":"settings_admin_3663@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[null]}}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: PlatformSettingsRepository
+FUNCTION: UpdateAsync
+CASE: Update flat rate of staff
+INPUT: {"Settings_Id":51605,"Staff_Flat_Rate":30.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.555972Z","Updated_By_Admin_Id":"ADM_777_4336","UpdatedByAdmin":{"Admin_Id":"ADM_777_4336","Name":"Settings Admin","Email":"settings_admin_4336@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[null]}}
+OUTPUT: {"Settings_Id":51605,"Staff_Flat_Rate":30.00,"Virtual_Event_Activation_Fee":10.00,"Physical_Event_Activation_Fee":50.00,"Ticket_Commission_Percentage":5.00,"Ticket_Fixed_Fee":0.99,"Max_Tickets_Per_Booking":10,"Updated_At":"2026-06-30T07:04:57.555972Z","Updated_By_Admin_Id":"ADM_777_4336","UpdatedByAdmin":{"Admin_Id":"ADM_777_4336","Name":"Settings Admin","Email":"settings_admin_4336@example.com","Password_Hash":"hashed","Password_Reset_Token":null,"UpdatedSettings":[null]}}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: StaffRepository
+FUNCTION: AddAsync
+CASE: Create new staff member
+INPUT: {"Employee_ID":4423,"Name":"","Email":"","Region_Id":"REG_9028","Region":{"Region_Id":"REG_9028","No_Of_Staffs":2,"Region_Name":"","InterestedUsers":[],"Staffs":[null],"Venues":[]},"IsAllocated":false,"EventAllocations":[]}
+OUTPUT: {"Employee_ID":4423,"Name":"","Email":"","Region_Id":"REG_9028","Region":{"Region_Id":"REG_9028","No_Of_Staffs":2,"Region_Name":"","InterestedUsers":[],"Staffs":[null],"Venues":[]},"IsAllocated":false,"EventAllocations":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: StaffRepository
+FUNCTION: DeleteAsync
+CASE: Remove staff from database
+INPUT: {"Employee_ID":1110,"Name":"","Email":"","Region_Id":"REG_2063","Region":{"Region_Id":"REG_2063","No_Of_Staffs":2,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[]},"IsAllocated":false,"EventAllocations":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: StaffRepository
+FUNCTION: GetAvailableStaffCountAsync
+CASE: Retrieve available staff count initially
+INPUT: {"RegionId":"REG_4325","Time":"2026-06-30T10:00:00Z"}
+OUTPUT: 2
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: StaffRepository
+FUNCTION: GetAvailableStaffsAsync
+CASE: Retrieve available staff members
+INPUT: {"RegionId":"REG_1194","Time":"2026-06-30T10:00:00Z"}
+OUTPUT: 2
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: StaffRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve staff by employee ID
+INPUT: 2008
+OUTPUT: {"Employee_ID":2008,"Name":"","Email":"","Region_Id":"REG_6383","Region":{"Region_Id":"REG_6383","No_Of_Staffs":2,"Region_Name":"","InterestedUsers":[],"Staffs":[null],"Venues":[]},"IsAllocated":false,"EventAllocations":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: StaffRepository
+FUNCTION: UpdateAsync
+CASE: Update staff allocation flag
+INPUT: {"Employee_ID":4634,"Name":"","Email":"","Region_Id":"REG_9441","Region":{"Region_Id":"REG_9441","No_Of_Staffs":2,"Region_Name":"","InterestedUsers":[],"Staffs":[null],"Venues":[]},"IsAllocated":true,"EventAllocations":[]}
+OUTPUT: {"Employee_ID":4634,"Name":"","Email":"","Region_Id":"REG_9441","Region":{"Region_Id":"REG_9441","No_Of_Staffs":2,"Region_Name":"","InterestedUsers":[],"Staffs":[null],"Venues":[]},"IsAllocated":true,"EventAllocations":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: SupportTicketRepository
+FUNCTION: AddAsync
+CASE: Create support ticket
+INPUT: {"Ticket_Id":10322,"User_Id":10634,"User":{"User_Id":10634,"Name":"Test Attendee","Email":"test_attendee_4653@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"d6a2e091-0e14-480b-bf53-c56db75327d7","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[null],"Feedbacks":[],"Reports":[]},"ConcernUrl":"/support_tickets/ticket_test.json","RequestType":"REF","Status":"Open","EsclationStatus":null,"RelatedId":null}
+OUTPUT: {"Ticket_Id":10322,"User_Id":10634,"User":{"User_Id":10634,"Name":"Test Attendee","Email":"test_attendee_4653@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"d6a2e091-0e14-480b-bf53-c56db75327d7","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[null],"Feedbacks":[],"Reports":[]},"ConcernUrl":"/support_tickets/ticket_test.json","RequestType":"REF","Status":"Open","EsclationStatus":null,"RelatedId":null}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: SupportTicketRepository
+FUNCTION: DeleteAsync
+CASE: Remove support ticket from database
+INPUT: {"Ticket_Id":10323,"User_Id":10635,"User":{"User_Id":10635,"Name":"Test Attendee","Email":"test_attendee_9420@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"919050c1-2006-4208-90f3-ed25af10c816","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]},"ConcernUrl":"/support_tickets/ticket_test.json","RequestType":"REF","Status":"Open","EsclationStatus":null,"RelatedId":null}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: SupportTicketRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve support ticket by ID
+INPUT: 10324
+OUTPUT: {"Ticket_Id":10324,"User_Id":10636,"User":{"User_Id":10636,"Name":"Test Attendee","Email":"test_attendee_1046@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"69920b82-0be9-489c-a0f8-5ebf40b6c291","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[null],"Feedbacks":[],"Reports":[]},"ConcernUrl":"/support_tickets/ticket_test.json","RequestType":"REF","Status":"Open","EsclationStatus":null,"RelatedId":null}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: SupportTicketRepository
+FUNCTION: GetPendingTicketsAsync
+CASE: Retrieve pending tickets (Open status)
+INPUT: null
+OUTPUT: 10
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: SupportTicketRepository
+FUNCTION: GetTicketsByUserIdAsync
+CASE: Retrieve tickets for User ID
+INPUT: 10638
+OUTPUT: 1
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: SupportTicketRepository
+FUNCTION: UpdateAsync
+CASE: Update support ticket status to Resolved
+INPUT: {"Ticket_Id":10327,"User_Id":10639,"User":{"User_Id":10639,"Name":"Test Attendee","Email":"test_attendee_5414@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"420c1299-326d-40d7-bc7e-2880dd7414d3","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[null],"Feedbacks":[],"Reports":[]},"ConcernUrl":"/support_tickets/ticket_test_updated.json","RequestType":"REF","Status":"Resolved","EsclationStatus":null,"RelatedId":null}
+OUTPUT: {"Ticket_Id":10327,"User_Id":10639,"User":{"User_Id":10639,"Name":"Test Attendee","Email":"test_attendee_5414@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"420c1299-326d-40d7-bc7e-2880dd7414d3","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[null],"Feedbacks":[],"Reports":[]},"ConcernUrl":"/support_tickets/ticket_test_updated.json","RequestType":"REF","Status":"Resolved","EsclationStatus":null,"RelatedId":null}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: AddAsync
+CASE: Create terms and conditions
+INPUT: {"Terms_Id":"3f0b9d5bb704446daa54eb1056b34fef","Version":"v1.0-add","File_Path":"/docs/policies/terms_v1.0-add.md","Type":"General","Is_Active":true,"Created_At":"2026-06-30T07:04:57.689491Z","ConsentedUsers":[]}
+OUTPUT: {"Terms_Id":"3f0b9d5bb704446daa54eb1056b34fef","Version":"v1.0-add","File_Path":"/docs/policies/terms_v1.0-add.md","Type":"General","Is_Active":true,"Created_At":"2026-06-30T07:04:57.689491Z","ConsentedUsers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: DeleteAsync
+CASE: Remove terms from database
+INPUT: {"Terms_Id":"a0486dedce2846798c3b157d241d421c","Version":"v1.0-del","File_Path":"/docs/policies/terms_v1.0-del.md","Type":"General","Is_Active":true,"Created_At":"2026-06-30T07:04:57.692618Z","ConsentedUsers":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: GetActiveTermsAsync
+CASE: Retrieve current active terms
+INPUT: null
+OUTPUT: {"Terms_Id":"C10001","Version":"v1.0","File_Path":"/assets/policies/C10001.md","Type":"Cancellation","Is_Active":true,"Created_At":"2026-06-29T11:55:44.611907Z","ConsentedUsers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: GetActiveTermsByTypeAsync
+CASE: Retrieve active terms by type
+INPUT: "Registration"
+OUTPUT: {"Terms_Id":"00d5d879de074e2695f904bb89287d9d","Version":"v1.0-type","File_Path":"/docs/policies/terms_v1.0-type.md","Type":"Registration","Is_Active":true,"Created_At":"2026-06-30T07:04:57.704707Z","ConsentedUsers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve terms by ID
+INPUT: "457ef756e1e84354af43f084de9c762d"
+OUTPUT: {"Terms_Id":"457ef756e1e84354af43f084de9c762d","Version":"v1.0","File_Path":"/docs/policies/terms_v1.0.md","Type":"General","Is_Active":true,"Created_At":"2026-06-30T07:04:57.711359Z","ConsentedUsers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: GetTermsByVersionAsync
+CASE: Retrieve terms by version string
+INPUT: "v0.9-ver"
+OUTPUT: {"Terms_Id":"e55b2c24d1a14437801063a835024408","Version":"v0.9-ver","File_Path":"/docs/policies/terms_v0.9-ver.md","Type":"General","Is_Active":false,"Created_At":"2026-06-30T07:04:57.713297Z","ConsentedUsers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TermsAndConditionsRepository
+FUNCTION: UpdateAsync
+CASE: Update terms active status
+INPUT: {"Terms_Id":"7d84705b95af48b588750ea20e21fadf","Version":"v1.0-upd","File_Path":"/docs/policies/terms_v1.0-upd.md","Type":"General","Is_Active":true,"Created_At":"2026-06-30T07:04:57.727312Z","ConsentedUsers":[]}
+OUTPUT: {"Terms_Id":"7d84705b95af48b588750ea20e21fadf","Version":"v1.0-upd","File_Path":"/docs/policies/terms_v1.0-upd.md","Type":"General","Is_Active":true,"Created_At":"2026-06-30T07:04:57.727312Z","ConsentedUsers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: AddAsync
+CASE: Create new transaction
+INPUT: {"Transaction_Id":1000000000001463,"Sender_Id":"Attendee_User_10640","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":"tx_ref_477042","Created_At":"2026-06-30T07:04:57.734114Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+OUTPUT: {"Transaction_Id":1000000000001463,"Sender_Id":"Attendee_User_10640","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":"tx_ref_477042","Created_At":"2026-06-30T07:04:57.734114Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: DeleteAsync
+CASE: Remove transaction from database
+INPUT: {"Transaction_Id":1000000000001464,"Sender_Id":"Attendee_User_10641","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":"tx_ref_559472","Created_At":"2026-06-30T07:04:57.738159Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve transaction by ID
+INPUT: 1000000000001465
+OUTPUT: {"Transaction_Id":1000000000001465,"Sender_Id":"Attendee_User_10642","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":"tx_ref_715980","Created_At":"2026-06-30T07:04:57.749168Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: GetPendingBookingTransactionAsync
+CASE: Retrieve pending booking transaction by Booking ID
+INPUT: 99
+OUTPUT: {"Transaction_Id":1000000000001466,"Sender_Id":"Attendee_User_10643","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":99,"Amount":100.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Pending","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.753831Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: GetSuccessBookingTransactionAsync
+CASE: Retrieve successful booking transaction by Booking ID
+INPUT: 99
+OUTPUT: {"Transaction_Id":1000000000001467,"Sender_Id":"Attendee_User_10644","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":99,"Amount":100.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"2026-06-30T07:04:57.762086Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: GetTransactionByReferenceAsync
+CASE: Retrieve transaction by reference string
+INPUT: "tx_ref_408604"
+OUTPUT: {"Transaction_Id":1000000000001468,"Sender_Id":"Attendee_User_10645","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":"tx_ref_408604","Created_At":"2026-06-30T07:04:57.769426Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: GetTransactionsByUserIdAsync
+CASE: Retrieve transactions for User ID
+INPUT: 10646
+OUTPUT: 1
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: GetTransactionsPagedAsync
+CASE: Query transactions with filters, pagination, and sorting
+INPUT: null
+OUTPUT: null
+RESULT: FAILED
+ERROR:   Assert.That(resultSort.Items.Any(t => t.Transaction_Reference == $"tx_ref_abc_{user.User_Id}"), Is.True)
+  Expected: True
+  But was:  False
+
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: TransactionRepository
+FUNCTION: UpdateAsync
+CASE: Update transaction status and refunded amount
+INPUT: {"Transaction_Id":1000000000001472,"Sender_Id":"Attendee_User_10648","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Refunded","Refunded_Amount":200.00,"Remarks":null,"Transaction_Reference":"tx_ref_255089","Created_At":"2026-06-30T07:04:57.831558Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+OUTPUT: {"Transaction_Id":1000000000001472,"Sender_Id":"Attendee_User_10648","Receiver_Id":"Platform_Escrow","Transaction_Type":"BookingPayment","Related_Id":1,"Amount":200.00,"Currency":"USD","Payment_Method_Details":null,"Status":"Refunded","Refunded_Amount":200.00,"Remarks":null,"Transaction_Reference":"tx_ref_255089","Created_At":"2026-06-30T07:04:57.831558Z","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: AddAsync
+CASE: Create new user in database
+INPUT: {"User_Id":10649,"Name":"John Add","Email":"john_add_9743@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_pw","Consented_Terms_Id":"354298cf-4142-417b-9d5e-efcfaac080e5","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: {"User_Id":10649,"Name":"John Add","Email":"john_add_9743@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_pw","Consented_Terms_Id":"354298cf-4142-417b-9d5e-efcfaac080e5","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: DeleteAsync
+CASE: Remove user from database
+INPUT: {"User_Id":10650,"Name":"Test Attendee","Email":"test_attendee_8848@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"9f2d7127-a938-4b50-a0e8-f3fc7ad00e21","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: ExistsAsync
+CASE: Check if user ID exists
+INPUT: {"ValidId":10651,"InvalidId":99999}
+OUTPUT: {"ValidExists":true,"InvalidExists":false}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: GetAllAsync
+CASE: List all users
+INPUT: null
+OUTPUT: "Total Users: 33"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: GetByEmailAsync
+CASE: Retrieve user by email
+INPUT: "test_attendee_1083@example.com"
+OUTPUT: {"User_Id":10653,"Name":"Test Attendee","Email":"test_attendee_1083@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"ec79e527-ae18-4f5c-aa39-1b1e2ace0a27","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve user by ID
+INPUT: 10654
+OUTPUT: {"User_Id":10654,"Name":"Test Attendee","Email":"test_attendee_2565@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"5e0afff8-b529-4cde-bdf0-115e0da56ec9","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: GetUserProfileAsync
+CASE: Retrieve user profile with relations
+INPUT: 10655
+OUTPUT: {"User_Id":10655,"Name":"Test Attendee","Email":"test_attendee_7667@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"fe780fa3-b9f9-4fde-8e14-1fcecca38f42","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: UpdateAsync
+CASE: Update user name property to John Updated
+INPUT: {"User_Id":10656,"Name":"John Updated","Email":"test_attendee_3189@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"f6915209-31ae-4265-995b-2e2b24b446af","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: {"User_Id":10656,"Name":"John Updated","Email":"test_attendee_3189@example.com","Mobile_Number":"1234567890","Password_Hash":"hashed_password","Consented_Terms_Id":"f6915209-31ae-4265-995b-2e2b24b446af","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: UserRepository
+FUNCTION: UpdateInterestedRegionsAsync
+CASE: Add interested region US-EAST to user
+INPUT: {"UserId":10657,"Regions":["US-EAST"]}
+OUTPUT: {"HasRegion":true}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: VenueRepository
+FUNCTION: AddAsync
+CASE: Create new venue
+INPUT: {"Venue_Id":10797,"Region_Id":"REG_4643","Region":{"Region_Id":"REG_4643","No_Of_Staffs":3,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Conference Room 9138","Address":"Tech Plaza","Hourly_Price":50.00,"Is_Available":true,"SeatCapacities":[],"Events":[]}
+OUTPUT: {"Venue_Id":10797,"Region_Id":"REG_4643","Region":{"Region_Id":"REG_4643","No_Of_Staffs":3,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Conference Room 9138","Address":"Tech Plaza","Hourly_Price":50.00,"Is_Available":true,"SeatCapacities":[],"Events":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: VenueRepository
+FUNCTION: DeleteAsync
+CASE: Remove venue from database
+INPUT: {"Venue_Id":10798,"Region_Id":"REG_4371","Region":{"Region_Id":"REG_4371","No_Of_Staffs":3,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[]},"Name":"Conference Room 2572","Address":"Tech Plaza","Hourly_Price":50.00,"Is_Available":true,"SeatCapacities":[],"Events":[]}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: VenueRepository
+FUNCTION: GetByIdAsync
+CASE: Retrieve venue by ID
+INPUT: 10799
+OUTPUT: {"Venue_Id":10799,"Region_Id":"REG_5285","Region":{"Region_Id":"REG_5285","No_Of_Staffs":3,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Conference Room 2396","Address":"Tech Plaza","Hourly_Price":50.00,"Is_Available":true,"SeatCapacities":[],"Events":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: VenueRepository
+FUNCTION: IsVenueOccupiedAsync
+CASE: Check occupancy during a booked live event
+INPUT: {"VenueId":10800,"Time":"2026-06-30T14:00:00Z"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: VenueRepository
+FUNCTION: IsVenueOccupiedAsync
+CASE: Check occupancy when no events booked
+INPUT: {"VenueId":10801,"Time":"2026-06-30T14:00:00Z"}
+OUTPUT: false
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+REPO: VenueRepository
+FUNCTION: UpdateAsync
+CASE: Update venue name to Conference Room B
+INPUT: {"Venue_Id":10802,"Region_Id":"REG_7627","Region":{"Region_Id":"REG_7627","No_Of_Staffs":3,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Conference Room B","Address":"Tech Plaza","Hourly_Price":50.00,"Is_Available":true,"SeatCapacities":[],"Events":[]}
+OUTPUT: {"Venue_Id":10802,"Region_Id":"REG_7627","Region":{"Region_Id":"REG_7627","No_Of_Staffs":3,"Region_Name":"","InterestedUsers":[],"Staffs":[],"Venues":[null]},"Name":"Conference Room B","Address":"Tech Plaza","Hourly_Price":50.00,"Is_Available":true,"SeatCapacities":[],"Events":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+

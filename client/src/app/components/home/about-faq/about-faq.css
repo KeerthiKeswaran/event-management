@@ -1,0 +1,249 @@
+:host {
+  --color-accent: #C41E3A;
+  --color-canvas-bg: #FFFFFF;
+  --color-neutral-dark: #121212;
+  --color-neutral-mid: #2C2C2E;
+  --color-neutral-light: #8E8E93;
+  --color-border: #E5E5EA;
+  --radius-common: 8px;
+  --transition-fast: all 0.15s ease;
+  --shadow-elevated: 0 12px 30px rgba(0, 0, 0, 0.08);
+
+  display: block;
+  width: 100%;
+}
+
+.about-section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.about-container.full-width-faq {
+  grid-template-columns: 1fr;
+}
+
+.about-container.full-width-about {
+  grid-template-columns: 1fr;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.sub-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-neutral-dark);
+  letter-spacing: -0.8px;
+  margin: 0;
+}
+
+.faq-pane {
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-description {
+  font-size: 14px;
+  color: var(--color-neutral-light);
+  line-height: 1.6;
+  margin-top: 8px;
+  margin-bottom: 32px;
+}
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-common);
+  background-color: var(--color-canvas-bg);
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+.faq-item:hover {
+  border-color: var(--color-neutral-light);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  color: var(--color-neutral-dark);
+  cursor: pointer;
+  outline: none;
+}
+
+.faq-question span {
+  padding-right: 16px;
+}
+
+.faq-toggle-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.faq-toggle-icon::before,
+.faq-toggle-icon::after {
+  content: '';
+  position: absolute;
+  background-color: var(--color-neutral-dark);
+  transition: transform 0.25s ease;
+}
+
+/* Horizontal line */
+.faq-toggle-icon::before {
+  top: 6px;
+  left: 0;
+  width: 14px;
+  height: 2px;
+}
+
+/* Vertical line */
+.faq-toggle-icon::after {
+  top: 0;
+  left: 6px;
+  width: 2px;
+  height: 14px;
+}
+
+.faq-item.open .faq-toggle-icon::after {
+  transform: rotate(90deg) scaleY(0);
+}
+
+.faq-item.open .faq-toggle-icon::before {
+  transform: rotate(90deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease;
+  padding: 0 24px;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 200px;
+  opacity: 1;
+  padding-bottom: 20px;
+}
+
+.faq-answer p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-neutral-light);
+  margin: 0;
+}
+
+/* Brand Pane Card Right */
+.about-pane {
+  display: flex;
+}
+
+.about-brand-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.about-brand-card {
+  background-color: var(--color-neutral-dark);
+  color: var(--color-canvas-bg);
+  padding: 48px;
+  border-radius: var(--radius-common);
+  box-shadow: var(--shadow-elevated);
+}
+
+.brand-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.brand-tagline {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent);
+  margin: 0 0 24px 0;
+}
+
+.brand-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 36px 0;
+}
+
+.brand-metrics {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-num {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-canvas-bg);
+}
+
+.metric-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+@media screen and (max-width: 1024px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-section {
+    padding: 48px 0;
+  }
+  .section-title {
+    font-size: 26px;
+  }
+}

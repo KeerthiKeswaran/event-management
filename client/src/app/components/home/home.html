@@ -1,0 +1,28 @@
+<div class="home-root">
+  <!-- Navbar Component -->
+  <app-navbar (openLocation)="openLocationModal()"></app-navbar>
+
+  <!-- Hero Carousel Component -->
+  <app-hero-carousel></app-hero-carousel>
+
+  <!-- Core Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Events Browsing Section -->
+    <app-events-browsing></app-events-browsing>
+
+    <!-- Popular Regions Grid -->
+    <app-popular-regions></app-popular-regions>
+
+    <!-- About & FAQ Accordion Section -->
+    <app-about-faq></app-about-faq>
+  </div>
+
+  <!-- Global Footer -->
+  <app-footer></app-footer>
+
+  <!-- Select Location Modal Dialog -->
+  <app-location-modal 
+    [isOpen]="isLocationModalOpen()" 
+    (isOpenChange)="isLocationModalOpen.set($event)">
+  </app-location-modal>
+</div>

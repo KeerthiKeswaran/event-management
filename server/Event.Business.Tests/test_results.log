@@ -1,0 +1,1574 @@
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: AllocateStaffToEventAsync
+CASE: Duplicate staff allocation throws ValidationException
+INPUT: {"eventId":10004,"employeeId":10012}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: AllocateStaffToEventAsync
+CASE: Staff region mismatch throws ValidationException
+INPUT: {"eventId":10003,"employeeId":10011}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: AllocateStaffToEventAsync
+CASE: Allocate staff to a physical event
+INPUT: {"eventId":10001,"employeeId":10010}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: AllocateStaffToEventAsync
+CASE: Allocate staff to virtual event throws ValidationException
+INPUT: {"eventId":10002,"employeeId":10010}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: CreateVenueAsync
+CASE: Venue with incomplete seat tiers throws ValidationException
+INPUT: {"Region_Id":"US-EAST","Name":"Incomplete Venue","Address":"","Hourly_Price":500.00,"Is_Available":true,"SeatTiers":[{"Tier_Name":"Elite","Total_Seats":50},{"Tier_Name":"Gold","Total_Seats":100}]}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: CreateVenueAsync
+CASE: Create a venue with all three seat tiers
+INPUT: {"Region_Id":"US-EAST","Name":"Convention Center","Address":"123 Main St","Hourly_Price":800.00,"Is_Available":true,"SeatTiers":[{"Tier_Name":"Elite","Total_Seats":50},{"Tier_Name":"Gold","Total_Seats":150},{"Tier_Name":"Silver","Total_Seats":300}]}
+OUTPUT: {"Venue_Id":10,"Region_Id":"US-EAST","Name":"Convention Center","Address":"","Hourly_Price":800.00,"Is_Available":true,"SeatTiers":[{"Tier_Name":"Elite","Total_Seats":50},{"Tier_Name":"Gold","Total_Seats":150},{"Tier_Name":"Silver","Total_Seats":300}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: DismissEventReportAsync
+CASE: Dismiss non-existent report throws NotFoundException
+INPUT: {"reportId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: DismissEventReportAsync
+CASE: Dismiss a flagged event report
+INPUT: {"reportId":1}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: EscalateTicketAsync
+CASE: Escalate an open support ticket
+INPUT: {"ticketId":10002,"adminId":"ADM_1001"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: EscalateTicketAsync
+CASE: Escalate non-existent ticket throws NotFoundException
+INPUT: {"ticketId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetAllRegionsAsync
+CASE: Retrieve all platform regions
+INPUT: null
+OUTPUT: [{"Region_Id":"US-EAST","No_Of_Staffs":0,"Region_Name":""},{"Region_Id":"US-WEST","No_Of_Staffs":0,"Region_Name":""},{"Region_Id":"EU-CENTRAL","No_Of_Staffs":0,"Region_Name":""}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetAllVenuesAsync
+CASE: Retrieve all venues with seat tier details
+INPUT: null
+OUTPUT: [{"Venue_Id":1,"Region_Id":"US-EAST","Name":"Grand Arena","Address":"","Hourly_Price":1200.00,"Is_Available":true,"SeatTiers":[{"Tier_Name":"Elite","Total_Seats":100}]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetDashboardStatsAsync
+CASE: Retrieve dashboard summary statistics
+INPUT: null
+OUTPUT: {"Summary":{"TotalUsers":2,"TotalLiveEvents":1,"GrossRevenue":50000.00,"PlatformCommission":2500.00},"StaffMetrics":{"TotalStaff":2,"AllocatedStaffCount":1,"AllocationPercentage":50}}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetEventsPagedAsync
+CASE: Retrieve paged event list for admin view
+INPUT: null
+OUTPUT: {"Items":[{"EventId":10001,"Title":"Tech Summit","EventType":"Physical","DateTime":"2026-07-10T07:04:55.810482Z","VenueName":"Grand Hall","OrganizerName":"KeerthiKeswaran","AllocatedStaffCount":0,"Status":"Live","AllocatedStaffPercentage":0,"DescriptionUrl":"","ImageUrl":null}],"TotalCount":1,"Page":1,"PageSize":10,"TotalPages":1}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetFlaggedEventsReportsAsync
+CASE: Retrieve grouped flagged event reports
+INPUT: null
+OUTPUT: {"10100":{"countOfReports":2,"reports":[{"reportId":10001,"reporterId":10001,"reporterName":"KeerthiKeswaran","reason":"Details in JSON file","responseAction":null,"createdAt":"2026-06-30T07:04:55.821142Z"},{"reportId":10002,"reporterId":10002,"reporterName":"KeerthiKeswaran","reason":"Details in JSON file","responseAction":null,"createdAt":"2026-06-30T07:04:55.821158Z"}]}}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetStaffDirectoryAsync
+CASE: Retrieve full staff directory
+INPUT: null
+OUTPUT: [{"Employee_ID":1,"Name":"","Email":"","Region_Id":"US-EAST","IsAllocated":false},{"Employee_ID":2,"Name":"","Email":"","Region_Id":"EU-CENTRAL","IsAllocated":true}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: GetSupportTicketsAsync
+CASE: Retrieve all support tickets
+INPUT: null
+OUTPUT: [{"Ticket_Id":10001,"User_Id":0,"User":null,"ConcernUrl":"","RequestType":"","Status":"Open","EsclationStatus":null,"RelatedId":null},{"Ticket_Id":10002,"User_Id":0,"User":null,"ConcernUrl":"","RequestType":"","Status":"Resolved","EsclationStatus":null,"RelatedId":null}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: RespondToTicketAsync
+CASE: Admin responds to open support ticket
+INPUT: {"ticketId":10001}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: RespondToTicketAsync
+CASE: Respond to non-existent ticket throws NotFoundException
+INPUT: {"ticketId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: UpholdEventReportAsync
+CASE: Uphold non-existent report throws NotFoundException
+INPUT: {"reportId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: UpholdEventReportAsync
+CASE: Uphold report and deactivate organizer
+INPUT: {"reportId":2,"adminId":"ADM_1001"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: AdminService
+FUNCTION: UpholdEventReportAsync
+CASE: Uphold report and restrict organizer
+INPUT: {"reportId":1,"adminId":"ADM_1001"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: BackgroundService
+FUNCTION: ExecuteAsync
+CASE: Release expired bookings and events was triggered
+INPUT: null
+OUTPUT: "Triggered Successfully"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: BookTicketsAsync
+CASE: Booking exceeds max platform limit throws exception
+INPUT: {"attendeeId":10001,"eventId":10100,"tierQuantities":{"VIP":10}}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: BookTicketsAsync
+CASE: Book tickets for live event successfully
+INPUT: {"attendeeId":10001,"eventId":10100,"tierQuantities":{"VIP":2}}
+OUTPUT: {"Booking_Id":0,"Attendee_Id":10001,"Event_Id":10100,"Event_Title":"Annual Gala","Event_Type":"Virtual","Event_Date_Time":"0001-01-01T00:00:00","Total_Price":300.00,"Fixed_Fee_Rate":0,"Commission_Percentage":0}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:55 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: CancelBookingAsync
+CASE: Cancel a confirmed booking
+INPUT: 10001
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: ConfirmBookingPaymentAsync
+CASE: Confirm booking for Hybrid event maps passcode and url
+INPUT: 10600
+OUTPUT: {"Booking_Id":10600,"Attendee_Id":10001,"Event_Id":200,"Event_Title":"Hybrid Masterclass","Event_Type":"Hybrid","Event_Date_Time":"0001-01-01T00:00:00","Qr_Code_Path":"/Users/keerthikeswaran/Documents/GenSpark Internship/event-management/server/Event.Business.Tests/assets/users/10001/bookings/qr_10600.png","Virtual_Url":"Disabled","Details":[{"Tier_Name":"Virtual","Quantity":2}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: ConfirmBookingPaymentAsync
+CASE: Confirm booking payment with real email delivery
+INPUT: {"bookingId":10500,"stripeToken":"tok_visa"}
+OUTPUT: {"Booking_Id":10500,"Attendee_Id":10001,"Event_Id":0,"Event_Title":"Keerthi Test Event","Event_Type":"","Event_Date_Time":"0001-01-01T00:00:00","Qr_Code_Path":"/Users/keerthikeswaran/Documents/GenSpark Internship/event-management/server/Event.Business.Tests/assets/users/10001/bookings/qr_10500.png","Virtual_Url":"Disabled","Details":[{"Tier_Name":"VIP","Quantity":1}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetBookingRefundDetailsAsync
+CASE: Booking not found throws NotFoundException
+INPUT: 12002
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetBookingRefundDetailsAsync
+CASE: Event null throws NotFoundException
+INPUT: 12003
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetBookingRefundDetailsAsync
+CASE: Payment null throws ValidationException
+INPUT: 12004
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetBookingRefundDetailsAsync
+CASE: Get refund details successfully
+INPUT: 12001
+OUTPUT: {"returnedEventTime":"2026-07-01T07:04:56.104556Z","returnedAmount":250.00}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetMyBookingsAsync
+CASE: Get bookings filters by status successfully
+INPUT: 10002
+OUTPUT: [{"Booking_Id":10700,"Attendee_Id":10002,"Event_Id":0,"Event_Title":"Event 1","Event_Type":"","Event_Date_Time":"0001-01-01T00:00:00","Booking_Status":"Confirmed","Qr_Code_Path":null,"CheckIn_Status":"Pending","Created_At":"0001-01-01T00:00:00","Virtual_Url":"Disabled","Event_Status":"","Details":[]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetMyBookingsAsync
+CASE: Get bookings returns passcode hash and url
+INPUT: 10002
+OUTPUT: [{"Booking_Id":10700,"Attendee_Id":10002,"Event_Id":201,"Event_Title":"Virtual Webinar","Event_Type":"Virtual","Event_Date_Time":"0001-01-01T00:00:00","Booking_Status":"","Qr_Code_Path":null,"CheckIn_Status":"Pending","Created_At":"0001-01-01T00:00:00","Virtual_Url":"Disabled","Event_Status":"","Details":[]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: GetMyBookingsAsync
+CASE: Retrieve user bookings
+INPUT: 10001
+OUTPUT: [{"Booking_Id":10001,"Attendee_Id":10001,"Event_Id":0,"Event_Title":"","Event_Type":"","Event_Date_Time":"0001-01-01T00:00:00","Booking_Status":"","Qr_Code_Path":null,"CheckIn_Status":"Pending","Created_At":"0001-01-01T00:00:00","Virtual_Url":"Disabled","Event_Status":"","Details":[]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: ReleaseExpiredEventBookingAsync
+CASE: Releases all expired event bookings
+INPUT: null
+OUTPUT: "Completed"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: BookingService
+FUNCTION: RevertPendingBookingAsync
+CASE: Reverts booking in pending state successfully
+INPUT: 10100
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: GetAsync
+CASE: Retrieve with empty JSON returns default
+INPUT: {"Key":"empty-json-key"}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: GetAsync
+CASE: Retrieve with empty key returns default
+INPUT: {"Key":""}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: GetAsync
+CASE: Deserialization error returns default
+INPUT: {"Key":"invalid-json-key"}
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: GetAsync
+CASE: Retrieve value from cache successfully
+INPUT: {"Key":"get-key"}
+OUTPUT: {"Id":123}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: RemoveAsync
+CASE: Remove with empty key does nothing
+INPUT: {"Key":""}
+OUTPUT: "Success (No action)"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: RemoveAsync
+CASE: Remove key from cache successfully
+INPUT: {"Key":"remove-key"}
+OUTPUT: "Success"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: SetAsync
+CASE: Set with empty key does nothing
+INPUT: {"Key":"","Value":"some-value"}
+OUTPUT: "Success (No action)"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: CacheService
+FUNCTION: SetAsync
+CASE: Set key-value pair in cache successfully
+INPUT: {"Key":"test-key","Value":{"Name":"Event 1"}}
+OUTPUT: "Success"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: LoginAdminAsync
+CASE: Login with wrong password throws exception
+INPUT: {"AdminId":"ADM_1001"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: LoginAdminAsync
+CASE: Login with non-existent admin ID throws exception
+INPUT: {"AdminId":"ADM_9999"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: LoginAdminAsync
+CASE: Successful admin login
+INPUT: {"AdminId":"ADM_1001"}
+OUTPUT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1fMTAwMSIsImVtYWlsIjoia2VzaHdhcmFua2VlcnRoaUBnbWFpbC5jb20iLCJqdGkiOiJkNGFjZjJjMi1lOTY0LTRkZjktOWQ4My1lZWM2MjllYWJhYjgiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsIm5iZiI6MTc4MjgwMzA5NiwiZXhwIjoxNzgyODg5NDk2LCJpc3MiOiJFdmVudFBsYXRmb3JtIiwiYXVkIjoiRXZlbnRQbGF0Zm9ybVVzZXJzIn0.7Z0v76vHuSWvihX_dCnwhR8diJFRKDiV8RW7ARrQ8dE"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: LoginAdminAsync
+CASE: Finance ID on admin portal rejected before DB lookup
+INPUT: {"FinanceId":"FIN_2001"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: LoginAdminAsync
+CASE: Finance login triggers OTP
+INPUT: {"FinanceId":"FIN_2001"}
+OUTPUT: "OTP_SENT"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: LoginAdminAsync
+CASE: Admin ID on finance portal rejected before DB lookup and OTP dispatch
+INPUT: {"AdminId":"ADM_1001"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: ResetAdminPasswordAsync
+CASE: Reset with invalid OTP throws exception
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: ResetAdminPasswordAsync
+CASE: Successful password reset
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com"}
+OUTPUT: "Admin password reset successfully."
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: VerifyFinanceLoginOtpAsync
+CASE: Invalid OTP verification throws exception
+INPUT: {"FinanceId":"FIN_2001"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: VerifyFinanceLoginOtpAsync
+CASE: Successful OTP verification
+INPUT: {"FinanceId":"FIN_2001"}
+OUTPUT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJGSU5fMjAwMSIsImVtYWlsIjoia2VzaHdhcmFua2VlcnRoaUBnbWFpbC5jb20iLCJqdGkiOiI1NWU4YjJiZS0yMjRjLTRmNDAtOGFiYS1kZTc3MjU5MzY2ODMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJmaW5hbmNlIiwibmJmIjoxNzgyODAzMDk2LCJleHAiOjE3ODI4ODk0OTYsImlzcyI6IkV2ZW50UGxhdGZvcm0iLCJhdWQiOiJFdmVudFBsYXRmb3JtVXNlcnMifQ.1Y8Pjr50huQyIQe8uDNKJHfzD5TTqNd0YX2FZ6_6sdM"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: DeptAuthService
+FUNCTION: VerifyFinanceLoginOtpAsync
+CASE: Admin ID on finance OTP step rejected before cache lookup
+INPUT: {"AdminId":"ADM_1001"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EmailService
+FUNCTION: BuildEmailHtmlAsync
+CASE: Build html body using fallback template
+INPUT: {"TemplateName":"NonExistentTemplate.html","Placeholders":{"purposeLabel":"verify registration","otp":"123456","year":"2026"}}
+OUTPUT: "\u003C!DOCTYPE html\u003E\n                    \u003Chtml\u003E\n                    \u003Chead\u003E\n                      \u003Cmeta ch..."
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EmailService
+FUNCTION: SendEmailAsync
+CASE: Send test email to Keerthi
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com","subject":"Unit Test Email Delivery"}
+OUTPUT: "Sent"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: BrowseEventsAsync
+CASE: Events with reports and tiers mapped
+INPUT: null
+OUTPUT: {"Event_Id":200,"Organizer_Name":"Org One","Venue_Name":"Hall A","Address":"123 St","Venue_Region_Name":"South","Event_Type":"","Title":"Gala","Description_Url":"","Image_Url":null,"Date_Time":"0001-01-01T00:00:00","Status":"","Duration_Hours":0,"TicketTiers":[{"Tier_Name":"VIP","Price":100,"Tickets_Sold":5}],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: BrowseEventsAsync
+CASE: Null items returns empty list
+INPUT: null
+OUTPUT: 0
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: BrowseEventsAsync
+CASE: Past minDateTime uses cutoff
+INPUT: "2026-06-29T07:04:56.278704Z"
+OUTPUT: 0
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: BrowseEventsAsync
+CASE: Browse events with keyword and category
+INPUT: null
+OUTPUT: 1
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CancelEventAsync
+CASE: Successful cancellation of event
+INPUT: 10005
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CancelEventAsync
+CASE: Staff released on cancel
+INPUT: 10010
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CheckStaffAvailabilityAsync
+CASE: Available less than required returns partial
+INPUT: {"VenueId":100,"DateTime":"2026-06-30T07:04:56.308491Z"}
+OUTPUT: {"RequiredStaffCount":5,"AvailableStaffCount":3,"StaffingCost":150,"IsAdequate":false,"Message":"Partial staff available (3 of 5 required)."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CheckStaffAvailabilityAsync
+CASE: Less than 2 staff returns adequate false
+INPUT: {"VenueId":100,"DateTime":"2026-06-30T07:04:56.314419Z"}
+OUTPUT: {"RequiredStaffCount":2,"AvailableStaffCount":0,"StaffingCost":0,"IsAdequate":false,"Message":"No support staff are available (minimum pool requirement of 2 staff not met)."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CheckStaffAvailabilityAsync
+CASE: Sufficient staff returns adequate true
+INPUT: {"VenueId":100,"DateTime":"2026-06-30T07:04:56.320128Z"}
+OUTPUT: {"RequiredStaffCount":2,"AvailableStaffCount":3,"StaffingCost":100,"IsAdequate":true,"Message":"Sufficient support staff are available."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ConfirmEventUpfrontPaymentAsync
+CASE: Empty organizer email skips email send
+INPUT: 10009
+OUTPUT: "Live"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ConfirmEventUpfrontPaymentAsync
+CASE: Hybrid with staff+virtual success
+INPUT: 10007
+OUTPUT: "Live"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ConfirmEventUpfrontPaymentAsync
+CASE: Physical null venue DTO success
+INPUT: 10008
+OUTPUT: "Live"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ConfirmEventUpfrontPaymentAsync
+CASE: Physical with staff allocation success
+INPUT: 10006
+OUTPUT: "Live"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ConfirmEventUpfrontPaymentAsync
+CASE: Successful confirmation of upfront payment
+INPUT: 10005
+OUTPUT: "Live"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CreateEventAsync
+CASE: Hybrid event creation success
+INPUT: {"EventType":"Hybrid","Title":"Hybrid Conf","Category":"Conference","AgeCategory":"ALL","DescriptionUrl":"desc","ImageUrl":null,"DateTime":"2026-07-02T07:04:56.933295Z","DurationHours":3,"RequiresStaff":false,"VenueId":10001,"AcceptedPolicyId":"E10001","TicketTiers":[{"TierName":"General","Price":15}]}
+OUTPUT: {"Event_Id":0,"Organizer_Id":10001,"Organizer":{"User_Id":10001,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com"},"Venue":{"Region_Id":"","Name":"","Address":""},"Event_Type":"Hybrid","Title":"Hybrid Conf","Category":"Conference","Age_Category":"ALL","Description_Url":"desc","Image_Url":null,"Date_Time":"2026-07-02T07:04:56.933295Z","Duration_Hours":3,"Status":"Activation Pending","TicketTiers":[{"Tier_Name":"General","Price":15,"Tickets_Sold":0}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CreateEventAsync
+CASE: Successful creation of physical event
+INPUT: {"EventType":"Physical","Title":"Physical Meetup","Category":"Conference","AgeCategory":"ALL","DescriptionUrl":"A real meeting","ImageUrl":null,"DateTime":"2026-07-03T07:04:56.953748Z","DurationHours":3,"RequiresStaff":false,"VenueId":10001,"AcceptedPolicyId":"E10001","TicketTiers":[{"TierName":"General","Price":10.00}]}
+OUTPUT: {"Event_Id":0,"Organizer_Id":10001,"Organizer":{"User_Id":10001,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com"},"Venue":{"Region_Id":"","Name":"Auditorium A","Address":""},"Event_Type":"Physical","Title":"Physical Meetup","Category":"Conference","Age_Category":"ALL","Description_Url":"A real meeting","Image_Url":null,"Date_Time":"2026-07-03T07:04:56.953748Z","Duration_Hours":3,"Status":"Activation Pending","TicketTiers":[{"Tier_Name":"General","Price":10.00,"Tickets_Sold":0}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CreateEventAsync
+CASE: Staff cache hit path success
+INPUT: {"EventType":"Physical","Title":"Cache Hit Event","Category":"Conference","AgeCategory":"ALL","DescriptionUrl":"desc","ImageUrl":null,"DateTime":"2026-07-04T07:04:56.961022Z","DurationHours":2,"RequiresStaff":true,"VenueId":20001,"AcceptedPolicyId":"E10001","TicketTiers":[{"TierName":"A","Price":10}]}
+OUTPUT: {"Event_Id":0,"Organizer_Id":10001,"Organizer":{"User_Id":10001,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com"},"Venue":{"Region_Id":"EU-WEST","Name":"","Address":""},"Event_Type":"Physical","Title":"Cache Hit Event","Category":"Conference","Age_Category":"ALL","Description_Url":"desc","Image_Url":null,"Date_Time":"2026-07-04T07:04:56.961022Z","Duration_Hours":2,"Status":"Activation Pending","TicketTiers":[{"Tier_Name":"A","Price":10,"Tickets_Sold":0}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CreateEventAsync
+CASE: Physical with computed staff path success
+INPUT: {"EventType":"Physical","Title":"Staff Computed","Category":"Conference","AgeCategory":"ALL","DescriptionUrl":"desc","ImageUrl":null,"DateTime":"2026-07-02T07:04:56.968399Z","DurationHours":2,"RequiresStaff":true,"VenueId":10001,"AcceptedPolicyId":"E10001","TicketTiers":[{"TierName":"A","Price":10}]}
+OUTPUT: {"Event_Id":0,"Organizer_Id":10001,"Organizer":{"User_Id":10001,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com"},"Venue":{"Region_Id":"US-EAST","Name":"","Address":""},"Event_Type":"Physical","Title":"Staff Computed","Category":"Conference","Age_Category":"ALL","Description_Url":"desc","Image_Url":null,"Date_Time":"2026-07-02T07:04:56.968399Z","Duration_Hours":2,"Status":"Activation Pending","TicketTiers":[{"Tier_Name":"A","Price":10,"Tickets_Sold":0}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:56 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: CreateEventAsync
+CASE: Successful creation of virtual event
+INPUT: {"EventType":"Virtual","Title":"Dev Meetup","Category":"Tech","AgeCategory":"ALL","DescriptionUrl":"A meeting for devs","ImageUrl":null,"DateTime":"2026-07-02T07:04:56.992521Z","DurationHours":2,"RequiresStaff":false,"VenueId":null,"AcceptedPolicyId":"E10001","TicketTiers":[{"TierName":"Free","Price":0.00}]}
+OUTPUT: {"Event_Id":0,"Organizer_Id":10001,"Organizer":{"User_Id":10001,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com"},"Venue":null,"Event_Type":"Virtual","Title":"Dev Meetup","Category":"Tech","Age_Category":"ALL","Description_Url":"A meeting for devs","Image_Url":null,"Date_Time":"2026-07-02T07:04:56.992521Z","Duration_Hours":2,"Status":"Activation Pending","TicketTiers":[{"Tier_Name":"Free","Price":0.00,"Tickets_Sold":0}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: GetEventDetailsAsync
+CASE: Null venue returns null venue dto
+INPUT: 10011
+OUTPUT: {"Event_Id":10011,"Organizer_Id":0,"Organizer":{"User_Id":1,"Name":"OrgUser","Email":"org@test.com"},"Venue":null,"Event_Type":"","Title":"Virtual Only","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"0001-01-01T00:00:00","Duration_Hours":0,"Status":"","TicketTiers":[{"Tier_Name":"Free","Price":0,"Tickets_Sold":0}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: GetEventDetailsAsync
+CASE: Retrieve event details
+INPUT: 10010
+OUTPUT: {"Event_Id":10010,"Organizer_Id":10001,"Organizer":{"User_Id":10001,"Name":"Mock User","Email":"mock@example.com"},"Venue":null,"Event_Type":"","Title":"Tech Gala","Category":"","Age_Category":"","Description_Url":"","Image_Url":null,"Date_Time":"0001-01-01T00:00:00","Duration_Hours":0,"Status":"","TicketTiers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: GetEventsByInterestedRegionsAsync
+CASE: Events with tiers+reports mapped
+INPUT: 10
+OUTPUT: {"Event_Id":300,"Organizer_Name":"Summit Org","Venue_Name":"North Hall","Address":"456 Road","Venue_Region_Name":"North","Event_Type":"","Title":"North Summit","Description_Url":"","Image_Url":null,"Date_Time":"0001-01-01T00:00:00","Status":"","Duration_Hours":0,"TicketTiers":[{"Tier_Name":"Standard","Price":50,"Tickets_Sold":10}],"Reports":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: GetEventsByInterestedRegionsAsync
+CASE: Empty region interest list returns empty
+INPUT: 5
+OUTPUT: []
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: GetEventsByInterestedRegionsAsync
+CASE: Events by user interested regions returned successfully
+INPUT: 5
+OUTPUT: [{"Event_Id":101,"Organizer_Name":"","Venue_Name":null,"Address":null,"Venue_Region_Name":null,"Event_Type":"","Title":"Regional Gala","Description_Url":"","Image_Url":null,"Date_Time":"0001-01-01T00:00:00","Status":"","Duration_Hours":0,"TicketTiers":[],"Reports":[]}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ReleaseExpiredEventCreationAsync
+CASE: Empty list completes gracefully
+INPUT: null
+OUTPUT: "Completed"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ReleaseExpiredEventCreationAsync
+CASE: Inner exception swallowed per event
+INPUT: null
+OUTPUT: "Completed"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ReleaseExpiredEventCreationAsync
+CASE: Rollback expired pending event creations
+INPUT: null
+OUTPUT: "Completed"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ReportEventAsync
+CASE: Create asset report file and update URL
+INPUT: {"ReporterId":99877,"EventId":20001}
+OUTPUT: "/assets/users/99877/reports/report_0.json"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: ReportEventAsync
+CASE: Report an event successfully
+INPUT: {"EventId":1001}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: RevertPendingEventCreationAsync
+CASE: Revert pending event creation successfully
+INPUT: 1001
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: SubmitEventFeedbackAsync
+CASE: Submit event feedback successfully
+INPUT: {"EventId":1001}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: EventService
+FUNCTION: VerifyTicketCheckInAsync
+CASE: Check in ticket successfully
+INPUT: {"Hash":"hash123"}
+OUTPUT: {"Booking_Id":0,"Attendee_Id":0,"Attendee":null,"Event_Id":0,"Event":null,"Booking_Status":"Confirmed","Qr_Code_Path":null,"Qr_Secret_Hash":null,"CheckIn_Status":"Checked-In","Created_At":"0001-01-01T00:00:00","Virtual_Url":null,"Details":[],"Payments":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: ApproveActionAsync
+CASE: Approve attendee refund action with full refund type
+INPUT: {"actionId":10,"refundType":"FUL"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: ApproveActionAsync
+CASE: Invalid refund type code throws ValidationException
+INPUT: {"actionId":12,"refundType":"XYZ"}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: ApproveActionAsync
+CASE: Non-REF action type throws ValidationException
+INPUT: {"actionId":13,"actionType":"BAN"}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: ApproveActionAsync
+CASE: Approve non-existent action throws NotFoundException
+INPUT: {"actionId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: ApproveActionAsync
+CASE: Approve organizer dynamic refund action
+INPUT: {"actionId":11,"refundType":"DYN"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: DeclineActionAsync
+CASE: Decline non-existent action throws NotFoundException
+INPUT: {"actionId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: DeclineActionAsync
+CASE: Finance declines a pending admin action
+INPUT: {"actionId":1}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: GetAdminActionsAsync
+CASE: Retrieve all admin actions for finance review
+INPUT: null
+OUTPUT: [{"actionId":1,"adminId":"","actionType":"REF","targetType":"","targetId":0,"referenceId":0,"ticketId":null,"actionStatus":"Pending","remarks":null,"createdAt":"0001-01-01T00:00:00","details":{"Reports":[]}},{"actionId":2,"adminId":"","actionType":"REF","targetType":"","targetId":0,"referenceId":0,"ticketId":null,"actionStatus":"Processed","remarks":null,"createdAt":"0001-01-01T00:00:00","details":{"Reports":[]}}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: GetTransactionsPagedAsync
+CASE: Retrieve paged transaction list for finance dashboard
+INPUT: null
+OUTPUT: {"Items":[{"Transaction_Id":100001,"Sender_Id":"","Receiver_Id":"","Transaction_Type":"Booking","Related_Id":0,"Amount":500.00,"Currency":"","Payment_Method_Details":null,"Status":"Success","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"0001-01-01T00:00:00","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]},{"Transaction_Id":100002,"Sender_Id":"","Receiver_Id":"","Transaction_Type":"Refund","Related_Id":0,"Amount":200.00,"Currency":"","Payment_Method_Details":null,"Status":"Refunded","Refunded_Amount":0,"Remarks":null,"Transaction_Reference":null,"Created_At":"0001-01-01T00:00:00","BookingPayments":[],"UpfrontPayments":[],"Payouts":[]}],"TotalCount":2,"Page":1,"PageSize":10,"TotalPages":1}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: RespondToTicketAsync
+CASE: Finance team responds to support ticket
+INPUT: {"ticketId":5}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: FinanceService
+FUNCTION: RespondToTicketAsync
+CASE: Respond to non-existent ticket throws NotFoundException
+INPUT: {"ticketId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: OtpService
+FUNCTION: SendEmailOtpAsync
+CASE: Send OTP for already registered email throws conflict exception
+INPUT: "keshwarankeerthi@gmail.com"
+OUTPUT: "ConflictException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: OtpService
+FUNCTION: SendEmailOtpAsync
+CASE: Send OTP for registration successfully
+INPUT: "keshwarankeerthi@gmail.com"
+OUTPUT: "Sent"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: OtpService
+FUNCTION: VerifyOtp
+CASE: Verify with invalid OTP returns false
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com","Otp":"000000"}
+OUTPUT: false
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] 
+========================================
+SERVICE: OtpService
+FUNCTION: VerifyOtp
+CASE: Successfully verify OTP
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com","Otp":""}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:57 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:58 [INF] 
+========================================
+SERVICE: StripePaymentService
+FUNCTION: CreateChargeAsync
+CASE: Charge using test token
+INPUT: {"Amount":10.00,"Currency":"usd","Token":"tok_visa"}
+OUTPUT: {}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: StripePaymentService
+FUNCTION: CreatePayoutAsync
+CASE: Payout using destination connect account
+INPUT: {"DestAccount":"acct_1Tg0SJ24vUFDuoGl","Amount":10.00}
+OUTPUT: {}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: StripePaymentService
+FUNCTION: CreateRefundAsync
+CASE: Refund using test reference
+INPUT: {"TxRef":"ch_3TfzOd24vU9n7PQJ1jBjLRms","Amount":10.00}
+OUTPUT: {}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: PolicyService
+FUNCTION: GetPolicyByTypeAsync
+CASE: Retrieve non-existent policy by type returns null
+INPUT: "NonExistent"
+OUTPUT: null
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: PolicyService
+FUNCTION: GetPolicyByTypeAsync
+CASE: Retrieve active policy by type successfully
+INPUT: "EventCreation"
+OUTPUT: {"TermsId":"10000","Version":"v1.0","FilePath":"assets/policies/10002.md"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: QrCodeService
+FUNCTION: GenerateQrCodeAsync
+CASE: Generate QR with empty text throws exception
+INPUT: ""
+OUTPUT: "ArgumentException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: QrCodeService
+FUNCTION: GenerateQrCodeAsync
+CASE: Generate QR Code bytes from secret text
+INPUT: "booking_secret_hash_123456"
+OUTPUT: "Bytes generated: 894"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Throws NotFoundException for non-existent booking
+INPUT: {"BookingId":10999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Attendee refund: Dynamic 12-48h (50%)
+INPUT: {"BookingId":10001}
+OUTPUT: {"RefundAmount":50.00,"Remarks":"Booking cancelled between 12 and 48 hours prior to event start. 50% refund issued."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Attendee refund: Dynamic < 12h (0%)
+INPUT: {"BookingId":10001}
+OUTPUT: {"RefundAmount":0,"Remarks":"Booking cancelled \u003C 12 hours prior to event start. No refund processed."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Attendee refund: Dynamic > 48h (90%)
+INPUT: {"BookingId":10001}
+OUTPUT: {"RefundAmount":90.00,"Remarks":"Booking cancelled \u003E 48 hours prior to event start. 90% refund issued."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Stripe payment refund failure handling
+INPUT: {"BookingId":10001}
+OUTPUT: {"RefundAmount":0,"Remarks":"Stripe refund failed: Stripe refund failed: ch_fail_declined"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Attendee refund: Full refund path
+INPUT: {"BookingId":10001,"Type":"Full"}
+OUTPUT: {"RefundAmount":100,"Remarks":"Full refund issued."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Attendee refund: NoRefund path
+INPUT: {"BookingId":10001,"Type":"NoRefund"}
+OUTPUT: {"RefundAmount":0,"Remarks":"No refund processed as per finance policy decision."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundAttendeeAsync
+CASE: Attendee refund: Remaining refund path
+INPUT: {"BookingId":1,"Type":"Remaining"}
+OUTPUT: {"RefundAmount":60,"Remarks":"Remaining amount refunded."}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Organizer refund: Dynamic 24-48h (50%)
+INPUT: {"EventId":10010}
+OUTPUT: {"OrgRefund":250.00}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Organizer refund: Dynamic < 24h (0%)
+INPUT: {"EventId":10010}
+OUTPUT: {"OrgRefund":0}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Organizer refund: Dynamic > 48h (90%)
+INPUT: {"EventId":10010}
+OUTPUT: {"OrgRefund":450.00}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Throws NotFoundException for non-existent event
+INPUT: {"EventId":10999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Stripe payment refund failure handling for organizer
+INPUT: {"EventId":10010}
+OUTPUT: {"OrgRefund":0,"Remarks":"Stripe refund failed: Stripe refund failed: ch_fail_timeout"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Event organizer cancellation and full refund path
+INPUT: {"EventId":10010,"Type":"Full"}
+OUTPUT: {"OrgRefund":500,"AttendeeRefunds":[{}]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Organizer refund: NoRefund path
+INPUT: {"EventId":10010}
+OUTPUT: {"OrgRefund":0}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: RefundService
+FUNCTION: RefundOrganizerAsync
+CASE: Organizer refund: Remaining path
+INPUT: {"EventId":10010}
+OUTPUT: {"OrgRefund":300}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: SupportService
+FUNCTION: SubmitSupportTicketAsync
+CASE: Create asset file and update concern URL
+INPUT: {"UserId":99888}
+OUTPUT: "/assets/users/99888/support/ticket_0.json"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: SupportService
+FUNCTION: SubmitSupportTicketAsync
+CASE: Submit ticket successfully
+INPUT: {"UserId":1,"Subject":"Test Subject"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: SupportService
+FUNCTION: SubmitSupportTicketAsync
+CASE: Submit ticket successfully with RelatedId
+INPUT: {"UserId":1,"Subject":"Test Subject","RelatedId":12345}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: SupportService
+FUNCTION: SubmitSupportTicketAsync
+CASE: Non-existent user submitting ticket throws exception
+INPUT: {"UserId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserAuthService
+FUNCTION: LoginUserAsync
+CASE: Login with wrong password throws exception
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com"}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserAuthService
+FUNCTION: LoginUserAsync
+CASE: Successful login
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com"}
+OUTPUT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDAwMSIsImVtYWlsIjoia2VzaHdhcmFua2VlcnRoaUBnbWFpbC5jb20iLCJqdGkiOiIzNTQ3MTM5Ny03OWRjLTRhMjYtOWY0MC1iNzg2ODA4MTAxMzQiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwibmJmIjoxNzgyODAzMDk5LCJleHAiOjE3ODI4ODk0OTksImlzcyI6IkV2ZW50UGxhdGZvcm0iLCJhdWQiOiJFdmVudFBsYXRmb3JtVXNlcnMifQ.CrE_mYf06HYeH3mt6m3icrc-lhJ5_Rne_ZKsb7JYSDs"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserAuthService
+FUNCTION: RegisterUserAsync
+CASE: Register with invalid OTP throws exception
+INPUT: {"User_Id":10001,"Name":"","Email":"keshwarankeerthi@gmail.com","Mobile_Number":"","Password_Hash":"","Consented_Terms_Id":"G10001","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserAuthService
+FUNCTION: RegisterUserAsync
+CASE: Successful registration
+INPUT: {"User_Id":10001,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com","Mobile_Number":"","Password_Hash":"oJ0xmJRFRXmvSDP5ekz40Hcacyzblt8dRl83Nq7mufjQhsNWKH0fvrrX0O85zCX1","Consented_Terms_Id":"G10001","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDAwMSIsImVtYWlsIjoia2VzaHdhcmFua2VlcnRoaUBnbWFpbC5jb20iLCJqdGkiOiI2NTNhZmY4MS1hZjRmLTQ2MmQtOTMwMy05YmJmZGQ5NGI2YWMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwibmJmIjoxNzgyODAzMDk5LCJleHAiOjE3ODI4ODk0OTksImlzcyI6IkV2ZW50UGxhdGZvcm0iLCJhdWQiOiJFdmVudFBsYXRmb3JtVXNlcnMifQ.lxw4VLedtpD4r91dXrR8bNK0zCURXkHvO_h9-Hjmj5Y"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserAuthService
+FUNCTION: RegisterUserAsync
+CASE: Register with terms mismatch throws exception
+INPUT: {"User_Id":10001,"Name":"","Email":"keshwarankeerthi@gmail.com","Mobile_Number":"","Password_Hash":"","Consented_Terms_Id":"99","Has_Marketing_Consent":false,"Password_Reset_Token":null,"Status":"Active","ConsentedTerms":null,"InterestedRegions":[],"OrganizedEvents":[],"Bookings":[],"SupportTickets":[],"Feedbacks":[],"Reports":[]}
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserAuthService
+FUNCTION: ResetUserPasswordAsync
+CASE: Successful password reset
+INPUT: {"TestEmail":"keshwarankeerthi@gmail.com"}
+OUTPUT: "Password reset successfully."
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: CloseAccountAsync
+CASE: Already deactivated throws ValidationException
+INPUT: 1
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: CloseAccountAsync
+CASE: Invalid OTP throws UnauthorizedException
+INPUT: 1
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: CloseAccountAsync
+CASE: Mismatched name throws ValidationException
+INPUT: 1
+OUTPUT: "ValidationException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: CloseAccountAsync
+CASE: Deactivate account successfully
+INPUT: 1
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: CloseAccountAsync
+CASE: User not found throws NotFoundException
+INPUT: 999
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: GetCurrentUserId
+CASE: Retrieve user ID from ClaimsPrincipal
+INPUT: null
+OUTPUT: 1
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: GetCurrentUserId
+CASE: Retrieve user ID from Request Headers
+INPUT: null
+OUTPUT: 2
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: GetCurrentUserId
+CASE: Missing identification throws exception
+INPUT: null
+OUTPUT: "UnauthorizedException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: GetMyEventDetailsAsync
+CASE: Retrieve my event full details
+INPUT: 101
+OUTPUT: {"Event_Id":101,"Organizer_Id":1,"Event_Type":"Virtual","Title":"Test Event 1","Description_Url":"","Image_Url":null,"Date_Time":"0001-01-01T00:00:00","Duration_Hours":0,"Status":"","Requires_Staff":false,"Venue_Id":null,"Venue_Name":null,"Virtual_Url":"http://jitsi","Virtual_Password_Hash":"hashed","TicketTiers":[]}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: GetMyEventsAsync
+CASE: Retrieve my events list overview
+INPUT: 1
+OUTPUT: [{"Event_Id":101,"Title":"Test Event 1","Event_Type":"Physical","Date_Time":"2026-06-30T07:04:59.788876Z","Duration_Hours":0,"Status":"","Venue_Name":null}]
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: GetUserProfileAsync
+CASE: Retrieve user profile details
+INPUT: 1
+OUTPUT: {"User_Id":1,"Name":"KeerthiKeswaran","Email":"keshwarankeerthi@gmail.com","Mobile_Number":"","Status":"Active","RegionId":"US-EAST"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: SelectInterestedRegionsAsync
+CASE: Select interested regions for user successfully
+INPUT: {"UserId":1,"Region":"US-EAST"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: SelectInterestedRegionsAsync
+CASE: Non-existent user throws not found exception
+INPUT: {"UserId":999}
+OUTPUT: "NotFoundException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: UserService
+FUNCTION: UpdateUserProfileAsync
+CASE: Update user profile
+INPUT: {"UserId":1,"Name":"Updated Name"}
+OUTPUT: true
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: VirtualMeetingService
+FUNCTION: GenerateMeetingRoomAsync
+CASE: Empty event title throws exception
+INPUT: null
+OUTPUT: "ArgumentException"
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] 
+========================================
+SERVICE: VirtualMeetingService
+FUNCTION: GenerateMeetingRoomAsync
+CASE: Generate virtual Jitsi meeting link
+INPUT: "My Awesome Dev Conference"
+OUTPUT: {"RoomUrl":"https://meet.jit.si/My-Awesome-Dev-Conference-f5c3b950","Passcode":"691853ed82f1"}
+RESULT: SUCCESS
+========================================
+
+2026-06-30 12:34:59 [INF] ----------------------------------------------------------------------
+

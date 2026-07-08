@@ -1,0 +1,109 @@
+<!-- Select Location Modal Backdrop -->
+@if (isOpen) {
+  <div class="modal-backdrop" (click)="closeLocationModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      
+      <!-- Search bar -->
+      <div class="modal-search-wrapper">
+        <div class="search-input-group">
+          <svg class="modal-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            [(ngModel)]="locationSearchQuery" 
+            (input)="onLocationSearch()"
+            placeholder="Search for your city" 
+            class="modal-search-input"
+          />
+          <button type="button" class="modal-close-btn" (click)="closeLocationModal()">&times;</button>
+        </div>
+
+        <!-- Autocomplete results -->
+        @if (searchLocationResults().length > 0) {
+          <div class="modal-search-results">
+            @for (item of searchLocationResults(); track item.place_id) {
+              <div class="modal-search-item" (click)="selectSearchedLocation(item)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>{{ item.display_name }}</span>
+              </div>
+            }
+          </div>
+        } @else if (isSearchingLocation()) {
+          <div class="modal-search-results">
+            <div class="modal-search-item disabled">Searching cities...</div>
+          </div>
+        }
+      </div>
+
+      <!-- Detect location button row -->
+      <div class="modal-detect-row" (click)="detectLocationFromModal()">
+        <svg class="icon gps-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="7"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+        </svg>
+        <span class="detect-text">
+          {{ isDetectingLocation() ? 'Detecting closest city...' : 'Detect my location' }}
+        </span>
+      </div>
+
+      <!-- Divider line -->
+      <div class="modal-divider"></div>
+
+      <!-- Popular Cities header -->
+      <div class="modal-section-title">Popular Cities</div>
+
+      <!-- Unified dynamic city grid — Wikipedia landmark images for all regions -->
+      <div class="popular-cities-grid">
+
+        <!-- Popular cities row — rendered in popularRegionIds order -->
+        @for (region of popularRegions(); track region.region_Id) {
+          <div class="city-circle-item" (click)="selectRegionFromModal(region.region_Id)" [class.active]="selectedRegionId() === region.region_Id">
+            <div class="city-icon-circle wiki-photo-circle">
+              @if (getRegionImage(region.region_Id)) {
+                <img [src]="getRegionImage(region.region_Id)!" [alt]="region.name" class="city-photo" loading="lazy" />
+              } @else {
+                <span class="city-initial">{{ region.name.charAt(0) }}</span>
+              }
+            </div>
+            <div class="city-name">{{ region.name }}</div>
+          </div>
+        }
+
+        <!-- View All Cities — additional non-popular regions appended to same grid -->
+        @if (showAllCities()) {
+          @for (region of nonPopularRegions(); track region.region_Id) {
+            <div class="city-circle-item additional-city" (click)="selectRegionFromModal(region.region_Id)" [class.active]="selectedRegionId() === region.region_Id">
+              <div class="city-icon-circle wiki-photo-circle">
+                @if (getRegionImage(region.region_Id)) {
+                  <img [src]="getRegionImage(region.region_Id)!" [alt]="region.name" class="city-photo" loading="lazy" />
+                } @else {
+                  <span class="city-initial">{{ region.name.charAt(0) }}</span>
+                }
+              </div>
+              <div class="city-name">{{ region.name }}</div>
+            </div>
+          }
+        }
+
+      </div>
+
+      <!-- View All Cities link -->
+      @if (!showAllCities()) {
+        <div class="modal-footer-view-all">
+          <button type="button" class="btn-view-all-cities" (click)="showAllCities.set(true)">
+            View All Cities
+          </button>
+        </div>
+      }
+
+    </div>
+  </div>
+}

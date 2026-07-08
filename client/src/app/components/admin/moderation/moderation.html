@@ -1,0 +1,351 @@
+<app-navbar [isAdmin]="true"></app-navbar>
+
+<div class="admin-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Moderation Center</h1>
+        <p class="page-sub">Review event reports and manage staff allocations</p>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage()" class="alert alert-error">{{ errorMessage() }}</div>
+
+    <div class="section-panel mb-16">
+      <div class="panel-header" (click)="toggleFlagsSection()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+        <h2 style="margin: 0;">Flagged Event Reports ({{ reports().length }})</h2>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button #refreshReportsBtn class="icon-btn refresh-btn" (click)="refreshReportsBtn.classList.add('spinning-active'); loadReports(); $event.stopPropagation()" (animationiteration)="!loadingReports() && refreshReportsBtn.classList.remove('spinning-active')" title="Refresh" [class.spinning]="loadingReports()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          </button>
+          <span style="font-size: 1.2rem; color: #64748b; transition: transform 0.3s;" [style.transform]="flagsExpanded ? 'rotate(180deg)' : 'rotate(0deg)'">▼</span>
+        </div>
+      </div>
+      <div class="panel-content" [hidden]="!flagsExpanded" style="animation: fadeIn 0.3s ease-in-out;">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th class="sortable" (click)="toggleReportSort('eventId')">Event ID <span class="sort-arrow">{{ reportSortColumn() === 'eventId' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleReportSort('reporterName')">Reporter <span class="sort-arrow">{{ reportSortColumn() === 'reporterName' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th>Reason</th>
+                <th class="sortable" (click)="toggleReportSort('responseAction')">Status <span class="sort-arrow">{{ reportSortColumn() === 'responseAction' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleReportSort('createdAt')">Date <span class="sort-arrow">{{ reportSortColumn() === 'createdAt' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="loadingReports()">
+                <tr *ngFor="let _ of [1,2,3,4,5]">
+                  <td><div class="skeleton-table-cell" style="width: 80px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 140px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 180px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 90px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 90px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 120px;"></div></td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="!loadingReports()">
+                <tr *ngFor="let report of pagedReports()">
+                  <td class="cell-primary">
+                    <a class="event-id-link" (click)="openEventDetailModal(report.eventId); $event.stopPropagation()">#{{ report.eventId }}</a>
+                  </td>
+                  <td>{{ report.reporterName || 'Unknown' }}</td>
+                  <td>{{ report.reason || report.responseAction || 'N/A' }}</td>
+                  <td><span class="badge" [ngClass]="(report.responseAction || 'Pending').toLowerCase()">{{ report.responseAction || 'Pending' }}</span></td>
+                  <td>{{ report.createdAt ? (report.createdAt | date:'mediumDate') : 'N/A' }}</td>
+                  <td class="action-cell">
+                    <button class="btn btn-outline btn-xs" (click)="openDismissModal(report)" [disabled]="report.responseAction === 'Dismissed' || report.responseAction === 'Upholds'">Dismiss</button>
+                    <button class="btn btn-primary btn-xs" (click)="openUpholdModal(report)" [disabled]="report.responseAction === 'Dismissed' || report.responseAction === 'Upholds'">Uphold</button>
+                  </td>
+                </tr>
+                <tr *ngIf="reports().length === 0">
+                  <td colspan="6" class="empty-state">No flagged reports.</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-modern" *ngIf="reports().length > reportPageSize">
+          <button class="pagination-btn" [disabled]="reportPage() <= 1" (click)="changeReportPage(-1)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Previous
+          </button>
+          <div class="pagination-info">
+            <span class="page-current">Page {{ reportPage() }}</span>
+            <span class="page-total">of {{ Math.ceil(reports().length / reportPageSize) }}</span>
+          </div>
+          <button class="pagination-btn" [disabled]="reportPage() * reportPageSize >= reports().length" (click)="changeReportPage(1)">
+            Next
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel">
+      <div class="panel-header" (click)="toggleStaffSection()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+        <h2 style="margin: 0;">Staff Allocations ({{ staffTotalCount() }})</h2>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button #refreshStaffBtn class="icon-btn refresh-btn" (click)="refreshStaffBtn.classList.add('spinning-active'); loadStaff(); $event.stopPropagation()" (animationiteration)="!loadingStaff() && refreshStaffBtn.classList.remove('spinning-active')" title="Refresh" [class.spinning]="loadingStaff()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          </button>
+          <span style="font-size: 1.2rem; color: #64748b; transition: transform 0.3s;" [style.transform]="staffExpanded ? 'rotate(180deg)' : 'rotate(0deg)'">▼</span>
+        </div>
+      </div>
+      <div class="panel-content" [hidden]="!staffExpanded" style="animation: fadeIn 0.3s ease-in-out;">
+          <div class="filter-bar" style="display: flex; gap: 12px; padding: 12px 24px; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+            <select class="filter-select" [(ngModel)]="staffFilterRegion" (ngModelChange)="onStaffFilterChange()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white;">
+              <option value="">All Regions</option>
+              <option *ngFor="let region of regions()" [value]="region.region_Id || region.Region_Id">{{ region.region_Name || region.Region_Name || region.name || region.Name }}</option>
+            </select>
+            <select class="filter-select" [(ngModel)]="staffFilterStatus" (ngModelChange)="onStaffFilterChange()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white;">
+              <option value="">All Status</option>
+              <option value="available">Available</option>
+              <option value="allocated">Allocated</option>
+            </select>
+          </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Staff ID</th>
+                <th class="sortable" (click)="toggleStaffSort('name')">Name <span class="sort-arrow">{{ staffSortColumn() === 'name' ? (staffSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleStaffSort('email')">Email <span class="sort-arrow">{{ staffSortColumn() === 'email' ? (staffSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" (click)="toggleStaffSort('regionid')">Region <span class="sort-arrow">{{ staffSortColumn() === 'regionid' ? (staffSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="loadingStaff()">
+                <tr *ngFor="let _ of [1,2,3,4,5]">
+                  <td><div class="skeleton-table-cell" style="width: 60px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 120px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 160px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 100px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 80px;"></div></td>
+                  <td><div class="skeleton-table-cell" style="width: 90px;"></div></td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="!loadingStaff()">
+                <tr *ngFor="let staff of pagedStaff()"
+                    [class.allocated-row]="staff.isAllocated ?? staff.IsAllocated"
+                    [title]="(staff.isAllocated ?? staff.IsAllocated) ? 'Click to view allocated event details' : ''"
+                    (click)="openStaffEventDetailModal(staff)">
+                  <td class="cell-primary">#{{ staff.employee_ID || staff.Employee_ID || staff.employeeId || staff.employee_Id || staff.id }}</td>
+                  <td>{{ staff.name || staff.Name }}</td>
+                  <td>{{ staff.email || staff.Email }}</td>
+                  <td>{{ staff.region_Name || staff.Region_Name || staff.regionId || staff.region_Id || staff.Region_Id }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="(staff.isAllocated ?? staff.IsAllocated) ? 'allocated' : 'available'">
+                      {{ (staff.isAllocated ?? staff.IsAllocated) ? 'Allocated' : 'Available' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-xs" [ngClass]="(staff.isAllocated ?? staff.IsAllocated) ? 'btn-disabled' : 'btn-allocate'" [disabled]="staff.isAllocated ?? staff.IsAllocated" (click)="openAllocateModal(staff)">
+                      {{ (staff.isAllocated ?? staff.IsAllocated) ? 'Allocated' : 'Allocate' }}
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="staffDirectory().length === 0">
+                  <td colspan="6" class="empty-state">No staff found.</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-modern" *ngIf="staffTotalPages() > 1">
+          <button class="pagination-btn" [disabled]="staffPage() <= 1" (click)="changeStaffPage(-1)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Previous
+          </button>
+          <div class="pagination-info">
+            <span class="page-current">Page {{ staffPage() }}</span>
+            <span class="page-total">of {{ staffTotalPages() }} ({{ staffTotalCount() }} total)</span>
+          </div>
+          <button class="pagination-btn" [disabled]="staffPage() >= staffTotalPages()" (click)="changeStaffPage(1)">
+            Next
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showDismissModal" (click)="cancelDismiss()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Dismiss Report</h3>
+      <button class="modal-close" (click)="cancelDismiss()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">Are you sure you want to dismiss the report for event <strong>#{{ dismissEventId }}</strong>? This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="cancelDismiss()">Cancel</button>
+      <button class="btn btn-primary" (click)="dismissReport(dismissReportId!)">Confirm Dismiss</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showUpholdModal" (click)="closeUpholdModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Uphold Report</h3>
+      <button class="modal-close" (click)="closeUpholdModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">Upholding report for <strong>{{ selectedReport?.reporterName }}</strong></p>
+      <div class="form-group">
+        <label>Reason for action</label>
+        <textarea class="form-textarea" [(ngModel)]="upholdReason" placeholder="Provide a detailed reason for upholding this report..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Organizer Action</label>
+        <select class="form-select" [(ngModel)]="organizerAction">
+          <option value="No Action">No Action</option>
+          <option value="Restrict">Restrict</option>
+          <option value="Deactivate">Deactivate</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="closeUpholdModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="upholdReport()" [disabled]="!upholdReason">Uphold</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showAllocateModal" (click)="closeAllocateModal()">
+  <div class="modal-content" style="position: relative;" (click)="$event.stopPropagation()">
+    
+    <div *ngIf="showSuccessAnimation" class="success-tick-overlay" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; background: var(--bg-canvas); border-radius: var(--radius);">
+      <div class="success-checkmark-svg-wrap">
+        <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <p class="success-text">Staff Allocated Successfully</p>
+    </div>
+
+    <div class="modal-header">
+      <h3>Allocate Staff</h3>
+      <button class="modal-close" (click)="closeAllocateModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">Assign <strong>{{ selectedStaff?.name || selectedStaff?.Name }} (#{{ selectedStaff?.employee_ID || selectedStaff?.Employee_ID || selectedStaff?.employeeId || selectedStaff?.employee_Id || selectedStaff?.id }})</strong> to an event</p>
+      <div *ngIf="allocateMessage()" class="alert" [ngClass]="allocateMessage()?.includes('successfully') ? 'alert-success' : 'alert-error'">{{ allocateMessage() }}</div>
+      <div class="form-group">
+        <label>Select Event</label>
+        <select class="form-select" [(ngModel)]="selectedEventId">
+          <option [value]="null">Choose an event...</option>
+          <option *ngFor="let ev of regionEvents()" [value]="ev.eventId || ev.EventId">{{ ev.title || ev.Title }} - {{ (ev.dateTime || ev.DateTime) | date:'mediumDate' }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="closeAllocateModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="allocateStaff()" [disabled]="!selectedEventId">Allocate</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showSuccessModal">
+  <div class="modal-content modal-success">
+    <div class="modal-body success-body">
+      <div class="tick-icon">&#10003;</div>
+      <p class="success-text">{{ successModalMessage }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Event Detail Modal -->
+<div class="modal-overlay" *ngIf="showEventDetailModal" (click)="closeEventDetailModal()">
+  <div class="modal-content modal-event-detail" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Event Details</h3>
+      <button class="modal-close" (click)="closeEventDetailModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="eventDetailLoading()" class="detail-loading">Loading event details...</div>
+      <ng-container *ngIf="!eventDetailLoading() && selectedEventDetail()">
+        <div class="event-detail-layout">
+          <div class="event-detail-image-wrap" *ngIf="selectedEventDetail().imageUrl || selectedEventDetail().Image_Url || selectedEventDetail().ImageUrl">
+            <img class="event-detail-img"
+                 [src]="selectedEventDetail().imageUrl || selectedEventDetail().Image_Url || selectedEventDetail().ImageUrl"
+                 [alt]="selectedEventDetail().title || selectedEventDetail().Title">
+          </div>
+          <div class="event-detail-info">
+            <h4 class="event-detail-title">{{ selectedEventDetail().title || selectedEventDetail().Title }}</h4>
+            <div class="detail-row">
+              <span class="detail-label">Event ID</span>
+              <span class="detail-value">#{{ selectedEventDetail().eventId || selectedEventDetail().Event_Id || selectedEventDetail().EventId }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Type</span>
+              <span class="detail-value">
+                <span class="badge" [ngClass]="(selectedEventDetail().eventType || selectedEventDetail().Event_Type || selectedEventDetail().EventType || '').toLowerCase()">
+                  {{ selectedEventDetail().eventType || selectedEventDetail().Event_Type || selectedEventDetail().EventType }}
+                </span>
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Status</span>
+              <span class="detail-value">
+                <span class="badge status" [ngClass]="(selectedEventDetail().status || selectedEventDetail().Status || '').toLowerCase().replace(' ', '-')">
+                  {{ selectedEventDetail().status || selectedEventDetail().Status }}
+                </span>
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Date</span>
+              <span class="detail-value">{{ (selectedEventDetail().dateTime || selectedEventDetail().Date_Time || selectedEventDetail().DateTime) | date:'MMMM d, y' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Time</span>
+              <span class="detail-value">{{ (selectedEventDetail().dateTime || selectedEventDetail().Date_Time || selectedEventDetail().DateTime) | date:'h:mm a' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Venue</span>
+              <span class="detail-value">{{ selectedEventDetail().venueName || selectedEventDetail().Venue?.Name || selectedEventDetail().VenueName || 'N/A' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Organizer</span>
+              <span class="detail-value">{{ selectedEventDetail().organizerName || selectedEventDetail().Organizer?.Name || selectedEventDetail().OrganizerName || 'N/A' }}</span>
+            </div>
+            <div class="detail-row" *ngIf="selectedEventDetail().organizerEmail || selectedEventDetail().OrganizerEmail">
+              <span class="detail-label">Organizer Email</span>
+              <span class="detail-value" style="display: flex; align-items: center; gap: 8px;">
+                {{ selectedEventDetail().organizerEmail || selectedEventDetail().OrganizerEmail }}
+                <div style="position: relative; display: inline-flex; align-items: center;">
+                  <svg (click)="copyText(selectedEventDetail().organizerEmail || selectedEventDetail().OrganizerEmail, 'email')" style="cursor: pointer; color: #64748b;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span *ngIf="copiedState === 'email'" class="copy-tooltip" style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; white-space: nowrap; pointer-events: none;">Copied</span>
+                </div>
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Staff Allocated</span>
+              <span class="detail-value">{{ selectedEventDetail().allocatedStaffCount ?? selectedEventDetail().AllocatedStaffCount ?? 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div *ngIf="!eventDetailLoading() && !selectedEventDetail()" class="detail-loading">Event not found.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="closeEventDetailModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<app-footer [isAdmin]="true"></app-footer>

@@ -1,0 +1,272 @@
+/* ──────────────────────────────────────────────────────────
+   POLICY DOCUMENT VIEWER (PDF-style dialog)
+   ────────────────────────────────────────────────────────── */
+
+/* Layered overlay — z-index above cancel modal */
+.policy-doc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeInOverlay 0.22s ease;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* PDF viewer container — matches cancel modal width exactly */
+.policy-doc-viewer {
+  background: #2b2b2b;   /* dark chrome like a PDF reader */
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;       /* same max-width as cancel-modal */
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  animation: slideUpModal 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes slideUpModal {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* PDF Toolbar (dark chrome bar) */
+.pdf-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1e;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.pdf-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #c9c9c9;
+}
+
+.pdf-doc-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e0e0e0;
+  letter-spacing: 0.1px;
+}
+
+.pdf-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pdf-page-info {
+  font-size: 12px;
+  color: #8a8a8a;
+  font-weight: 500;
+}
+
+.pdf-close-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #c9c9c9;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition, all 0.2s ease);
+}
+
+.pdf-close-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Scrollable document area */
+.pdf-doc-body {
+  overflow-y: auto;
+  flex: 1;
+  background: #525659;   /* classic PDF reader grey surround */
+  padding: 28px 24px;
+  scroll-behavior: smooth;
+}
+
+
+
+/* The white document page */
+.pdf-page {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 40px 44px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  max-width: 100%;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Document header */
+.pdf-doc-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.pdf-doc-logo-mark {
+  width: 46px;
+  height: 46px;
+  background: #C41E3A;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.pdf-doc-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -0.4px;
+  margin: 0 0 4px;
+}
+
+.pdf-doc-meta {
+  font-size: 11.5px;
+  color: #888;
+  margin: 0;
+}
+
+/* Divider */
+.pdf-divider {
+  border: none;
+  border-top: 1.5px solid #e5e7eb;
+  margin: 18px 0;
+}
+
+/* Sections */
+.pdf-section {
+  margin-bottom: 20px;
+}
+
+.pdf-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #C41E3A;
+  display: inline-block;
+}
+
+.pdf-body-text {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.65;
+  margin: 0 0 10px;
+}
+
+/* Refund table */
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 12.5px;
+}
+
+.pdf-table th {
+  background: #f9fafb;
+  padding: 9px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1.5px solid #e5e7eb;
+}
+
+.pdf-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+  vertical-align: middle;
+}
+
+.pdf-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.pdf-td-highlight {
+  font-weight: 700;
+}
+
+.pdf-td-highlight.green { color: #10b981; }
+.pdf-td-highlight.amber { color: #f59e0b; }
+.pdf-td-highlight.red   { color: #ef4444; }
+
+/* List */
+.pdf-list {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.8;
+  padding-left: 20px;
+  margin: 8px 0 0;
+}
+
+.pdf-list li::marker {
+  color: #C41E3A;
+}
+
+/* Document footer */
+.pdf-doc-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .policy-doc-viewer {
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+  .pdf-page {
+    padding: 28px 22px;
+  }
+  .pdf-table {
+    font-size: 11.5px;
+  }
+}

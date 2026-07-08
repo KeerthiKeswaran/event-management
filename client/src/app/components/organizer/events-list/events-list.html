@@ -1,0 +1,128 @@
+<app-navbar></app-navbar>
+
+<div class="organizer-layout">
+  <!-- Left Side Slider/Navigation Panel -->
+  <aside class="organizer-sidebar">
+    <nav class="sidebar-nav">
+      <a routerLink="/myevents" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidebar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/myevents/all" routerLinkActive="active" class="sidebar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Events</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Right Content Space -->
+  <div class="organizer-content">
+    <!-- Header -->
+    <div class="organizer-header">
+      <div>
+        <h1 class="page-title">Hosted Events Directory</h1>
+        <p class="page-sub">Search, filter, and manage all of your hosted event listings.</p>
+      </div>
+      <button class="btn-primary" (click)="navigateToCreate()">+ Create Event</button>
+    </div>
+
+    <!-- Controls Bar -->
+    <div class="controls-bar" style="display: flex; gap: 16px; align-items: center; margin-bottom: 24px; justify-content: flex-end;">
+      <!-- Status Filter Dropdown -->
+      <select class="form-control status-filter-select" [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event)" style="width: 200px;">
+        <option value="all">All Statuses</option>
+        <option value="live">Live</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+
+      <select class="status-filter-select" [ngModel]="filterType()" (ngModelChange)="filterType.set($event)" style="width: 170px;">
+        <option value="all">All Types</option>
+        <option value="Physical">Physical</option>
+        <option value="Virtual">Virtual</option>
+        <option value="Hybrid">Hybrid</option>
+      </select>
+
+    </div>
+
+    @if (isLoading()) {
+      <div class="skeleton-panel skeleton-pulse" style="height: 320px; border-radius: 8px; background: rgba(0,0,0,0.04);"></div>
+    } @else {
+      <div class="events-panel">
+        @if (filteredEvents().length === 0) {
+          <div class="empty-state">
+            <p>No events match your search. Try a different keyword or filter.</p>
+          </div>
+        } @else {
+          <div class="table-responsive">
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th>Event Details</th>
+                  <th class="sortable-header" (click)="toggleSort('date')">
+                    Date & Time
+                    <span class="sort-icon" [class.asc]="sortBy() === 'date' && sortDirection() === 'asc'" [class.desc]="sortBy() === 'date' && sortDirection() === 'desc'"></span>
+                  </th>
+                  <th>Type</th>
+                  <th class="sortable-header" (click)="toggleSort('sold')">
+                    Tickets Sold
+                    <span class="sort-icon" [class.asc]="sortBy() === 'sold' && sortDirection() === 'asc'" [class.desc]="sortBy() === 'sold' && sortDirection() === 'desc'"></span>
+                  </th>
+                  <th class="sortable-header" (click)="toggleSort('earnings')">
+                    Earnings
+                    <span class="sort-icon" [class.asc]="sortBy() === 'earnings' && sortDirection() === 'asc'" [class.desc]="sortBy() === 'earnings' && sortDirection() === 'desc'"></span>
+                  </th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (event of filteredEvents(); track event.event_Id) {
+                  <tr (click)="openEventModal(event)" style="cursor: pointer;">
+                    <td>
+                      <div class="event-cell-info">
+                        <span class="event-cell-title">{{ event.title }}</span>
+                        <span class="event-cell-venue">
+                          <svg class="cell-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                          {{ event.venue_Name || 'Virtual Session' }}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="datetime-text">{{ event.date_Time | date:'medium' }}</span>
+                    </td>
+                    <td>
+                      <span class="type-badge" [class.type-virtual]="event.event_Type === 'Virtual'">
+                        {{ event.event_Type }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="count-value">{{ event.tickets_Sold }}</span>
+                    </td>
+                    <td>
+                      <span class="earnings-value">₹{{ event.net_Earnings | number:'1.2-2' }}</span>
+                    </td>
+                    <td>
+                      <span class="status-badge" [class]="'status-' + event.status.toLowerCase()">
+                        {{ event.status }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+@if (selectedEvent()) {
+  <app-event-details-modal 
+    [event]="selectedEvent()" 
+    (close)="closeEventModal()"
+    (updated)="refreshEventDetails()">
+  </app-event-details-modal>
+}
+
+<app-footer></app-footer>

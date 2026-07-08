@@ -1,0 +1,93 @@
+<app-navbar></app-navbar>
+
+<div class="help-page">
+
+  <!-- Header -->
+  <div class="help-header">
+    <h1 class="page-title">Support & Help Desk</h1>
+    <p class="page-sub">Find quick solutions to common booking and ticket problems, raise a support ticket mapped to your bookings, or track active cases.</p>
+  </div>
+
+  <!-- Main Grid Layout -->
+  <div class="help-main-grid">
+    
+    <!-- LEFT COLUMN: Guides or Selected Guide Detail (70%) -->
+    <div class="help-left-column">
+      
+      @if (selectedTopic()) {
+        <!-- SEPARATE DETAIL PAGE VIEW FOR PREDEFINED ANSWERS -->
+        <div class="topic-detail-container">
+          <button class="back-to-topics-btn" (click)="selectedTopicId.set(null)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Support Guides
+          </button>
+          
+          <div class="detail-card">
+            <h2 class="detail-topic-title">{{ selectedTopic()!.title }}</h2>
+            <p class="detail-topic-summary">{{ selectedTopic()!.summary }}</p>
+            
+            <div class="detail-topic-divider"></div>
+            
+            <!-- Predefined HTML Answer Content -->
+            <div class="detail-topic-body" [innerHTML]="selectedTopic()!.content"></div>
+          </div>
+        </div>
+      } @else {
+        <!-- GENERAL TOPICS LISTING VIEW -->
+        <div class="column-header-row">
+          <h2 class="column-title">Help & Resolution Guides</h2>
+        </div>
+
+        <div class="help-topics-list">
+          @for (topic of helpTopics(); track topic.id) {
+            <div class="topic-card" (click)="selectTopic(topic.id)">
+              <div class="topic-card-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+              </div>
+              <div class="topic-card-content">
+                <h3 class="topic-card-title">{{ topic.title }}</h3>
+                <p class="topic-card-desc">{{ topic.summary }}</p>
+                <span class="read-article-link">Read Guide & Solution →</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+
+    <!-- RIGHT COLUMN: Actions & Links (30%) -->
+    <div class="help-right-column">
+      
+      <!-- Raise Ticket Action Card -->
+      <div class="help-sidebar-card action-card">
+        <h3 class="card-heading">Raise a ticket</h3>
+        <p class="card-description">Need help with a payment issue, entry QR code, or cancellation? Open a new ticket mapped directly to your booking.</p>
+        <button class="action-card-btn" routerLink="/raise-ticket">
+          Create Support Ticket
+        </button>
+      </div>
+
+      <!-- View Tickets Action Card -->
+      <div class="help-sidebar-card action-card">
+        <h3 class="card-heading">Track Active Cases</h3>
+        <p class="card-description">Review answers, status log changes, or resolution times for tickets you have previously raised.</p>
+        <button class="action-card-btn secondary" routerLink="/my-tickets">
+          View My Tickets
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Global Footer -->
+<app-footer></app-footer>

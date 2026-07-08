@@ -1,0 +1,657 @@
+<app-navbar [isAdmin]="isAdmin()" [isFinance]="isFinance()"></app-navbar>
+
+<div class="settings-page-wrapper">
+  <div class="settings-container">
+    
+    <!-- Left Sidebar Menu -->
+    <aside class="settings-sidebar">
+      <div class="sidebar-header">
+        <h2>Settings</h2>
+        <p class="sidebar-sub">Manage your account preferences</p>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button 
+          class="nav-tab-btn" 
+          [class.active]="activeTab() === 'profile'"
+          (click)="setTab('profile')">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Profile Info</span>
+        </button>
+
+        <button 
+          class="nav-tab-btn" 
+          [class.active]="activeTab() === 'password'"
+          (click)="setTab('password')">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Password Reset</span>
+        </button>
+
+        @if (!isAdmin() && !isFinance()) {
+        <button 
+          class="nav-tab-btn tab-danger" 
+          [class.active]="activeTab() === 'close'"
+          (click)="setTab('close')">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+          <span>Close Account</span>
+        </button>
+        }
+      </nav>
+    </aside>
+
+    <!-- Right Settings Workspace Area -->
+    <main class="settings-content">
+      
+      <!-- Subpage 1: Profile Info -->
+      @if (activeTab() === 'profile') {
+        <div class="content-header-row">
+          <div class="content-header">
+            <h1>Profile Information</h1>
+            <p class="header-desc">Update your personal account details and credentials</p>
+          </div>
+
+          <!-- Edit Toggles -->
+          @if (!isAdmin()) {
+            <div class="edit-action-header">
+              @if (!isEditingProfile()) {
+                <button type="button" class="btn btn-outline edit-btn-icon" (click)="enableEditProfile()" title="Edit details">
+                  <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span>Edit Profile</span>
+                </button>
+              } @else {
+                <button type="button" class="btn btn-outline cancel-btn-icon" (click)="cancelEditProfile()" title="Cancel editing">
+                  Cancel
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="settings-card profile-settings-card">
+          <!-- Profile Quick Info -->
+          <div class="profile-avatar-row">
+            <div class="avatar-circle">
+              {{ (currentUser?.name || 'U').substring(0, 1).toUpperCase() }}
+            </div>
+            <div>
+              <h3>{{ currentUser?.name }}</h3>
+              <p class="avatar-email">{{ currentUser?.email }}</p>
+            </div>
+          </div>
+
+          <!-- Alert Notices -->
+          @if (profileSuccessMessage()) {
+            <div class="alert alert-success">
+              <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>{{ profileSuccessMessage() }}</span>
+            </div>
+          }
+          @if (profileErrorMessage()) {
+            <div class="alert alert-danger">
+              <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{{ profileErrorMessage() }}</span>
+            </div>
+          }
+
+          <form (ngSubmit)="updateProfile()" class="settings-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prof-name">Full Name</label>
+                <input 
+                  type="text" 
+                  id="prof-name" 
+                  name="profileName" 
+                  [(ngModel)]="profileName" 
+                  class="form-control" 
+                  placeholder="Your Name" 
+                  required
+                  [disabled]="!isEditingProfile() || isSavingProfile()"
+                />
+              </div>
+              <div class="form-group">
+                <label for="prof-phone">Mobile Number</label>
+                <input 
+                  type="text" 
+                  id="prof-phone" 
+                  name="profilePhone" 
+                  [(ngModel)]="profilePhone" 
+                  class="form-control" 
+                  placeholder="e.g. +91 98765 43210"
+                  [disabled]="!isEditingProfile() || isSavingProfile()"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="prof-email">Email Address</label>
+              <input 
+                type="email" 
+                id="prof-email" 
+                name="profileEmail" 
+                [ngModel]="profileEmail"
+                (ngModelChange)="onEmailChange($event)" 
+                class="form-control" 
+                placeholder="email@example.com" 
+                required
+                [disabled]="!isEditingProfile() || isSavingProfile()"
+                [style.border-color]="emailCheckError() ? '#ef4444' : ''"
+              />
+              @if (emailCheckError()) {
+                <span class="field-hint" style="color: #ef4444;">{{ emailCheckError() }}</span>
+              } @else {
+                <span class="field-hint">Your email is used to send verification codes and ticket confirmation details.</span>
+              }
+            </div>
+
+            @if (isEditingProfile()) {
+              <div class="form-actions animation-slide">
+                <button 
+                  type="submit" 
+                  class="btn btn-primary" 
+                  [disabled]="isSavingProfile()">
+                  @if (isSavingProfile()) {
+                    <span class="btn-spinner"></span> Saving Changes...
+                  } @else {
+                    Save Changes
+                  }
+                </button>
+              </div>
+            }
+          </form>
+        </div>
+      }
+
+      <!-- Subpage 2: Password Reset -->
+      @if (activeTab() === 'password') {
+        <div class="content-header-row">
+          <div class="content-header">
+            <h1>Password Reset</h1>
+            <p class="header-desc">Change your password regularly to keep your account safe</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <!-- Alert Notices -->
+          @if (passwordSuccessMessage()) {
+            <div class="alert alert-success">
+              <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>{{ passwordSuccessMessage() }}</span>
+            </div>
+          }
+          @if (passwordErrorMessage()) {
+            <div class="alert alert-danger">
+              <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{{ passwordErrorMessage() }}</span>
+            </div>
+          }
+
+          <div class="password-trigger-card">
+            <div class="password-trigger-info">
+              <svg class="trigger-shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <div>
+                <h3>Two-Step Identity Verification Required</h3>
+                <p>For your security, resetting your password requires email OTP validation. A secure temporary verification code will be sent to your registered address: <strong>{{ currentUser?.email }}</strong>.</p>
+              </div>
+            </div>
+
+            <button 
+              type="button" 
+              class="btn btn-primary" 
+              (click)="requestPasswordChange()"
+              [disabled]="isRequestingPasswordOtp()">
+              @if (isRequestingPasswordOtp()) {
+                <span class="btn-spinner"></span> Sending Code...
+              } @else {
+                Change Password
+              }
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Subpage 3: Close Account -->
+      @if (activeTab() === 'close' && !isAdmin() && !isFinance()) {
+        <div class="content-header-row">
+          <div class="content-header">
+            <h1>Close Account</h1>
+            <p class="header-desc text-danger">Permanently close and delete your account data. This action is irreversible.</p>
+          </div>
+        </div>
+
+        <div class="settings-card danger-boundary">
+          
+          <!-- Sweet and Professional Greeting Message instead of the Warning block -->
+          <div class="closure-welcome-card">
+            <h3>We've loved having you as part of our community</h3>
+            <p>Thank you for sharing your experiences and bookings on GetMyEvents. If you choose to close your account, we will clear all your profile records, event histories, and active settings immediately. Please let us know the reason below to help us improve.</p>
+          </div>
+
+          <!-- Alert Notices -->
+          @if (closureErrorMessage()) {
+            <div class="alert alert-danger m-bottom-20">
+              <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{{ closureErrorMessage() }}</span>
+            </div>
+          }
+
+          <!-- STEP 1: Select Reason & Type Name to Confirm -->
+          @if (!isOtpSent()) {
+            <form (ngSubmit)="requestAccountClosure()" class="settings-form">
+              
+              <div class="form-group">
+                <label>Why are you leaving?</label>
+                <div class="reason-radio-group">
+                  @for (reason of closureReasons; track reason.value) {
+                    <label class="reason-radio-label">
+                      <input 
+                        type="radio" 
+                        name="selectedReason" 
+                        [value]="reason.value" 
+                        [(ngModel)]="selectedReason" 
+                      />
+                      <span>{{ reason.label }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+
+              <!-- Conditional textarea if 'other' is chosen -->
+              @if (selectedReason === 'other') {
+                <div class="form-group m-top-10 animation-slide">
+                  <label for="other-exp">Please specify</label>
+                  <textarea 
+                    id="other-exp"
+                    name="otherReasonExplanation"
+                    [(ngModel)]="otherReasonExplanation"
+                    class="form-control text-area-large"
+                    placeholder="We'd love to know what we can do better..."
+                    maxlength="500"
+                    required>
+                  </textarea>
+                </div>
+              }
+
+              <div class="form-group confirm-identity-section m-top-16">
+                <label for="confirm-name">
+                  Type your name to confirm: <strong class="user-highlight">{{ currentUser?.name }}</strong>
+                </label>
+                <input 
+                  type="text" 
+                  id="confirm-name" 
+                  name="typedConfirmName" 
+                  [(ngModel)]="typedConfirmName" 
+                  class="form-control" 
+                  placeholder="Enter your exact display name" 
+                  required
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="form-actions m-top-16">
+                <button 
+                  type="submit" 
+                  class="btn btn-danger" 
+                  [disabled]="isSubmittingClosure()">
+                  @if (isSubmittingClosure()) {
+                    <span class="btn-spinner"></span> Sending OTP...
+                  } @else {
+                    Delete Account
+                  }
+                </button>
+              </div>
+            </form>
+          }
+
+          <!-- STEP 2: Enter Verification OTP to complete account deletion -->
+          @if (isOtpSent()) {
+            <div class="otp-verification-section animation-slide">
+              <div class="otp-header">
+                <h3>Verify Verification OTP</h3>
+                <p>A 6-digit confirmation code has been generated and dispatched to your email: <strong>{{ currentUser?.email }}</strong>.</p>
+              </div>
+
+              <form (ngSubmit)="confirmAccountClosure()" class="settings-form-narrow">
+                <div class="form-group m-top-20">
+                  <label for="otp-code">Enter 6-Digit OTP</label>
+                  <input 
+                    type="text" 
+                    id="otp-code" 
+                    name="otpCode" 
+                    [(ngModel)]="otpCode" 
+                    class="form-control otp-code-input" 
+                    placeholder="000000" 
+                    maxlength="6"
+                    required
+                    autocomplete="off"
+                  />
+                  <span class="field-hint">Any 6-digit number will authenticate in this local testing environment.</span>
+                </div>
+
+                <div class="form-actions flex-actions gap-12 m-top-30">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline" 
+                    (click)="cancelClosureOtp()"
+                    [disabled]="isSubmittingClosure()">
+                    Back
+                  </button>
+                  <button 
+                    type="submit" 
+                    class="btn btn-danger" 
+                    [disabled]="isSubmittingClosure()">
+                    @if (isSubmittingClosure()) {
+                      <span class="btn-spinner"></span> Confirm Deletion...
+                    } @else {
+                      Confirm Account Deletion
+                    }
+                  </button>
+                </div>
+              </form>
+            </div>
+          }
+        </div>
+      }
+
+    </main>
+  </div>
+</div>
+
+<app-footer [isAdmin]="isAdmin()"></app-footer>
+
+
+<!-- ============================================================
+     MODAL POPUP 1: PASSWORD RESET OTP VERIFICATION
+     ============================================================ -->
+@if (showPasswordOtpModal()) {
+  <div class="settings-modal-overlay">
+    <div class="settings-modal-card">
+      <div class="modal-header-section">
+        <h2>Verify Identity</h2>
+        <button class="modal-close-x" (click)="closePasswordOtpModal()">&times;</button>
+      </div>
+
+      <div class="modal-body-section">
+        <p class="modal-prompt-text">We have sent a 6-digit verification code to <strong>{{ currentUser?.email }}</strong>. Please enter the code below to proceed with changing your password.</p>
+        
+        @if (passwordOtpError()) {
+          <div class="alert alert-danger m-bottom-20">
+            <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ passwordOtpError() }}</span>
+          </div>
+        }
+
+        <form (ngSubmit)="verifyPasswordOtp()" class="modal-otp-form">
+          <div class="form-group centered-input-group">
+            <label for="pass-otp-input">Verification Code</label>
+            <div class="input-action-wrapper" style="display: flex; gap: 8px;">
+              <input 
+                type="text" 
+                id="pass-otp-input" 
+                name="passwordOtpCode" 
+                [(ngModel)]="passwordOtpCode" 
+                class="form-control otp-code-input" 
+                placeholder="000000" 
+                maxlength="6"
+                required
+                autocomplete="off"
+              />
+              <button type="button" class="btn btn-outline send-otp-btn" (click)="resendPasswordOtp()" [disabled]="isRequestingPasswordOtp() || passwordOtpCountdown() > 0">
+                @if (passwordOtpCountdown() > 0) {
+                  Resend in {{ passwordOtpCountdown() }}s
+                } @else {
+                  Resend OTP
+                }
+              </button>
+            </div>
+            <span class="field-hint">Check your email inbox for the verification code.</span>
+          </div>
+
+          <div class="modal-actions-row">
+            <button 
+              type="button" 
+              class="btn btn-outline" 
+              (click)="closePasswordOtpModal()"
+              [disabled]="isVerifyingPasswordOtp()">
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              [disabled]="isVerifyingPasswordOtp()">
+              @if (isVerifyingPasswordOtp()) {
+                <span class="btn-spinner"></span> Verifying...
+              } @else {
+                Verify Code
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
+
+
+<!-- ============================================================
+     MODAL POPUP 2: ENTER NEW PASSWORD & CONFIRM
+     ============================================================ -->
+@if (showNewPasswordModal()) {
+  <div class="settings-modal-overlay">
+    <div class="settings-modal-card">
+      <div class="modal-header-section">
+        <h2>Reset Password</h2>
+        <button class="modal-close-x" (click)="closeNewPasswordModal()">&times;</button>
+      </div>
+
+      <div class="modal-body-section">
+        <p class="modal-prompt-text">Create a strong, secure new password for your account.</p>
+
+        @if (passwordResetError()) {
+          <div class="alert alert-danger m-bottom-20">
+            <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ passwordResetError() }}</span>
+          </div>
+        }
+
+        <form (ngSubmit)="submitNewPassword()" class="settings-form">
+          <div class="form-group">
+            <label for="new-password-input">New Password</label>
+            <input 
+              type="password" 
+              id="new-password-input" 
+              name="newPassword" 
+              [(ngModel)]="newPassword" 
+              class="form-control" 
+              placeholder="Minimum 6 characters" 
+              required
+              [disabled]="isSubmittingNewPassword()"
+              autocomplete="new-password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password-input">Confirm New Password</label>
+            <input 
+              type="password" 
+              id="confirm-password-input" 
+              name="confirmPassword" 
+              [(ngModel)]="confirmPassword" 
+              class="form-control" 
+              placeholder="Re-enter your new password" 
+              required
+              [disabled]="isSubmittingNewPassword()"
+              autocomplete="new-password"
+            />
+          </div>
+
+          <div class="modal-actions-row">
+            <button 
+              type="button" 
+              class="btn btn-outline" 
+              (click)="closeNewPasswordModal()"
+              [disabled]="isSubmittingNewPassword()">
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              [disabled]="isSubmittingNewPassword()">
+              @if (isSubmittingNewPassword()) {
+                <span class="btn-spinner"></span> Updating...
+              } @else {
+                Update Password
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
+
+
+<!-- ============================================================
+     FINAL THANKING SCREEN OVERLAY
+     ============================================================ -->
+@if (isAccountClosed()) {
+  <div class="thank-you-overlay">
+    <div class="thank-you-card">
+      <div class="thank-you-header">
+        <div class="heart-mark">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </div>
+        <h1>Thank you for sharing your journey with us</h1>
+      </div>
+
+      <div class="thank-you-body">
+        <p class="main-thank-text">We're incredibly grateful to have had you as a traveler on GetMyEvents.</p>
+        <p class="sub-thank-text">Your profile details, ticket reservations, registrations, and account settings have been successfully cleared. Safe travels on your next adventure, and we hope to welcome you back someday!</p>
+      </div>
+
+      <div class="thank-you-footer">
+        <button class="btn btn-primary" (click)="navigateHome()">
+          Go to Home Page
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============================================================
+     MODAL POPUP 3: PROFILE EMAIL OTP VERIFICATION
+     ============================================================ -->
+@if (showProfileOtpModal()) {
+  <div class="settings-modal-overlay">
+    <div class="settings-modal-card">
+      <div class="modal-header-section">
+        <h2>Verify Email Change</h2>
+        <button class="modal-close-x" (click)="closeProfileOtpModal()">&times;</button>
+      </div>
+
+      <div class="modal-body-section">
+        <p class="modal-prompt-text">We have sent a 6-digit verification code to <strong>{{ profileEmail }}</strong>. Please enter the code below to confirm your new email address.</p>
+        
+        @if (profileOtpError()) {
+          <div class="alert alert-danger m-bottom-20">
+            <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ profileOtpError() }}</span>
+          </div>
+        }
+
+        <form (ngSubmit)="verifyProfileOtp()" class="modal-otp-form">
+          <div class="form-group centered-input-group">
+            <label for="profile-otp-input">Verification Code</label>
+            <div class="input-action-wrapper" style="display: flex; gap: 8px;">
+              <input 
+                type="text" 
+                id="profile-otp-input" 
+                name="profileOtpCode" 
+                [(ngModel)]="profileOtpCode" 
+                class="form-control otp-code-input" 
+                placeholder="000000" 
+                maxlength="6"
+                required
+                autocomplete="off"
+              />
+              <button type="button" class="btn btn-outline send-otp-btn" (click)="resendProfileOtp()" [disabled]="isSavingProfile() || profileOtpCountdown() > 0">
+                @if (profileOtpCountdown() > 0) {
+                  Resend in {{ profileOtpCountdown() }}s
+                } @else {
+                  Resend OTP
+                }
+              </button>
+            </div>
+            <span class="field-hint">Check your inbox for the OTP.</span>
+          </div>
+
+          <div class="modal-actions-row">
+            <button 
+              type="button" 
+              class="btn btn-outline" 
+              (click)="closeProfileOtpModal()"
+              [disabled]="isVerifyingProfileOtp()">
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              [disabled]="isVerifyingProfileOtp()">
+              @if (isVerifyingProfileOtp()) {
+                <span class="btn-spinner"></span> Verifying...
+              } @else {
+                Verify Code
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
