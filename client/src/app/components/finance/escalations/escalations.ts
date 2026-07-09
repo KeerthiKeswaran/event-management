@@ -28,10 +28,19 @@ export class EscalationsComponent implements OnInit {
   sortColumn = signal('createdAt');
   sortDirection = signal<'asc' | 'desc'>('desc');
 
+  // Filters
+  filterStatus = signal<string>('');
+
   sortedActions = computed(() => {
+    let list = this.actions();
+    const status = this.filterStatus();
+    if (status) {
+      list = list.filter(a => (a.actionStatus || a.ActionStatus || '') === status);
+    }
+
     const col = this.sortColumn();
     const dir = this.sortDirection();
-    return [...this.actions()].sort((a, b) => {
+    return [...list].sort((a, b) => {
       const aVal = a[col] ?? a[col.charAt(0).toUpperCase() + col.slice(1)];
       const bVal = b[col] ?? b[col.charAt(0).toUpperCase() + col.slice(1)];
       if (aVal == null) return 1;

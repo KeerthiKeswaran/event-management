@@ -271,9 +271,9 @@ namespace Event.API.Controllers
         {
             try
             {
-                if (request == null || string.IsNullOrWhiteSpace(request.Reason))
+                if (request == null || string.IsNullOrWhiteSpace(request.AdminUpheldMessage))
                 {
-                    return BadRequest(new { Message = "Reason is required when upholding a report." });
+                    return BadRequest(new { Message = "AdminUpheldMessage is required when upholding a report." });
                 }
 
                 string adminId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
@@ -293,7 +293,7 @@ namespace Event.API.Controllers
                     return Unauthorized(new { Message = "Admin identification not found." });
                 }
 
-                var success = await _adminService.UpholdEventReportAsync(reportId, adminId, request.Reason, request.OrganizerAction);
+                var success = await _adminService.UpholdEventReportAsync(reportId, adminId, request.AdminUpheldMessage, request.OrganizerAction);
                 if (!success)
                 {
                     return BadRequest(new { Message = "Failed to uphold report." });
@@ -335,7 +335,25 @@ namespace Event.API.Controllers
         {
             try
             {
-                var venues = await _adminService.GetAllVenuesAsync();
+                var venues = await _adminService.GetAllVenuesIncludingInactiveAsync();
+                return Ok(venues);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpGet("venues/search")]
+        public async Task<IActionResult> SearchVenues([FromQuery] string name)
+        {
+            try
+            {
+                var venues = await _adminService.GetAllVenuesIncludingInactiveAsync();
+                if (!string.IsNullOrEmpty(name))
+                {
+                    venues = venues.Where(v => v.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
                 return Ok(venues);
             }
             catch (Exception ex)
@@ -562,6 +580,43 @@ namespace Event.API.Controllers
             {
                 var metadata = await _adminService.GetHelpdeskMetadataAsync();
                 return Ok(metadata);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers(
+            [FromQuery] string? keyword,
+            [FromQuery] string? status,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate,
+            [FromQuery] string? sortBy,
+            [FromQuery] int page = 1,
+            [FromQuery] int size = 10)
+        {
+            try
+            {
+                var result = await _adminService.GetUsersPagedAsync(keyword, status, startDate, endDate, sortBy, page, size);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpPut("users/{id}/status")]
+        public async Task<IActionResult> UpdateUserStatus(int id, [FromBody] UpdateUserStatusRequest request)
+        {
+            try
+            {
+                var success = await _adminService.UpdateUserStatusAsync(id, request.Status);
+                if (!success)
+                    return NotFound(new { Message = "User not found." });
+
+                return Ok(new { Message = "User status updated successfully." });
             }
             catch (Exception ex)
             {

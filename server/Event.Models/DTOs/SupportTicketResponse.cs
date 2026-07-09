@@ -17,5 +17,6 @@ namespace Event.Models.DTOs
         public DateTime? Created_At { get; set; }
         public string? Subject { get; set; }
         public string? Message { get; set; }
+        public bool IsRaisedByAdmin { get; set; }
     }
 }

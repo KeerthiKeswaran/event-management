@@ -130,12 +130,17 @@ namespace Event.API.Controllers
                     .Take(3)
                     .ToList();
 
+                var liveCount = events.Count(e => e.Date_Time > now && (e.Status == "Live" || e.Status == "Pending"));
+                var completedCount = events.Count(e => e.Status == "Completed");
+
                 return Ok(new
                 {
                     TotalEvents = totalEvents,
                     TicketsSold = ticketsSold,
                     NetEarnings = netEarnings,
-                    UpcomingEvents = upcoming
+                    UpcomingEvents = upcoming,
+                    LiveCount = liveCount,
+                    CompletedCount = completedCount
                 });
             }
             catch (UnauthorizedAccessException ex)

@@ -56,7 +56,11 @@ namespace Event.Business.Services
             // 3. Guard against duplicate registration
             var existing = await _userRepository.GetByEmailAsync(user.Email);
             if (existing != null)
+            {
+                if (string.Equals(existing.Status, "Deactivated", StringComparison.OrdinalIgnoreCase))
+                    throw new UnauthorizedException("Your account has been deactivated. You cannot register with this email.");
                 throw new ConflictException("Email is already registered.");
+            }
 
             // 4. Hash the password and save the new user record
             user.Password_Hash    = PasswordHasher.Hash(password);
@@ -80,6 +84,9 @@ namespace Event.Business.Services
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
                 throw new UnauthorizedException("Invalid email or password.");
+
+            if (string.Equals(user.Status, "Deactivated", StringComparison.OrdinalIgnoreCase))
+                throw new UnauthorizedException("Your account has been deactivated.");
 
             // 2. Verify the submitted password hash
             if (!PasswordHasher.Verify(password, user.Password_Hash))

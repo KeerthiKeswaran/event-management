@@ -7,6 +7,8 @@ import { FooterComponent } from '../../home/footer/footer';
 import { NavbarComponent } from '../../home/navbar/navbar';
 
 import { EventDetailsModalComponent } from '../event-details-modal/event-details-modal';
+import { AppStoreService } from '../../../store/app-store.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-organizer-events',
@@ -69,13 +71,26 @@ export class OrganizerEventsComponent implements OnInit {
     return list;
   });
 
+  public isRestricted = signal(false);
+  private subscriptions = new Subscription();
+
   constructor(
     private eventService: EventService,
-    private router: Router
+    private router: Router,
+    private store: AppStoreService
   ) {}
 
   ngOnInit(): void {
+    this.subscriptions.add(
+      this.store.select(state => state.auth.user).subscribe(user => {
+        this.isRestricted.set(user?.status === 'Restricted');
+      })
+    );
     this.loadEvents();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public loadEvents(): void {
@@ -92,10 +107,12 @@ export class OrganizerEventsComponent implements OnInit {
   }
 
   public navigateToCreate(): void {
+    if (this.isRestricted()) return;
     this.router.navigate(['/myevents/create']);
   }
 
   public openEventModal(event: any): void {
+    if (this.isRestricted()) return;
     this.selectedEvent.set(event);
   }
 
@@ -112,5 +129,58 @@ export class OrganizerEventsComponent implements OnInit {
         }
       });
     }
+  }
+
+  public recreateEvent(eventObj: any, mouseEvent?: Event): void {
+    if (mouseEvent) {
+      mouseEvent.stopPropagation();
+    }
+    this.eventService.getMyEventDetails(eventObj.event_Id).subscribe({
+      next: (detailedEvent: any) => {
+        let draftTiers: any[] = [];
+        if (detailedEvent.ticketTiers && detailedEvent.ticketTiers.length > 0) {
+          draftTiers = detailedEvent.ticketTiers.map((t: any) => ({
+             tierName: t.tier_Name || t.Tier_Name,
+             price: t.price || t.Price,
+             capacity: t.capacity || t.Capacity || t.tickets_Sold || 0 // Re-use the existing values, event was failed so tickets_Sold is essentially the capacity they tried to allocate
+          }));
+        } else if (detailedEvent.tiers && detailedEvent.tiers.length > 0) {
+          draftTiers = detailedEvent.tiers.map((t: any) => ({
+             tierName: t.tier_Name || t.Tier_Name,
+             price: t.price || t.Price,
+             capacity: t.capacity || t.Capacity || 0
+          }));
+        }
+
+        let localDateTime = '';
+        const rawDate = detailedEvent.date_Time || detailedEvent.Date_Time;
+        if (rawDate) {
+          const dateObj = new Date(rawDate);
+          // format as YYYY-MM-DDTHH:mm in local time
+          const year = dateObj.getFullYear();
+          const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+          const day = String(dateObj.getDate()).padStart(2, '0');
+          const hours = String(dateObj.getHours()).padStart(2, '0');
+          const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+          localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        const draft = {
+          title: detailedEvent.title || detailedEvent.Title || '',
+          descriptionText: detailedEvent.description || detailedEvent.Description_Url || '',
+          eventType: detailedEvent.event_Type || detailedEvent.Event_Type || 'Physical',
+          category: detailedEvent.category || detailedEvent.Category || 'Tech',
+          ageCategory: detailedEvent.ageCategory || detailedEvent.AgeCategory || '',
+          dateTime: localDateTime,
+          durationHours: detailedEvent.duration_Hours || detailedEvent.Duration_Hours || 2,
+          venueId: detailedEvent.venue_Id || detailedEvent.Venue_Id || null,
+          requiresStaff: detailedEvent.requires_Staff || detailedEvent.Requires_Staff || false,
+          acceptPolicy: false,
+          ticketTiers: draftTiers
+        };
+        sessionStorage.setItem('createEventDraft', JSON.stringify(draft));
+        this.router.navigate(['/myevents/create']);
+      }
+    });
   }
 }

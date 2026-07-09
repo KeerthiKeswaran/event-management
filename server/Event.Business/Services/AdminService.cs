@@ -31,6 +31,7 @@ namespace Event.Business.Services
         private readonly IRegionRepository _regionRepository;
         private readonly IVenueRepository _venueRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IRefundService _refundService;
 
         #endregion
 
@@ -50,7 +51,8 @@ namespace Event.Business.Services
             IEventService eventService,
             IRegionRepository regionRepository,
             IVenueRepository venueRepository,
-            INotificationRepository notificationRepository)
+            INotificationRepository notificationRepository,
+            IRefundService refundService)
         {
             _userRepository = userRepository;
             _eventRepository = eventRepository;
@@ -66,6 +68,7 @@ namespace Event.Business.Services
             _regionRepository = regionRepository;
             _venueRepository = venueRepository;
             _notificationRepository = notificationRepository;
+            _refundService = refundService;
         }
 
         #endregion
@@ -289,6 +292,14 @@ namespace Event.Business.Services
                             if (content.TryGetProperty("Message", out var messageProp))
                             {
                                 dto.Message = messageProp.GetString();
+                            }
+                            if (content.TryGetProperty("userId", out var userIdProp))
+                            {
+                                string uId = userIdProp.GetString() ?? "";
+                                if (uId.StartsWith("ADM", StringComparison.OrdinalIgnoreCase) || uId.StartsWith("admin", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    dto.IsRaisedByAdmin = true;
+                                }
                             }
                         }
                         catch { }
@@ -573,7 +584,7 @@ namespace Event.Business.Services
 
         #region UpholdEventReportAsync
 
-        public async Task<bool> UpholdEventReportAsync(int reportId, string adminId, string actionReason, string organizerAction)
+        public async Task<bool> UpholdEventReportAsync(int reportId, string adminId, string adminUpheldMessage, string organizerAction)
         {
             // 1. Fetch report details
             var report = await _eventRepository.GetReportByIdAsync(reportId);
@@ -584,70 +595,159 @@ namespace Event.Business.Services
             if (ev == null)
                 throw new NotFoundException($"Event associated with report {reportId} not found.");
 
-            // 2. Cancel the event and trigger email to the organizer
-            if (ev.Status != "Cancelled")
+            // 2. Cancel the event using EventService if it is still Live/Upcoming
+            bool wasLive = ev.Status == "Live" || ev.Status == "Upcoming";
+            if (wasLive)
+            {
+                // This correctly processes refunds, releases venues, and frees allocated staff.
+                await _eventService.CancelEventAsync(ev.Event_Id, "NoRefund", "This event was cancelled by platform administration due to community reports.");
+            }
+            else if (ev.Status != "Cancelled")
             {
                 ev.Status = "Cancelled";
                 await _eventRepository.UpdateAsync(ev);
             }
 
             var organizer = await _userRepository.GetByIdAsync(ev.Organizer_Id);
+            var organizerEmail = organizer?.Email ?? ev.Organizer?.Email ?? string.Empty;
+            var organizerName  = organizer?.Name ?? "Organizer";
 
-            try
-            {
-                var eventCancelEmailDto = new EmailTemplateDto
-                {
-                    TemplateName = "EventCancellationTemplate.html",
-                    Placeholders = new Dictionary<string, string>
-                    {
-                        { "eventName", ev.Title },
-                        { "refundStatusMessage", "A refund will be processed shortly if applicable." },
-                        { "year", DateTime.UtcNow.Year.ToString() }
-                    }
-                };
-
-                string htmlCancelBody = await _emailService.BuildEmailHtmlAsync(eventCancelEmailDto);
-                await NotificationHelper.SendAndSaveNotificationAsync(
-                    _notificationRepository,
-                    _emailService,
-                    organizer?.Email ?? ev.Organizer?.Email ?? string.Empty,
-                    $"Event Cancelled: {ev.Title}",
-                    htmlCancelBody
-                );
-            }
-            catch (Exception) { }
-
-            // 3. Update organizer status based on organizerAction status
+            // 3. Determine the organizer's new status
+            string newOrganizerStatus = "Active"; // default if "No Action"
             if (organizer != null)
             {
                 if (string.Equals(organizerAction, "Restrict", StringComparison.OrdinalIgnoreCase))
                 {
                     organizer.Status = "Restricted";
+                    newOrganizerStatus = "Restricted";
                     await _userRepository.UpdateAsync(organizer);
                 }
                 else if (string.Equals(organizerAction, "Deactivate", StringComparison.OrdinalIgnoreCase))
                 {
                     organizer.Status = "Deactivated";
+                    newOrganizerStatus = "Deactivated";
                     await _userRepository.UpdateAsync(organizer);
                 }
-                // If "No Action", do not change status.
             }
 
-            // 4. Save AdminAction in database
+            // 4. Send a professional account-action email to the organizer
+            try
+            {
+                string accountStatusLine = newOrganizerStatus switch
+                {
+                    "Restricted"  => "Your account has been <strong>Restricted</strong>. You may no longer create new events or access organizer features until this restriction is reviewed and lifted.",
+                    "Deactivated" => "Your account has been <strong>Deactivated</strong>. You no longer have access to the platform. If you believe this is in error, please contact our support team.",
+                    _             => "No changes have been made to your account status at this time."
+                };
+
+                var accountActionEmailDto = new EmailTemplateDto
+                {
+                    TemplateName = "OrganizerAccountActionTemplate.html",
+                    Placeholders = new Dictionary<string, string>
+                    {
+                        { "organizerName",      organizerName },
+                        { "eventName",          ev.Title },
+                        { "accountStatusLine",  accountStatusLine },
+                        { "year",               DateTime.UtcNow.Year.ToString() }
+                    }
+                };
+
+                string htmlAccountBody = await _emailService.BuildEmailHtmlAsync(accountActionEmailDto);
+                await NotificationHelper.SendAndSaveNotificationAsync(
+                    _notificationRepository,
+                    _emailService,
+                    organizerEmail,
+                    $"Important: Event Cancelled & Account Notice — {ev.Title}",
+                    htmlAccountBody
+                );
+            }
+            catch (Exception) { }
+
+            // 5. Create a support ticket
+            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            if (rootPath.Contains("bin"))
+            {
+                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            }
+            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
+            {
+                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            }
+            string folderPath = System.IO.Path.Combine(rootPath, "Event.Business", "assets", "admins", adminId, "support");
+            if (!System.IO.Directory.Exists(folderPath))
+            {
+                System.IO.Directory.CreateDirectory(folderPath);
+            }
+
+            var ticket = new SupportTicket
+            {
+                User_Id = ev.Organizer_Id,
+                ConcernUrl = "placeholder",
+                RequestType = "REF",
+                Status = "Open",
+                EsclationStatus = "Esclated",
+                RelatedId = ev.Event_Id,
+                TargetType = "ORG",
+                CreatedAt = DateTime.UtcNow
+            };
+            await _supportTicketRepository.AddAsync(ticket);
+
+            var ticketData = new
+            {
+                userId = adminId,
+                Subject = $"Admin Event Report Uphold: {ev.Title}",
+                Message = adminUpheldMessage,
+                Response = (string?)null
+            };
+
+            string fileName = $"ticket_{ticket.Ticket_Id}.json";
+            string filePath = System.IO.Path.Combine(folderPath, fileName);
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ticketData, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            await System.IO.File.WriteAllTextAsync(filePath, jsonContent);
+
+            ticket.ConcernUrl = $"/assets/admins/{adminId}/support/{fileName}";
+            await _supportTicketRepository.UpdateAsync(ticket);
+
+            // 6. Process full refunds for confirmed attendees ONLY (no organizer refund)
+            if (wasLive)
+            {
+                try
+                {
+                    var bookings = await _bookingRepository.GetBookingsByEventIdAsync(ev.Event_Id);
+                    foreach (var booking in bookings)
+                    {
+                        if (booking.Booking_Status == "Confirmed")
+                        {
+                            try
+                            {
+                                await _refundService.RefundAttendeeAsync(
+                                    booking.Booking_Id,
+                                    refundType: "Full",
+                                    refundMessage: $"This refund was issued because event \u201c{ev.Title}\u201d was cancelled following a policy review. We sincerely apologize for the inconvenience."
+                                );
+                            }
+                            catch (Exception) { }
+                        }
+                    }
+                }
+                catch (Exception) { }
+            }
+
+            // 7. Record the admin action
             var action = new AdminAction
             {
-                AdminId = adminId,
-                ActionType = "REF",
-                TargetType = "EVT",
-                TargetId = ev.Event_Id,
-                TicketId = null,
+                AdminId      = adminId,
+                ActionType   = "REF",
+                TargetType   = "ORG",
+                TargetId     = ev.Organizer_Id,
+                TicketId     = ticket.Ticket_Id,
                 ActionStatus = "Pending",
-                Remarks = $"Event #{ev.Event_Id} flagged and report upheld. Escalated for refund.",
-                CreatedAt = DateTime.UtcNow
+                Remarks      = $"Event {ev.Event_Id} has been Upheld",
+                CreatedAt    = DateTime.UtcNow
             };
             await _adminActionRepository.AddAsync(action);
 
-            // 5. Update report state to Upholds
+            // 8. Update report status to Upheld
             report.ResponseAction = "Upholds";
             await _eventRepository.UpdateReportAsync(report);
 
@@ -672,7 +772,6 @@ namespace Event.Business.Services
         #endregion
 
         #region GetAllVenuesAsync
-
         public async Task<IEnumerable<VenueResponse>> GetAllVenuesAsync()
         {
             var venues = await _venueRepository.GetAllWithDetailsAsync();
@@ -687,13 +786,13 @@ namespace Event.Business.Services
                 Address      = v.Address,
                 Hourly_Price = v.Hourly_Price,
                 Is_Available = v.Is_Available,
+                CreatedAt    = v.CreatedAt,
                 SeatTiers    = v.SeatCapacities.Select(sc => new SeatTierResponse
                 {
                     Tier_Name   = sc.Tier_Name,
                     Total_Seats = sc.Total_Seats
                 }).ToList()
-            }).ToList();
-        }
+            }).ToList();        }
 
         #endregion
 
@@ -751,6 +850,7 @@ namespace Event.Business.Services
                 Address      = created.Address,
                 Hourly_Price = created.Hourly_Price,
                 Is_Available = created.Is_Available,
+                CreatedAt    = created.CreatedAt,
                 SeatTiers    = created.SeatCapacities.Select(sc => new SeatTierResponse
                 {
                     Tier_Name   = sc.Tier_Name,
@@ -973,6 +1073,7 @@ namespace Event.Business.Services
                 Address = updated.Address,
                 Hourly_Price = updated.Hourly_Price,
                 Is_Available = updated.Is_Available,
+                CreatedAt    = updated.CreatedAt,
                 SeatTiers = updated.SeatCapacities.Select(sc => new SeatTierResponse
                 {
                     Tier_Name = sc.Tier_Name,
@@ -1062,10 +1163,10 @@ namespace Event.Business.Services
                 rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             }
 
-            string primary = Path.Combine(rootPath, "Event.Business", "assets", "admin", "helpdesk-types.json");
+            string primary = Path.Combine(rootPath, "Event.Business", "assets", "admins", "helpdesk-types.json");
             if (File.Exists(primary)) return primary;
 
-            string binFallback = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "admin", "helpdesk-types.json");
+            string binFallback = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "admins", "helpdesk-types.json");
             return binFallback;
         }
 
@@ -1084,6 +1185,7 @@ namespace Event.Business.Services
                 Address      = v.Address,
                 Hourly_Price = v.Hourly_Price,
                 Is_Available = v.Is_Available,
+                CreatedAt    = v.CreatedAt,
                 SeatTiers    = v.SeatCapacities.Select(sc => new SeatTierResponse
                 {
                     Tier_Name   = sc.Tier_Name,
@@ -1150,6 +1252,124 @@ namespace Event.Business.Services
                 Events = matchedEvents,
                 Bookings = matchedBookings
             };
+        }
+
+        #endregion
+
+        #region User Management
+
+        public async Task<PagedResult<UserManagementResponse>> GetUsersPagedAsync(string? keyword, string? status, DateTime? startDate, DateTime? endDate, string? sortBy, int page, int size)
+        {
+            var allUsers = await _userRepository.GetAllAsync();
+            var query = allUsers.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                var kw = keyword.ToLower();
+                query = query.Where(u => u.Name.ToLower().Contains(kw) || u.Email.ToLower().Contains(kw));
+            }
+
+            if (!string.IsNullOrWhiteSpace(status) && status != "All Status")
+            {
+                query = query.Where(u => u.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(u => u.Created_At >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(u => u.Created_At <= endDate.Value);
+            }
+
+            // Client requests sorting by: "newest", "oldest", "name_asc", "name_desc"
+            query = sortBy switch
+            {
+                "newest" => query.OrderByDescending(u => u.Created_At),
+                "oldest" => query.OrderBy(u => u.Created_At),
+                "name_asc" => query.OrderBy(u => u.Name),
+                "name_desc" => query.OrderByDescending(u => u.Name),
+                _ => query.OrderByDescending(u => u.Created_At)
+            };
+
+            int totalCount = query.Count();
+            var pagedUsers = query.Skip((page - 1) * size).Take(size).ToList();
+
+            var responseList = new List<UserManagementResponse>();
+            foreach (var user in pagedUsers)
+            {
+                var events = await _eventRepository.GetAllAsync();
+                var hostedCount = events.Count(e => e.Organizer_Id == user.User_Id && e.Status == "Completed");
+                var bookings = await _bookingRepository.GetAllAsync();
+                var bookingsCount = bookings.Count(b => b.Attendee_Id == user.User_Id);
+                
+                responseList.Add(new UserManagementResponse
+                {
+                    User_Id = user.User_Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Created_At = user.Created_At,
+                    Status = user.Status,
+                    EventsHostedCount = hostedCount,
+                    BookingsCount = bookingsCount
+                });
+            }
+
+            return new PagedResult<UserManagementResponse>
+            {
+                Items = responseList,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = size
+            };
+        }
+
+        public async Task<bool> UpdateUserStatusAsync(int userId, string status)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+            
+            user.Status = status;
+            await _userRepository.UpdateAsync(user);
+
+            try
+            {
+                string accountStatusLine = status switch
+                {
+                    "Active" => "Your account has been <strong>Activated</strong>. You now have full access to platform features.",
+                    "Restricted"  => "Your account has been <strong>Restricted</strong>. You may no longer create new events or access certain features until this restriction is reviewed and lifted.",
+                    "Deactivated" => "Your account has been <strong>Deactivated</strong>. You no longer have access to the platform. If you believe this is in error, please contact our support team.",
+                    _             => "Your account status has been updated."
+                };
+
+                var accountActionEmailDto = new EmailTemplateDto
+                {
+                    TemplateName = "OrganizerAccountActionTemplate.html",
+                    Placeholders = new Dictionary<string, string>
+                    {
+                        { "organizerName",      user.Name },
+                        { "accountStatusLine",  accountStatusLine },
+                        { "year",               DateTime.UtcNow.Year.ToString() }
+                    }
+                };
+
+                string htmlAccountBody = await _emailService.BuildEmailHtmlAsync(accountActionEmailDto);
+                await NotificationHelper.SendAndSaveNotificationAsync(
+                    _notificationRepository,
+                    _emailService,
+                    user.Email,
+                    $"Important: Account Notice — Status changed to {status}",
+                    htmlAccountBody
+                );
+            }
+            catch (Exception) { }
+
+            return true;
         }
 
         #endregion

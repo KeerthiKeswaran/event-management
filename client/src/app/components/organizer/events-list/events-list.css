@@ -334,6 +334,7 @@
 .status-pending { background: #fff4e5; color: #8a6d3b; }
 .status-completed { background: #e5f0ff; color: #2b579a; }
 .status-cancelled { background: #fde8e8; color: #a4262c; }
+.status-failed { background: #fee2e2; color: #dc2626; }
 
 /* Empty State */
 .empty-state {
@@ -398,4 +399,57 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+.restricted-mode {
+  position: relative;
+  filter: grayscale(100%);
+  pointer-events: none;
+}
+.restricted-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+.restricted-message {
+  background: white;
+  padding: 32px;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid var(--danger-color, red);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.restricted-message h2 {
+  color: var(--danger-color, red);
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+.error-icon {
+  width: 48px; height: 48px;
+  color: var(--danger-color, red);
+  margin-bottom: 16px;
+}
+.restricted-banner {
+  background: rgba(211, 47, 47, 0.1);
+  color: #d32f2f;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  border: 1px solid rgba(211, 47, 47, 0.2);
+}
+.page-restricted .organizer-header,
+.page-restricted .events-container,
+.page-restricted .controls-bar {
+  filter: grayscale(100%);
+  opacity: 0.6;
+  pointer-events: none;
 }

@@ -24,16 +24,26 @@
         </div>
       </div>
       <div class="panel-content" [hidden]="!flagsExpanded" style="animation: fadeIn 0.3s ease-in-out;">
+        <div class="filter-bar" style="display: flex; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--border); background: var(--bg-surface); align-items: center;">
+          <input class="filter-input search-input" type="text" [ngModel]="reportFilterKeyword" (ngModelChange)="onReportSearchInput($event)" placeholder="Search by Reporter or Event ID..." style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; background: var(--bg-canvas); color: var(--text-primary); min-width: 200px;" />
+          <select class="filter-select" [(ngModel)]="reportFilterStatus" (ngModelChange)="onReportFilterChange()" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; background: var(--bg-canvas); color: var(--text-primary);">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Upholds">Upholds</option>
+            <option value="Dismissed">Dismissed</option>
+          </select>
+          <button class="btn btn-outline btn-sm" (click)="clearReportFilters(); $event.stopPropagation()" style="color: #ef4444; border-color: #ef4444;">Clear</button>
+        </div>
         <div class="table-container">
           <table>
             <thead>
               <tr>
-                <th class="sortable" (click)="toggleReportSort('eventId')">Event ID <span class="sort-arrow">{{ reportSortColumn() === 'eventId' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
-                <th class="sortable" (click)="toggleReportSort('reporterName')">Reporter <span class="sort-arrow">{{ reportSortColumn() === 'reporterName' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
-                <th>Reason</th>
-                <th class="sortable" (click)="toggleReportSort('responseAction')">Status <span class="sort-arrow">{{ reportSortColumn() === 'responseAction' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
-                <th class="sortable" (click)="toggleReportSort('createdAt')">Date <span class="sort-arrow">{{ reportSortColumn() === 'createdAt' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
-                <th>Actions</th>
+                <th class="sortable" style="text-align: center;" (click)="toggleReportSort('eventId')">Event ID <span class="sort-arrow">{{ reportSortColumn() === 'eventId' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" style="text-align: center;" (click)="toggleReportSort('reporterName')">Reporter <span class="sort-arrow">{{ reportSortColumn() === 'reporterName' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th style="width: 20%; text-align: center;">Reason</th>
+                <th class="sortable" style="text-align: center;" (click)="toggleReportSort('responseAction')">Status <span class="sort-arrow">{{ reportSortColumn() === 'responseAction' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th class="sortable" style="width: 15%; text-align: center;" (click)="toggleReportSort('createdAt')">Date <span class="sort-arrow">{{ reportSortColumn() === 'createdAt' ? (reportSortDirection() === 'asc' ? '▲' : '▼') : '' }}</span></th>
+                <th style="width: 10%; text-align: center;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -50,20 +60,20 @@
 
               <ng-container *ngIf="!loadingReports()">
                 <tr *ngFor="let report of pagedReports()">
-                  <td class="cell-primary">
+                  <td style="text-align: center;">
                     <a class="event-id-link" (click)="openEventDetailModal(report.eventId); $event.stopPropagation()">#{{ report.eventId }}</a>
                   </td>
-                  <td>{{ report.reporterName || 'Unknown' }}</td>
-                  <td>{{ report.reason || report.responseAction || 'N/A' }}</td>
-                  <td><span class="badge" [ngClass]="(report.responseAction || 'Pending').toLowerCase()">{{ report.responseAction || 'Pending' }}</span></td>
-                  <td>{{ report.createdAt ? (report.createdAt | date:'mediumDate') : 'N/A' }}</td>
-                  <td class="action-cell">
+                  <td style="text-align: center;">{{ report.reporterName || 'Unknown' }}</td>
+                  <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin: 0 auto;" [title]="report.reason || report.responseAction || 'N/A'">{{ report.reason || report.responseAction || 'N/A' }}</td>
+                  <td style="text-align: center;"><span class="badge" [ngClass]="(report.responseAction || 'Pending').toLowerCase()">{{ report.responseAction || 'Pending' }}</span></td>
+                  <td style="text-align: center;">{{ report.createdAt ? (report.createdAt | date:'mediumDate') : 'N/A' }}</td>
+                  <td class="action-cell" style="text-align: center; justify-content: center;">
                     <button class="btn btn-outline btn-xs" (click)="openDismissModal(report)" [disabled]="report.responseAction === 'Dismissed' || report.responseAction === 'Upholds'">Dismiss</button>
                     <button class="btn btn-primary btn-xs" (click)="openUpholdModal(report)" [disabled]="report.responseAction === 'Dismissed' || report.responseAction === 'Upholds'">Uphold</button>
                   </td>
                 </tr>
-                <tr *ngIf="reports().length === 0">
-                  <td colspan="6" class="empty-state">No flagged reports.</td>
+                <tr *ngIf="pagedReports().length === 0">
+                  <td colspan="6" class="empty-state">No Reported Events Found</td>
                 </tr>
               </ng-container>
             </tbody>
@@ -97,16 +107,18 @@
         </div>
       </div>
       <div class="panel-content" [hidden]="!staffExpanded" style="animation: fadeIn 0.3s ease-in-out;">
-          <div class="filter-bar" style="display: flex; gap: 12px; padding: 12px 24px; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
-            <select class="filter-select" [(ngModel)]="staffFilterRegion" (ngModelChange)="onStaffFilterChange()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white;">
+        <div class="filter-bar" style="display: flex; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--border); background: var(--bg-surface); align-items: center;">
+          <input class="filter-input search-input" type="text" [ngModel]="staffFilterKeyword" (ngModelChange)="onStaffSearchInput($event)" placeholder="Search by Name or Email..." style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; background: var(--bg-canvas); color: var(--text-primary); min-width: 200px;" />
+            <select class="filter-select" [(ngModel)]="staffFilterRegion" (ngModelChange)="onStaffFilterChange()" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; background: var(--bg-canvas); color: var(--text-primary);">
               <option value="">All Regions</option>
               <option *ngFor="let region of regions()" [value]="region.region_Id || region.Region_Id">{{ region.region_Name || region.Region_Name || region.name || region.Name }}</option>
             </select>
-            <select class="filter-select" [(ngModel)]="staffFilterStatus" (ngModelChange)="onStaffFilterChange()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white;">
+            <select class="filter-select" [(ngModel)]="staffFilterStatus" (ngModelChange)="onStaffFilterChange()" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; background: var(--bg-canvas); color: var(--text-primary);">
               <option value="">All Status</option>
               <option value="available">Available</option>
               <option value="allocated">Allocated</option>
             </select>
+            <button class="btn btn-outline btn-sm" (click)="clearStaffFilters()" style="color: #ef4444; border-color: #ef4444;">Clear</button>
           </div>
         <div class="table-container">
           <table>
@@ -189,7 +201,13 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" (click)="cancelDismiss()">Cancel</button>
-      <button class="btn btn-primary" (click)="dismissReport(dismissReportId!)">Confirm Dismiss</button>
+      <button class="btn btn-primary" (click)="dismissReport(dismissReportId!)" [disabled]="isDismissing" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span *ngIf="!isDismissing">Confirm Dismiss</span>
+        <ng-container *ngIf="isDismissing">
+          <svg class="icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+          Dismissing...
+        </ng-container>
+      </button>
     </div>
   </div>
 </div>
@@ -203,8 +221,8 @@
     <div class="modal-body">
       <p class="modal-desc">Upholding report for <strong>{{ selectedReport?.reporterName }}</strong></p>
       <div class="form-group">
-        <label>Reason for action</label>
-        <textarea class="form-textarea" [(ngModel)]="upholdReason" placeholder="Provide a detailed reason for upholding this report..."></textarea>
+        <label class="form-label">Message <span class="required">*</span></label>
+        <textarea class="form-textarea" [(ngModel)]="adminUpheldMessage" placeholder="Provide a detailed reason for upholding this report..."></textarea>
       </div>
       <div class="form-group">
         <label>Organizer Action</label>
@@ -217,7 +235,13 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" (click)="closeUpholdModal()">Cancel</button>
-      <button class="btn btn-primary" (click)="upholdReport()" [disabled]="!upholdReason">Uphold</button>
+      <button class="btn btn-primary" (click)="upholdReport()" [disabled]="!adminUpheldMessage || isUpholding" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span *ngIf="!isUpholding">Uphold</span>
+        <ng-container *ngIf="isUpholding">
+          <svg class="icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+          Upholding...
+        </ng-container>
+      </button>
     </div>
   </div>
 </div>

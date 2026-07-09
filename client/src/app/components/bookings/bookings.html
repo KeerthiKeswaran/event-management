@@ -76,8 +76,8 @@
                   <span class="booking-id-tag">ID: #{{ booking.booking_Id }}</span>
                   <h3 class="booking-event-title">{{ booking.event_Title }}</h3>
                 </div>
-                <span class="status-badge" [class]="'status-' + (booking.event_Status === 'Completed' && booking.booking_Status === 'Confirmed' ? 'completed' : booking.booking_Status.toLowerCase())">
-                  {{ booking.event_Status === 'Completed' && booking.booking_Status === 'Confirmed' ? 'Completed' : booking.booking_Status }}
+                <span class="status-badge" [class]="'status-' + (booking.checkIn_Status === 'CheckedIn' ? 'checkedin' : (booking.event_Status === 'Completed' && booking.booking_Status === 'Confirmed' ? 'completed' : booking.booking_Status.toLowerCase()))">
+                  {{ booking.checkIn_Status === 'CheckedIn' ? 'Checkedin' : (booking.event_Status === 'Completed' && booking.booking_Status === 'Confirmed' ? 'Completed' : booking.booking_Status) }}
                 </span>
               </div>
 
@@ -99,6 +99,14 @@
                   <span>{{ booking.event_Venue || 'TBD Venue' }}</span>
                 </div>
               </div>
+
+              <!-- Event Cancelled by Admin Banner -->
+              @if (booking.event_Status === 'Cancelled' && booking.booking_Status === 'Cancelled') {
+                <div class="event-cancelled-banner">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <span>This event was cancelled by the platform. A <strong>full refund</strong> has been processed and will appear in your account within <br/>5–10 business days. We apologise for the inconvenience.</span>
+                </div>
+              }
 
               <div class="booking-footer">
                 <div class="tickets-summary">
@@ -180,19 +188,34 @@
                 <div class="booking-actions">
                   @if (booking.booking_Status === 'Confirmed') {
                     @if (booking.event_Status !== 'Completed') {
-                      <button class="action-btn view-ticket" (click)="openQrModal(booking)">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><polyline points="14 14 14 17 17 17 17 14 20 14 20 20 14 20"/></svg>
-                        View Ticket (QR)
-                      </button>
+                      <!-- View Ticket (QR): greyed out when event is Cancelled -->
+                      <div class="join-meeting-wrapper">
+                        <button class="action-btn view-ticket"
+                                [class.disabled-link]="booking.event_Status === 'Cancelled'"
+                                (click)="booking.event_Status === 'Cancelled' ? showCancelledAccessMsg(booking.booking_Id, 'qr') : openQrModal(booking)">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><polyline points="14 14 14 17 17 17 17 14 20 14 20 20 14 20"/></svg>
+                          View Ticket (QR)
+                        </button>
+                        @if (cancelledAccessMsgId() === booking.booking_Id && cancelledAccessMsgType() === 'qr') {
+                          <div class="virtual-link-flag">
+                            Ticket access is unavailable — this event has been cancelled.
+                          </div>
+                        }
+                      </div>
 
                       @if (booking.event_Type === 'Virtual' || booking.event_Type === 'Hybrid') {
                         <div class="join-meeting-wrapper">
                           <button class="action-btn join-meeting" 
-                                  [class.disabled-link]="booking.virtual_Url === 'Disabled'"
-                                  (click)="joinMeeting(booking)">
+                                  [class.disabled-link]="booking.virtual_Url === 'Disabled' || booking.event_Status === 'Cancelled'"
+                                  (click)="booking.event_Status === 'Cancelled' ? showCancelledAccessMsg(booking.booking_Id, 'virtual') : joinMeeting(booking)">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                             Join Meeting
                           </button>
+                          @if (cancelledAccessMsgId() === booking.booking_Id && cancelledAccessMsgType() === 'virtual') {
+                            <div class="virtual-link-flag">
+                              Virtual meeting link is unavailable — this event has been cancelled.
+                            </div>
+                          }
                           @if (virtualLinkMsgBookingId() === booking.booking_Id) {
                             <div class="virtual-link-flag">
                               Virtual meeting link is not active yet, only enabled during event
@@ -201,9 +224,18 @@
                         </div>
                       }
 
-                      <button class="action-btn cancel-booking" (click)="openCancelModal(booking)">
-                        Cancel Booking
-                      </button>
+                      <div class="join-meeting-wrapper">
+                        <button class="action-btn cancel-booking" 
+                                [class.disabled-link]="!canCancelBooking(booking)"
+                                (click)="!canCancelBooking(booking) ? showCancellationUnavailableMsg(booking.booking_Id) : openCancelModal(booking)">
+                          Cancel Booking
+                        </button>
+                        @if (cancellationMsgId() === booking.booking_Id) {
+                          <div class="virtual-link-flag">
+                            Cancellation Unavailable
+                          </div>
+                        }
+                      </div>
                     }
                   } @else if (booking.booking_Status === 'Pending') {
                     <button class="action-btn cancel-booking" (click)="openCancelModal(booking)">
@@ -214,17 +246,19 @@
                   }
 
                   <!-- Report button shown in action bar for non-completed events -->
-                  <button class="action-btn report-event" 
-                    (click)="hasReported(booking.event_Id) ? null : openReportModal(booking)" 
-                    [disabled]="hasReported(booking.event_Id)"
-                    [attr.title]="hasReported(booking.event_Id) ? 'This event has been reported already.' : 'Report this event'"
-                    [style.background]="hasReported(booking.event_Id) ? '#e5e7eb' : '#991b1b'" 
-                    [style.color]="hasReported(booking.event_Id) ? '#9ca3af' : 'white'" 
-                    [style.cursor]="hasReported(booking.event_Id) ? 'not-allowed' : 'pointer'"
-                    style="border: none; width: 90px; justify-content: center;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    {{ hasReported(booking.event_Id) ? 'Reported' : 'Report' }}
-                  </button>
+                  @if (booking.event_Status !== 'Cancelled' && booking.booking_Status !== 'Cancelled') {
+                    <button class="action-btn report-event" 
+                      (click)="hasReported(booking.event_Id) ? null : openReportModal(booking)" 
+                      [disabled]="hasReported(booking.event_Id)"
+                      [attr.title]="hasReported(booking.event_Id) ? 'This event has been reported already.' : 'Report this event'"
+                      [style.background]="hasReported(booking.event_Id) ? '#e5e7eb' : '#991b1b'" 
+                      [style.color]="hasReported(booking.event_Id) ? '#9ca3af' : 'white'" 
+                      [style.cursor]="hasReported(booking.event_Id) ? 'not-allowed' : 'pointer'"
+                      style="border: none; width: 90px; justify-content: center;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                      {{ hasReported(booking.event_Id) ? 'Reported' : 'Report' }}
+                    </button>
+                  }
                 </div>
               }
             </div>

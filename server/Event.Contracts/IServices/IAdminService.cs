@@ -18,7 +18,7 @@ namespace Event.Contracts.IServices
         Task<AdminAction?> GetEscalationStatusAsync(int ticketId);
         Task<object> GetFlaggedEventsReportsAsync();
         Task<bool> DismissEventReportAsync(int reportId);
-        Task<bool> UpholdEventReportAsync(int reportId, string adminId, string actionReason, string organizerAction);
+        Task<bool> UpholdEventReportAsync(int reportId, string adminId, string adminUpheldMessage, string organizerAction);
 
         Task<IEnumerable<RegionResponse>> GetAllRegionsAsync();
         Task<IEnumerable<VenueResponse>> GetAllVenuesAsync();
@@ -36,5 +36,8 @@ namespace Event.Contracts.IServices
         Task<IEnumerable<VenueResponse>> GetAllVenuesIncludingInactiveAsync();
         Task<bool> UpdateEventVenueAsync(int eventId, int venueId);
         Task<object> SearchGlobalAsync(string keyword);
+
+        Task<PagedResult<UserManagementResponse>> GetUsersPagedAsync(string? keyword, string? status, DateTime? startDate, DateTime? endDate, string? sortBy, int page, int size);
+        Task<bool> UpdateUserStatusAsync(int userId, string status);
     }
 }

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 520px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border: 3px solid #000000;
+      border-radius: 0px;
+      overflow: hidden;
+    }
+    .header {
+      background-color: #ffffff;
+      padding: 24px;
+      text-align: center;
+      border-bottom: 3px solid #000000;
+    }
+    .header img {
+      max-width: 220px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .header p {
+      color: #a0aec0;
+      margin: 0;
+      font-size: 13px;
+    }
+    .body {
+      padding: 40px;
+    }
+    .body p {
+      color: #1a1a2e;
+      font-size: 15px;
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+    .info-box {
+      background-color: #0f0f1a;
+      border-left: 4px solid #e53e3e;
+      padding: 22px 24px;
+      margin: 28px 0;
+      color: #ffffff;
+    }
+    .info-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #fc8181;
+      margin-bottom: 14px;
+    }
+    .info-item {
+      font-size: 14px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+    .info-label {
+      font-weight: 700;
+      color: #fc8181;
+    }
+    .account-status-box {
+      background-color: #fff5f5;
+      border: 2px solid #fc8181;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .account-status-box p {
+      color: #742a2a;
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .refund-note {
+      font-size: 13px;
+      color: #4a5568;
+      border-left: 3px solid #48bb78;
+      padding-left: 14px;
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+    .footer {
+      background-color: #0f0f1a;
+      color: #718096;
+      padding: 20px;
+      text-align: center;
+      font-size: 11px;
+      border-top: 3px solid #000000;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="cid:logo.png" alt="GetMyEvents Logo" />
+      <p style="color:#000000; font-weight:bold; margin-top:10px;">Platform Policy &amp; Account Notice</p>
+    </div>
+    <div class="body">
+      <p>Dear {organizerName},</p>
+      <p>
+        Following a thorough review of a report filed against one of your events, our Trust &amp; Safety team has upheld the report.
+        As a result, the following actions have been taken on your account and event.
+      </p>
+
+      <div class="info-box">
+        <div class="info-title">&#9888; Action Summary</div>
+        <div class="info-item"><span class="info-label">Event:</span> {eventName}</div>
+        <div class="info-item"><span class="info-label">Event Status:</span> Cancelled</div>
+      </div>
+
+      <div class="account-status-box">
+        <p>{accountStatusLine}</p>
+      </div>
+
+      <p class="refund-note">
+        All attendees who had confirmed bookings for <strong>{eventName}</strong> have been notified and will receive a <strong>full refund</strong> to their original payment method within 5&ndash;10 business days, depending on their bank or card provider.
+      </p>
+
+      <p style="margin-top: 28px;">
+        If you wish to appeal this decision or have any questions regarding this notice, please contact our support team directly. We are committed to maintaining a fair and transparent platform for all users.
+      </p>
+
+      <p>
+        Thank you for your understanding.<br />
+        <strong>GetMyEvents Trust &amp; Safety Team</strong>
+      </p>
+    </div>
+    <div class="footer">
+      &copy; {year} GetMyEvents. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>

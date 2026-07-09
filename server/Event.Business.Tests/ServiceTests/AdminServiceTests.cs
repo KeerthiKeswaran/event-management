@@ -110,7 +110,8 @@ namespace Event.Business.Tests.ServiceTests
                 _eventService,
                 _regionRepositoryMock.Object,
                 _venueRepositoryMock.Object,
-                _notificationRepositoryMock.Object
+                _notificationRepositoryMock.Object,
+                refundService
             );
         }
         #endregion

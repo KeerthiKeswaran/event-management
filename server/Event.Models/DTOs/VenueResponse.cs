@@ -10,6 +10,7 @@ namespace Event.Models.DTOs
         public string Address { get; set; } = string.Empty;
         public decimal Hourly_Price { get; set; }
         public bool Is_Available { get; set; }
+        public DateTime CreatedAt { get; set; }
         public List<SeatTierResponse> SeatTiers { get; set; } = new();
     }
 

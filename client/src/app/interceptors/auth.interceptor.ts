@@ -3,9 +3,10 @@ import { HttpInterceptorFn } from '@angular/common/http';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   let tokenKey = 'user_token';
   if (typeof window !== 'undefined') {
-    if (window.location.pathname.startsWith('/admin')) {
+    const path = window.location.pathname;
+    if (path.startsWith('/admin')) {
       tokenKey = 'admin_token';
-    } else if (window.location.pathname.startsWith('/finance')) {
+    } else if (path.startsWith('/finance')) {
       tokenKey = 'finance_token';
     }
   }

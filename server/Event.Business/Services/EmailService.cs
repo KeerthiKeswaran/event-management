@@ -48,14 +48,48 @@ namespace Event.Business.Services
 
         public async Task SendEmailAsync(string toEmail, string subject, string htmlBody)
         {
-            // 1. Construct the SMTP JSON payload for Brevo API
-            var payload = new
+            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            if (rootPath.Contains("bin"))
             {
-                sender = new { name = _senderName, email = _senderEmail },
-                to = new[] { new { email = toEmail } },
-                subject = subject,
-                htmlContent = htmlBody
-            };
+                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            }
+            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
+            {
+                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            }
+            
+            string logoPath = Path.Combine(rootPath, "Event.Business", "assets", "logo.png");
+            string? base64Logo = null;
+            if (File.Exists(logoPath))
+            {
+                base64Logo = Convert.ToBase64String(await File.ReadAllBytesAsync(logoPath));
+            }
+
+            object payload;
+            if (base64Logo != null)
+            {
+                payload = new
+                {
+                    sender = new { name = _senderName, email = _senderEmail },
+                    to = new[] { new { email = toEmail } },
+                    subject = subject,
+                    htmlContent = htmlBody,
+                    attachment = new[]
+                    {
+                        new { content = base64Logo, name = "logo.png" }
+                    }
+                };
+            }
+            else
+            {
+                payload = new
+                {
+                    sender = new { name = _senderName, email = _senderEmail },
+                    to = new[] { new { email = toEmail } },
+                    subject = subject,
+                    htmlContent = htmlBody
+                };
+            }
 
             // 2. Serialize payload to JSON and create string content representation
             string jsonPayload = JsonSerializer.Serialize(payload);

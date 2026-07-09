@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { StripeCardComponent, StripeService } from 'ngx-stripe';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { AppStoreService } from '../../../store/app-store.service';
 import { EventService } from '../../../services/event.service';
 import { AuthService } from '../../../services/auth.service';
 import { FooterComponent } from '../../home/footer/footer';
@@ -49,6 +50,11 @@ export class CreateEventComponent implements OnInit {
   private clearFormErrors(): void { this.formErrors.set({}); }
   private setFieldError(field: string, msg: string): void {
     this.formErrors.update(e => ({ ...e, [field]: msg }));
+  }
+  private clearFieldError(field: string): void {
+    const errs = { ...this.formErrors() };
+    delete errs[field];
+    this.formErrors.set(errs);
   }
   public fieldError(field: string): string { return this.formErrors()[field] ?? ''; }
   
@@ -241,11 +247,13 @@ export class CreateEventComponent implements OnInit {
     private http: HttpClient,
     private stripeService: StripeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: AppStoreService
   ) {}
 
   private subscriptions = new Subscription();
   public isSuccessTickAnimating = signal(false);
+  public isRestricted = signal(false);
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -268,6 +276,16 @@ export class CreateEventComponent implements OnInit {
             queryParamsHandling: 'merge'
           });
           return;
+        }
+      })
+    );
+
+    this.subscriptions.add(
+      this.store.select((state: any) => state.auth.user).subscribe((user: any) => {
+        const restricted = user?.status === 'Restricted';
+        this.isRestricted.set(restricted);
+        if (restricted) {
+          this.router.navigate(['/myevents']);
         }
       })
     );
@@ -374,6 +392,11 @@ export class CreateEventComponent implements OnInit {
               this.imageFile = new File([blob], 'draft_image.png', { type: blob.type });
             })
             .catch(err => console.error('Failed to reconstruct image file from draft', err));
+        }
+
+        // Always recalculate staff estimation when recreating/loading draft to ensure accuracy
+        if (this.requiresStaff) {
+          setTimeout(() => this.calculateStaffEstimation(), 100);
         }
       }
     } catch {
@@ -545,6 +568,22 @@ export class CreateEventComponent implements OnInit {
   }
 
   public onDateTimeChange(): void {
+    if (this.dateTime) {
+      const selected = new Date(this.dateTime);
+      const now = new Date();
+      const diffHrs = (selected.getTime() - now.getTime()) / (1000 * 60 * 60);
+      
+      if (diffHrs < 0) {
+        this.setFieldError('dateTime', 'Event date cannot be in the past.');
+      } else if (diffHrs < 24) {
+        this.setFieldError('dateTime', 'Event date must be at least 24 hours from now.');
+      } else {
+        this.clearFieldError('dateTime');
+      }
+    } else {
+      this.clearFieldError('dateTime');
+    }
+
     if (this.requiresStaff) {
       this.calculateStaffEstimation();
     }
@@ -779,6 +818,17 @@ export class CreateEventComponent implements OnInit {
     if (!this.dateTime) {
       this.setFieldError('dateTime', 'Please select an event date & time.');
       hasError = true;
+    } else {
+      const selected = new Date(this.dateTime);
+      const now = new Date();
+      const diffHrs = (selected.getTime() - now.getTime()) / (1000 * 60 * 60);
+      if (diffHrs < 0) {
+        this.setFieldError('dateTime', 'Event date cannot be in the past.');
+        hasError = true;
+      } else if (diffHrs < 24) {
+        this.setFieldError('dateTime', 'Event date must be at least 24 hours from now.');
+        hasError = true;
+      }
     }
     if (this.eventType !== 'Virtual' && !this.venueId) {
       this.setFieldError('venue', 'Please select a venue for physical/hybrid events.');
@@ -814,7 +864,7 @@ export class CreateEventComponent implements OnInit {
       const descResult = await firstValueFrom(this.eventService.uploadDescription(this.descriptionText));
       descriptionUrl = descResult.url;
     } catch {
-      alert('Failed to save description file.');
+      this.setFieldError('description', 'Failed to save description file.');
       return;
     }
 
@@ -825,7 +875,7 @@ export class CreateEventComponent implements OnInit {
         const imgResult = await firstValueFrom(this.eventService.uploadImage(this.imageFile));
         imageUrl = imgResult.url;
       } catch {
-        alert('Failed to upload event image.');
+        this.imageErrorMsg.set('Failed to upload event image.');
         return;
       }
     }
@@ -840,7 +890,7 @@ export class CreateEventComponent implements OnInit {
           }));
 
     if (this.eventType !== 'Virtual' && tiersPayload.length === 0) {
-      alert('Please configure at least one ticket tier.');
+      this.setFieldError('tiers', 'Please configure at least one ticket tier.');
       return;
     }
 

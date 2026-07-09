@@ -244,6 +244,7 @@
                   <div class="form-group">
                     <label class="form-label" for="dateTime">Date & Time <span class="required">*</span></label>
                     <input type="datetime-local" id="dateTime" class="form-control" name="dateTime" [(ngModel)]="dateTime" required (change)="onDateTimeChange()" />
+                    @if (fieldError('dateTime')) { <span class="field-error">{{ fieldError('dateTime') }}</span> }
                   </div>
 
                   <div class="form-group">

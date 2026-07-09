@@ -16,10 +16,10 @@
 
     <div class="section-panel mb-16">
       <div class="panel-header">
-        <h2>Support Tickets</h2>
+        <h2>Support Tickets ({{ tickets().length }})</h2>
         <div class="filter-bar">
-          <input class="filter-input search-input" [ngModel]="filterKeyword" (ngModelChange)="onSearchInput($event)"
-            placeholder="Search tickets..." />
+          <input class="filter-input search-input" type="text" [ngModel]="filterKeyword" (ngModelChange)="onSearchInput($event)"
+            placeholder="Search by ID or Email..." />
           <select class="filter-select" [(ngModel)]="filterType" (ngModelChange)="onFilterChange()">
             <option value="">All Types</option>
             <option value="REF">REF (Refund)</option>
@@ -108,7 +108,7 @@
             </ng-container>
 
             <ng-container *ngIf="!loading()">
-              <tr *ngFor="let ticket of sortedTickets()" (click)="selectTicket(ticket)"
+              <tr *ngFor="let ticket of pagedTickets()" (click)="selectTicket(ticket)"
                 [class.selected]="(ticket.ticket_Id || ticket.ticketId || ticket.Ticket_Id || ticket.id) === selectedTicketId"
                 class="clickable-row">
                 <td class="cell-primary">#<span
@@ -149,6 +149,13 @@
             </ng-container>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination" *ngIf="totalPages() > 1 && !loading()" style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); padding-bottom: 16px;">
+        <button class="btn btn-outline btn-sm" (click)="prevPage()" [disabled]="currentPage() === 1">Previous</button>
+        <span style="font-size: 14px; color: var(--text-muted);">Page {{ currentPage() }} of {{ totalPages() }}</span>
+        <button class="btn btn-outline btn-sm" (click)="nextPage()" [disabled]="currentPage() === totalPages()">Next</button>
       </div>
     </div>
 
@@ -276,7 +283,7 @@
           <!-- Reply / Escalate actions -->
           <div class="email-actions">
             <!-- Respond Section -->
-            <div class="respond-section" *ngIf="!showEscalateForm">
+            <div class="respond-section" *ngIf="!showEscalateForm && !(selectedTicket?.isRaisedByAdmin || selectedTicket?.IsRaisedByAdmin)">
               <textarea class="form-textarea email-textarea" [(ngModel)]="respondText"
                 placeholder="Type your response to this ticket..."></textarea>
               <div class="action-buttons" style="display: flex; justify-content: space-between; align-items: center;">
@@ -327,8 +334,8 @@
         <div *ngIf="showSuccessAnim" class="success-tick-overlay">
           <div class="success-checkmark-svg-wrap">
             <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" style="stroke: #000;" />
-              <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" style="stroke: #000;" />
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+              <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
             </svg>
           </div>
           <p class="success-anim-text" style="color: #000; font-weight: bold; margin-top: 16px; font-size: 1.1rem;">{{ successAnimText }}</p>
