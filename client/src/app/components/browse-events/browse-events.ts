@@ -10,7 +10,6 @@ import { RegionService } from '../../services/region.service';
 import { LocationGeoService } from '../../services/location-geo.service';
 import { BrowsedEventResponse } from '../../models/event.model';
 import { RegionModel } from '../../models/region.model';
-import { LocationModalComponent } from '../home/location-modal/location-modal';
 import { FooterComponent } from '../home/footer/footer';
 import { NavbarComponent } from '../home/navbar/navbar';
 
@@ -19,7 +18,7 @@ import { ResolveDescriptionPipe } from '../../pipes/resolve-description.pipe';
 @Component({
   selector: 'app-browse-events',
   standalone: true,
-  imports: [CommonModule, FormsModule, LocationModalComponent, FooterComponent, NavbarComponent, ResolveDescriptionPipe],
+  imports: [CommonModule, FormsModule, FooterComponent, NavbarComponent, ResolveDescriptionPipe],
   templateUrl: './browse-events.html',
   styleUrl: './browse-events.css'
 })

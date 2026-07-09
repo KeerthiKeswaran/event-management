@@ -16,14 +16,20 @@
   </aside>
 
   <!-- Right Content Space -->
-  <div class="organizer-content">
+  <div class="organizer-content" [class.page-restricted]="isRestricted()">
+    @if (isRestricted()) {
+      <div class="restricted-banner">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span><strong>Account Restricted:</strong> You cannot create new events or view event details at this time.</span>
+      </div>
+    }
     <!-- Header -->
     <div class="organizer-header">
       <div>
         <h1 class="page-title">Hosted Events Directory</h1>
         <p class="page-sub">Search, filter, and manage all of your hosted event listings.</p>
       </div>
-      <button class="btn-primary" (click)="navigateToCreate()">+ Create Event</button>
+      <button class="btn-primary" [class.disabled]="isRestricted()" (click)="navigateToCreate()">+ Create Event</button>
     </div>
 
     <!-- Controls Bar -->
@@ -34,6 +40,7 @@
         <option value="live">Live</option>
         <option value="completed">Completed</option>
         <option value="cancelled">Cancelled</option>
+        <option value="failed">Failed</option>
       </select>
 
       <select class="status-filter-select" [ngModel]="filterType()" (ngModelChange)="filterType.set($event)" style="width: 170px;">
@@ -121,7 +128,8 @@
   <app-event-details-modal 
     [event]="selectedEvent()" 
     (close)="closeEventModal()"
-    (updated)="refreshEventDetails()">
+    (updated)="refreshEventDetails()"
+    (recreate)="recreateEvent(selectedEvent())">
   </app-event-details-modal>
 }
 

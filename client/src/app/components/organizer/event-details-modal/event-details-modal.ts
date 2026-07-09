@@ -19,6 +19,7 @@ export class EventDetailsModalComponent implements OnInit {
   @Input() event: any;
   @Output() close = new EventEmitter<void>();
   @Output() updated = new EventEmitter<void>();
+  @Output() recreate = new EventEmitter<void>();
 
   public isPasswordVisible = false;
   
@@ -168,6 +169,13 @@ export class EventDetailsModalComponent implements OnInit {
         this.errorMessage = err.error?.message || 'Failed to update event details.';
       }
     });
+  }
+
+  public triggerRecreate(e?: Event) {
+    if (e) {
+      e.stopPropagation();
+    }
+    this.recreate.emit();
   }
 
   closeModal() {

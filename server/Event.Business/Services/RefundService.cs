@@ -67,7 +67,7 @@ namespace Event.Business.Services
                 // Send cancellation email right when status is set to Cancelled
                 bool isEventCancelled = booking.Event?.Status == "Cancelled";
                 string cancellationReason = isEventCancelled
-                    ? $"This booking has been cancelled because the event \"{booking.Event?.Title}\" was cancelled by the organizer."
+                    ? (string.IsNullOrWhiteSpace(refundMessage) ? $"This booking has been cancelled because the event \"{booking.Event?.Title}\" was cancelled." : refundMessage)
                     : "Your booking has been cancelled as requested.";
 
                 var cancellationEmailDto = new EmailTemplateDto
@@ -140,7 +140,7 @@ namespace Event.Business.Services
                     Related_Id = bookingId,
                     Amount = refundAmountVal,
                     Currency = "INR",
-                    Status = (string.Equals(refundType, "NoRefund", StringComparison.OrdinalIgnoreCase) || isRefunded) ? "Success" : "Failed",
+                    Status = (isRefunded) ? "Success" : "Failed",
                     Created_At = DateTime.UtcNow,
                     Remarks = remarksVal
                 };
@@ -192,6 +192,34 @@ namespace Event.Business.Services
             {
                 ev.Status = "Cancelled";
                 await _eventRepository.UpdateAsync(ev);
+
+                var venueRepository = _serviceProvider.GetRequiredService<IVenueRepository>();
+                var staffRepository = _serviceProvider.GetRequiredService<IStaffRepository>();
+
+                // Release staff
+                if (ev.StaffAllocations != null)
+                {
+                    foreach (var allocation in ev.StaffAllocations)
+                    {
+                        var staff = await staffRepository.GetByIdAsync(allocation.Employee_ID);
+                        if (staff != null)
+                        {
+                            staff.IsAllocated = false;
+                            await staffRepository.UpdateAsync(staff);
+                        }
+                    }
+                }
+
+                // Release venue
+                if ((ev.Event_Type == "Physical" || ev.Event_Type == "Hybrid") && ev.Venue_Id.HasValue)
+                {
+                    var venue = await venueRepository.GetByIdAsync(ev.Venue_Id.Value);
+                    if (venue != null)
+                    {
+                        venue.Is_Available = true;
+                        await venueRepository.UpdateAsync(venue);
+                    }
+                }
 
                 // Send cancellation email to organizer right when event is marked Cancelled
                 var eventCancelEmailDto = new EmailTemplateDto
@@ -288,22 +316,6 @@ namespace Event.Business.Services
                         }
                         catch (Exception) { }
                     }
-                }
-                else if (string.Equals(refundType, "NoRefund", StringComparison.OrdinalIgnoreCase))
-                {
-                    var refundTx = new Transaction
-                    {
-                        Sender_Id = "Platform_Escrow",
-                        Receiver_Id = $"Organizer_User_{ev.Organizer_Id}",
-                        Transaction_Type = "BookingRefund",
-                        Related_Id = eventId,
-                        Amount = 0m,
-                        Currency = "INR",
-                        Status = "Success",
-                        Created_At = DateTime.UtcNow,
-                        Remarks = organizerRemarks
-                    };
-                    await _transactionRepository.AddAsync(refundTx);
                 }
             }
 

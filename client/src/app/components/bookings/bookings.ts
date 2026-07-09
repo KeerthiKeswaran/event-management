@@ -45,6 +45,9 @@ export class BookingsComponent implements OnInit, OnDestroy {
 
 
   public virtualLinkMsgBookingId = signal<number | null>(null);
+  public cancelledAccessMsgId   = signal<number | null>(null);
+  public cancelledAccessMsgType = signal<'qr' | 'virtual' | null>(null);
+  public cancellationMsgId = signal<number | null>(null);
 
   // Report modal state
   public showReportModal = signal(false);
@@ -190,6 +193,28 @@ export class BookingsComponent implements OnInit, OnDestroy {
     this.bookingToCancel.set(null);
   }
 
+  public canCancelBooking(booking: BookingModel): boolean {
+    if (booking.checkIn_Status === 'CheckedIn' || booking.booking_Status === 'Cancelled') {
+      return false;
+    }
+    const eventTime = new Date(booking.event_Date_Time).getTime();
+    const now = Date.now();
+    const oneHour = 60 * 60 * 1000;
+    if (eventTime - now <= oneHour) {
+      return false;
+    }
+    return true;
+  }
+
+  public showCancellationUnavailableMsg(bookingId: number): void {
+    this.cancellationMsgId.set(bookingId);
+    setTimeout(() => {
+      if (this.cancellationMsgId() === bookingId) {
+        this.cancellationMsgId.set(null);
+      }
+    }, 4000);
+  }
+
   /** Called by CancelBookingModalComponent (cancelled) output after animation */
   public onBookingCancelled(booking: BookingModel): void {
     const updated = this.bookings().map(b =>
@@ -271,6 +296,17 @@ export class BookingsComponent implements OnInit, OnDestroy {
   }
 
   // ── Utils ──────────────────────────────────────────────────
+
+  public showCancelledAccessMsg(bookingId: number, type: 'qr' | 'virtual'): void {
+    this.cancelledAccessMsgId.set(bookingId);
+    this.cancelledAccessMsgType.set(type);
+    setTimeout(() => {
+      if (this.cancelledAccessMsgId() === bookingId) {
+        this.cancelledAccessMsgId.set(null);
+        this.cancelledAccessMsgType.set(null);
+      }
+    }, 3500);
+  }
 
   public joinMeeting(booking: BookingModel): void {
     const url = booking.virtual_Url;

@@ -1,0 +1,168 @@
+<app-navbar [isAdmin]="true"></app-navbar>
+
+<div class="admin-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Users</h1>
+        <p class="page-sub">Manage platform users and their access</p>
+      </div>
+    </div>
+
+    <div class="section-panel">
+      <div class="panel-header">
+        <h2 style="margin: 0;">All Users ({{ totalUsers() }})</h2>
+        <div class="filter-bar">
+          <input class="filter-input search-input" type="text" [ngModel]="keyword()" (ngModelChange)="onSearchInput($event)" placeholder="Search by name or email..." />
+          <select class="filter-select" [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event); applyFilters()">
+            <option value="All Status">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Restricted">Restricted</option>
+            <option value="Deactivated">Deactivated</option>
+          </select>
+          <input class="filter-input date-input" type="date" [ngModel]="filterStartDate()" (ngModelChange)="filterStartDate.set($event); applyFilters()" title="Created After" />
+          <input class="filter-input date-input" type="date" [ngModel]="filterEndDate()" (ngModelChange)="filterEndDate.set($event); applyFilters()" title="Created Before" />
+          <button class="btn btn-outline btn-sm" (click)="clearFilters()" style="color: #ef4444; border-color: #ef4444;">Clear</button>
+          <button #refreshBtn class="icon-btn refresh-btn" (click)="refreshBtn.classList.add('spinning-active'); loadUsers()" (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh" [class.spinning]="loading()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); margin-left: auto;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          </button>
+        </div>
+      </div>
+      <div class="table-container">
+        <div *ngIf="error()" class="alert alert-error" style="margin-bottom: 16px;">
+          {{ error() }}
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th class="sortable" (click)="toggleSortName()">Name <span class="sort-arrow">{{ getSortIcon('name') }}</span></th>
+              <th class="sortable" (click)="toggleSortDate()">Created Date <span class="sort-arrow">{{ getSortIcon('date') }}</span></th>
+              <th>Hosted</th>
+              <th>Booked</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody [style.opacity]="loading() && users().length > 0 ? 0.6 : 1" [style.pointer-events]="loading() ? 'none' : 'auto'" style="transition: opacity 0.2s;">
+            <ng-container *ngIf="loading() && users().length === 0">
+              <tr *ngFor="let _ of [1,2,3,4,5]">
+                <td><div class="skeleton-table-cell" style="width: 40px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 150px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 120px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 100px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 80px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 50px;"></div></td>
+                <td><div class="skeleton-table-cell" style="width: 50px;"></div></td>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="!(loading() && users().length === 0)">
+              <tr *ngFor="let user of users()" (click)="openUserModal(user)" style="cursor: pointer;" class="hoverable-row">
+                <td class="cell-primary">#{{ user.user_Id || user.User_Id }}</td>
+                <td>{{ user.email || user.Email }}</td>
+                <td class="cell-primary" style="font-weight: 500;">{{ user.name || user.Name }}</td>
+                <td>{{ (user.created_At || user.Created_At) | date:'mediumDate' }}</td>
+                <td>{{ user.eventsHostedCount || 0 }}</td>
+                <td>{{ user.bookingsCount || 0 }}</td>
+                <td>
+                  <span class="badge" [ngClass]="getStatusBadgeClass(user.status || user.Status)">
+                    {{ user.status || user.Status || 'Unknown' }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="users().length === 0">
+                <td colspan="7" class="empty-state">No users found matching the criteria.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination" *ngIf="totalPages() > 1 && !loading()" style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); padding-bottom: 16px;">
+        <button class="btn btn-outline btn-sm" (click)="prevPage()" [disabled]="currentPage() === 1">Previous</button>
+        <span style="font-size: 14px; color: var(--text-muted);">Page {{ currentPage() }} of {{ totalPages() }}</span>
+        <button class="btn btn-outline btn-sm" (click)="nextPage()" [disabled]="currentPage() === totalPages()">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Details Modal -->
+<div class="modal-overlay" *ngIf="showModal()" (click)="closeUserModal()">
+  <div class="modal-content" style="position: relative; max-width: 500px;" (click)="$event.stopPropagation()">
+    <div *ngIf="showSuccessAnimation()" class="success-tick-overlay" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; background: var(--bg-canvas); border-radius: var(--radius);">
+      <div class="success-checkmark-svg-wrap">
+        <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <p class="success-text">Status Updated Successfully</p>
+    </div>
+    <button class="modal-close" (click)="closeUserModal()">×</button>
+    
+    <div class="modal-header">
+      <h2 style="margin: 0; font-size: 20px;">User Details</h2>
+      <p style="margin: 4px 0 0 0; color: var(--text-muted); font-size: 14px;">Review and manage user account</p>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedUser() as user">
+      
+      <div class="detail-grid">
+        <div class="detail-item">
+          <label>User ID</label>
+          <div class="detail-value">#{{ user.user_Id || user.User_Id }}</div>
+        </div>
+        <div class="detail-item">
+          <label>Name</label>
+          <div class="detail-value">{{ user.name || user.Name }}</div>
+        </div>
+        <div class="detail-item">
+          <label>Email</label>
+          <div class="detail-value">{{ user.email || user.Email }}</div>
+        </div>
+        <div class="detail-item">
+          <label>Account Created</label>
+          <div class="detail-value">{{ (user.created_At || user.Created_At) | date:'medium' }}</div>
+        </div>
+        <div class="detail-item">
+          <label>Events Hosted</label>
+          <div class="detail-value">{{ user.eventsHostedCount || 0 }}</div>
+        </div>
+        <div class="detail-item">
+          <label>Events Booked</label>
+          <div class="detail-value">{{ user.bookingsCount || 0 }}</div>
+        </div>
+      </div>
+
+      <div class="divider" style="height: 1px; background: var(--border); margin: 24px 0;"></div>
+
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <label style="font-size: 16px; color: var(--text-primary); font-weight: 400; margin: 0;">Account Status</label>
+        <select class="form-select" [ngModel]="newStatus()" (ngModelChange)="newStatus.set($event)" style="width: 140px; border-color: #999;">
+          <option value="Active">Active</option>
+          <option value="Restricted">Restricted</option>
+          <option value="Deactivated">Deactivated</option>
+        </select>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin: 0;">
+        Updating the status will immediately affect the user's access to the platform.
+      </p>
+
+      <div *ngIf="updateError()" class="alert alert-error" style="margin-top: 16px;">
+        {{ updateError() }}
+      </div>
+    </div>
+
+    <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+      <button class="btn btn-outline" (click)="closeUserModal()" [disabled]="updatingStatus()">Cancel</button>
+      <button class="btn btn-primary" (click)="updateStatus()" [disabled]="updatingStatus() || !isStatusChanged">
+        {{ updatingStatus() ? 'Updating...' : 'Update Status' }}
+      </button>
+    </div>
+  </div>
+</div>

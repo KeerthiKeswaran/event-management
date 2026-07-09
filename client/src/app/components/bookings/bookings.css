@@ -258,6 +258,7 @@
 }
 
 .status-confirmed  { background: rgba(37, 99, 235, 0.1); color: #2563eb; }  /* Steel Blue */
+.status-checkedin  { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; } /* Purple */
 .status-completed  { background: rgba(5, 150, 105, 0.1); color: #059669; }  /* Emerald Green */
 .status-pending    { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
 .status-cancelled  { background: rgba(156, 163, 175, 0.15); color: #6b7280; }
@@ -350,6 +351,42 @@
   font-size: 0.95rem;
   color: var(--accent);
 }
+
+/* Event Cancelled by Admin Banner */
+.event-cancelled-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(220, 38, 38, 0.05));
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-left: 3px solid #ef4444;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  animation: fadeInDown 0.3s ease;
+}
+
+.event-cancelled-banner svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #ef4444;
+}
+
+.event-cancelled-banner span {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.event-cancelled-banner strong {
+  color: #ef4444;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 
 /* Actions Row */
 .booking-actions {

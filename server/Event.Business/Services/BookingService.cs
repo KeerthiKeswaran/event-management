@@ -515,8 +515,17 @@ namespace Event.Business.Services
                     await _eventRepository.UpdateAsync(booking.Event);
                 }
 
-                // 5. Calculate and process refund via RefundService
-                var (refundAmountVal, remarksVal) = await _refundService.RefundAttendeeAsync(bookingId, refundType);
+                // 5. Handle cancellation and refund
+                if (string.Equals(refundType, "NoRefund", StringComparison.OrdinalIgnoreCase))
+                {
+                    booking.Booking_Status = "Cancelled";
+                    booking.CheckIn_Status = "Missed";
+                    await _bookingRepository.UpdateAsync(booking);
+                }
+                else
+                {
+                    var (refundAmountVal, remarksVal) = await _refundService.RefundAttendeeAsync(bookingId, refundType);
+                }
 
                 // 6. Persist changes to database and complete database transaction
                 await _bookingRepository.CommitTransactionAsync();

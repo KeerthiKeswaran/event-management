@@ -9,6 +9,8 @@ import { NavbarComponent } from '../../home/navbar/navbar';
 import { FooterComponent } from '../../home/footer/footer';
 import { AdminSidebarComponent } from '../sidebar/sidebar';
 import { environment } from '../../../../environments/environment';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Pipe({
@@ -63,10 +65,14 @@ export class AdminHelpdeskComponent implements OnInit {
   public filterDateFrom = '';
   public filterDateTo = '';
   public filterEscalation = '';
-  private searchTimeout: any;
 
-  public sortColumn = signal('created_At');
+  private searchSubject = new Subject<string>();
+
+  public sortColumn = signal('createdAt');
   public sortDirection = signal<'asc' | 'desc'>('desc');
+
+  public currentPage = signal(1);
+  public pageSize = signal(10);
 
   public sortedTickets = computed(() => {
     let arr = [...this.tickets()];
@@ -76,7 +82,8 @@ export class AdminHelpdeskComponent implements OnInit {
       const matchKw = !kw ||
         (t.ticket_Id?.toString().includes(kw) || t.ticketId?.toString().includes(kw)) ||
         ((t.senderEmail || t.SenderEmail || '')?.toLowerCase().includes(kw)) ||
-        ((t.fetchedSubject || '')?.toLowerCase().includes(kw));
+        ((t.fetchedSubject || '')?.toLowerCase().includes(kw)) ||
+        (t.user_Id?.toString().includes(kw) || t.User_Id?.toString().includes(kw));
 
       const matchType = !this.filterType || (t.requestType || t.RequestType || '') === this.filterType;
       const matchStatus = !this.filterStatus || (t.status || t.Status || '') === this.filterStatus;
@@ -121,6 +128,27 @@ export class AdminHelpdeskComponent implements OnInit {
     });
   });
 
+  public totalPages = computed(() => {
+    return Math.max(1, Math.ceil(this.sortedTickets().length / this.pageSize()));
+  });
+
+  public pagedTickets = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.sortedTickets().slice(start, start + this.pageSize());
+  });
+
+  public nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update(p => p + 1);
+    }
+  }
+
+  public prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update(p => p - 1);
+    }
+  }
+
   constructor(
     private adminService: AdminService,
     private http: HttpClient,
@@ -130,6 +158,14 @@ export class AdminHelpdeskComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.filterKeyword = searchTerm;
+      this.onFilterChange();
+    });
+
     this.route.queryParams.subscribe(params => {
       this.filterStatus = params['status'] || '';
       this.filterKeyword = params['keyword'] || '';
@@ -145,7 +181,11 @@ export class AdminHelpdeskComponent implements OnInit {
     });
   }
 
-  updateUrlParams(): void {
+  public onSearchInput(term: string) {
+    this.searchSubject.next(term);
+  }
+
+  public updateUrlParams(): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
@@ -234,21 +274,16 @@ export class AdminHelpdeskComponent implements OnInit {
     });
   }
 
-  public onSearchInput(val: string): void {
-    this.filterKeyword = val;
-    clearTimeout(this.searchTimeout);
-    this.searchTimeout = setTimeout(() => {
-      this.updateUrlParams();
-    }, 400);
+  public onFilterChange(): void {
+    this.currentPage.set(1);
+    this.updateUrlParams();
   }
+
+
 
   public getCleanEmail(email: string | null | undefined): string {
     if (!email) return 'no-email@provided.com';
     return email.replace(/[<>]/g, '').trim();
-  }
-
-  public onFilterChange(): void {
-    this.updateUrlParams();
   }
 
   public clearFilters(): void {
@@ -256,11 +291,12 @@ export class AdminHelpdeskComponent implements OnInit {
     this.filterKeyword = '';
     this.filterType = '';
     this.filterDateFrom = '';
-    this.filterDateFrom = '';
     this.filterDateTo = '';
     this.filterEscalation = '';
+    this.currentPage.set(1);
     this.sortColumn.set('created_At');
     this.sortDirection.set('desc');
+    this.updateUrlParams();
     this.router.navigate([], { relativeTo: this.route, queryParams: {} });
   }
 
@@ -271,6 +307,7 @@ export class AdminHelpdeskComponent implements OnInit {
       this.sortColumn.set(column);
       this.sortDirection.set('asc');
     }
+    this.currentPage.set(1);
     this.updateUrlParams();
   }
 

@@ -208,6 +208,8 @@ tr:hover td { background: var(--accent-light); }
   padding: 8px 18px;
 }
 
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { background: var(--accent-hover); }
 .btn-outline { background: transparent; border-color: var(--border); color: var(--text-primary); }
@@ -316,7 +318,62 @@ tr:hover td { background: var(--accent-light); }
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
+.success-checkmark-svg-wrap {
+  width: 60px;
+  height: 60px;
+}
+
+.checkmark-svg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: #000;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #000;
+  animation: fillCheckmarkCancel .4s ease-in-out .4s forwards, scaleCheckmarkCancel .3s ease-in-out .9s alternate both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+  stroke: #000;
+  fill: none;
+  animation: strokeCheckmarkCancel 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #fff;
+  animation: strokeCheckmarkCancel 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+.success-text {
+  margin-top: 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000;
+  opacity: 0;
+  animation: fadeInUpCancel 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.8s forwards;
+}
+
+@keyframes strokeCheckmarkCancel {
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fillCheckmarkCancel { 100% { box-shadow: inset 0px 0px 0px 30px #000; } }
+@keyframes scaleCheckmarkCancel {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeInUpCancel {
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }

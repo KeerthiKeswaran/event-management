@@ -6,6 +6,8 @@ import { FooterComponent } from '../../home/footer/footer';
 import { NavbarComponent } from '../../home/navbar/navbar';
 
 import { EventDetailsModalComponent } from '../event-details-modal/event-details-modal';
+import { AppStoreService } from '../../../store/app-store.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-organizer-dashboard',
@@ -25,13 +27,26 @@ export class OrganizerDashboardComponent implements OnInit {
   public liveEventsCount = signal(0);
   public completedEventsCount = signal(0);
 
+  public isRestricted = signal(false);
+  private subscriptions = new Subscription();
+
   constructor(
     private eventService: EventService,
-    private router: Router
+    private router: Router,
+    private store: AppStoreService
   ) {}
 
   ngOnInit(): void {
+    this.subscriptions.add(
+      this.store.select(state => state.auth.user).subscribe(user => {
+        this.isRestricted.set(user?.status === 'Restricted');
+      })
+    );
     this.loadDashboardData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private loadDashboardData(): void {
@@ -47,10 +62,8 @@ export class OrganizerDashboardComponent implements OnInit {
         const total = data.totalEvents ?? 0;
         const upcomingCount = data.upcomingEvents?.length ?? 0;
 
-        // Live = all upcoming events (future + Live/Pending status)
-        this.liveEventsCount.set(upcomingCount);
-        // Completed = abs(totalEvents - upcomingEvents count)
-        this.completedEventsCount.set(Math.abs(total - upcomingCount));
+        this.liveEventsCount.set(data.liveCount ?? upcomingCount);
+        this.completedEventsCount.set(data.completedCount ?? 0);
 
         this.isLoading.set(false);
       },
@@ -61,6 +74,7 @@ export class OrganizerDashboardComponent implements OnInit {
   }
 
   public openEventModal(event: any): void {
+    if (this.isRestricted()) return;
     this.selectedEvent.set(event);
   }
 
@@ -80,6 +94,7 @@ export class OrganizerDashboardComponent implements OnInit {
   }
 
   public navigateToCreate(): void {
+    if (this.isRestricted()) return;
     this.router.navigate(['/myevents/create']);
   }
 }

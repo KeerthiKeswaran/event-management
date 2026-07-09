@@ -122,7 +122,43 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public onEmailChange(newEmail: string): void {
     this.email = newEmail;
-    this.emailCheckSubject.next(newEmail);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.email || !emailRegex.test(this.email)) {
+      this.emailError.set('Please enter a valid email address.');
+      this.isEmailAvailable.set(null);
+    } else {
+      this.emailError.set(null);
+      this.emailCheckSubject.next(newEmail);
+    }
+  }
+
+  public validateName(): void {
+    if (!this.name || !this.name.trim()) {
+      this.nameError.set('Full name is required.');
+    } else {
+      this.nameError.set(null);
+    }
+  }
+
+  public validateMobile(): void {
+    if (this.mobileNumber) {
+      const mobileRegex = /^\d{10}$/;
+      if (!mobileRegex.test(this.mobileNumber)) {
+        this.mobileError.set('Please enter a valid 10-digit mobile number.');
+      } else {
+        this.mobileError.set(null);
+      }
+    } else {
+      this.mobileError.set('Mobile number is required.');
+    }
+  }
+
+  public validatePassword(): void {
+    if (!this.password || this.password.length < 6) {
+      this.passwordError.set('Password must be at least 6 characters.');
+    } else {
+      this.passwordError.set(null);
+    }
   }
 
   ngOnDestroy(): void {

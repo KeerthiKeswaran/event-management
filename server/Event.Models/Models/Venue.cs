@@ -21,6 +21,8 @@ namespace Event.Models
         public decimal Hourly_Price { get; set; }
         
         public bool Is_Available { get; set; }
+        
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
         public virtual ICollection<VenueSeatCapacity> SeatCapacities { get; set; } = new List<VenueSeatCapacity>();

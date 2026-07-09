@@ -14,6 +14,7 @@ import { RegionModel } from '../../../models/region.model';
 import { BrowsedEventResponse } from '../../../models/event.model';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { LocationModalComponent } from '../location-modal/location-modal';
 
 @Pipe({
   name: 'highlight',
@@ -36,7 +37,7 @@ export class HighlightPipe implements PipeTransform {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, HighlightPipe],
+  imports: [CommonModule, FormsModule, RouterLink, HighlightPipe, LocationModalComponent],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -45,6 +46,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @Input() isFinance: boolean = false;
   @Input() isMinimal: boolean = false;
   @Output() openLocation = new EventEmitter<void>();
+  public isLocationModalOpen = signal(false);
 
   public searchKeyword = signal('');
   public selectedRegionId = signal('REG01');
@@ -132,6 +134,30 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return found ? found.name : 'Chennai';
   }
 
+  public get isOrganizerPortal(): boolean {
+    return this.router.url.startsWith('/myevents');
+  }
+
+  public get showHomeInDropdown(): boolean {
+    return this.router.url !== '/' && this.router.url !== '/home';
+  }
+
+  public get showBrowseInDropdown(): boolean {
+    return !this.router.url.startsWith('/browse');
+  }
+
+  public get showManageEventsInDropdown(): boolean {
+    return !this.isOrganizerPortal;
+  }
+
+  public get showHelpInDropdown(): boolean {
+    return !this.isOrganizerPortal && !this.router.url.startsWith('/help');
+  }
+
+  public get showAccountSettingsInDropdown(): boolean {
+    return !this.router.url.includes('/settings');
+  }
+
   public get displayName(): string {
     if (this.currentUser()?.name) return this.currentUser().name;
     let tokenKey = 'user_token';
@@ -198,6 +224,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public onLocationPickerClick(event: Event): void {
     event.stopPropagation();
     this.openLocation.emit();
+    this.isLocationModalOpen.set(true);
   }
 
   public onSearchSubmit(event?: Event): void {
@@ -237,6 +264,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
       return;
     }
+    if (this.currentUser()?.status === 'Restricted') return;
     this.router.navigate(['/myevents/create']);
   }
 
@@ -246,6 +274,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
       return;
     }
     this.router.navigate(['/myevents']);
+    this.isProfileDropdownOpen.set(false);
+  }
+
+  public triggerHomeAction(): void {
+    this.router.navigate(['/']);
     this.isProfileDropdownOpen.set(false);
   }
 

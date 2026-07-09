@@ -130,8 +130,8 @@
         <button class="btn-save" (click)="saveChanges()" [disabled]="isSubmitting">
           {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
         </button>
-      } @else {
-        <button class="btn-primary" (click)="closeModal()">Done</button>
+      } @else if (event.status?.toLowerCase() === 'failed') {
+        <button class="btn-primary recreate-btn" (click)="triggerRecreate($event)">Recreate</button>
       }
     </div>
   </div>

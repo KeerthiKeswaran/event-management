@@ -29,6 +29,8 @@ namespace Event.Models
         [Required]
         public string Status { get; set; } = "Active"; // "Active", "Restricted", "Deactivated"
 
+        public DateTime Created_At { get; set; } = DateTime.UtcNow;
+
         public virtual TermsAndConditions? ConsentedTerms { get; set; }
 
         // Navigation properties

@@ -220,7 +220,10 @@ namespace Event.Business.Services
                     {
                         Tier_Name = tier.Tier_Name,
                         Price = tier.Price,
-                        Tickets_Sold = tier.Tickets_Sold
+                        Tickets_Sold = tier.Tickets_Sold,
+                        Capacity = ev.Venue != null && ev.Venue.SeatCapacities != null 
+                                    ? ev.Venue.SeatCapacities.FirstOrDefault(sc => sc.Tier_Name == tier.Tier_Name)?.Total_Seats ?? 0
+                                    : 0
                     });
                 }
             }

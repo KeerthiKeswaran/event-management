@@ -18,6 +18,7 @@ import { AdminDashboardComponent } from './components/admin/dashboard/dashboard'
 import { AdminModerationComponent } from './components/admin/moderation/moderation';
 import { AdminVenuesComponent } from './components/admin/venues/venues';
 import { AdminHelpdeskComponent } from './components/admin/helpdesk/helpdesk';
+import { AdminUsersComponent } from './components/admin/users/users';
 
 import { canDeactivateGuard } from './guards/can-deactivate.guard';
 import { adminGuard } from './guards/admin.guard';
@@ -50,6 +51,7 @@ export const routes: Routes = [
   { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [adminGuard], title: ' Admin Dashboard' },
   { path: 'admin/moderation', component: AdminModerationComponent, canActivate: [adminGuard], title: ' Moderation' },
   { path: 'admin/venues', component: AdminVenuesComponent, canActivate: [adminGuard], title: ' Venues' },
+  { path: 'admin/users', component: AdminUsersComponent, canActivate: [adminGuard], title: ' Users' },
   { path: 'admin/helpdesk', component: AdminHelpdeskComponent, canActivate: [adminGuard], title: ' Admin Helpdesk' },
   { path: 'admin/settings', component: AccountSettingsComponent, canActivate: [adminGuard], title: ' Admin Settings' },
   { path: 'myevents', component: OrganizerDashboardComponent, title: ' My Events' },

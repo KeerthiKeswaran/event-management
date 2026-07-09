@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, computed } from '@angular/core';
+import { Component, signal, OnInit, computed, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, ActivatedRoute, Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { AdminService } from '../../../services/admin.service';
 import { NavbarComponent } from '../../home/navbar/navbar';
 import { FooterComponent } from '../../home/footer/footer';
 import { AdminSidebarComponent } from '../sidebar/sidebar';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-moderation',
@@ -25,6 +27,12 @@ export class AdminModerationComponent implements OnInit {
   public staffFilterRegion = '';
   public staffFilterStatus = '';
   public staffFilterKeyword = '';
+  
+  public reportFilterStatus = '';
+  public reportFilterKeyword = '';
+
+  private staffSearchSubject = new Subject<string>();
+  private reportSearchSubject = new Subject<string>();
 
   public flagsExpanded = true;
   public staffExpanded = true;
@@ -43,12 +51,14 @@ export class AdminModerationComponent implements OnInit {
 
   public showUpholdModal = false;
   public selectedReport: any = null;
-  public upholdReason = '';
-  public organizerAction = 'No Action';
+  public adminUpheldMessage: string = '';
+  public organizerAction: string = 'No Action';
+  public isUpholding = false;
 
   public showDismissModal = false;
   public dismissReportId: number | null = null;
   public dismissEventId: number | null = null;
+  public isDismissing = false;
 
   public showAllocateModal = false;
   public selectedStaff: any = null;
@@ -69,18 +79,60 @@ export class AdminModerationComponent implements OnInit {
   public showSuccessAnimation = false;
 
   public pagedReports = computed(() => {
-    const sorted = this.sortData(this.reports(), this.reportSortColumn(), this.reportSortDirection());
+    let filtered = this.reports();
+    
+    if (this.reportFilterStatus) {
+      filtered = filtered.filter(r => (r.responseAction || 'Pending') === this.reportFilterStatus);
+    }
+    
+    if (this.reportFilterKeyword) {
+      const kw = this.reportFilterKeyword.toLowerCase();
+      filtered = filtered.filter(r => 
+        (r.eventId && r.eventId.toString().includes(kw)) || 
+        (r.reporterName && r.reporterName.toLowerCase().includes(kw))
+      );
+    }
+    
+    const sorted = this.sortData(filtered, this.reportSortColumn(), this.reportSortDirection());
     const start = (this.reportPage() - 1) * this.reportPageSize;
     return sorted.slice(start, start + this.reportPageSize);
   });
+
+  public onReportFilterChange(): void {
+    this.reportPage.set(1);
+    this.updateUrlParams();
+  }
+
+  public clearReportFilters(): void {
+    this.reportFilterStatus = '';
+    this.reportFilterKeyword = '';
+    this.reportPage.set(1);
+    this.updateUrlParams();
+  }
 
   public pagedStaff = computed(() => {
     return this.staffDirectory();
   });
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    this.staffSearchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.staffFilterKeyword = searchTerm;
+      this.onStaffFilterChange();
+    });
+
+    this.reportSearchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.reportFilterKeyword = searchTerm;
+      this.onReportFilterChange();
+    });
+
     this.route.queryParams.subscribe(params => {
       this.staffFilterRegion = params['region'] || '';
       this.staffFilterStatus = params['status'] || '';
@@ -94,6 +146,9 @@ export class AdminModerationComponent implements OnInit {
       
       this.staffSortColumn.set(params['sSort'] || 'status');
       this.staffSortDirection.set((params['sDir'] as 'asc' | 'desc') || 'asc');
+      
+      this.reportFilterStatus = params['rStatus'] || '';
+      this.reportFilterKeyword = params['rKeyword'] || '';
       
       this.loadData();
     });
@@ -111,7 +166,9 @@ export class AdminModerationComponent implements OnInit {
         rSort: this.reportSortColumn() || null,
         rDir: this.reportSortDirection() || null,
         sSort: this.staffSortColumn() || null,
-        sDir: this.staffSortDirection() || null
+        sDir: this.staffSortDirection() || null,
+        rStatus: this.reportFilterStatus || null,
+        rKeyword: this.reportFilterKeyword || null
       },
       queryParamsHandling: 'merge'
     });
@@ -155,6 +212,7 @@ export class AdminModerationComponent implements OnInit {
     this.loadingStaff.set(true);
     const params: any = { page: this.staffPage(), size: this.staffPageSize };
     if (this.staffFilterRegion) params.regionId = this.staffFilterRegion;
+    if (this.staffFilterKeyword) params.keyword = this.staffFilterKeyword;
     if (this.staffFilterStatus === 'allocated') params.isAllocated = true;
     else if (this.staffFilterStatus === 'available') params.isAllocated = false;
 
@@ -182,6 +240,14 @@ export class AdminModerationComponent implements OnInit {
     });
   }
 
+  public onStaffSearchInput(term: string) {
+    this.staffSearchSubject.next(term);
+  }
+
+  public onReportSearchInput(term: string) {
+    this.reportSearchSubject.next(term);
+  }
+
   public onStaffFilterChange(): void {
     this.staffPage.set(1);
     this.updateUrlParams();
@@ -197,14 +263,20 @@ export class AdminModerationComponent implements OnInit {
   }
 
   public dismissReport(reportId: number): void {
+    if (this.isDismissing) return;
+    this.isDismissing = true;
     this.adminService.dismissEventReport(reportId).subscribe({
       next: () => {
+        this.isDismissing = false;
         this.showDismissModal = false;
         this.dismissReportId = null;
         this.dismissEventId = null;
         this.showSuccessWithMessage('Report dismissed successfully', () => this.loadData());
       },
-      error: (err) => this.errorMessage.set(err.error?.message || 'Failed to dismiss report.')
+      error: (err) => {
+        this.isDismissing = false;
+        this.errorMessage.set(err.error?.message || 'Failed to dismiss report.');
+      }
     });
   }
 
@@ -222,7 +294,7 @@ export class AdminModerationComponent implements OnInit {
 
   public openUpholdModal(report: any): void {
     this.selectedReport = report;
-    this.upholdReason = '';
+    this.adminUpheldMessage = '';
     this.organizerAction = 'No Action';
     this.showUpholdModal = true;
   }
@@ -233,16 +305,21 @@ export class AdminModerationComponent implements OnInit {
   }
 
   public upholdReport(): void {
-    if (!this.selectedReport || !this.upholdReason) return;
+    if (!this.selectedReport || !this.adminUpheldMessage || this.isUpholding) return;
+    this.isUpholding = true;
     this.adminService.upholdEventReport(this.selectedReport.reportId, {
-      reason: this.upholdReason,
+      adminUpheldMessage: this.adminUpheldMessage,
       organizerAction: this.organizerAction
     }).subscribe({
       next: () => {
+        this.isUpholding = false;
         this.closeUpholdModal();
         this.showSuccessWithMessage('Report upheld successfully', () => this.loadData());
       },
-      error: (err) => this.errorMessage.set(err.error?.message || 'Failed to uphold report.')
+      error: (err) => {
+        this.isUpholding = false;
+        this.errorMessage.set(err.error?.message || 'Failed to uphold report.');
+      }
     });
   }
 
@@ -268,8 +345,10 @@ export class AdminModerationComponent implements OnInit {
   private showSuccessWithMessage(message: string, onClose: () => void): void {
     this.successModalMessage = message;
     this.showSuccessModal = true;
+    this.cdr.detectChanges();
     setTimeout(() => {
       this.showSuccessModal = false;
+      this.cdr.detectChanges();
       onClose();
     }, 2000);
   }

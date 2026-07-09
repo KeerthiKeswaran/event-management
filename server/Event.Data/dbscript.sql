@@ -33,7 +33,7 @@ END $$;
 --------- Query ----------
 
 
-Select * from "Users";
+Select * from "Users" Where "Email" Like '%gmail.com';
 Select * from "UserInterestedRegions";
 Select * from "TermsAndConditions";
 Select * from "Bookings";
@@ -64,6 +64,13 @@ Select * from "EventFeedbacks";
 Select count(*) from "Staffs"
 Where "IsAllocated" = true;
 
+UPDATE "Venues"
+SET "CreatedAt" = '2026-06-15'::timestamp 
+                  + (random() * 20) * interval '1 day' 
+                  + (random() * 24) * interval '1 hour'
+WHERE "CreatedAt" < '2026-06-15'::timestamp;
+
+
 Select * from "Events";
 Select * from "Venues";
 Select * from "Management";
@@ -87,13 +94,12 @@ Where "Ticket_Id" in (10001, 10006, 10329);
 Delete from "SupportTickets"
 Where "Ticket_Id" = 10328;
 
-Update "AdminActions"
-Set "ActionStatus" = 'Pending'
-Where "ActionId" = 10001;
+Delete from "AdminActions"
+Where "ActionId" in (10008, 10009, 10010);
 
-Update "Admins"
-Set "Name" = 'Srinath T'
-Where "Admin_Id" = 'FIN01';
+Update "EventReports"
+Set "ResponseAction" = 'Upholds'
+Where "Report_Id" = 10060;
 
 
 Select * from "OrganizerUpfrontPayments";

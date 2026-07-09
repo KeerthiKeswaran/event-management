@@ -88,6 +88,10 @@ export class AdminService {
     return this.http.get<any>(`${this.baseUrl}/admin/venues`);
   }
 
+  public searchVenues(name: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/admin/venues/search?name=${encodeURIComponent(name)}`);
+  }
+
   public createVenue(payload: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/admin/venues`, payload);
   }
@@ -149,5 +153,31 @@ export class AdminService {
   public searchGlobal(keyword: string): Observable<any> {
     let requestParams = new HttpParams().set('keyword', keyword);
     return this.http.get<any>(`${this.baseUrl}/admin/search`, { params: requestParams });
+  }
+
+  public getUsers(
+    keyword?: string,
+    status?: string,
+    startDate?: string,
+    endDate?: string,
+    sortBy?: string,
+    page: number = 1,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (keyword) params = params.set('keyword', keyword);
+    if (status && status !== 'All Status') params = params.set('status', status);
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+    if (sortBy) params = params.set('sortBy', sortBy);
+
+    return this.http.get<any>(`${this.baseUrl}/admin/users`, { params });
+  }
+
+  public updateUserStatus(userId: number, status: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/admin/users/${userId}/status`, { status });
   }
 }

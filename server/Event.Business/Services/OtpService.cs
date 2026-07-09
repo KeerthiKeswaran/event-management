@@ -53,13 +53,19 @@ namespace Event.Business.Services
             {
                 var existing = await _userRepository.GetByEmailAsync(email);
                 if (existing != null)
+                {
+                    if (string.Equals(existing.Status, "Deactivated", StringComparison.OrdinalIgnoreCase))
+                        throw new UnauthorizedException("Your account has been deactivated. You cannot register with this email.");
                     throw new ConflictException("Email is already registered.");
+                }
             }
             else if (purpose == "password-reset")
             {
                 var existing = await _userRepository.GetByEmailAsync(email);
                 if (existing == null)
                     throw new NotFoundException("No account registered with this email address.");
+                if (string.Equals(existing.Status, "Deactivated", StringComparison.OrdinalIgnoreCase))
+                    throw new UnauthorizedException("Your account has been deactivated.");
             }
             else if (purpose == "admin-password-reset" || purpose == "finance-login")
             {
@@ -72,6 +78,8 @@ namespace Event.Business.Services
                 var existing = await _userRepository.GetByEmailAsync(email);
                 if (existing == null)
                     throw new NotFoundException("No account registered with this email address.");
+                if (string.Equals(existing.Status, "Deactivated", StringComparison.OrdinalIgnoreCase))
+                    throw new UnauthorizedException("Your account is already deactivated.");
             }
 
             // 3. Check OTP Rate Limiting

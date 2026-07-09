@@ -10,7 +10,6 @@ import { EventsBrowsingComponent } from './events-browsing/events-browsing';
 import { PopularRegionsComponent } from './popular-regions/popular-regions';
 import { AboutFaqComponent } from './about-faq/about-faq';
 import { FooterComponent } from './footer/footer';
-import { LocationModalComponent } from './location-modal/location-modal';
 
 @Component({
   selector: 'app-home',
@@ -21,8 +20,7 @@ import { LocationModalComponent } from './location-modal/location-modal';
     EventsBrowsingComponent,
     PopularRegionsComponent,
     AboutFaqComponent,
-    FooterComponent,
-    LocationModalComponent
+    FooterComponent
   ],
   templateUrl: './home.html',
   styleUrl: './home.css'

@@ -18,6 +18,12 @@
       <div class="panel-header">
         <h2 style="margin: 0; font-size: 18px; font-weight: 700;">Action Queue</h2>
         <div style="flex-grow: 1;"></div>
+        <select class="form-select" style="width: auto; margin-right: 16px; padding: 4px 8px;" [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event)">
+          <option value="">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Processed">Processed</option>
+          <option value="Declined">Declined</option>
+        </select>
         <button #refreshBtn class="icon-btn refresh-btn"
           (click)="refreshBtn.classList.add('spinning-active'); loadActions()"
           (animationiteration)="!loading() && refreshBtn.classList.remove('spinning-active')" title="Refresh"

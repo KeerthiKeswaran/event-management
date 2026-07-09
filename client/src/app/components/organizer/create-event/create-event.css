@@ -986,6 +986,7 @@ input:disabled + .switch-slider:before {
   height: 13px;
   accent-color: var(--accent);
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .policy-label {
@@ -1853,3 +1854,6 @@ input:disabled + .switch-slider:before {
   cursor: not-allowed;
   opacity: 0.8;
 }
+
+
+

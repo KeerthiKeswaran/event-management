@@ -477,6 +477,12 @@ namespace Event.Business.Services
                 decimal venueCost = venue.Hourly_Price * request.DurationHours;
                 upfrontFee += settings.Physical_Event_Activation_Fee + venueCost;
 
+                // Add virtual fee if it's a Hybrid event
+                if (request.EventType.Equals("Hybrid", StringComparison.OrdinalIgnoreCase))
+                {
+                    upfrontFee += settings.Virtual_Event_Activation_Fee;
+                }
+
                 // Check and calculate staff availability if requested by the organizer
                 if (request.RequiresStaff)
                 {
@@ -503,7 +509,7 @@ namespace Event.Business.Services
                         }
 
                         int allocatedCount = Math.Min(requiredStaffCount, availableStaffCount);
-                        upfrontFee += settings.Staff_Flat_Rate * allocatedCount;
+                        upfrontFee += settings.Staff_Flat_Rate * allocatedCount * request.DurationHours;
                     }
                 }
             }
@@ -1250,6 +1256,17 @@ namespace Event.Business.Services
                     {
                         staff.IsAllocated = false;
                         await _staffRepository.UpdateAsync(staff);
+                    }
+                }
+
+                // Step 6.5: Release the allocated venue if applicable.
+                if ((ev.Event_Type == "Physical" || ev.Event_Type == "Hybrid") && ev.Venue_Id.HasValue)
+                {
+                    var venue = await _venueRepository.GetByIdAsync(ev.Venue_Id.Value);
+                    if (venue != null)
+                    {
+                        venue.Is_Available = true;
+                        await _venueRepository.UpdateAsync(venue);
                     }
                 }
 
