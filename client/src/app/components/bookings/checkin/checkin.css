@@ -165,6 +165,105 @@
   border: 1px solid #fecaca;
 }
 
+/* Camera Scanner Styles */
+.camera-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: -10px;
+}
+
+.btn-camera {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-camera-start {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-camera-start:hover {
+  background-color: #059669;
+}
+
+.camera-select {
+  padding: 10px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  background-color: white;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-width: 200px;
+}
+
+.camera-select:focus {
+  border-color: #3b82f6;
+}
+
+.btn-camera-stop {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-camera-stop:hover {
+  background-color: #dc2626;
+}
+
+.scanner-box.camera-active {
+  background: #000;
+  border-color: #334155;
+  padding: 0;
+  cursor: default;
+}
+
+.camera-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.camera-overlay {
+  position: absolute;
+  inset: 15%;
+  pointer-events: none;
+}
+
+.corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-color: rgba(34, 197, 94, 0.8);
+  border-style: solid;
+}
+
+.top-left { top: 0; left: 0; border-width: 4px 0 0 4px; border-top-left-radius: 8px; }
+.top-right { top: 0; right: 0; border-width: 4px 4px 0 0; border-top-right-radius: 8px; }
+.bottom-left { bottom: 0; left: 0; border-width: 0 0 4px 4px; border-bottom-left-radius: 8px; }
+.bottom-right { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-bottom-right-radius: 8px; }
+
+.camera-alert {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  margin-top: 10px;
+}
+
 /* Success Animation Overlay */
 .fixed-overlay {
   position: fixed;
@@ -245,4 +344,47 @@
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .checkin-layout {
+    padding: 20px 15px;
+  }
+
+  .checkin-container {
+    padding: 24px 20px;
+    margin-top: 20px;
+    gap: 20px;
+    border-radius: 12px;
+  }
+
+  .checkin-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .checkin-header p {
+    font-size: 0.9rem;
+  }
+
+  .scanner-box {
+    height: 220px;
+  }
+
+  .camera-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .camera-select {
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .btn-camera {
+    justify-content: center;
+    width: 100%;
+  }
 }

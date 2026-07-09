@@ -1,0 +1,5 @@
+{
+  "Subject": "Booking confirmation problem",
+  "Message": "My payment was successful but the booking confirmation did not arrive.",
+  "Response": "We have re-sent your confirmation to the registered email."
+}
