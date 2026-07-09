@@ -39,6 +39,9 @@ Built with **ASP.NET Core Web API**, structured following clean architecture gui
 *   **Bookings Filtering by Status**: Added a `status` query parameter to the `GET /api/booking` endpoint, allowing users to filter their bookings list by status (`Confirmed` or `Cancelled`).
 *   **Hybrid/Virtual Event Details & Booking Response**: Updated booking confirmation and retrieval flows to share virtual meeting URLs (`Virtual_Url`) and meeting passcode hashes (`Virtual_Password_Hash`) with the attendee once their booking is confirmed.
 *   **Automated Email Credentials**: When a hybrid/virtual event is booked, the booking engine now automatically emails the attendee with the meeting link and the raw (unhashed) passcode.
+*   **Email Delivery Modernization**: Switched all HTML email templates to use Content-ID (CID) inline attachments for the platform logo, ensuring reliable and secure visual rendering across strict SMTP clients like Gmail Web.
+*   **Admin User Management Notifications**: The system now automatically triggers email notifications to organizers when an admin changes their account status (Activate/Restrict/Deactivate) following an upheld moderation report.
+*   **Admin & Finance UX Refinements**: Added loading states to moderation actions preventing duplicate clicks, restricted helpdesk replies for internally raised Admin tickets, and introduced a new Escalation Status filter for the Finance dashboard.
 
 ---
 
