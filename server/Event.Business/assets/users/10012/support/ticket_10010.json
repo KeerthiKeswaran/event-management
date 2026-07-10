@@ -1,0 +1,5 @@
+{
+  "Subject": "Voucher code not working",
+  "Message": "The promotional voucher code is being rejected during checkout.",
+  "Response": "The voucher code has been verified and should work now."
+}

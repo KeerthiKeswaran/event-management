@@ -7,18 +7,49 @@
       <p>Scan the attendee's ticket QR code to check them in.</p>
     </div>
 
+    <!-- Camera Controls -->
+    <div class="camera-controls">
+      @if (isCameraActive()) {
+        @if (availableCameras().length > 1) {
+          <select class="camera-select" (change)="onCameraSelect($event)" [value]="selectedCameraId()">
+            @for (camera of availableCameras(); track camera.deviceId; let i = $index) {
+              <option [value]="camera.deviceId">{{ camera.label || 'Camera ' + (i + 1) }}</option>
+            }
+          </select>
+        }
+        <button class="btn-camera btn-camera-stop" (click)="stopCamera()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+          Stop Camera
+        </button>
+      } @else {
+        <button class="btn-camera btn-camera-start" (click)="startCamera()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          Use Camera
+        </button>
+      }
+    </div>
+
     <!-- Scanner Box -->
     <div class="scanner-box" 
          [class.dragging]="isDragging()" 
          [class.scanning]="isScanning()"
-         (dragover)="onDragOver($event)"
-         (dragleave)="onDragLeave($event)"
-         (drop)="onDrop($event)"
-         (click)="triggerFileInput()">
+         [class.camera-active]="isCameraActive()"
+         (dragover)="!isCameraActive() && onDragOver($event)"
+         (dragleave)="!isCameraActive() && onDragLeave($event)"
+         (drop)="!isCameraActive() && onDrop($event)"
+         (click)="!isCameraActive() && triggerFileInput()">
          
       <input type="file" #fileInput accept="image/*" style="display: none;" (change)="onFileSelect($event)" />
 
-      @if (isScanning()) {
+      @if (isCameraActive()) {
+        <video #videoElement class="camera-feed" autoplay playsinline muted></video>
+        <div class="camera-overlay">
+          <div class="corner top-left"></div>
+          <div class="corner top-right"></div>
+          <div class="corner bottom-left"></div>
+          <div class="corner bottom-right"></div>
+        </div>
+      } @else if (isScanning()) {
         <div class="scan-animation-wrap">
           <div class="qr-scanner">
             <div class="scan-line"></div>
@@ -48,6 +79,14 @@
       <div class="alert error-alert">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
         <span>{{ errorMessage() }}</span>
+      </div>
+    }
+
+    <!-- Camera Error Message -->
+    @if (cameraError()) {
+      <div class="alert camera-alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <span>{{ cameraError() }}</span>
       </div>
     }
   </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectionStrategy, signal, computed, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -13,16 +13,131 @@ import jsQR from 'jsqr';
   templateUrl: './checkin.html',
   styleUrls: ['./checkin.css']
 })
-export class CheckinComponent {
+export class CheckinComponent implements OnDestroy {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
 
   public isDragging = signal(false);
   public isScanning = signal(false);
   public successMessage = signal<string | null>(null);
   public errorMessage = signal<string | null>(null);
 
+  public isCameraActive = signal(false);
+  public cameraError = signal<string | null>(null);
+  public availableCameras = signal<MediaDeviceInfo[]>([]);
+  public selectedCameraId = signal<string | null>(null);
+
+  private stream: MediaStream | null = null;
+  private animationFrameId: number | null = null;
+  private isProcessingQR = false;
+
   constructor(private http: HttpClient) {}
+
+  ngOnDestroy() {
+    this.stopCamera();
+  }
+
+  public async startCamera() {
+    this.cameraError.set(null);
+    this.errorMessage.set(null);
+    
+    try {
+      let constraints: MediaStreamConstraints = { video: { facingMode: 'environment' } };
+      const targetDeviceId = this.selectedCameraId();
+      
+      if (targetDeviceId) {
+        constraints = { video: { deviceId: { exact: targetDeviceId } } };
+      }
+
+      this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+      this.isCameraActive.set(true);
+      
+      if (this.availableCameras().length === 0) {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(d => d.kind === 'videoinput');
+        this.availableCameras.set(videoDevices);
+        
+        const activeTrack = this.stream.getVideoTracks()[0];
+        if (activeTrack) {
+           const activeSettings = activeTrack.getSettings();
+           if (activeSettings.deviceId) {
+              this.selectedCameraId.set(activeSettings.deviceId);
+           }
+        }
+      }
+      
+      setTimeout(async () => {
+        if (this.videoElement?.nativeElement) {
+          const video = this.videoElement.nativeElement;
+          video.srcObject = this.stream;
+          video.setAttribute('playsinline', 'true');
+          await video.play();
+          this.scanFrame();
+        }
+      }, 0);
+    } catch (err) {
+      console.error('Error accessing camera:', err);
+      this.cameraError.set('Could not access the camera. Please grant permissions and try again.');
+    }
+  }
+
+  public stopCamera() {
+    this.isCameraActive.set(false);
+    
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+    
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
+    
+    if (this.videoElement?.nativeElement) {
+      this.videoElement.nativeElement.srcObject = null;
+    }
+  }
+
+  public onCameraSelect(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    const deviceId = select.value;
+    if (deviceId && deviceId !== this.selectedCameraId()) {
+      this.selectedCameraId.set(deviceId);
+      this.stopCamera();
+      // small delay to ensure resources are freed
+      setTimeout(() => {
+        this.startCamera();
+      }, 100);
+    }
+  }
+
+  private scanFrame() {
+    if (!this.isCameraActive()) return;
+
+    const video = this.videoElement?.nativeElement;
+    const canvasEl = this.canvas?.nativeElement;
+    if (!video || !canvasEl) return;
+    
+    const ctx = canvasEl.getContext('2d', { willReadFrequently: true });
+
+    if (video.readyState === video.HAVE_ENOUGH_DATA && ctx) {
+      canvasEl.width = video.videoWidth;
+      canvasEl.height = video.videoHeight;
+      
+      ctx.drawImage(video, 0, 0, canvasEl.width, canvasEl.height);
+      const imageData = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'dontInvert' });
+
+      if (code && !this.isProcessingQR) {
+        this.isProcessingQR = true;
+        this.checkIn(code.data, true);
+      }
+    }
+
+    this.animationFrameId = requestAnimationFrame(() => this.scanFrame());
+  }
 
   public onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -148,11 +263,17 @@ export class CheckinComponent {
     reader.readAsDataURL(file);
   }
 
-  private checkIn(qrHash: string) {
+  private checkIn(qrHash: string, fromCamera = false) {
     const apiUrl = environment.apiUrl;
     this.http.post<any>(`${apiUrl}/booking/checkin`, { qrHash }).subscribe({
       next: (res) => {
         this.isScanning.set(false);
+        this.isProcessingQR = false;
+        
+        if (fromCamera) {
+          this.stopCamera();
+        }
+
         this.successMessage.set(`Checked in successfully! Booking ID: #${res.booking_Id || res.Booking_Id}`);
         setTimeout(() => {
           this.successMessage.set(null);
@@ -161,6 +282,15 @@ export class CheckinComponent {
       error: (err) => {
         this.isScanning.set(false);
         this.errorMessage.set(err.error?.message || 'Failed to check in. Please try again.');
+        
+        if (fromCamera) {
+          // Pause before allowing another scan from camera to prevent spamming API on invalid QR
+          setTimeout(() => {
+            this.isProcessingQR = false;
+          }, 2500);
+        } else {
+          this.isProcessingQR = false;
+        }
       }
     });
   }
