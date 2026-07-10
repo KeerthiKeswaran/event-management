@@ -34,6 +34,13 @@ END $$;
 
 
 Select * from "Users" Where "Email" Like '%gmail.com';
+
+Update "Users"
+Set "Status" = 'Active'
+Where "User_Id" = 10662;
+
+Select * from "Venues"  Where "Is_Available" = true;
+
 Select * from "UserInterestedRegions";
 Select * from "TermsAndConditions";
 Select * from "Bookings";
@@ -46,8 +53,14 @@ Select * from "Venues";
 Select * from "Management";
 Select * from "Admins";
 Select * from "Events" Where "Status" = 'Activation Pending';
+Update "Events" 
+Set "Status" = 'Cancelled'
+Where "Title" LIKE 'Madurai Chithirai%';
 
-Select * from "Events" Where "Event_Id" = '10013';
+Select * from "Events" Where "Status" = 'Cancelled';
+Update "Venues" 
+Set "Is_Available" = true
+Where "Venue_Id" = 10017;
 
 Select * from "PlatformSettings";
 Select * from "Transactions";
@@ -64,11 +77,11 @@ Select * from "EventFeedbacks";
 Select count(*) from "Staffs"
 Where "IsAllocated" = true;
 
-UPDATE "Venues"
-SET "CreatedAt" = '2026-06-15'::timestamp 
+UPDATE "Users"
+SET "Created_At" = '2026-06-15'::timestamp 
                   + (random() * 20) * interval '1 day' 
                   + (random() * 24) * interval '1 hour'
-WHERE "CreatedAt" < '2026-06-15'::timestamp;
+WHERE "Created_At" < '2026-06-15'::timestamp;
 
 
 Select * from "Events";
