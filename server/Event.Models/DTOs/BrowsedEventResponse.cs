@@ -21,6 +21,8 @@ namespace Event.Models.DTOs
         public decimal Duration_Hours { get; set; }
         public List<TicketTierDetailsDto> TicketTiers { get; set; } = new List<TicketTierDetailsDto>();
         public List<BrowsedEventReportDto> Reports { get; set; } = new List<BrowsedEventReportDto>();
+        public bool? Is_Sold_Out { get; set; }
+        public int? Waitlist_Position { get; set; }
     }
 
     public class BrowsedEventReportDto

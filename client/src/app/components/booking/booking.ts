@@ -13,6 +13,7 @@ import { ReportEventModalComponent } from '../shared/report-event-modal/report-e
 import { ResolveDescriptionPipe } from '../../pipes/resolve-description.pipe';
 import { EventService } from '../../services/event.service';
 import { BookingService } from '../../services/booking.service';
+import { WaitlistService } from '../../services/waitlist.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -56,6 +57,7 @@ export class BookingComponent implements OnInit, OnDestroy {
     private router: Router,
     private eventService: EventService,
     private bookingService: BookingService,
+    private waitlistService: WaitlistService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -129,13 +131,18 @@ export class BookingComponent implements OnInit, OnDestroy {
     this.event.set(found);
 
     // Build tier selection list from the event's actual ticketTiers initially
-    let tierData: TicketTierSelection[] = (found.ticketTiers ?? []).map(t => ({
-      tierName: t.tier_Name,
-      price: t.price,
-      quantity: 0,
-      totalSeats: t.capacity ?? 99999,
-      availableSeats: Math.max(0, (t.capacity ?? 99999) - t.tickets_Sold)
-    }));
+    let tierData: TicketTierSelection[] = (found.ticketTiers ?? []).map(t => {
+      console.log('Tier:', t.tier_Name, 'has_Active_Waitlist:', t.has_Active_Waitlist);
+      return {
+        tierName: t.tier_Name,
+        price: t.price,
+        quantity: 0,
+        totalSeats: t.capacity ?? 99999,
+        availableSeats: Math.max(0, (t.capacity ?? 99999) - t.tickets_Sold),
+        waitlistQuantity: 1, // default waitlist req
+        has_Active_Waitlist: t.has_Active_Waitlist
+      };
+    });
     this.tiers.set(tierData);
 
     // Fetch live capacities from backend to update available seats accurately
@@ -211,6 +218,52 @@ export class BookingComponent implements OnInit, OnDestroy {
     if (!tier || tier.quantity === 0) return;
     tier.quantity--;
     this.tiers.set([...tiers]);
+  }
+
+  public increaseWaitlistQty(tierName: string): void {
+    const tiers = this.tiers();
+    const tier = tiers.find(t => t.tierName === tierName);
+    if (tier && tier.waitlistQuantity) {
+      tier.waitlistQuantity++;
+      this.tiers.set([...tiers]);
+    }
+  }
+
+  public decreaseWaitlistQty(tierName: string): void {
+    const tiers = this.tiers();
+    const tier = tiers.find(t => t.tierName === tierName);
+    if (tier && tier.waitlistQuantity && tier.waitlistQuantity > 1) {
+      tier.waitlistQuantity--;
+      this.tiers.set([...tiers]);
+    }
+  }
+
+  public joinWaitlist(tierName: string): void {
+    const ev = this.event();
+    if (!ev) return;
+    
+    const tier = this.tiers().find(t => t.tierName === tierName);
+    if (!tier) return;
+
+    this.waitlistService.joinWaitlist({
+      eventId: ev.event_Id,
+      tierName: tier.tierName,
+      quantity: tier.waitlistQuantity || 1
+    }).subscribe({
+      next: (res) => {
+        if (res.status === 'Booked') {
+          alert('Good news! Seats became available and you were booked directly.');
+          // Redirect to checkout since it booked directly
+          const successUrl = `http://localhost:4200/checkout?eventId=${ev.event_Id}&session_id={CHECKOUT_SESSION_ID}&bookingId=${res.waitlist_Id}`; // Waitlist backend needs to be changed to handle the checkout flow for immediate booking, but for now we alert
+          window.location.reload(); 
+        } else {
+          alert(`You have successfully joined the waitlist. Your position is: ${res.position}`);
+        }
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Failed to join waitlist. Are you logged in?');
+      }
+    });
   }
 
   public getSeatFillPercent(tier: TicketTierSelection): number {

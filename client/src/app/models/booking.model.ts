@@ -6,6 +6,8 @@ export interface TicketTierSelection {
   quantity: number;
   totalSeats: number;
   availableSeats: number;
+  waitlistQuantity?: number;
+  has_Active_Waitlist?: boolean;
 }
 
 export interface BookingDetail {

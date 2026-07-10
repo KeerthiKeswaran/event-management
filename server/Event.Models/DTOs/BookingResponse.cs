@@ -25,6 +25,8 @@ namespace Event.Models.DTOs
         public bool? Has_Reported { get; set; }
         public int? Feedback_Rating { get; set; }
         public string? Feedback_Review { get; set; }
+        public bool? Is_Sold_Out { get; set; }
+        public int? Waitlist_Position { get; set; }
     }
 
     public class BookingDetailDto

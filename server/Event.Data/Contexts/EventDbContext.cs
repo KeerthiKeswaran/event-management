@@ -38,6 +38,7 @@ namespace Event.Data.Contexts
         public DbSet<EventReport> EventReports { get; set; }
         public DbSet<TermsAndConditions> TermsAndConditions { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Waitlist> Waitlists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +58,7 @@ namespace Event.Data.Contexts
             modelBuilder.Entity<BookingPayment>().Property(bp => bp.Booking_Payment_Id).UseIdentityByDefaultColumn().HasIdentityOptions(startValue: 10000);
             modelBuilder.Entity<OrganizerUpfrontPayment>().Property(oup => oup.Upfront_Payment_Id).UseIdentityByDefaultColumn().HasIdentityOptions(startValue: 10000);
             modelBuilder.Entity<OrganizerPayout>().Property(op => op.Payout_Id).UseIdentityByDefaultColumn().HasIdentityOptions(startValue: 10000);
+            modelBuilder.Entity<Waitlist>().Property(w => w.Waitlist_Id).UseIdentityByDefaultColumn().HasIdentityOptions(startValue: 10000);
 
             // Configure identity sequence start for 16-digit unique Transaction IDs
             modelBuilder.Entity<Transaction>().Property(t => t.Transaction_Id).UseIdentityByDefaultColumn().HasIdentityOptions(startValue: 1000000000000000);
@@ -281,6 +283,28 @@ namespace Event.Data.Contexts
                 .WithMany(u => u.Reports)
                 .HasForeignKey(er => er.Reporter_Id)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Waitlist Relationships
+            modelBuilder.Entity<Waitlist>()
+                .HasOne(w => w.Event)
+                .WithMany()
+                .HasForeignKey(w => w.Event_Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Waitlist>()
+                .HasOne(w => w.Attendee)
+                .WithMany()
+                .HasForeignKey(w => w.Attendee_Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Waitlist>()
+                .HasOne(w => w.Booking)
+                .WithMany()
+                .HasForeignKey(w => w.Booking_Id)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Waitlist>()
+                .HasIndex(w => new { w.Event_Id, w.Tier_Name, w.Status, w.Position });
 
             // User to TermsAndConditions Relationship
             modelBuilder.Entity<User>()

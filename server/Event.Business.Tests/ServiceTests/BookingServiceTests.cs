@@ -31,6 +31,9 @@ namespace Event.Business.Tests.ServiceTests
         private IEmailService _emailService = null!;
         private IQrCodeService _qrCodeService = null!;
         private BookingService _bookingService = null!;
+        private Mock<IServiceProvider> _serviceProviderMock = null!;
+        private Mock<IWaitlistRepository> _waitlistRepoMock = null!;
+        private Mock<IWaitlistService> _waitlistServiceMock = null!;
 
         private const string ServiceName = "BookingService";
         private const string TestEmail = "keshwarankeerthi@gmail.com";
@@ -56,9 +59,16 @@ namespace Event.Business.Tests.ServiceTests
                 .AddJsonFile(appSettingsPath, optional: false, reloadOnChange: false)
                 .Build();
 
-            // _emailService = CreateConcreteEmailService(_configuration);
-            // _paymentService = CreateConcretePaymentService(_configuration);
-            _qrCodeService = new QrCodeService();
+            _emailService = new Mock<IEmailService>().Object;
+            _paymentService = new Mock<IPaymentService>().Object;
+            _qrCodeService = new Mock<IQrCodeService>().Object;
+
+            _serviceProviderMock = new Mock<IServiceProvider>();
+            _waitlistRepoMock = new Mock<IWaitlistRepository>();
+            _waitlistServiceMock = new Mock<IWaitlistService>();
+
+            _serviceProviderMock.Setup(sp => sp.GetService(typeof(IWaitlistRepository))).Returns(_waitlistRepoMock.Object);
+            _serviceProviderMock.Setup(sp => sp.GetService(typeof(IWaitlistService))).Returns(_waitlistServiceMock.Object);
             _emailService = CreateMockEmailService();
             _paymentService = CreateMockPaymentService();
 
@@ -90,7 +100,8 @@ namespace Event.Business.Tests.ServiceTests
                 _configuration,
                 _emailService,
                 _notificationRepositoryMock.Object,
-                _refundService
+                _refundService,
+                _serviceProviderMock.Object
             );
         }
         #endregion

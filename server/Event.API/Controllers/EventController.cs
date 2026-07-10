@@ -5,6 +5,8 @@ using Event.Models.DTOs;
 using System.IO;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Event.Contracts.IRepositories;
 
 namespace Event.API.Controllers
 {
@@ -93,6 +95,25 @@ namespace Event.API.Controllers
             var ev = await _eventService.GetEventDetailsAsync(eventId, currentUserId);
             if (ev == null)
                 return NotFound(new { Message = "Event not found." });
+
+            var waitlistRepo = HttpContext.RequestServices.GetService<IWaitlistRepository>();
+            if (waitlistRepo != null && ev.TicketTiers != null)
+            {
+                foreach (var tier in ev.TicketTiers)
+                {
+                    bool hasActive = await waitlistRepo.HasActiveWaitlistAsync(eventId, tier.Tier_Name);
+                    if (hasActive && currentUserId.HasValue)
+                    {
+                        var myWaitlists = await waitlistRepo.GetWaitlistByUserAndEventAsync(currentUserId.Value, eventId);
+                        var myNotified = myWaitlists.FirstOrDefault(w => w.Tier_Name.Equals(tier.Tier_Name, StringComparison.OrdinalIgnoreCase) && w.Status == "Notified");
+                        if (myNotified != null)
+                        {
+                            hasActive = false; // For this user, don't show "Waitlist Only" so they can book
+                        }
+                    }
+                    tier.Has_Active_Waitlist = hasActive;
+                }
+            }
 
             return Ok(ev);
         }

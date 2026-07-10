@@ -36,8 +36,10 @@ namespace Event.Business.Services
                     {
                         var bookingService = scope.ServiceProvider.GetRequiredService<IBookingService>();
                         var eventService = scope.ServiceProvider.GetRequiredService<IEventService>();
+                        var waitlistService = scope.ServiceProvider.GetRequiredService<IWaitlistService>();
 
                         await bookingService.ReleaseExpiredEventBookingAsync();
+                        await waitlistService.ExpireStaleWaitlistAsync();
                         await eventService.ReleaseExpiredEventCreationAsync();
                         await eventService.ReleaseCompletedEventsAsync();
                     }

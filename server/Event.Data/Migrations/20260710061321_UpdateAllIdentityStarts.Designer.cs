@@ -3,6 +3,7 @@ using System;
 using Event.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Event.Data.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    partial class EventDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260710061321_UpdateAllIdentityStarts")]
+    partial class UpdateAllIdentityStarts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ActionId"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("ActionId"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("ActionId"), 20000L, null, null, null, null, null);
 
                     b.Property<string>("ActionStatus")
                         .IsRequired()
@@ -102,7 +105,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Booking_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Booking_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Booking_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<int>("Attendee_Id")
                         .HasColumnType("integer");
@@ -166,7 +169,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Booking_Payment_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Booking_Payment_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Booking_Payment_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -203,7 +206,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Event_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Event_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Event_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<string>("Age_Category")
                         .IsRequired()
@@ -278,7 +281,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Feedback_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Feedback_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Feedback_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<int>("Attendee_Id")
                         .HasColumnType("integer");
@@ -309,7 +312,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Report_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Report_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Report_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<DateTime>("Created_At")
                         .HasColumnType("timestamp with time zone");
@@ -377,7 +380,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Notification_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Notification_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Notification_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<DateTime>("Created_At")
                         .HasColumnType("timestamp with time zone");
@@ -415,7 +418,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Payout_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Payout_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Payout_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<int>("Event_Id")
                         .HasColumnType("integer");
@@ -455,7 +458,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Upfront_Payment_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Upfront_Payment_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Upfront_Payment_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -549,7 +552,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Employee_ID"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Employee_ID"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Employee_ID"), 20000L, null, null, null, null, null);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -580,7 +583,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Ticket_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Ticket_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Ticket_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<string>("ConcernUrl")
                         .IsRequired()
@@ -651,7 +654,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Transaction_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<long>("Transaction_Id"), 1000000000000000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<long>("Transaction_Id"), 2000000000000000L, null, null, null, null, null);
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -706,7 +709,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("User_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("User_Id"), 10001L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("User_Id"), 20001L, null, null, null, null, null);
 
                     b.Property<string>("Consented_Terms_Id")
                         .IsRequired()
@@ -774,7 +777,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Venue_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Venue_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Venue_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -827,7 +830,7 @@ namespace Event.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Waitlist_Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Waitlist_Id"), 10000L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Waitlist_Id"), 20000L, null, null, null, null, null);
 
                     b.Property<int>("Attendee_Id")
                         .HasColumnType("integer");
