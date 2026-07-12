@@ -4,5 +4,3 @@
 **/**/appsettings.json
 **/**/appsettings.Development.json
 **/**/src/environments/
-
-**/client/node_modules/**
