@@ -45,5 +45,6 @@ namespace Event.Models.DTOs
         public decimal Price { get; set; }
         public int Tickets_Sold { get; set; }
         public int Capacity { get; set; }
+        public bool Has_Active_Waitlist { get; set; }
     }
 }

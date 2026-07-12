@@ -101,6 +101,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IQrCodeService, QrCodeService>();
 builder.Services.AddScoped<IVirtualMeetingService, VirtualMeetingService>();
 builder.Services.AddScoped<IPolicyService, PolicyService>();
+builder.Services.AddScoped<IWaitlistRepository, WaitlistRepository>();
+builder.Services.AddScoped<IWaitlistService, WaitlistService>();
 builder.Services.AddHostedService<Event.Business.Services.BackgroundService>();
 builder.Services.AddHostedService<Event.Business.Services.PayoutBackgroundService>();
 

@@ -10,6 +10,7 @@ using Serilog;
 using Event.Business.Exceptions;
 using Event.Models.DTOs;
 using Event.Business.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Event.Business.Services
 {
@@ -28,6 +29,7 @@ namespace Event.Business.Services
         private readonly IEmailService _emailService;
         private readonly INotificationRepository _notificationRepository;
         private readonly IRefundService _refundService;
+        private readonly IServiceProvider _serviceProvider;
 
         #endregion
 
@@ -44,7 +46,8 @@ namespace Event.Business.Services
             Microsoft.Extensions.Configuration.IConfiguration configuration,
             IEmailService emailService,
             INotificationRepository notificationRepository,
-            IRefundService refundService)
+            IRefundService refundService,
+            IServiceProvider serviceProvider)
         {
             _bookingRepository = bookingRepository;
             _eventRepository = eventRepository;
@@ -57,6 +60,7 @@ namespace Event.Business.Services
             _emailService = emailService;
             _notificationRepository = notificationRepository;
             _refundService = refundService;
+            _serviceProvider = serviceProvider;
         }
 
         #endregion
@@ -118,6 +122,20 @@ namespace Event.Business.Services
                         var capacity = ev.Venue.SeatCapacities.FirstOrDefault(c => c.Tier_Name.Equals(tierName, StringComparison.OrdinalIgnoreCase));
                         if (capacity == null || eventTier.Tickets_Sold + quantity > capacity.Total_Seats)
                             throw new ConflictException($"Insufficient seats available for ticket tier '{tierName}'.");
+                    }
+
+                    // Waitlist Gating
+                    var waitlistService = _serviceProvider.GetRequiredService<IWaitlistService>();
+                    var waitlistRepo = _serviceProvider.GetRequiredService<IWaitlistRepository>();
+                    bool hasActiveQueue = await waitlistRepo.HasActiveWaitlistAsync(eventId, tierName);
+                    if (hasActiveQueue)
+                    {
+                        var activeWaitlists = await waitlistRepo.GetWaitlistByUserAndEventAsync(attendeeId, eventId);
+                        var myNotified = activeWaitlists.FirstOrDefault(w => w.Tier_Name.Equals(tierName, StringComparison.OrdinalIgnoreCase) && w.Status == "Notified");
+                        if (myNotified == null)
+                        {
+                            throw new ConflictException($"This tier has a waitlist queue. Please join the waitlist instead of booking directly.");
+                        }
                     }
 
                     eventTier.Tickets_Sold += quantity;
@@ -414,6 +432,27 @@ namespace Event.Business.Services
 
                 // 10. Commit database transaction and return the confirmed booking
                 await _bookingRepository.CommitTransactionAsync();
+
+                // 11. Mark waitlist entry as booked if applicable
+                try
+                {
+                    var waitlistRepo = _serviceProvider.GetRequiredService<IWaitlistRepository>();
+                    var activeWaitlists = await waitlistRepo.GetWaitlistByUserAndEventAsync(booking.Attendee_Id, booking.Event_Id);
+                    foreach (var d in booking.Details)
+                    {
+                        var myNotified = activeWaitlists.FirstOrDefault(w => w.Tier_Name.Equals(d.Tier_Name, StringComparison.OrdinalIgnoreCase) && w.Status == "Notified");
+                        if (myNotified != null)
+                        {
+                            myNotified.Status = "Booked";
+                            myNotified.Booking_Id = booking.Booking_Id;
+                            await waitlistRepo.UpdateAsync(myNotified);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Failed to update waitlist status to booked for booking {BookingId}", bookingId);
+                }
                 
                 var response = new ConfirmBookingResponse
                 {
@@ -529,6 +568,21 @@ namespace Event.Business.Services
 
                 // 6. Persist changes to database and complete database transaction
                 await _bookingRepository.CommitTransactionAsync();
+
+                // 7. Trigger waitlist processing
+                try
+                {
+                    var waitlistService = _serviceProvider.GetRequiredService<IWaitlistService>();
+                    foreach (var detail in booking.Details)
+                    {
+                        await waitlistService.ProcessWaitlistForEventTierAsync(booking.Event_Id, detail.Tier_Name, detail.Quantity);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Failed to trigger waitlist processing after booking cancellation {BookingId}", bookingId);
+                }
+
                 return true;
             }
             catch (BaseBusinessException)
@@ -636,11 +690,26 @@ namespace Event.Business.Services
 
                 // Step 7: Commit transaction.
                 await _bookingRepository.CommitTransactionAsync();
+
+                // Step 8: Trigger waitlist processing
+                try
+                {
+                    var waitlistService = _serviceProvider.GetRequiredService<IWaitlistService>();
+                    foreach (var detail in booking.Details)
+                    {
+                        await waitlistService.ProcessWaitlistForEventTierAsync(booking.Event_Id, detail.Tier_Name, detail.Quantity);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Failed to trigger waitlist processing after booking revert {BookingId}", bookingId);
+                }
+
                 return true;
             }
             catch (Exception)
             {
-                // Step 8: Rollback transaction.
+                // Step 9: Rollback transaction.
                 await _bookingRepository.RollbackTransactionAsync();
                 throw;
             }

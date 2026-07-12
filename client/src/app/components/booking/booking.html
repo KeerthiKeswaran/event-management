@@ -310,16 +310,31 @@
                   <div class="tier-item-info">
                     <span class="tier-item-name">{{ tier.tierName }}</span>
                     <span class="tier-item-price">{{ formatCurrency(tier.price) }}</span>
-                    <span class="tier-item-seats">{{ tier.availableSeats }} left</span>
+                    @if (tier.availableSeats <= 0 || tier.has_Active_Waitlist) {
+                      <span class="tier-item-seats" style="color: #dc2626; font-weight: 500;">
+                        {{ tier.availableSeats <= 0 ? 'Sold Out' : 'Waitlist Only' }}
+                      </span>
+                    } @else {
+                      <span class="tier-item-seats">{{ tier.availableSeats }} left</span>
+                    }
                   </div>
                   
                   <div class="tier-right-col">
-                    <span class="tier-item-subtotal-right" [style.visibility]="tier.quantity > 0 ? 'visible' : 'hidden'">Subtotal: <strong>{{ formatCurrency(tier.price * tier.quantity) }}</strong></span>
-                    <div class="sidebar-qty-selector">
-                      <button class="qty-control-btn" (click)="decreaseQty(tier.tierName)" [disabled]="tier.quantity === 0">−</button>
-                      <span class="qty-control-value">{{ tier.quantity }}</span>
-                      <button class="qty-control-btn" (click)="increaseQty(tier.tierName)" [disabled]="tier.quantity >= tier.availableSeats || tier.quantity >= 10">+</button>
-                    </div>
+                    @if (tier.availableSeats <= 0 || tier.has_Active_Waitlist) {
+                      <div class="sidebar-qty-selector" style="margin-bottom: 4px;">
+                        <button class="qty-control-btn" (click)="decreaseWaitlistQty(tier.tierName)" [disabled]="(tier.waitlistQuantity || 1) <= 1">−</button>
+                        <span class="qty-control-value">{{ tier.waitlistQuantity || 1 }}</span>
+                        <button class="qty-control-btn" (click)="increaseWaitlistQty(tier.tierName)" [disabled]="(tier.waitlistQuantity || 1) >= 10">+</button>
+                      </div>
+                      <button class="book-tickets-btn" style="padding: 6px 12px; font-size: 0.85rem; width: 100%; border-radius: 6px;" (click)="joinWaitlist(tier.tierName)">Join Waitlist</button>
+                    } @else {
+                      <span class="tier-item-subtotal-right" [style.visibility]="tier.quantity > 0 ? 'visible' : 'hidden'">Subtotal: <strong>{{ formatCurrency(tier.price * tier.quantity) }}</strong></span>
+                      <div class="sidebar-qty-selector">
+                        <button class="qty-control-btn" (click)="decreaseQty(tier.tierName)" [disabled]="tier.quantity === 0">−</button>
+                        <span class="qty-control-value">{{ tier.quantity }}</span>
+                        <button class="qty-control-btn" (click)="increaseQty(tier.tierName)" [disabled]="tier.quantity >= tier.availableSeats || tier.quantity >= 10">+</button>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>

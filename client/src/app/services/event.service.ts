@@ -51,7 +51,8 @@ export class EventService {
         tier_Name: t.tier_Name ?? t.Tier_Name ?? t.tierName ?? '',
         price: t.price ?? t.Price ?? 0,
         tickets_Sold: t.tickets_Sold ?? t.Tickets_Sold ?? t.ticketsSold ?? 0,
-        capacity: t.capacity ?? t.Capacity
+        capacity: t.capacity ?? t.Capacity,
+        has_Active_Waitlist: t.has_Active_Waitlist ?? t.Has_Active_Waitlist ?? false
       })),
       minPrice
     };

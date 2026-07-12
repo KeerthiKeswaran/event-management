@@ -94,7 +94,8 @@ namespace Event.Business.Tests.ServiceTests
                 configuration,
                 emailService,
                 notificationRepositoryMock.Object,
-                refundService
+                refundService,
+                new Mock<IServiceProvider>().Object
             );
 
             _serviceProviderMock = new Mock<IServiceProvider>();

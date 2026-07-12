@@ -5,7 +5,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BookingService } from '../../services/booking.service';
 import { EventService } from '../../services/event.service';
+import { WaitlistService } from '../../services/waitlist.service';
 import { BookingModel, BookingDetail } from '../../models/booking.model';
+import { WaitlistStatusResponse } from '../../models/waitlist.model';
 import { NavbarComponent } from '../home/navbar/navbar';
 import { FooterComponent } from '../home/footer/footer';
 import { CancelBookingModalComponent } from './cancel-booking-modal/cancel-booking-modal';
@@ -13,7 +15,7 @@ import { ReportEventModalComponent } from '../shared/report-event-modal/report-e
 import { environment } from '../../../environments/environment';
 
 
-type FilterStatus = 'Upcoming' | 'Completed' | 'Cancelled';
+type FilterStatus = 'Upcoming' | 'Completed' | 'Cancelled' | 'Waitlist';
 
 @Component({
   selector: 'app-bookings',
@@ -24,6 +26,7 @@ type FilterStatus = 'Upcoming' | 'Completed' | 'Cancelled';
 })
 export class BookingsComponent implements OnInit, OnDestroy {
   public bookings = signal<BookingModel[]>([]);
+  public waitlists = signal<WaitlistStatusResponse[]>([]);
   public selectedFilter = signal<FilterStatus>('Upcoming');
   public isLoading = signal(false);
 
@@ -85,8 +88,13 @@ export class BookingsComponent implements OnInit, OnDestroy {
     this.bookings().filter(b => b.booking_Status === 'Cancelled').length
   );
 
+  public waitlistCount = computed(() =>
+    this.waitlists().length
+  );
+
   constructor(
     private bookingService: BookingService,
+    private waitlistService: WaitlistService,
     private eventService: EventService,
     private router: Router
   ) {}
@@ -141,10 +149,30 @@ export class BookingsComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    this.subscriptions.add(
+      this.waitlistService.getMyWaitlist().subscribe({
+        next: (data) => {
+          this.waitlists.set(data);
+        },
+        error: (err) => console.error(err)
+      })
+    );
   }
 
   public setFilter(filter: FilterStatus): void {
     this.selectedFilter.set(filter);
+  }
+
+  public cancelWaitlist(waitlistId: number): void {
+    if (confirm('Are you sure you want to leave the waitlist?')) {
+      this.waitlistService.cancelWaitlistEntry(waitlistId).subscribe({
+        next: () => {
+          this.waitlists.update(w => w.filter(x => x.waitlist_Id !== waitlistId));
+        },
+        error: (err) => alert(err.error?.message || 'Failed to cancel')
+      });
+    }
   }
 
   // ── QR Modal ────────────────────────────────────────────

@@ -3,6 +3,7 @@ export interface TicketTierDetail {
   price: number;
   tickets_Sold: number;
   capacity?: number;
+  has_Active_Waitlist?: boolean;
 }
 
 export interface TicketTier {

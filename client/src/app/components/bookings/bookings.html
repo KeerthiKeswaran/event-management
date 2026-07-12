@@ -18,11 +18,12 @@
         <option value="Upcoming">Upcoming</option>
         <option value="Completed">Completed</option>
         <option value="Cancelled">Cancelled</option>
+        <option value="Waitlist">Waitlist</option>
       </select>
     </div>
     
     <div class="bookings-count-label">
-      Showing {{ filteredBookings().length }} booking{{ filteredBookings().length !== 1 ? 's' : '' }}
+      Showing {{ selectedFilter() === 'Waitlist' ? waitlists().length : filteredBookings().length }} item{{ (selectedFilter() === 'Waitlist' ? waitlists().length : filteredBookings().length) !== 1 ? 's' : '' }}
     </div>
   </div>
 
@@ -57,7 +58,54 @@
     } @else {
       <!-- Bookings List -->
       <div class="bookings-list">
-        @for (booking of filteredBookings(); track booking.booking_Id) {
+        @if (selectedFilter() === 'Waitlist') {
+          @for (waitlist of waitlists(); track waitlist.waitlist_Id) {
+            <div class="booking-card">
+              <div class="booking-info" style="width: 100%;">
+                <div class="booking-card-header">
+                  <div>
+                    <span class="booking-id-tag">Waitlist ID: #{{ waitlist.waitlist_Id }}</span>
+                    <h3 class="booking-event-title">{{ waitlist.event_Title }}</h3>
+                  </div>
+                  <span class="status-badge" [class]="'status-' + waitlist.status.toLowerCase()">
+                    {{ waitlist.status }}
+                  </span>
+                </div>
+                <div class="booking-meta-grid">
+                  <div class="meta-item">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Joined: {{ formatDate(waitlist.joined_At) }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span>Tier: {{ waitlist.tier_Name }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span>Quantity: {{ waitlist.quantity }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span>Position: {{ waitlist.position }}</span>
+                  </div>
+                </div>
+                
+                @if (waitlist.status === 'Notified') {
+                  <div class="event-cancelled-banner" style="background-color: #fff3cd; color: #856404; border-color: #ffeeba; margin-top: 10px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>Your slot is ready! Please complete your booking before <strong>{{ formatDate(waitlist.expires_At!) }} {{ formatTime(waitlist.expires_At!) }}</strong>.</span>
+                  </div>
+                  <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <a [href]="'/booking?eventId=' + waitlist.event_Id" class="book-tickets-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: auto; padding: 8px 16px;">Complete Booking</a>
+                    <button class="action-btn cancel-booking" style="width: auto; padding: 8px 16px;" (click)="cancelWaitlist(waitlist.waitlist_Id)">Leave Waitlist</button>
+                  </div>
+                } @else if (waitlist.status === 'Waiting') {
+                  <div style="margin-top: 10px;">
+                    <button class="action-btn cancel-booking" style="width: auto; padding: 8px 16px;" (click)="cancelWaitlist(waitlist.waitlist_Id)">Leave Waitlist</button>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        } @else {
+          @for (booking of filteredBookings(); track booking.booking_Id) {
           <div class="booking-card" 
                [class.cancelled]="booking.booking_Status === 'Cancelled'">
 
@@ -264,6 +312,7 @@
             </div>
 
           </div>
+        }
         }
       </div>
     }
