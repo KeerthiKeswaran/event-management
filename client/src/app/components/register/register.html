@@ -88,7 +88,9 @@
               [disabled]="isSubmitting()"
             />
             <button type="button" class="btn btn-outline send-otp-btn" (click)="sendOtp()" [disabled]="isSubmitting() || otpCountdown() > 0 || isCheckingEmail() || isEmailAvailable() === false">
-              @if (otpCountdown() > 0) {
+              @if (isSubmitting()) {
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...
+              } @else if (otpCountdown() > 0) {
                 Resend in {{ otpCountdown() }}s
               } @else if (isOtpSent()) {
                 Resend

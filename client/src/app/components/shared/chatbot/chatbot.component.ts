@@ -41,9 +41,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       this.cd.detectChanges();
     }, 10000);
 
-    if (typeof window !== 'undefined') {
-      this.loadSessions();
-    }
+    // Removed eager loadSessions() to prevent 401 errors for unauthenticated users on page load
 
     this.authSub = this.store.select((state: any) => state.auth.user).subscribe((user: any) => {
       this.hasUser = !!user;
@@ -99,6 +97,11 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       return;
     }
     this.isOpen = !this.isOpen;
+    this.isPeeking = false;
+
+    if (this.isOpen && this.messages.length === 0) {
+      this.loadSessions();
+    }
     if (this.isOpen) {
       setTimeout(() => this.scrollToBottom(), 100);
     }
