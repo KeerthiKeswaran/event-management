@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public isOtpVerified = signal(false);
   public isOtpInvalid = signal(false);
   public isVerifyingOtp = signal(false);
+  public isSendingOtp = signal(false);
   public otpCountdown = signal(0);
   private countdownInterval: any = null;
 
@@ -189,18 +190,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isSubmitting.set(true);
+    this.isSendingOtp.set(true);
 
     this.authService.sendOtp(this.email, 'registration').subscribe({
       next: () => {
-        this.isSubmitting.set(false);
+        this.isSendingOtp.set(false);
         this.isOtpSent.set(true);
-        this.successMessage.set('OTP has been sent to your email.');
-        setTimeout(() => this.successMessage.set(null), 5000);
         this.startOtpCountdown(30);
       },
       error: (err) => {
-        this.isSubmitting.set(false);
+        this.isSendingOtp.set(false);
         this.emailError.set(err.error?.message || 'Failed to send OTP. Please check your email.');
       }
     });
