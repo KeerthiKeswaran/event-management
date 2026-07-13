@@ -55,6 +55,18 @@ namespace Event.Data.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Waitlist>> GetWaitlistsForStartingEventsAsync(DateTime cutoffTime)
+        {
+            return await _dbSet
+                .Include(w => w.Event)
+                .Include(w => w.Attendee)
+                .Where(w => (w.Status == "Waiting" || w.Status == "Notified") 
+                    && w.Event != null 
+                    && w.Event.Status == "Live" 
+                    && w.Event.Date_Time <= cutoffTime)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Waitlist>> GetWaitlistByEventAsync(int eventId)
         {
             return await _dbSet

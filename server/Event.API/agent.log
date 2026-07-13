@@ -1,0 +1,450 @@
+[2026-07-12 16:28:02 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 12
+[2026-07-12 16:28:02 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:28:02 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:28:02 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:28:02 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-12 16:28:02 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-12 16:28:02 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-12 16:28:03 UTC] [ERROR] Groq API HTTP Error TooManyRequests: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j6vkt537e42rkj3k4eapspw4` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 1409, Requested 7698. Please try again in 8.3025s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-12 16:31:05 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 14
+[2026-07-12 16:31:05 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:31:06 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:31:06 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:31:06 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-12 16:31:06 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-12 16:31:06 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-12 16:31:06 UTC] [ERROR] Groq API HTTP Error TooManyRequests: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j6vkt537e42rkj3k4eapspw4` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 1463, Requested 7735. Please try again in 8.985s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-12 16:32:09 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 16
+[2026-07-12 16:32:09 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:32:09 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:32:09 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:32:09 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-12 16:32:09 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-12 16:32:09 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-12 16:32:10 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:32:10 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-12 16:32:30 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 18
+[2026-07-12 16:32:30 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:32:31 UTC] [ERROR] Groq API HTTP Error BadRequest: {"error":{"message":"Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.","type":"invalid_request_error","code":"tool_use_failed","failed_generation":"\u003cfunction=SearchEvents({\"keyword\": \"trending events\", \"category\": \"\"})\u003c/function\u003e"}}
+
+[2026-07-12 16:33:00 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 20
+[2026-07-12 16:33:00 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:33:00 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:33:00 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:33:00 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-12 16:33:00 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-12 16:33:00 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-12 16:33:00 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:33:00 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:33:00 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-12 16:33:00 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-12 16:33:00 UTC] [INFO] [Iteration 3/5] Sending request to Groq API...
+[2026-07-12 16:33:00 UTC] [ERROR] Groq API HTTP Error BadRequest: {"error":{"message":"Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.","type":"invalid_request_error","code":"tool_use_failed","failed_generation":"\u003cfunction=SearchEvents,{\"keyword\":\"events\"}\u003c/function\u003e"}}
+
+[2026-07-12 16:34:01 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 22
+[2026-07-12 16:34:01 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:34:01 UTC] [ERROR] Groq API HTTP Error BadRequest: {"error":{"message":"`tool calling` is not supported with this model","type":"invalid_request_error","param":"tool calling"}}
+
+[2026-07-12 16:38:19 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-12 16:38:19 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:38:19 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:38:19 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:38:19 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-12 16:38:19 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-12 16:38:19 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-12 16:38:21 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:38:21 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-12 16:39:41 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-12 16:39:41 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 16:39:43 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:39:43 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:39:43 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-12 16:39:43 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-12 16:39:43 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-12 16:39:43 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 16:39:43 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-12 16:39:43 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-12 16:39:43 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-12 16:39:43 UTC] [INFO] [Iteration 3/5] Sending request to Groq API...
+[2026-07-12 16:39:43 UTC] [ERROR] Groq API HTTP Error RequestEntityTooLarge: {"error":{"message":"Request too large for model `llama-3.1-8b-instant` in organization `org_01j6vkt537e42rkj3k4eapspw4` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 8130, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-12 17:05:59 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-12 17:05:59 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-12 17:06:00 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-12 17:06:00 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 04:08:43 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 04:08:43 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 04:08:44 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:08:44 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 04:10:07 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 04:10:07 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 04:10:09 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:10:09 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 04:11:25 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 04:11:25 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 04:11:27 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:11:27 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 04:11:27 UTC] [INFO] Executing Tool: GetMySupportTickets
+[2026-07-13 04:11:27 UTC] [INFO] Tool GetMySupportTickets execution completed.
+[2026-07-13 04:11:27 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 04:11:29 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:11:29 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 04:12:07 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 8
+[2026-07-13 04:12:07 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 04:12:08 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:12:08 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 04:12:08 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 04:12:08 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 04:12:08 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 04:12:09 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:12:09 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 04:12:09 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 04:12:09 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 04:12:09 UTC] [INFO] [Iteration 3/5] Sending request to Groq API...
+[2026-07-13 04:12:10 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:12:10 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 04:12:10 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 04:12:10 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 04:12:10 UTC] [INFO] [Iteration 4/5] Sending request to Groq API...
+[2026-07-13 04:12:10 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:12:10 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 04:46:34 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 12
+[2026-07-13 04:46:34 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 04:46:35 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 04:46:35 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 06:42:17 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 06:42:17 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 06:42:18 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 06:42:18 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:03:05 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:03:05 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:03:07 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:03:07 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:03:07 UTC] [INFO] Executing Tool: GetPlatformNavigation
+[2026-07-13 07:03:07 UTC] [INFO] Tool GetPlatformNavigation execution completed.
+[2026-07-13 07:03:07 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:03:08 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:03:08 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:14:04 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:14:04 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:14:04 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:14:04 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:14:04 UTC] [INFO] Executing Tool: GetPlatformNavigation
+[2026-07-13 07:14:04 UTC] [INFO] Tool GetPlatformNavigation execution completed.
+[2026-07-13 07:14:04 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:14:06 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:14:06 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:20:10 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 07:20:10 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:20:11 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:20:11 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:20:11 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 07:20:11 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 07:20:11 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:20:12 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:20:12 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:23:22 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:23:22 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:23:23 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:23:23 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:23:23 UTC] [INFO] Executing Tool: GetPlatformNavigation
+[2026-07-13 07:23:23 UTC] [INFO] Tool GetPlatformNavigation execution completed.
+[2026-07-13 07:23:23 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:23:24 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:23:24 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:24:35 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:24:35 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:24:35 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:24:35 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:24:35 UTC] [INFO] Executing Tool: GetPlatformNavigation
+[2026-07-13 07:24:35 UTC] [INFO] Tool GetPlatformNavigation execution completed.
+[2026-07-13 07:24:35 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:24:36 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:24:36 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:25:42 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 07:25:42 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:25:43 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:25:43 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:25:43 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 07:25:43 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 07:25:43 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:25:46 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:25:46 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:27:13 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:27:13 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:27:13 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:27:13 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:27:13 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 07:27:14 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 07:27:14 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:27:14 UTC] [ERROR] Groq API HTTP Error RequestEntityTooLarge: {"error":{"message":"Request too large for model `openai/gpt-oss-120b` in organization `org_01kxbkxbpef9tv4vwbgv9bdjty` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8477, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-13 07:29:25 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:29:25 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:29:26 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:29:26 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:29:26 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 07:29:26 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 07:29:26 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:29:26 UTC] [ERROR] Groq API HTTP Error RequestEntityTooLarge: {"error":{"message":"Request too large for model `openai/gpt-oss-120b` in organization `org_01kxbkxbpef9tv4vwbgv9bdjty` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8478, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-13 07:31:57 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:31:57 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:31:57 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:31:57 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:31:57 UTC] [INFO] Executing Tool: GetMySupportTickets
+[2026-07-13 07:31:57 UTC] [INFO] Tool GetMySupportTickets execution completed.
+[2026-07-13 07:31:57 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:31:58 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:31:58 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:45:27 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:45:27 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:45:28 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:45:28 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:45:28 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 07:45:28 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 07:45:28 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:45:28 UTC] [ERROR] Groq API HTTP Error TooManyRequests: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kxbkxbpef9tv4vwbgv9bdjty` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 1064, Requested 7288. Please try again in 2.639999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-13 07:49:37 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:49:37 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:49:37 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:49:37 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:49:37 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 07:49:37 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 07:49:37 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:49:38 UTC] [ERROR] Groq API HTTP Error TooManyRequests: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kxbkxbpef9tv4vwbgv9bdjty` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 1060, Requested 7288. Please try again in 2.61s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[2026-07-13 07:52:25 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 07:52:25 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:52:26 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:52:26 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 07:54:38 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 07:54:38 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 07:54:39 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:54:39 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 07:54:39 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 07:54:39 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 07:54:39 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 07:54:40 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 07:54:40 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:09:48 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:09:48 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:09:49 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:09:49 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:09:49 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:09:49 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:09:49 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:09:50 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:09:50 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:09:50 UTC] [INFO] Executing Tool: RaiseSupportTicket
+[2026-07-13 08:09:50 UTC] [INFO] Tool RaiseSupportTicket execution completed.
+[2026-07-13 08:09:50 UTC] [INFO] [Iteration 3/5] Sending request to Groq API...
+[2026-07-13 08:09:52 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:09:52 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:14:08 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:14:08 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:14:08 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:14:08 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:14:08 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:14:08 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:14:08 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:14:10 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:14:10 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:16:44 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:16:44 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:16:45 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:16:45 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:16:45 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:16:45 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:16:45 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:16:46 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:16:46 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:21:43 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:21:43 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:21:43 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:21:43 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:21:43 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:21:43 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:21:43 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:21:45 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:21:45 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:21:52 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 08:21:52 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:21:53 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:21:53 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:22:19 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 08:22:19 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:22:19 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:22:19 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:22:19 UTC] [INFO] Executing Tool: RaiseSupportTicket
+[2026-07-13 08:22:19 UTC] [ERROR] Error executing function RaiseSupportTicket: An error occurred while saving the entity changes. See the inner exception for details.
+[2026-07-13 08:22:19 UTC] [INFO] Tool RaiseSupportTicket execution completed.
+[2026-07-13 08:22:19 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:22:20 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:22:20 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:28:37 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:28:37 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:28:37 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:28:37 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:28:37 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:28:37 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:28:37 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:28:39 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:28:39 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:28:46 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 08:28:46 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:28:47 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:28:47 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:29:06 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 08:29:06 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:29:07 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:29:07 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:29:26 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 8
+[2026-07-13 08:29:26 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:29:26 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:29:26 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:37:14 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:37:14 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:37:15 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:37:15 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:37:15 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 08:37:15 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 08:37:15 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:37:15 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:37:15 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:37:29 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 08:37:29 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:37:30 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:37:30 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:37:30 UTC] [INFO] Executing Tool: SearchEvents
+[2026-07-13 08:37:30 UTC] [INFO] Tool SearchEvents execution completed.
+[2026-07-13 08:37:30 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:37:30 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:37:30 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:37:44 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 08:37:44 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:37:45 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:37:45 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:40:15 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:40:15 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:40:15 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:40:15 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:40:15 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:40:15 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:40:15 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:40:17 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:40:17 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:40:23 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 08:40:23 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:40:23 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:40:23 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:40:45 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 08:40:45 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:40:46 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:40:46 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:40:46 UTC] [INFO] Executing Tool: RaiseSupportTicket
+[2026-07-13 08:40:47 UTC] [INFO] Tool RaiseSupportTicket execution completed.
+[2026-07-13 08:40:47 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:40:48 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:40:48 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:48:42 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:48:42 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:48:43 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:48:43 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:48:43 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:48:44 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:48:44 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:48:45 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:48:45 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:48:51 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 08:48:51 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:48:52 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:48:52 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:49:18 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 08:49:18 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:49:20 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:49:20 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:49:20 UTC] [INFO] Executing Tool: RaiseSupportTicket
+[2026-07-13 08:49:20 UTC] [INFO] Tool RaiseSupportTicket execution completed.
+[2026-07-13 08:49:20 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:49:22 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:49:22 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:56:13 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 08:56:13 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:56:13 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:56:13 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:56:13 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:56:13 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:56:13 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:56:15 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:56:15 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:56:20 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 08:56:20 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:56:21 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:56:21 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 08:56:40 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 08:56:40 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 08:56:40 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:56:40 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:56:40 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 08:56:40 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 08:56:40 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 08:56:41 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:56:41 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 08:56:41 UTC] [INFO] Executing Tool: RaiseSupportTicket
+[2026-07-13 08:56:41 UTC] [ERROR] Error executing function RaiseSupportTicket: An error occurred while saving the entity changes. See the inner exception for details.
+[2026-07-13 08:56:41 UTC] [INFO] Tool RaiseSupportTicket execution completed.
+[2026-07-13 08:56:41 UTC] [INFO] [Iteration 3/5] Sending request to Groq API...
+[2026-07-13 08:56:42 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 08:56:42 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 09:03:12 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 09:03:12 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:03:13 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:03:13 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 09:03:13 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 09:03:13 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 09:03:13 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 09:03:14 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:03:14 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 09:03:19 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 09:03:19 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:03:19 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:03:19 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 09:03:42 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 09:03:42 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:03:43 UTC] [ERROR] Groq API HTTP Error BadRequest: {"error":{"message":"tool call validation failed: parameters for tool RaiseSupportTicket did not match schema: errors: [`/relatedId`: expected integer, but got string]","type":"invalid_request_error","code":"tool_use_failed","failed_generation":"[\n  {\n    \"name\": \"RaiseSupportTicket\",\n    \"parameters\": {\n      \"category\": \"REF\",\n      \"message\": \"The refund for my cancelled booking (A.R. Rahman Live Symphony Concert) has not been processed yet.\",\n      \"relatedId\": \"12345\",\n      \"subject\": \"Refund Issue with A.R. Rahman Live Symphony Concert Booking\",\n      \"targetType\": \"ATD\"\n    }\n  }\n]"}}
+
+[2026-07-13 09:06:20 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 09:06:20 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:06:21 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:06:21 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 09:06:21 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 09:06:21 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 09:06:21 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 09:06:22 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:06:22 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 09:08:56 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 2
+[2026-07-13 09:08:56 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:08:56 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:08:56 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 09:08:56 UTC] [INFO] Executing Tool: GetMyBookings
+[2026-07-13 09:08:56 UTC] [INFO] Tool GetMyBookings execution completed.
+[2026-07-13 09:08:56 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 09:08:58 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:08:58 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 09:09:03 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 4
+[2026-07-13 09:09:03 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:09:03 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:09:03 UTC] [SUCCESS] Final response generated successfully.
+[2026-07-13 09:09:17 UTC] [INFO] Processing Agent Request for User 10659. Message Count: 6
+[2026-07-13 09:09:17 UTC] [INFO] [Iteration 1/5] Sending request to Groq API...
+[2026-07-13 09:09:18 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:09:18 UTC] [INFO] LLM requested 1 tool calls.
+[2026-07-13 09:09:18 UTC] [INFO] Executing Tool: RaiseSupportTicket
+[2026-07-13 09:09:18 UTC] [INFO] Tool RaiseSupportTicket execution completed.
+[2026-07-13 09:09:18 UTC] [INFO] [Iteration 2/5] Sending request to Groq API...
+[2026-07-13 09:09:18 UTC] [SUCCESS] Received successful response from Groq API.
+[2026-07-13 09:09:18 UTC] [SUCCESS] Final response generated successfully.

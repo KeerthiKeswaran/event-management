@@ -207,7 +207,7 @@ export class AuthService {
 
   public logout(): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem(this.getTokenKey());
+      localStorage.clear();
     }
     this.store.dispatch({ type: ActionTypes.LOGOUT });
   }

@@ -206,21 +206,45 @@ namespace Event.Business.Tests
 
         protected ICacheService CreateMockCacheService()
         {
-            var store = new Dictionary<string, object>();
+            var store = new Dictionary<string, object?>();
             var mock = new Mock<ICacheService>();
+
+            // Generic object setter (fallback)
             mock.Setup(x => x.SetAsync<object>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan?>()))
                 .Callback<string, object, TimeSpan?>((key, val, exp) => store[key] = val)
                 .Returns(Task.CompletedTask);
+
+            // String setter
             mock.Setup(x => x.SetAsync<string>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan?>()))
                 .Callback<string, string, TimeSpan?>((key, val, exp) => store[key] = val)
                 .Returns(Task.CompletedTask);
+
+            // OtpRateLimitInfo setter — stores the exact typed object in the dictionary
+            mock.Setup(x => x.SetAsync<Event.Business.Services.OtpRateLimitInfo>(
+                    It.IsAny<string>(), It.IsAny<Event.Business.Services.OtpRateLimitInfo>(), It.IsAny<TimeSpan?>()))
+                .Callback<string, Event.Business.Services.OtpRateLimitInfo, TimeSpan?>((key, val, exp) => store[key] = val)
+                .Returns(Task.CompletedTask);
+
+            // Generic object getter
             mock.Setup(x => x.GetAsync<object>(It.IsAny<string>()))
                 .Returns<string>(key => Task.FromResult(store.TryGetValue(key, out var val) ? val : null));
+
+            // String getter
             mock.Setup(x => x.GetAsync<string>(It.IsAny<string>()))
-                .Returns<string>(key => Task.FromResult(store.TryGetValue(key, out var val) ? (string)val : null));
+                .Returns<string>(key => Task.FromResult(
+                    store.TryGetValue(key, out var val) && val is string s ? s : (string?)null));
+
+            // OtpRateLimitInfo getter — correctly cast from stored object
+            mock.Setup(x => x.GetAsync<Event.Business.Services.OtpRateLimitInfo>(It.IsAny<string>()))
+                .Returns<string>(key => Task.FromResult(
+                    store.TryGetValue(key, out var val) && val is Event.Business.Services.OtpRateLimitInfo info
+                        ? info
+                        : (Event.Business.Services.OtpRateLimitInfo?)null));
+
             mock.Setup(x => x.RemoveAsync(It.IsAny<string>()))
                 .Callback<string>(key => store.Remove(key))
                 .Returns(Task.CompletedTask);
+
             return mock.Object;
         }
 

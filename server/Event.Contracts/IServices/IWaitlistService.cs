@@ -10,6 +10,7 @@ namespace Event.Contracts.IServices
         Task<WaitlistStatusResponse> JoinWaitlistAsync(int userId, int eventId, string tierName, int quantity);
         Task ProcessWaitlistForEventTierAsync(int eventId, string tierName, int freedSeats);
         Task ExpireStaleWaitlistAsync();
+        Task CloseWaitlistForStartingEventsAsync();
         Task<bool> CancelWaitlistEntryAsync(int waitlistId, int userId);
         Task<IEnumerable<WaitlistStatusResponse>> GetMyWaitlistAsync(int userId);
         Task<IEnumerable<WaitlistStatusResponse>> GetWaitlistByEventAsync(int eventId);

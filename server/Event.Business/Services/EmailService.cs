@@ -18,17 +18,19 @@ namespace Event.Business.Services
         private readonly string _apiKey;
         private readonly string _senderEmail;
         private readonly string _senderName;
+        private readonly IFileStorageService _storageService;
 
         #endregion
 
         #region Constructor
 
-        public EmailService(IConfiguration configuration) : this(configuration, new HttpClient())
+        public EmailService(IConfiguration configuration, IFileStorageService storageService) : this(configuration, new HttpClient(), storageService)
         {
         }
 
-        public EmailService(IConfiguration configuration, HttpClient httpClient)
+        public EmailService(IConfiguration configuration, HttpClient httpClient, IFileStorageService storageService)
         {
+            _storageService = storageService;
             // 1. Retrieve the Brevo config section and validate settings
             var section  = configuration.GetSection("Brevo");
             _apiKey      = section["ApiKey"]      ?? throw new InvalidOperationException("Brevo:ApiKey is not configured.");
@@ -112,26 +114,11 @@ namespace Event.Business.Services
 
         public async Task<string> BuildEmailHtmlAsync(Event.Models.DTOs.EmailTemplateDto dto)
         {
-            // 1. Resolve target filepath for HTML templates in Event.Business/Templates
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
+            string templatePath = $"templates/{dto.TemplateName}";
+            string htmlContent = await _storageService.ReadTextAsync(templatePath);
 
-            string templatePath = Path.Combine(rootPath, "Event.Business", "Templates", dto.TemplateName);
-            string htmlContent;
-
-            // 2. Load HTML body from disk or fallback to inline defaults
-            if (File.Exists(templatePath))
-            {
-                htmlContent = await File.ReadAllTextAsync(templatePath);
-            }
-            else
+            // 2. Load HTML body from Blob or fallback to inline defaults
+            if (string.IsNullOrEmpty(htmlContent))
             {
                 htmlContent = GetDefaultFallbackTemplate();
             }

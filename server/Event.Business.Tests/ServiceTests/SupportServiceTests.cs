@@ -7,6 +7,7 @@ using Event.Models;
 using Event.Contracts.IRepositories;
 using Event.Business.Services;
 using Event.Business.Exceptions;
+using Event.Contracts.IServices;
 
 namespace Event.Business.Tests.ServiceTests
 {
@@ -15,6 +16,7 @@ namespace Event.Business.Tests.ServiceTests
     {
         private Mock<IUserRepository> _userRepositoryMock = null!;
         private Mock<ISupportTicketRepository> _supportTicketRepositoryMock = null!;
+        private Mock<IFileStorageService> _fileStorageServiceMock = null!;
         private SupportService _supportService = null!;
 
         private const string Service = "SupportService";
@@ -25,7 +27,18 @@ namespace Event.Business.Tests.ServiceTests
         {
             _userRepositoryMock = new Mock<IUserRepository>();
             _supportTicketRepositoryMock = new Mock<ISupportTicketRepository>();
-            _supportService = new SupportService(_userRepositoryMock.Object, _supportTicketRepositoryMock.Object);
+            _fileStorageServiceMock = new Mock<IFileStorageService>();
+
+            // Default: SaveTextAsync returns a URL path for the saved file
+            _fileStorageServiceMock
+                .Setup(x => x.SaveTextAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string path, string _) => $"/assets/{path}");
+
+            _supportService = new SupportService(
+                _userRepositoryMock.Object,
+                _supportTicketRepositoryMock.Object,
+                _fileStorageServiceMock.Object
+            );
         }
         #endregion
 
@@ -96,12 +109,6 @@ namespace Event.Business.Tests.ServiceTests
         public async Task Test_SubmitSupportTicketAsync_CreatesAssetFileAndUpdatesUrl()
         {
             const int userId = 99888;
-            var assetDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Event.Business.Tests", "assets", "users", userId.ToString(), "support");
-            var absoluteAssetDir = Path.GetFullPath(assetDir);
-            if (Directory.Exists(absoluteAssetDir))
-            {
-                Directory.Delete(absoluteAssetDir, recursive: true);
-            }
 
             _userRepositoryMock.Setup(r => r.ExistsAsync(userId)).ReturnsAsync(true);
             SupportTicket? savedTicket = null;
@@ -116,25 +123,25 @@ namespace Event.Business.Tests.ServiceTests
                 var result = await _supportService.SubmitSupportTicketAsync(userId, "Asset Subject", "Asset Message", "GEN");
 
                 Assert.That(result, Is.True);
-                Assert.That(Directory.Exists(absoluteAssetDir), Is.True);
-                var files = Directory.GetFiles(absoluteAssetDir);
-                Assert.That(files, Is.Not.Empty);
 
-                var createdFile = files[0];
-                var content = await File.ReadAllTextAsync(createdFile);
-                Assert.That(content, Does.Contain("Asset Subject"));
-                Assert.That(content, Does.Contain("Asset Message"));
+                // Verify the storage service was called with the correct path pattern
+                _fileStorageServiceMock.Verify(
+                    x => x.SaveTextAsync(
+                        It.Is<string>(path => path.Contains($"users/{userId}/support")),
+                        It.Is<string>(content => content.Contains("Asset Subject") && content.Contains("Asset Message"))
+                    ),
+                    Times.Once
+                );
+
                 Assert.That(savedTicket, Is.Not.Null);
                 Assert.That(savedTicket!.ConcernUrl, Does.Contain($"/assets/users/{userId}/support/"));
 
                 LogTestDetail(Service, "SubmitSupportTicketAsync", "Create asset file and update concern URL", new { UserId = userId }, savedTicket.ConcernUrl, true);
             }
-            finally
+            catch (Exception ex)
             {
-                if (Directory.Exists(absoluteAssetDir))
-                {
-                    Directory.Delete(absoluteAssetDir, recursive: true);
-                }
+                LogTestDetail(Service, "SubmitSupportTicketAsync", "Create asset file and update concern URL", new { UserId = userId }, null, false, ex.Message);
+                throw;
             }
         }
         #endregion

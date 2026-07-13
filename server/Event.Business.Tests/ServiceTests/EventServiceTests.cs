@@ -86,13 +86,17 @@ namespace Event.Business.Tests.ServiceTests
             _notificationRepositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Notification>()))
                 .Returns(Task.CompletedTask);
 
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock.Setup(sp => sp.GetService(typeof(IVenueRepository))).Returns(_venueRepositoryMock.Object);
+            serviceProviderMock.Setup(sp => sp.GetService(typeof(IStaffRepository))).Returns(_staffRepositoryMock.Object);
+
             _refundService = new RefundService(
                 _bookingRepositoryMock.Object,
                 _eventRepositoryMock.Object,
                 _transactionRepositoryMock.Object,
                 _bookingPaymentRepositoryMock.Object,
                 _paymentService,
-                new Mock<IServiceProvider>().Object,
+                serviceProviderMock.Object,
                 _emailService,
                 _notificationRepositoryMock.Object
             );
@@ -113,7 +117,8 @@ namespace Event.Business.Tests.ServiceTests
                 _userRepositoryMock.Object,
                 _refundService,
                 _termsRepositoryMock.Object,
-                _payoutRepositoryMock.Object
+                _payoutRepositoryMock.Object,
+                new Mock<IFileStorageService>().Object
             );
         }
         #endregion
@@ -245,7 +250,7 @@ namespace Event.Business.Tests.ServiceTests
         [Test]
         public async Task Test_GetEventDetailsAsync_Success()
         {
-            var mockEvent = new Event.Models.Event { Event_Id = 10010, Title = "Tech Gala", Organizer_Id = 10001, Organizer = new User { User_Id = 10001, Name = "Mock User", Email = "mock@example.com" } };
+            var mockEvent = new Event.Models.Event { Event_Id = 10010, Title = "Tech Gala", Status = "Live", Organizer_Id = 10001, Organizer = new User { User_Id = 10001, Name = "Mock User", Email = "mock@example.com" } };
             _eventRepositoryMock.Setup(r => r.GetEventDetailsAsync(10010)).ReturnsAsync(mockEvent);
 
             try
@@ -659,7 +664,7 @@ namespace Event.Business.Tests.ServiceTests
             _settingsRepositoryMock.Setup(r => r.GetSettingsAsync()).ReturnsAsync(new PlatformSettings { Staff_Flat_Rate = 50m });
             _staffRepositoryMock.Setup(r => r.GetAvailableStaffCountAsync("US-EAST", It.IsAny<DateTime>())).ReturnsAsync(3); // 3 available, < 5 required
 
-            var req = new CheckStaffAvailabilityRequest { VenueId = 100, DateTime = DateTime.UtcNow };
+            var req = new CheckStaffAvailabilityRequest { VenueId = 100, DateTime = DateTime.UtcNow, DurationHours = 1 };
             try
             {
                 var result = await _eventService.CheckStaffAvailabilityAsync(req);
@@ -690,7 +695,7 @@ namespace Event.Business.Tests.ServiceTests
             _settingsRepositoryMock.Setup(r => r.GetSettingsAsync()).ReturnsAsync(new PlatformSettings { Staff_Flat_Rate = 50m });
             _staffRepositoryMock.Setup(r => r.GetAvailableStaffCountAsync("US-EAST", It.IsAny<DateTime>())).ReturnsAsync(3); // 3 available, >= 2 required
 
-            var req = new CheckStaffAvailabilityRequest { VenueId = 100, DateTime = DateTime.UtcNow };
+            var req = new CheckStaffAvailabilityRequest { VenueId = 100, DateTime = DateTime.UtcNow, DurationHours = 1 };
             try
             {
                 var result = await _eventService.CheckStaffAvailabilityAsync(req);
@@ -1567,6 +1572,7 @@ namespace Event.Business.Tests.ServiceTests
             {
                 Event_Id = 10011,
                 Title = "Virtual Only",
+                Status = "Live",
                 Organizer = new User { User_Id = 1, Name = "OrgUser", Email = "org@test.com" },
                 Venue = null,
                 TicketTiers = new List<EventTicketTier> { new EventTicketTier { Tier_Name = "Free", Price = 0m, Tickets_Sold = 0 } }
@@ -1843,6 +1849,7 @@ namespace Event.Business.Tests.ServiceTests
             var mockEvent = new Event.Models.Event
             {
                 Event_Id = 10001,
+                Status = "Live",
                 Event_Type = "Physical",
                 Venue = new Venue
                 {
@@ -1891,6 +1898,7 @@ namespace Event.Business.Tests.ServiceTests
             var mockEvent = new Event.Models.Event
             {
                 Event_Id = 10001,
+                Status = "Live",
                 Event_Type = "Virtual",
                 Venue = null,
                 TicketTiers = new List<EventTicketTier>

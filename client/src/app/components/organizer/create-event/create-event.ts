@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, signal, computed, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FooterComponent } from '../../home/footer/footer';
 import { NavbarComponent } from '../../home/navbar/navbar';
 import { environment } from '../../../../environments/environment';
-
+import { AiService } from '../../../services/ai.service';
 
 @Component({
   selector: 'app-create-event',
@@ -21,7 +21,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './create-event.html',
   styleUrl: './create-event.css'
 })
-export class CreateEventComponent implements OnInit {
+export class CreateEventComponent implements OnInit, AfterViewInit {
   private readonly STORAGE_KEY = 'createEventDraft';
 
   // Step 1: Form details, Step 2: Payment
@@ -171,6 +171,7 @@ export class CreateEventComponent implements OnInit {
 
   // Stripe Payment Form Model
   @ViewChild(StripeCardComponent) card!: StripeCardComponent;
+  @ViewChild('descBox') descBox!: ElementRef;
   
   public cardholderName = '';
   public isSubmittingPayment = signal(false);
@@ -248,7 +249,8 @@ export class CreateEventComponent implements OnInit {
     private stripeService: StripeService,
     private router: Router,
     private route: ActivatedRoute,
-    private store: AppStoreService
+    private store: AppStoreService,
+    private aiService: AiService
   ) {}
 
   private subscriptions = new Subscription();
@@ -298,6 +300,12 @@ export class CreateEventComponent implements OnInit {
     this.loadPolicy();
   }
 
+  ngAfterViewInit(): void {
+    if (this.descBox && this.descBox.nativeElement) {
+      this.descBox.nativeElement.innerHTML = this.descriptionText;
+    }
+  }
+
   private confirmStripeEvent(sessionId: string, eventId: number): void {
     this.isInitiatingEvent.set(true);
     this.currentStep.set('payment'); // Go to confirmation page
@@ -337,6 +345,49 @@ export class CreateEventComponent implements OnInit {
 
   public draftStatus = signal('Saved to draft');
   private saveTimeout: any = null;
+
+  public isGeneratingAi = false;
+  public isWaveAnimating = false;
+
+  public onDescriptionChange(event: any): void {
+    this.descriptionText = event.target.innerHTML;
+    this.saveDraft();
+  }
+
+  public generateAiDescription(): void {
+    const rawText = this.descBox.nativeElement.innerText || this.descriptionText;
+    if (!rawText || rawText.trim().length < 5) {
+      alert("Please enter a few keywords or basic details first before generating with AI.");
+      return;
+    }
+    
+    this.isGeneratingAi = true;
+    this.isWaveAnimating = false;
+    
+    this.aiService.generateDescription(rawText).subscribe({
+      next: (res) => {
+        if (res && res.html) {
+          this.descriptionText = res.html;
+          if (this.descBox && this.descBox.nativeElement) {
+            this.descBox.nativeElement.innerHTML = res.html;
+          }
+          this.saveDraft();
+          
+          // Trigger the wave animation
+          this.isWaveAnimating = true;
+          setTimeout(() => {
+            this.isWaveAnimating = false;
+          }, 1500);
+        }
+        this.isGeneratingAi = false;
+      },
+      error: (err) => {
+        console.error("AI Generation Error", err);
+        alert("Failed to generate AI description. Please try again later.");
+        this.isGeneratingAi = false;
+      }
+    });
+  }
 
   public saveDraft(): void {
     this.draftStatus.set('Saving...');
@@ -922,8 +973,8 @@ export class CreateEventComponent implements OnInit {
         const pendingEventId = res.event_Id;
         this.createdEventId.set(pendingEventId);
         
-        const successUrl = `http://localhost:4200/myevents/create?session_id={CHECKOUT_SESSION_ID}&eventId=${pendingEventId}`;
-        const cancelUrl = `http://localhost:4200/myevents/create?canceled=true&eventId=${pendingEventId}`;
+        const successUrl = `${environment.clientUrl}/myevents/create?session_id={CHECKOUT_SESSION_ID}&eventId=${pendingEventId}`;
+        const cancelUrl = `${environment.clientUrl}/myevents/create?canceled=true&eventId=${pendingEventId}`;
         
         this.eventService.createCheckoutSession(pendingEventId, successUrl, cancelUrl).subscribe({
           next: (stripeRes) => {

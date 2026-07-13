@@ -195,7 +195,22 @@
 
                 <div class="form-group">
                   <label class="form-label" for="description">Event Description <span class="required">*</span></label>
-                  <textarea id="description" class="form-control" name="descriptionText" [(ngModel)]="descriptionText" placeholder="Describe your event in detail..." rows="6" required (ngModelChange)="saveDraft()"></textarea>
+                  <div class="description-box">
+                    <button type="button" class="btn-ai" (click)="generateAiDescription()" [disabled]="isGeneratingAi">
+                      @if (isGeneratingAi) {
+                        <span class="ai-spinner"></span>
+                      } @else {
+                        Smart Write
+                      }
+                    </button>
+                    <div #descBox id="description" 
+                         class="form-control rich-description" 
+                         [ngClass]="{'wave-animate': isWaveAnimating}"
+                         contenteditable="true" 
+                         (input)="onDescriptionChange($event)" 
+                         (blur)="saveDraft()"
+                         placeholder="Describe your event in detail... (Or type a few keywords and click AI!)"></div>
+                  </div>
                   @if (fieldError('description')) { <span class="field-error">{{ fieldError('description') }}</span> }
                 </div>
 

@@ -52,13 +52,19 @@ namespace Event.Business.Tests.ServiceTests
             _emailService = CreateMockEmailService();
             var paymentService = CreateMockPaymentService();
 
+            var venueRepoMock = new Mock<IVenueRepository>();
+            var staffRepoMock = new Mock<IStaffRepository>();
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock.Setup(sp => sp.GetService(typeof(IVenueRepository))).Returns(venueRepoMock.Object);
+            serviceProviderMock.Setup(sp => sp.GetService(typeof(IStaffRepository))).Returns(staffRepoMock.Object);
+
             _refundService = new RefundService(
                 bookingRepositoryMock.Object,
                 eventRepositoryMock.Object,
                 _transactionRepositoryMock.Object,
                 bookingPaymentRepositoryMock.Object,
                 paymentService,
-                new Mock<IServiceProvider>().Object,
+                serviceProviderMock.Object,
                 _emailService,
                 _notificationRepositoryMock.Object
             );
@@ -137,6 +143,13 @@ namespace Event.Business.Tests.ServiceTests
                 }
             };
             _transactionRepositoryMock.Setup(r => r.GetTransactionsByUserIdAsync(10)).ReturnsAsync(txs201);
+
+            // 6. Support Tickets
+            _supportTicketRepositoryMock.Setup(r => r.GetByIdAsync(501)).ReturnsAsync(new SupportTicket { Ticket_Id = 501, RelatedId = 501 });
+            _supportTicketRepositoryMock.Setup(r => r.GetByIdAsync(502)).ReturnsAsync(new SupportTicket { Ticket_Id = 502, RelatedId = 502 });
+            _supportTicketRepositoryMock.Setup(r => r.GetByIdAsync(503)).ReturnsAsync(new SupportTicket { Ticket_Id = 503, RelatedId = 503 });
+            _supportTicketRepositoryMock.Setup(r => r.GetByIdAsync(504)).ReturnsAsync(new SupportTicket { Ticket_Id = 504, RelatedId = 504 });
+            _supportTicketRepositoryMock.Setup(r => r.GetByIdAsync(201)).ReturnsAsync(new SupportTicket { Ticket_Id = 201, RelatedId = 201 });
 
              _financeService = new FinanceService(
                  _adminActionRepositoryMock.Object,

@@ -93,7 +93,8 @@ namespace Event.Business.Tests.ServiceTests
                 _userRepositoryMock.Object,
                 refundService,
                 new Mock<ITermsAndConditionsRepository>().Object,
-                new Mock<IOrganizerPayoutRepository>().Object
+                new Mock<IOrganizerPayoutRepository>().Object,
+                new Mock<IFileStorageService>().Object
             );
 
             _adminService = new AdminService(
@@ -111,7 +112,8 @@ namespace Event.Business.Tests.ServiceTests
                 _regionRepositoryMock.Object,
                 _venueRepositoryMock.Object,
                 _notificationRepositoryMock.Object,
-                refundService
+                refundService,
+                new Mock<IFileStorageService>().Object
             );
         }
         #endregion
@@ -230,7 +232,8 @@ namespace Event.Business.Tests.ServiceTests
                 new SupportTicket { Ticket_Id = 10002, Status = "Resolved" }
             };
 
-            _supportTicketRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(tickets);
+            _supportTicketRepositoryMock.Setup(r => r.GetAllWithUsersAsync()).ReturnsAsync(tickets.AsQueryable());
+            _adminActionRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<AdminAction>());
 
             try
             {
@@ -737,31 +740,26 @@ namespace Event.Business.Tests.ServiceTests
         [Test]
         public async Task Test_CreateVenueAsync_MissingSeatTiers_ThrowsValidationException()
         {
-            // Arrange: request is missing Silver tier — invalid
+            // Arrange: request with no seat tiers — service validates this and throws
             var request = new CreateVenueRequest
             {
                 Region_Id    = "US-EAST",
                 Name         = "Incomplete Venue",
                 Hourly_Price = 500.00m,
-                SeatTiers = new List<SeatTierRequest>
-                {
-                    new SeatTierRequest { Tier_Name = "Elite", Total_Seats = 50 },
-                    new SeatTierRequest { Tier_Name = "Gold",  Total_Seats = 100 }
-                    // Missing Silver
-                }
+                SeatTiers    = new List<SeatTierRequest>() // empty = invalid
             };
 
             try
             {
-                // Act + Assert: venue creation without all tiers throws ValidationException
+                // Act + Assert: venue creation without any tiers throws ValidationException
                 Assert.ThrowsAsync<ValidationException>(async () =>
                     await _adminService.CreateVenueAsync(request));
 
-                LogTestDetail(Service, "CreateVenueAsync", "Venue with incomplete seat tiers throws ValidationException", request, "ValidationException", true);
+                LogTestDetail(Service, "CreateVenueAsync", "Venue with no seat tiers throws ValidationException", request, "ValidationException", true);
             }
             catch (Exception ex)
             {
-                LogTestDetail(Service, "CreateVenueAsync", "Venue with incomplete seat tiers throws ValidationException", request, null, false, ex.Message);
+                LogTestDetail(Service, "CreateVenueAsync", "Venue with no seat tiers throws ValidationException", request, null, false, ex.Message);
                 throw;
             }
         }

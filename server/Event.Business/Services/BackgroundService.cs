@@ -40,6 +40,7 @@ namespace Event.Business.Services
 
                         await bookingService.ReleaseExpiredEventBookingAsync();
                         await waitlistService.ExpireStaleWaitlistAsync();
+                        await waitlistService.CloseWaitlistForStartingEventsAsync();
                         await eventService.ReleaseExpiredEventCreationAsync();
                         await eventService.ReleaseCompletedEventsAsync();
                     }

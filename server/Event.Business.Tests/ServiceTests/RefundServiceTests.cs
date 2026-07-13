@@ -46,6 +46,15 @@ namespace Event.Business.Tests.ServiceTests
             _emailService = CreateMockEmailService();
             _paymentService = CreateMockPaymentService();
 
+            var venueRepositoryMock = new Mock<IVenueRepository>();
+            var staffRepositoryMock = new Mock<IStaffRepository>();
+
+            // Register services in the IServiceProvider mock
+            _serviceProviderMock.Setup(sp => sp.GetService(typeof(IVenueRepository)))
+                .Returns(venueRepositoryMock.Object);
+            _serviceProviderMock.Setup(sp => sp.GetService(typeof(IStaffRepository)))
+                .Returns(staffRepositoryMock.Object);
+
             _refundService = new RefundService(
                 _bookingRepositoryMock.Object,
                 _eventRepositoryMock.Object,

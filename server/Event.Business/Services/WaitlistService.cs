@@ -9,30 +9,44 @@ using Event.Contracts.IServices;
 using Event.Business.Exceptions;
 using Serilog;
 using Event.Business.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace Event.Business.Services
 {
     public class WaitlistService : IWaitlistService
     {
+        #region Fields
+
         private readonly IWaitlistRepository _waitlistRepository;
         private readonly IEventRepository _eventRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IEmailService _emailService;
         private readonly IBookingService _bookingService;
+        private readonly IConfiguration _configuration;
+
+        #endregion
+
+        #region Constructor
 
         public WaitlistService(
             IWaitlistRepository waitlistRepository,
             IEventRepository eventRepository,
             INotificationRepository notificationRepository,
             IEmailService emailService,
-            IBookingService bookingService)
+            IBookingService bookingService,
+            IConfiguration configuration)
         {
             _waitlistRepository = waitlistRepository;
             _eventRepository = eventRepository;
             _notificationRepository = notificationRepository;
             _emailService = emailService;
             _bookingService = bookingService;
+            _configuration = configuration;
         }
+
+        #endregion
+
+        #region JoinWaitlistAsync
 
         public async Task<WaitlistStatusResponse> JoinWaitlistAsync(int userId, int eventId, string tierName, int quantity)
         {
@@ -128,6 +142,10 @@ namespace Event.Business.Services
             }
         }
 
+        #endregion
+
+        #region ProcessWaitlistForEventTierAsync
+
         public async Task ProcessWaitlistForEventTierAsync(int eventId, string tierName, int freedSeats)
         {
             var entry = await _waitlistRepository.GetNextEligibleAsync(eventId, tierName, freedSeats);
@@ -159,7 +177,7 @@ namespace Event.Business.Services
                             { "tierName", entry.Tier_Name },
                             { "quantity", entry.Quantity.ToString() },
                             { "expiryTime", entry.Expires_At.Value.ToString("MMM dd, yyyy HH:mm") },
-                            { "bookingLink", $"http://localhost:4200/booking?eventId={ev.Event_Id}" }
+                            { "bookingLink", $"{_configuration["AppSettings:FrontendUrl"] ?? "http://localhost:4200"}/booking?eventId={ev.Event_Id}" }
                         }
                     };
                     string htmlBody = await _emailService.BuildEmailHtmlAsync(emailDto);
@@ -180,6 +198,10 @@ namespace Event.Business.Services
                 Log.Error(ex, "Failed to process waitlist for event {EventId} tier {TierName}", eventId, tierName);
             }
         }
+
+        #endregion
+
+        #region ExpireStaleWaitlistAsync
 
         public async Task ExpireStaleWaitlistAsync()
         {
@@ -226,6 +248,69 @@ namespace Event.Business.Services
             }
         }
 
+        #endregion
+
+        #region CloseWaitlistForStartingEventsAsync
+
+        public async Task CloseWaitlistForStartingEventsAsync()
+        {
+            var logger = new LoggerConfiguration()
+                .WriteTo.File("logs/business.log", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            var cutoffTime = DateTime.UtcNow.AddMinutes(5);
+            try
+            {
+                var startingEntries = await _waitlistRepository.GetWaitlistsForStartingEventsAsync(cutoffTime);
+                foreach (var entry in startingEntries)
+                {
+                    try
+                    {
+                        await _waitlistRepository.BeginTransactionAsync();
+                        entry.Status = "Closed";
+                        await _waitlistRepository.UpdateAsync(entry);
+                        await _waitlistRepository.CommitTransactionAsync();
+
+                        var user = entry.Attendee;
+                        var ev = entry.Event;
+                        if (user != null && !string.IsNullOrEmpty(user.Email) && ev != null)
+                        {
+                            var emailDto = new EmailTemplateDto
+                            {
+                                TemplateName = "StandardNotificationTemplate.html",
+                                Placeholders = new Dictionary<string, string>
+                                {
+                                    { "title", "Waitlist Closed" },
+                                    { "message", $"We're sorry to inform you that {ev.Title} is starting very soon and we couldn't secure a ticket for you off the waitlist. Better luck next time!" }
+                                }
+                            };
+                            string htmlBody = await _emailService.BuildEmailHtmlAsync(emailDto);
+                            await NotificationHelper.SendAndSaveNotificationAsync(
+                                _notificationRepository,
+                                _emailService,
+                                user.Email,
+                                $"Waitlist Closed: {ev.Title}",
+                                htmlBody
+                            );
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await _waitlistRepository.RollbackTransactionAsync();
+                        logger.Error(ex, "Failed to close waitlist entry {WaitlistId}", entry.Waitlist_Id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error in CloseWaitlistForStartingEventsAsync");
+            }
+        }
+
+        #endregion
+
+        #region CancelWaitlistEntryAsync
+
         public async Task<bool> CancelWaitlistEntryAsync(int waitlistId, int userId)
         {
             await _waitlistRepository.BeginTransactionAsync();
@@ -271,17 +356,29 @@ namespace Event.Business.Services
             }
         }
 
+        #endregion
+
+        #region GetMyWaitlistAsync
+
         public async Task<IEnumerable<WaitlistStatusResponse>> GetMyWaitlistAsync(int userId)
         {
             var entries = await _waitlistRepository.GetMyActiveWaitlistsAsync(userId);
             return entries.Select(e => MapToResponse(e, e.Event?.Title ?? string.Empty));
         }
 
+        #endregion
+
+        #region GetWaitlistByEventAsync
+
         public async Task<IEnumerable<WaitlistStatusResponse>> GetWaitlistByEventAsync(int eventId)
         {
             var entries = await _waitlistRepository.GetWaitlistByEventAsync(eventId);
             return entries.Select(e => MapToResponse(e, e.Event?.Title ?? string.Empty));
         }
+
+        #endregion
+
+        #region MapToResponse
 
         private WaitlistStatusResponse MapToResponse(Waitlist entry, string eventTitle)
         {
@@ -298,6 +395,10 @@ namespace Event.Business.Services
                 Expires_At = entry.Expires_At
             };
         }
+
+        #endregion
+
+        #region CalculateExpiryDate
 
         private DateTime CalculateExpiryDate(DateTime eventDate)
         {
@@ -317,5 +418,7 @@ namespace Event.Business.Services
                 return now.AddMinutes(30);
             }
         }
+
+        #endregion
     }
 }

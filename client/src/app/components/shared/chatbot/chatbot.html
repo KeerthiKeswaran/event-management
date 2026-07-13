@@ -1,0 +1,80 @@
+<div class="chatbot-container" [ngClass]="{'open': isOpen}">
+
+  <div class="chatbot-window" [class.show]="isOpen">
+    <div class="chatbot-header">
+    <div class="header-info">
+      <img src="/chatbox-logo.png" alt="Agent Logo" class="header-logo">
+    </div>
+    <div class="header-actions">
+      <button class="close-btn" (click)="toggleChat()">
+        ×
+      </button>
+    </div>
+  </div>
+
+    <div class="chatbot-messages" #chatScrollContainer (click)="handleLinkClick($event)">
+      @if (isFetchingHistory) {
+        <div class="message-skeleton">
+          <div class="skeleton-avatar"></div>
+          <div class="skeleton-bubble"></div>
+        </div>
+        <div class="message-skeleton user">
+          <div class="skeleton-bubble short"></div>
+        </div>
+        <div class="message-skeleton">
+          <div class="skeleton-avatar"></div>
+          <div class="skeleton-bubble tall"></div>
+        </div>
+      }
+
+      @for (msg of messages; track msg) {
+      <div class="message-wrapper" [ngClass]="msg.role">
+        <div class="message-avatar" *ngIf="msg.role === 'assistant'">
+          <img src="/floating-bot-logo.png" alt="Bot">
+        </div>
+        <div class="message-bubble" [innerHTML]="msg.content"></div>
+      </div>
+      }
+
+      @if (isProcessing) {
+      <div class="message-wrapper assistant processing">
+        <div class="message-avatar">
+          <img src="/floating-bot-logo.png" alt="Bot">
+        </div>
+        <div class="loading-container">
+          <div class="stroke-wrapper">
+            <div class="message-bubble loading-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="loading-status-text" *ngIf="loadingStatus">{{ loadingStatus }}</div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="chatbot-input-container">
+      <div class="chatbot-suggestions" *ngIf="messages.length < 3">
+        <button class="suggestion-chip" *ngFor="let s of suggestions" (click)="sendSuggestion(s)"
+          [disabled]="isProcessing">
+          {{ s }}
+        </button>
+      </div>
+      <div class="chatbot-input">
+        <textarea [(ngModel)]="userMessage" (keydown)="handleKeyPress($event)" (input)="adjustTextareaHeight($event)" placeholder="Type your message..."
+          rows="1" [disabled]="isProcessing"></textarea>
+        <button class="send-btn" (click)="sendMessage()" [disabled]="!userMessage.trim() || isProcessing">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path
+              d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button *ngIf="!isOpen" class="chatbot-trigger" (click)="toggleChat()" [ngClass]="{'has-notification': false}"
+    [class.peeking]="isPeeking">
+    <img src="/floating-bot-logo.png" alt="Chat" class="trigger-icon">
+  </button>
+</div>

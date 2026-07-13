@@ -33,6 +33,7 @@ namespace Event.Business.Services
         private readonly IRefundService _refundService;
         private readonly ITermsAndConditionsRepository _termsRepository;
         private readonly IOrganizerPayoutRepository _payoutRepository;
+        private readonly IFileStorageService _fileStorageService;
 
         // Thread-safe in-memory cache for calculations (temporary memory store)
         private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, Event.Models.DTOs.StaffAvailabilityResponse> _staffCache =
@@ -58,7 +59,8 @@ namespace Event.Business.Services
             IUserRepository userRepository,
             IRefundService refundService,
             ITermsAndConditionsRepository termsRepository,
-            IOrganizerPayoutRepository payoutRepository)
+            IOrganizerPayoutRepository payoutRepository,
+            IFileStorageService fileStorageService)
         {
             _eventRepository = eventRepository;
             _bookingRepository = bookingRepository;
@@ -76,6 +78,7 @@ namespace Event.Business.Services
             _refundService = refundService;
             _termsRepository = termsRepository;
             _payoutRepository = payoutRepository;
+            _fileStorageService = fileStorageService;
         }
 
         #endregion
@@ -298,19 +301,12 @@ namespace Event.Business.Services
                 throw new NotFoundException($"Event with ID {eventId} not found.");
 
             // 2. Save feedback to a JSON file
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            string feedbackDir = Path.Combine(rootPath, "Event.Business", "assets", "users", attendeeId.ToString(), "feedback");
-            if (!Directory.Exists(feedbackDir))
-            {
-                Directory.CreateDirectory(feedbackDir);
-            }
             string fileName = $"feedback_event_{eventId}_{DateTime.UtcNow.Ticks}.json";
-            string filePath = Path.Combine(feedbackDir, fileName);
+            string relativePath = $"users/{attendeeId}/feedback/{fileName}";
             
             var feedbackData = new { Rating = rating, Review = review, SubmittedAt = DateTime.UtcNow };
-            await System.IO.File.WriteAllTextAsync(filePath, System.Text.Json.JsonSerializer.Serialize(feedbackData, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
-            
-            string reviewUrl = $"/assets/users/{attendeeId}/feedback/{fileName}";
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(feedbackData, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            string reviewUrl = await _fileStorageService.SaveTextAsync(relativePath, jsonContent);
 
             // 3. Create and save new attendee feedback
             var feedback = new EventFeedback

@@ -85,12 +85,13 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 builder.Services.AddScoped<ICacheService, CacheService>();
-builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<OtpService>();
 builder.Services.AddSingleton<JwtTokenGenerator>();
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
 builder.Services.AddScoped<IDeptAuthService, DeptAuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IChatHistoryService, ChatHistoryService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IRefundService, RefundService>();
@@ -103,6 +104,19 @@ builder.Services.AddScoped<IVirtualMeetingService, VirtualMeetingService>();
 builder.Services.AddScoped<IPolicyService, PolicyService>();
 builder.Services.AddScoped<IWaitlistRepository, WaitlistRepository>();
 builder.Services.AddScoped<IWaitlistService, WaitlistService>();
+builder.Services.AddHttpClient<IAiService, AiService>();
+builder.Services.AddHttpClient<IIntentClassificationService, IntentClassificationService>();
+builder.Services.AddHttpClient<IAgentService, AgentService>();
+
+if (builder.Configuration["Storage:Provider"] == "Blob")
+{
+    builder.Services.AddScoped<IFileStorageService, AzureBlobStorageService>();
+}
+else
+{
+    builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
+}
+
 builder.Services.AddHostedService<Event.Business.Services.BackgroundService>();
 builder.Services.AddHostedService<Event.Business.Services.PayoutBackgroundService>();
 
@@ -158,8 +172,9 @@ if (args != null && System.Array.IndexOf(args, "seed") >= 0)
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<EventDbContext>();
+        var storageService = scope.ServiceProvider.GetRequiredService<IFileStorageService>();
         System.Console.WriteLine("Executing database seeding...");
-        await Event.Data.Seed.DbSeed.SeedAsync(context);
+        await Event.Data.Seed.DbSeed.SeedAsync(context, storageService);
         System.Console.WriteLine("Database seeding completed successfully.");
     }
     return; // Exit after seeding — do not start the web server

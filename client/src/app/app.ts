@@ -3,11 +3,11 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-
+import { ChatbotComponent } from './components/shared/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ChatbotComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -68,5 +68,10 @@ export class App {
         }
       }
     });
+  }
+
+  public showChatbot(): boolean {
+    // Hide chatbot on error pages
+    return !this.router.url.startsWith('/error');
   }
 }

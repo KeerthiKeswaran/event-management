@@ -12,6 +12,7 @@ namespace Event.Contracts.IRepositories
         Task<IEnumerable<Waitlist>> GetMyActiveWaitlistsAsync(int userId);
         Task<int> GetWaitlistPositionAsync(int waitlistId);
         Task<IEnumerable<Waitlist>> GetExpiredNotifiedEntriesAsync(DateTime cutoffTime);
+        Task<IEnumerable<Waitlist>> GetWaitlistsForStartingEventsAsync(DateTime cutoffTime);
         Task<IEnumerable<Waitlist>> GetWaitlistByEventAsync(int eventId);
         Task<IEnumerable<Waitlist>> GetWaitingQueueAsync(int eventId, string tierName);
         Task<IEnumerable<Waitlist>> GetWaitingQueueAfterPositionAsync(int eventId, string tierName, int position);

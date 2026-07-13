@@ -15,6 +15,7 @@ import { EventService } from '../../services/event.service';
 import { BookingService } from '../../services/booking.service';
 import { WaitlistService } from '../../services/waitlist.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-booking',
@@ -252,12 +253,18 @@ export class BookingComponent implements OnInit, OnDestroy {
     }).subscribe({
       next: (res) => {
         if (res.status === 'Booked') {
-          alert('Good news! Seats became available and you were booked directly.');
-          // Redirect to checkout since it booked directly
-          const successUrl = `http://localhost:4200/checkout?eventId=${ev.event_Id}&session_id={CHECKOUT_SESSION_ID}&bookingId=${res.waitlist_Id}`; // Waitlist backend needs to be changed to handle the checkout flow for immediate booking, but for now we alert
-          window.location.reload(); 
+          this.waitlistSuccessMessage.set('Seats became available and you were booked!');
+          this.showWaitlistSuccessAnimation.set(true);
+          setTimeout(() => {
+            this.showWaitlistSuccessAnimation.set(false);
+            window.location.reload(); 
+          }, 2000);
         } else {
-          alert(`You have successfully joined the waitlist. Your position is: ${res.position}`);
+          this.waitlistSuccessMessage.set(`Joined Waitlist. Position: ${res.position}`);
+          this.showWaitlistSuccessAnimation.set(true);
+          setTimeout(() => {
+            this.showWaitlistSuccessAnimation.set(false);
+          }, 2000);
         }
       },
       error: (err) => {
@@ -272,6 +279,8 @@ export class BookingComponent implements OnInit, OnDestroy {
 
   public showReviewModal = signal(false);
   public isInitiatingBooking = signal(false);
+  public showWaitlistSuccessAnimation = signal(false);
+  public waitlistSuccessMessage = signal('');
 
   public isCheckoutDisabled(): boolean {
     return this.totalTickets() === 0 || this.isInitiatingBooking();
@@ -331,8 +340,8 @@ export class BookingComponent implements OnInit, OnDestroy {
       }).subscribe({
         next: (res) => {
           const pendingBookingId = res.booking_Id;
-          const successUrl = `http://localhost:4200/checkout?eventId=${eventId}&session_id={CHECKOUT_SESSION_ID}&bookingId=${pendingBookingId}`;
-          const cancelUrl = `http://localhost:4200/booking?eventId=${eventId}`;
+          const successUrl = `${environment.clientUrl}/checkout?eventId=${eventId}&session_id={CHECKOUT_SESSION_ID}&bookingId=${pendingBookingId}`;
+          const cancelUrl = `${environment.clientUrl}/booking?eventId=${eventId}`;
 
           this.bookingService.createCheckoutSession(pendingBookingId, successUrl, cancelUrl).subscribe({
             next: (stripeRes) => {

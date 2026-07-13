@@ -60,6 +60,16 @@ export class MyTicketsComponent implements OnInit, OnDestroy {
         else if (res && res.$values) list = res.$values;
         else if (res && res.data) list = res.data;
         else if (res && res.items) list = res.items;
+        
+        // Sort tickets by creation time (newest first)
+        if (list && list.length > 0) {
+          list.sort((a, b) => {
+            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+            return dateB - dateA;
+          });
+        }
+        
         this.currentTickets.set(list || []);
         this.isLoading.set(false);
       },

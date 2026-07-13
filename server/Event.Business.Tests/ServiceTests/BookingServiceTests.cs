@@ -61,7 +61,17 @@ namespace Event.Business.Tests.ServiceTests
 
             _emailService = new Mock<IEmailService>().Object;
             _paymentService = new Mock<IPaymentService>().Object;
-            _qrCodeService = new Mock<IQrCodeService>().Object;
+
+            var qrCodeMock = new Mock<IQrCodeService>();
+            qrCodeMock.Setup(q => q.GenerateQrCodeAsync(It.IsAny<string>()))
+                .ReturnsAsync(new byte[] { 1, 2, 3, 4 });
+            _qrCodeService = qrCodeMock.Object;
+
+            var fileStorageMock = new Mock<IFileStorageService>();
+            fileStorageMock.Setup(f => f.SaveBytesAsync(It.IsAny<string>(), It.IsAny<byte[]>()))
+                .ReturnsAsync((string path, byte[] _) => $"/assets/{path}");
+            fileStorageMock.Setup(f => f.SaveTextAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string path, string _) => $"/assets/{path}");
 
             _serviceProviderMock = new Mock<IServiceProvider>();
             _waitlistRepoMock = new Mock<IWaitlistRepository>();
@@ -97,6 +107,7 @@ namespace Event.Business.Tests.ServiceTests
                 _settingsRepositoryMock.Object,
                 _paymentService,
                 _qrCodeService,
+                fileStorageMock.Object,
                 _configuration,
                 _emailService,
                 _notificationRepositoryMock.Object,

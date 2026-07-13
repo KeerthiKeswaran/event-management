@@ -1,0 +1,34 @@
+name: Deploy Backend to Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+
+env:
+  ACR_NAME: 'crgetmyeventsf6tf3aqhhys54'
+  ACA_NAME: 'ca-getmyevents-prod'
+  RESOURCE_GROUP: 'getmyevents-rg'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        run: |
+          cd server
+          # Tag with both the git commit hash and 'latest'
+          docker build --platform linux/amd64 -t ${{ env.ACR_NAME }}.azurecr.io/event-api:${{ github.sha }} -t ${{ env.ACR_NAME }}.azurecr.io/event-api:latest -f Event.API/Dockerfile .
+          docker push --all-tags ${{ env.ACR_NAME }}.azurecr.io/event-api

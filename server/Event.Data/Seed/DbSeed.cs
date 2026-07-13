@@ -8,12 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using Event.Data.Contexts;
 using Event.Models;
 
+using Event.Contracts.IServices;
+
 namespace Event.Data.Seed
 {
     public static class DbSeed
     {
-        public static async Task SeedAsync(EventDbContext context)
+        public static async Task SeedAsync(EventDbContext context, IFileStorageService storageService)
         {
+            Console.WriteLine("Applying database migrations...");
+            await context.Database.MigrateAsync();
+            Console.WriteLine("Database migrations applied successfully.");
             #region Clean Existing Data
             // =========================================================================
             // 0. CLEAN EXISTING DATA (Idempotent execution)
@@ -357,7 +362,7 @@ namespace Event.Data.Seed
                 }
 
                 // Write description file and get absolute path
-                string descriptionFilePath = CreateDescriptionFile(rootPath, eventId, def.Description);
+                string descriptionFilePath = await CreateDescriptionFile(storageService, eventId, def.Description);
 
                 var newEvent = new Event.Models.Event
                 {
@@ -516,9 +521,8 @@ namespace Event.Data.Seed
                     selectedTier.Tickets_Sold += quantity;
 
                     // Booking Path QR Code
-                    string qrCodePath = Path.Combine(rootPath, "Event.Business", "assets", "users", attendeeId.ToString(), "bookings", $"qr_{bookingId}.png");
-                    Directory.CreateDirectory(Path.GetDirectoryName(qrCodePath)!);
-                    File.WriteAllText(qrCodePath, $"Booking ID: {bookingId}, Event ID: {eventId}, Attendee ID: {attendeeId}");
+                    string qrRelativePath = $"users/{attendeeId}/bookings/qr_{bookingId}.png";
+                    string qrUrl = await storageService.SaveTextAsync(qrRelativePath, $"Booking ID: {bookingId}, Event ID: {eventId}, Attendee ID: {attendeeId}");
 
                     bookingsList.Add(new Booking
                     {
@@ -526,7 +530,7 @@ namespace Event.Data.Seed
                         Attendee_Id = attendeeId,
                         Event_Id = eventId,
                         Booking_Status = "Confirmed",
-                        Qr_Code_Path = qrCodePath,
+                        Qr_Code_Path = qrUrl,
                         Qr_Secret_Hash = "sec_hash_" + Guid.NewGuid().ToString("N").Substring(0, 16),
                         CheckIn_Status = b % 5 == 0 ? "CheckedIn" : "Pending",
                         Created_At = DateTime.UtcNow.AddDays(-b),
@@ -575,6 +579,20 @@ namespace Event.Data.Seed
             await context.BookingDetails.AddRangeAsync(bookingDetailsList);
             await context.Transactions.AddRangeAsync(transactionsList);
             await context.BookingPayments.AddRangeAsync(bookingPaymentsList);
+            await context.SaveChangesAsync();
+            #endregion
+
+            #region Seed Waitlists
+            // =========================================================================
+            // 11. SEED WAITLISTS
+            // =========================================================================
+            var waitlists = new List<Waitlist>
+            {
+                new Waitlist { Waitlist_Id = 10001, Event_Id = 10001, Attendee_Id = 10010, Tier_Name = "VIP", Quantity = 2, Status = "Waiting", Position = 1, Joined_At = DateTime.UtcNow.AddDays(-2) },
+                new Waitlist { Waitlist_Id = 10002, Event_Id = 10001, Attendee_Id = 10011, Tier_Name = "VIP", Quantity = 1, Status = "Waiting", Position = 2, Joined_At = DateTime.UtcNow.AddDays(-1) },
+                new Waitlist { Waitlist_Id = 10003, Event_Id = 10008, Attendee_Id = 10012, Tier_Name = "VIP Access", Quantity = 1, Status = "Notified", Position = 0, Joined_At = DateTime.UtcNow.AddDays(-3), Notified_At = DateTime.UtcNow.AddMinutes(-30), Expires_At = DateTime.UtcNow.AddHours(2) }
+            };
+            await context.Waitlists.AddRangeAsync(waitlists);
             await context.SaveChangesAsync();
             #endregion
 
@@ -673,10 +691,8 @@ namespace Event.Data.Seed
 
             foreach (var seed in supportTicketSeedData)
             {
-                string ticketDir = Path.Combine(rootPath, "Event.Business", "assets", "users", seed.UserId.ToString(), "support");
-                Directory.CreateDirectory(ticketDir);
-                string ticketFile = Path.Combine(ticketDir, $"ticket_{seed.TicketId}.json");
-                File.WriteAllText(ticketFile, JsonSerializer.Serialize(new { Subject = seed.Subject, Message = seed.Message, Response = seed.Response }, new JsonSerializerOptions { WriteIndented = true }));
+                string ticketFile = $"users/{seed.UserId}/support/ticket_{seed.TicketId}.json";
+                await storageService.SaveTextAsync(ticketFile, JsonSerializer.Serialize(new { Subject = seed.Subject, Message = seed.Message, Response = seed.Response }, new JsonSerializerOptions { WriteIndented = true }));
             }
 
             await context.SupportTickets.AddRangeAsync(supportTickets);
@@ -709,10 +725,8 @@ namespace Event.Data.Seed
 
             foreach (var reportSeed in reportSeedData)
             {
-                string reportDir = Path.Combine(rootPath, "Event.Business", "assets", "users", reportSeed.ReporterId.ToString(), "reports");
-                Directory.CreateDirectory(reportDir);
-                string reportFile = Path.Combine(reportDir, $"report_{reportSeed.ReportId}.json");
-                File.WriteAllText(reportFile, JsonSerializer.Serialize(new { Reason = reportSeed.Reason }, new JsonSerializerOptions { WriteIndented = true }));
+                string reportFile = $"users/{reportSeed.ReporterId}/reports/report_{reportSeed.ReportId}.json";
+                await storageService.SaveTextAsync(reportFile, JsonSerializer.Serialize(new { Reason = reportSeed.Reason }, new JsonSerializerOptions { WriteIndented = true }));
             }
 
             await context.EventReports.AddRangeAsync(reports);
@@ -732,11 +746,6 @@ namespace Event.Data.Seed
                 new Notification { Notification_Id = 10005, Recipient_Email = "rohan.nair@example.com", MessageUrl = "/assets/notifications/10005.json", Status = "Sent", Retry_Count = 0, Created_At = DateTime.UtcNow.AddDays(-1), Sent_At = DateTime.UtcNow.AddDays(-1) }
             };
 
-            string notificationDir = Path.Combine(rootPath, "Event.Business", "assets", "notifications");
-            if (!Directory.Exists(notificationDir))
-            {
-                Directory.CreateDirectory(notificationDir);
-            }
 
             var notificationData = new[]
             {
@@ -749,14 +758,14 @@ namespace Event.Data.Seed
 
             foreach (var nData in notificationData)
             {
-                string jsonFilePath = Path.Combine(notificationDir, $"{nData.Id}.json");
+                string jsonFilePath = $"notifications/{nData.Id}.json";
                 var payload = new
                 {
                     Subject = nData.Subject,
                     Body = nData.Body
                 };
                 string jsonContent = JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(jsonFilePath, jsonContent);
+                await storageService.SaveTextAsync(jsonFilePath, jsonContent);
             }
 
             await context.Notifications.AddRangeAsync(seedNotifications);
@@ -766,16 +775,10 @@ namespace Event.Data.Seed
 
         #region Helper Functions
 
-        private static string CreateDescriptionFile(string serverRoot, int eventId, string descriptionText)
+        private static async Task<string> CreateDescriptionFile(IFileStorageService storageService, int eventId, string descriptionText)
         {
-            string eventDir = Path.Combine(serverRoot, "Event.Business", "assets", "events", eventId.ToString());
-            if (!Directory.Exists(eventDir))
-            {
-                Directory.CreateDirectory(eventDir);
-            }
-            string filePath = Path.Combine(eventDir, "description.txt");
-            File.WriteAllText(filePath, descriptionText);
-            return $"/assets/events/{eventId}/description.txt";
+            string relativePath = $"events/{eventId}/description.md";
+            return await storageService.SaveTextAsync(relativePath, descriptionText);
         }
 
         private class EventSeedDef

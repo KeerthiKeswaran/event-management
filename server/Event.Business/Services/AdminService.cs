@@ -32,6 +32,7 @@ namespace Event.Business.Services
         private readonly IVenueRepository _venueRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IRefundService _refundService;
+        private readonly IFileStorageService _fileStorageService;
 
         #endregion
 
@@ -52,7 +53,8 @@ namespace Event.Business.Services
             IRegionRepository regionRepository,
             IVenueRepository venueRepository,
             INotificationRepository notificationRepository,
-            IRefundService refundService)
+            IRefundService refundService,
+            IFileStorageService fileStorageService)
         {
             _userRepository = userRepository;
             _eventRepository = eventRepository;
@@ -69,6 +71,7 @@ namespace Event.Business.Services
             _venueRepository = venueRepository;
             _notificationRepository = notificationRepository;
             _refundService = refundService;
+            _fileStorageService = fileStorageService;
         }
 
         #endregion
@@ -236,13 +239,6 @@ namespace Event.Business.Services
                     (t.RequestType?.Contains(keyword, StringComparison.OrdinalIgnoreCase) ?? false));
 
             var response = new List<SupportTicketResponse>();
-            string rootPath = AppDomain.CurrentDomain.BaseDirectory;
-            string folderName = "Event.Business";
-            if (!System.IO.Directory.Exists(System.IO.Path.Combine(rootPath, folderName)))
-            {
-                rootPath = System.IO.Directory.GetCurrentDirectory();
-            }
-
             var actions = await _adminActionRepository.GetAllAsync();
 
             foreach (var t in tickets)
@@ -274,16 +270,15 @@ namespace Event.Business.Services
 
                 if (!string.IsNullOrEmpty(t.ConcernUrl))
                 {
-                    string relativeConcern = t.ConcernUrl.TrimStart('/');
-                    if (relativeConcern.StartsWith("assets/"))
-                        relativeConcern = relativeConcern.Substring("assets/".Length);
+                    string relativeConcern = t.ConcernUrl;
+                    if (relativeConcern.StartsWith("/assets/"))
+                        relativeConcern = relativeConcern.Substring("/assets/".Length);
 
-                    string filePath = System.IO.Path.Combine(rootPath, folderName, "assets", relativeConcern);
-                    if (System.IO.File.Exists(filePath))
+                    string json = await _fileStorageService.ReadTextAsync(relativeConcern);
+                    if (!string.IsNullOrEmpty(json))
                     {
                         try
                         {
-                            string json = await System.IO.File.ReadAllTextAsync(filePath);
                             var content = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(json);
                             if (content.TryGetProperty("Subject", out var subjectProp))
                             {
@@ -338,43 +333,18 @@ namespace Event.Business.Services
             }
 
             // 3. Edit the local JSON file containing Subject, Message, and Response
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            string folderName = "Event.Business";
-            if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") || 
-                AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                Directory.GetCurrentDirectory().Contains("Tests"))
-            {
-                folderName = "Event.Business.Tests";
-            }
-
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-
             string relativeConcern = ticket.ConcernUrl.TrimStart('/');
             if (relativeConcern.StartsWith("assets/"))
             {
                 relativeConcern = relativeConcern.Substring("assets/".Length);
             }
-            string filePath = Path.Combine(rootPath, folderName, "assets", relativeConcern);
-
-            string? dirPath = Path.GetDirectoryName(filePath);
-            if (!string.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
 
             string subject = "No Subject";
             string message = "No Message";
 
-            if (File.Exists(filePath))
+            string jsonContent = await _fileStorageService.ReadTextAsync(relativeConcern);
+            if (!string.IsNullOrEmpty(jsonContent))
             {
-                var jsonContent = await File.ReadAllTextAsync(filePath);
                 var ticketData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent);
                 if (ticketData != null)
                 {
@@ -384,7 +354,7 @@ namespace Event.Business.Services
                     ticketData["Response"] = responseText;
                     
                     var updatedJson = JsonSerializer.Serialize(ticketData, new JsonSerializerOptions { WriteIndented = true });
-                    await File.WriteAllTextAsync(filePath, updatedJson);
+                    await _fileStorageService.SaveTextAsync(relativeConcern, updatedJson);
                 }
             }
             else
@@ -397,7 +367,7 @@ namespace Event.Business.Services
                     { "Response", responseText }
                 };
                 var updatedJson = JsonSerializer.Serialize(ticketData, new JsonSerializerOptions { WriteIndented = true });
-                await File.WriteAllTextAsync(filePath, updatedJson);
+                await _fileStorageService.SaveTextAsync(relativeConcern, updatedJson);
             }
 
             // 4. Update the ticket status in database to Resolved
@@ -500,7 +470,7 @@ namespace Event.Business.Services
                         reportId = r.Report_Id,
                         reporterId = r.Reporter_Id,
                         reporterName = r.Reporter?.Name ?? "Unknown",
-                        reason = GetReasonFromReportUrl(r.ReportUrl),
+                        reason = await GetReasonFromReportUrl(r.ReportUrl),
                         responseAction = r.ResponseAction,
                         createdAt = r.Created_At
                     });
@@ -516,40 +486,21 @@ namespace Event.Business.Services
             return grouped;
         }
 
-        private static string GetReasonFromReportUrl(string reportUrl)
+        private async Task<string> GetReasonFromReportUrl(string reportUrl)
         {
             if (string.IsNullOrEmpty(reportUrl)) return string.Empty;
 
             try
             {
-                string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                string folderName = "Event.Business";
-                if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") || 
-                    AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                    Directory.GetCurrentDirectory().Contains("Tests"))
-                {
-                    folderName = "Event.Business.Tests";
-                }
-
-                if (rootPath.Contains("bin"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-                else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-
                 string relativePath = reportUrl.TrimStart('/');
                 if (relativePath.StartsWith("assets/"))
                 {
                     relativePath = relativePath.Substring("assets/".Length);
                 }
-                string filePath = Path.Combine(rootPath, folderName, "assets", relativePath);
 
-                if (File.Exists(filePath))
+                string jsonContent = await _fileStorageService.ReadTextAsync(relativePath);
+                if (!string.IsNullOrEmpty(jsonContent))
                 {
-                    string jsonContent = File.ReadAllText(filePath);
                     var data = JsonSerializer.Deserialize<System.Collections.Generic.Dictionary<string, string>>(jsonContent);
                     if (data != null && data.ContainsKey("Reason"))
                     {
@@ -664,21 +615,6 @@ namespace Event.Business.Services
             catch (Exception) { }
 
             // 5. Create a support ticket
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            string folderPath = System.IO.Path.Combine(rootPath, "Event.Business", "assets", "admins", adminId, "support");
-            if (!System.IO.Directory.Exists(folderPath))
-            {
-                System.IO.Directory.CreateDirectory(folderPath);
-            }
-
             var ticket = new SupportTicket
             {
                 User_Id = ev.Organizer_Id,
@@ -701,9 +637,10 @@ namespace Event.Business.Services
             };
 
             string fileName = $"ticket_{ticket.Ticket_Id}.json";
-            string filePath = System.IO.Path.Combine(folderPath, fileName);
+            string relativePath = $"admins/{adminId}/support/{fileName}";
             string jsonContent = System.Text.Json.JsonSerializer.Serialize(ticketData, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-            await System.IO.File.WriteAllTextAsync(filePath, jsonContent);
+            
+            await _fileStorageService.SaveTextAsync(relativePath, jsonContent);
 
             ticket.ConcernUrl = $"/assets/admins/{adminId}/support/{fileName}";
             await _supportTicketRepository.UpdateAsync(ticket);
@@ -726,7 +663,10 @@ namespace Event.Business.Services
                                     refundMessage: $"This refund was issued because event \u201c{ev.Title}\u201d was cancelled following a policy review. We sincerely apologize for the inconvenience."
                                 );
                             }
-                            catch (Exception) { }
+                            catch
+                            {
+                                // Ignore processing errors
+                            }
                         }
                     }
                 }

@@ -80,7 +80,8 @@ namespace Event.Business.Tests.ServiceTests
                 userRepositoryMock.Object,
                 refundService,
                 new Mock<ITermsAndConditionsRepository>().Object,
-                new Mock<IOrganizerPayoutRepository>().Object
+                new Mock<IOrganizerPayoutRepository>().Object,
+                new Mock<IFileStorageService>().Object
             );
 
             var bookingService = new BookingService(
@@ -91,11 +92,12 @@ namespace Event.Business.Tests.ServiceTests
                 settingsRepositoryMock.Object,
                 paymentService,
                 qrCodeService,
+                new Mock<IFileStorageService>().Object,
                 configuration,
                 emailService,
                 notificationRepositoryMock.Object,
                 refundService,
-                new Mock<IServiceProvider>().Object
+                serviceProviderMock.Object
             );
 
             _serviceProviderMock = new Mock<IServiceProvider>();

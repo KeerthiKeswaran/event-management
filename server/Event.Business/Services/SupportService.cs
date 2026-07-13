@@ -14,15 +14,17 @@ namespace Event.Business.Services
 
         private readonly IUserRepository _userRepository;
         private readonly ISupportTicketRepository _supportTicketRepository;
+        private readonly IFileStorageService _fileStorageService;
 
         #endregion
 
         #region Constructor
 
-        public SupportService(IUserRepository userRepository, ISupportTicketRepository supportTicketRepository)
+        public SupportService(IUserRepository userRepository, ISupportTicketRepository supportTicketRepository, IFileStorageService fileStorageService)
         {
             _userRepository = userRepository;
             _supportTicketRepository = supportTicketRepository;
+            _fileStorageService = fileStorageService;
         }
 
         #endregion
@@ -46,42 +48,8 @@ namespace Event.Business.Services
                 escalationStatus = "Unavailable";
             }
 
-            string rootPath = System.IO.Directory.GetCurrentDirectory().TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-            string folderName = "Event.Business";
-            if (System.AppDomain.CurrentDomain.FriendlyName.Contains("Tests") ||
-                System.AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                System.IO.Directory.GetCurrentDirectory().Contains("Tests"))
-            {
-                folderName = "Event.Business.Tests";
-            }
-
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(rootPath, "..")).TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-            }
-
-            string folderPath = System.IO.Path.Combine(rootPath, folderName, "assets", "users", userId.ToString(), "support");
-            if (!System.IO.Directory.Exists(folderPath))
-            {
-                System.IO.Directory.CreateDirectory(folderPath);
-            }
-
-            // 3. Instantiate and persist new support ticket with "Open" status
-            var ticket = new SupportTicket
-            {
-                User_Id = userId,
-                ConcernUrl = $"/assets/users/{userId}/support/ticket_pending.json",
-                RequestType = requestType,
-                Status = "Open",
-                EsclationStatus = escalationStatus,
-                RelatedId = relatedId,
-                TargetType = targetType
-            };
-            await _supportTicketRepository.AddAsync(ticket);
+            string fileName = $"ticket_{System.DateTime.UtcNow.Ticks}.json";
+            string relativePath = $"users/{userId}/support/{fileName}";
 
             var ticketData = new
             {
@@ -90,13 +58,22 @@ namespace Event.Business.Services
                 Response = (string?)null
             };
 
-            string fileName = $"ticket_{ticket.Ticket_Id}.json";
-            string filePath = System.IO.Path.Combine(folderPath, fileName);
             string jsonContent = JsonSerializer.Serialize(ticketData, new JsonSerializerOptions { WriteIndented = true });
-            await File.WriteAllTextAsync(filePath, jsonContent);
+            string url = await _fileStorageService.SaveTextAsync(relativePath, jsonContent);
 
-            ticket.ConcernUrl = $"/assets/users/{userId}/support/{fileName}";
-            await _supportTicketRepository.UpdateAsync(ticket);
+            // 3. Instantiate and persist new support ticket with "Open" status
+            var ticket = new SupportTicket
+            {
+                User_Id = userId,
+                ConcernUrl = url,
+                RequestType = requestType,
+                Status = "Open",
+                EsclationStatus = escalationStatus,
+                RelatedId = relatedId,
+                TargetType = targetType
+            };
+            await _supportTicketRepository.AddAsync(ticket);
+
             return true;
         }
 
@@ -112,24 +89,6 @@ namespace Event.Business.Services
 
             var tickets = await _supportTicketRepository.GetTicketsByUserIdAsync(userId);
 
-            string rootPath = System.IO.Directory.GetCurrentDirectory().TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-            string folderName = "Event.Business";
-            if (System.AppDomain.CurrentDomain.FriendlyName.Contains("Tests") ||
-                System.AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                System.IO.Directory.GetCurrentDirectory().Contains("Tests"))
-            {
-                folderName = "Event.Business.Tests";
-            }
-
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(rootPath, "..")).TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-            }
-
             var result = new System.Collections.Generic.List<Event.Models.DTOs.SupportTicketDto>();
 
             foreach (var t in tickets)
@@ -140,18 +99,18 @@ namespace Event.Business.Services
 
                 if (!string.IsNullOrEmpty(t.ConcernUrl))
                 {
-                    string relativeConcern = t.ConcernUrl.TrimStart('/');
-                    if (relativeConcern.StartsWith("assets/"))
+                    string relativeConcern = t.ConcernUrl;
+                    if (relativeConcern.StartsWith("/assets/"))
                     {
-                        relativeConcern = relativeConcern.Substring("assets/".Length);
+                        relativeConcern = relativeConcern.Substring("/assets/".Length);
                     }
-                    string filePath = System.IO.Path.Combine(rootPath, folderName, "assets", relativeConcern);
 
-                    if (System.IO.File.Exists(filePath))
+                    string jsonContent = await _fileStorageService.ReadTextAsync(relativeConcern);
+                    
+                    if (!string.IsNullOrEmpty(jsonContent))
                     {
                         try
                         {
-                            var jsonContent = await System.IO.File.ReadAllTextAsync(filePath);
                             var ticketData = JsonSerializer.Deserialize<System.Collections.Generic.Dictionary<string, string>>(jsonContent);
                             if (ticketData != null)
                             {
@@ -176,7 +135,7 @@ namespace Event.Business.Services
                     Details = message,
                     Status = t.Status,
                     Response = response,
-                    CreatedAt = System.DateTime.UtcNow.ToString("O") // Wait, there's no CreatedAt in SupportTicket... I'll just use a default or check if we can get it.
+                    CreatedAt = t.CreatedAt?.ToString("O") ?? System.DateTime.UtcNow.ToString("O")
                 });
             }
 

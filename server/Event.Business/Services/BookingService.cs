@@ -25,6 +25,7 @@ namespace Event.Business.Services
         private readonly IPlatformSettingsRepository _settingsRepository;
         private readonly IPaymentService _paymentService;
         private readonly IQrCodeService _qrCodeService;
+        private readonly IFileStorageService _fileStorageService;
         private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly INotificationRepository _notificationRepository;
@@ -43,6 +44,7 @@ namespace Event.Business.Services
             IPlatformSettingsRepository settingsRepository,
             IPaymentService paymentService,
             IQrCodeService qrCodeService,
+            IFileStorageService fileStorageService,
             Microsoft.Extensions.Configuration.IConfiguration configuration,
             IEmailService emailService,
             INotificationRepository notificationRepository,
@@ -56,6 +58,7 @@ namespace Event.Business.Services
             _settingsRepository = settingsRepository;
             _paymentService = paymentService;
             _qrCodeService = qrCodeService;
+            _fileStorageService = fileStorageService;
             _configuration = configuration;
             _emailService = emailService;
             _notificationRepository = notificationRepository;
@@ -311,43 +314,21 @@ namespace Event.Business.Services
                 booking.Qr_Secret_Hash = secretHash;
                 byte[] qrBytes = Array.Empty<byte>();
 
-                string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                string folderName = "Event.Business";
-                if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") ||
-                    AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                    Directory.GetCurrentDirectory().Contains("Tests"))
-                {
-                    folderName = "Event.Business.Tests";
-                }
-
-                if (rootPath.Contains("bin"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-                else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business") || rootPath.EndsWith("Event.Data.Tests"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-
                 try
                 {
                     // Encode ONLY the raw secret hash in the QR code
                     qrBytes = await _qrCodeService.GenerateQrCodeAsync(secretHash);
 
                     int storageUserId = booking.Attendee_Id > 0 ? booking.Attendee_Id : 10001;
-                    var ticketsDir = Path.Combine(rootPath, folderName, "assets", "users", storageUserId.ToString(), "bookings");
-                    if (!Directory.Exists(ticketsDir))
-                    {
-                        Directory.CreateDirectory(ticketsDir);
-                    }
-                    var filePath = Path.Combine(ticketsDir, $"qr_{bookingId}.png");
-                    await File.WriteAllBytesAsync(filePath, qrBytes);
-                    booking.Qr_Code_Path = filePath;
+                    string relativePath = $"users/{storageUserId}/bookings/qr_{bookingId}.png";
+                    
+                    booking.Qr_Code_Path = await _fileStorageService.SaveBytesAsync(relativePath, qrBytes);
                 }
                 catch (Exception)
                 {
-                    // Fallback to simple path if writing fails, but log/let it complete so booking confirmation isn't blocked by filesystem issues.
-                    booking.Qr_Code_Path = Path.Combine(rootPath, folderName, "assets", "users", (booking.Attendee_Id > 0 ? booking.Attendee_Id : 10001).ToString(), "bookings", $"qr_{bookingId}.png");
+                    // Fallback if writing fails, but log/let it complete so booking confirmation isn't blocked.
+                    int storageUserId = booking.Attendee_Id > 0 ? booking.Attendee_Id : 10001;
+                    booking.Qr_Code_Path = $"/assets/users/{storageUserId}/bookings/qr_{bookingId}.png";
                 }
 
                 // 7. Update transaction status and billing references
@@ -810,22 +791,15 @@ namespace Event.Business.Services
                 {
                     try
                     {
-                        string rootPath = System.IO.Directory.GetCurrentDirectory().TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-                        string folderName = "Event.Business";
-                        if (System.AppDomain.CurrentDomain.FriendlyName.Contains("Tests") || System.IO.Directory.GetCurrentDirectory().Contains("Tests"))
-                            folderName = "Event.Business.Tests";
-                            
-                        if (rootPath.Contains("bin"))
-                            rootPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-                        else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-                            rootPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(rootPath, "..")).TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
-
-                        string relativeUrl = feedback.Review.Substring("/assets/".Length);
-                        string filePath = System.IO.Path.Combine(rootPath, folderName, "assets", relativeUrl.Replace('/', System.IO.Path.DirectorySeparatorChar));
-
-                        if (System.IO.File.Exists(filePath))
+                        string relativeUrl = feedback.Review;
+                        if (relativeUrl.StartsWith("/assets/"))
                         {
-                            string json = System.IO.File.ReadAllText(filePath);
+                            relativeUrl = relativeUrl.Substring("/assets/".Length);
+                        }
+
+                        string json = _fileStorageService.ReadTextAsync(relativeUrl).Result;
+                        if (!string.IsNullOrEmpty(json))
+                        {
                             using var doc = System.Text.Json.JsonDocument.Parse(json);
                             if (doc.RootElement.TryGetProperty("Review", out var revProp) && revProp.ValueKind == System.Text.Json.JsonValueKind.String)
                             {
