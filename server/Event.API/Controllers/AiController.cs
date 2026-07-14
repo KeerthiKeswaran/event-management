@@ -138,7 +138,15 @@ namespace Event.API.Controllers
             }
             catch (Exception ex)
             {
-                Response.StatusCode = 500;
+                if (!Response.HasStarted)
+                {
+                    Response.StatusCode = 500;
+                }
+                else
+                {
+                    await Response.WriteAsync($"data: {System.Text.Json.JsonSerializer.Serialize(new { error = ex.Message })}\n\n");
+                    await Response.Body.FlushAsync();
+                }
             }
         }
     }
