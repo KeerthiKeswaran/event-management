@@ -852,14 +852,13 @@ namespace Event.Business.Services
 
         public async Task<BookingResponse?> CheckInAsync(string qrHash)
         {
-            var bookings = await _bookingRepository.GetAllAsync();
-            var booking = bookings.FirstOrDefault(b => b.Qr_Secret_Hash == qrHash);
+            var booking = await _bookingRepository.GetBookingBySecretHashAsync(qrHash);
             if (booking == null)
             {
                 throw new NotFoundException("Booking not found or invalid QR code.");
             }
 
-            var evt = await _eventRepository.GetByIdAsync(booking.Event_Id);
+            var evt = booking.Event ?? await _eventRepository.GetByIdAsync(booking.Event_Id);
             if (evt == null)
             {
                 throw new NotFoundException("Event not found.");
