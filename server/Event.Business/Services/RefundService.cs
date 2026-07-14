@@ -338,11 +338,9 @@ namespace Event.Business.Services
                             continue;
                         }
 
-                        // 1. already refunded partially then refund with remaining
-                        // 2. Not refunded, then proceed with full refund
-                        string bookingRefundType = string.Equals(refundType, "NoRefund", StringComparison.OrdinalIgnoreCase)
-                            ? "NoRefund"
-                            : (alreadyRefunded > 0 ? "Remaining" : "Full");
+                        // Attendee refunds are independent of the organizer's refund policy.
+                        // If the event is cancelled, the attendee must get their money back.
+                        string bookingRefundType = alreadyRefunded > 0 ? "Remaining" : "Full";
                         // Pass empty refundMessage — attendees don't get a custom message when organizer cancels;
                         // the finance team handles direct communication with them.
                         var (refundAmt, remarks) = await RefundAttendeeAsync(booking.Booking_Id, bookingRefundType, refundMessage: "");
