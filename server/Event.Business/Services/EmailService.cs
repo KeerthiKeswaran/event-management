@@ -79,6 +79,9 @@ namespace Event.Business.Services
             }
             else
             {
+                // If logo is missing, replace cid: reference with a fallback URL or remove it to prevent Brevo 400 error
+                htmlBody = htmlBody.Replace("cid:logo.png", "https://getmyevents.blob.core.windows.net/assets/logo.png"); // Or similar fallback
+
                 payload = new
                 {
                     sender = new { name = _senderName, email = _senderEmail },
