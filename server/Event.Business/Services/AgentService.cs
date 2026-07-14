@@ -23,6 +23,7 @@ namespace Event.Business.Services
         private readonly IEventService _eventService;
         private readonly IBookingService _bookingService;
         private readonly ISupportService _supportService;
+        private readonly IFileStorageService _fileStorageService;
         private readonly string _logFilePath;
 
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions 
@@ -39,7 +40,8 @@ namespace Event.Business.Services
             IConfiguration configuration,
             IEventService eventService,
             IBookingService bookingService,
-            ISupportService supportService)
+            ISupportService supportService,
+            IFileStorageService fileStorageService)
         {
             _httpClient = httpClient;
             var groqSection = configuration.GetSection("Groq");
@@ -50,6 +52,7 @@ namespace Event.Business.Services
             _eventService = eventService;
             _bookingService = bookingService;
             _supportService = supportService;
+            _fileStorageService = fileStorageService;
             
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
             _logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "agent.log");
@@ -162,24 +165,13 @@ namespace Event.Business.Services
 
         #region ProcessAgentRequestAsync
 
-        public async Task<ChatResponseDto> ProcessAgentRequestAsync(string userId, List<ChatMessageDto> messages, Action<string>? onProgress = null)
+        public async Task<ChatResponseDto> ProcessAgentRequestAsync(string userId, List<ChatMessageDto> messages, Func<string, Task>? onProgress = null)
         {
             await LogActivityAsync("INFO", $"Processing Agent Request for User {userId}. Message Count: {messages.Count}");
             int numericUserId = int.Parse(userId);
             var tools = GetAvailableTools();
 
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            
-            string promptPath = Path.Combine(rootPath, "Event.Business", "assets", "agents", "agent-prompt.txt");
-            string systemPrompt = await File.ReadAllTextAsync(promptPath);
+            string systemPrompt = await _fileStorageService.ReadTextAsync("agents/agent-prompt.txt");
 
             var systemMessage = new ChatMessageDto
             {
@@ -193,7 +185,7 @@ namespace Event.Business.Services
             int maxLoops = 5;
             for (int i = 0; i < maxLoops; i++)
             {
-                if (i == 0) onProgress?.Invoke("Thinking...");
+                if (i == 0 && onProgress != null) await onProgress("Thinking...");
 
                 await LogActivityAsync("INFO", $"[Iteration {i+1}/{maxLoops}] Sending request to Groq API...");
 
@@ -230,7 +222,7 @@ namespace Event.Business.Services
                     await LogActivityAsync("INFO", $"LLM requested {responseMessage.ToolCalls.Count} tool calls.");
                     foreach (var toolCall in responseMessage.ToolCalls)
                     {
-                        onProgress?.Invoke($"Executing {toolCall.Function.Name}...");
+                        if (onProgress != null) await onProgress($"Executing {toolCall.Function.Name}...");
                         await LogActivityAsync("INFO", $"Executing Tool: {toolCall.Function.Name}");
                         string functionResult = await ExecuteToolAsync(numericUserId, toolCall.Function);
                         await LogActivityAsync("INFO", $"Tool {toolCall.Function.Name} execution completed.");
@@ -308,17 +300,7 @@ namespace Event.Business.Services
                 }
                 else if (function.Name == "GetPlatformNavigation")
                 {
-                    string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                    if (rootPath.Contains("bin"))
-                    {
-                        rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                    }
-                    else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-                    {
-                        rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                    }
-                    string navPath = Path.Combine(rootPath, "Event.Business", "assets", "agents", "navigations.json");
-                    string navJson = await File.ReadAllTextAsync(navPath);
+                    string navJson = await _fileStorageService.ReadTextAsync("agents/navigations.json");
                     return navJson;
                 }
                 return $"Tool {function.Name} not found.";

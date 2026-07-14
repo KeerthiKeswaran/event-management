@@ -15,6 +15,7 @@ export interface ChatRequest {
 export interface ChatResponse {
   response?: string;
   status?: string;
+  error?: string;
 }
 
 @Injectable({

@@ -18,8 +18,9 @@ namespace Event.Business.Services
         private readonly string _apiKey;
         private readonly string _baseUrl;
         private readonly string _intentModel;
+        private readonly IFileStorageService _fileStorageService;
 
-        public IntentClassificationService(HttpClient httpClient, IConfiguration configuration)
+        public IntentClassificationService(HttpClient httpClient, IConfiguration configuration, IFileStorageService fileStorageService)
         {
             _httpClient = httpClient;
             var groqSection = configuration.GetSection("Groq");
@@ -27,23 +28,13 @@ namespace Event.Business.Services
             _baseUrl = groqSection["BaseUrl"] ?? "https://api.groq.com/openai/v1/chat/completions";
             _intentModel = groqSection["IntentModel"] ?? "llama-3.1-8b-instant";
             
+            _fileStorageService = fileStorageService;
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
         }
 
         public async Task<bool> IsValidEventIntentAsync(string userMessage)
         {
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            
-            string promptPath = Path.Combine(rootPath, "Event.Business", "assets", "agents", "classifier-prompt.txt");
-            string systemPrompt = await File.ReadAllTextAsync(promptPath);
+            string systemPrompt = await _fileStorageService.ReadTextAsync("agents/classifier-prompt.txt");
 
             var requestBody = new GroqChatRequest
             {

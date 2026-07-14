@@ -11,6 +11,6 @@ namespace Event.Contracts.IServices
 
     public interface IAgentService
     {
-        Task<ChatResponseDto> ProcessAgentRequestAsync(string userId, List<ChatMessageDto> messages, Action<string>? onProgress = null);
+        Task<ChatResponseDto> ProcessAgentRequestAsync(string userId, List<ChatMessageDto> messages, Func<string, Task>? onProgress = null);
     }
 }

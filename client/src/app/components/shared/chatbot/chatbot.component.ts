@@ -137,6 +137,15 @@ export class ChatbotComponent implements OnInit, OnDestroy {
           this.cd.detectChanges();
           this.scrollToBottom();
         }
+        if (res.error) {
+          this.messages.push({ role: 'assistant', content: `Error: ${res.error}` });
+          this.saveChat();
+          this.isProcessing = false;
+          this.loadingStatus = '';
+          this.cd.detectChanges();
+          this.scrollToLatestResponse();
+          return;
+        }
         if (res.response !== undefined) {
           if (res.response.trim().length > 0) {
             const formatted = this.formatMessage(res.response);

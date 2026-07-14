@@ -15,35 +15,30 @@ namespace Event.Business.Services
         private readonly string _apiKey;
         private readonly string _baseUrl;
         private readonly string _descriptionModel;
+        private readonly IFileStorageService _fileStorageService;
 
-        public AiService(HttpClient httpClient, IConfiguration configuration)
+        public AiService(HttpClient httpClient, IConfiguration configuration, IFileStorageService fileStorageService)
         {
             _httpClient = httpClient;
             var groqSection = configuration.GetSection("Groq");
             _apiKey = groqSection["ApiKey"] ?? throw new InvalidOperationException("Groq:ApiKey is missing.");
             _baseUrl = groqSection["BaseUrl"] ?? "https://api.groq.com/openai/v1/chat/completions";
             _descriptionModel = groqSection["DescriptionModel"] ?? "llama3-8b-8192";
+            _fileStorageService = fileStorageService;
             
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
         }
 
         public async Task<string> GenerateEventDescriptionAsync(string keywords)
         {
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-
-            var promptFilePath = Path.Combine(rootPath, "Event.Business", "assets", "agents", "desc-prompt.txt");
             string systemPrompt = "You are a professional copywriter who writes in pure HTML.";
-            if (File.Exists(promptFilePath))
+            try
             {
-                systemPrompt = await File.ReadAllTextAsync(promptFilePath);
+                systemPrompt = await _fileStorageService.ReadTextAsync("agents/desc-prompt.txt");
+            }
+            catch
+            {
+                // Fallback to default if file is missing in storage
             }
 
             var requestBody = new
