@@ -20,6 +20,11 @@ export class LoginComponent {
   loading = signal(false);
   errorMessage = signal('');
   successMessage = signal('');
+  public showPassword = signal(false);
+
+  public togglePassword(): void {
+    this.showPassword.update(s => !s);
+  }
 
   constructor(private fb: FormBuilder, private financeService: FinanceService, private router: Router) {
     this.loginForm = this.fb.group({

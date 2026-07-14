@@ -32,9 +32,55 @@ END $$;
 
 --------- Query ----------
 
+SELECT setval('"BookingPayments_Booking_Payment_Id_seq"', COALESCE((SELECT MAX("Booking_Payment_Id") + 1 FROM "BookingPayments"), 10001), false);
 
+SELECT setval('"Transactions_Transaction_Id_seq"', COALESCE((SELECT MAX("Transaction_Id") + 1 FROM "Transactions"), 10001), false);
+
+SELECT setval('"AdminActions_Action_Id_seq"', COALESCE((SELECT MAX("ActionId") + 1 FROM "AdminActions"), 10001), false);
+
+SELECT setval('"SupportTickets_Ticket_Id_seq"', COALESCE((SELECT MAX("Ticket_Id") + 1 FROM "SupportTickets"), 10001), false);
+
+SELECT setval('"Notifications_Notification_Id_seq"', COALESCE((SELECT MAX("Notification_Id") + 1 FROM "Notifications"), 10001), false);
+
+SELECT setval('"OrganizerUpfrontPayments_Upfront_Payment_Id_seq"', COALESCE((SELECT MAX("Upfront_Payment_Id") + 1 FROM "OrganizerUpfrontPayments"), 10001), false);
+
+SELECT setval('"OrganizerPayouts_Payout_Id_seq"', COALESCE((SELECT MAX("Payout_Id") + 1 FROM "OrganizerPayouts"), 10001), false);
+
+
+
+-------
+
+SELECT setval('"Admins_Admin_Id_seq"', COALESCE((SELECT MAX("Admin_Id") + 1 FROM "Admins"), 10001), false);
+SELECT setval('"AdminActions_ActionId_seq"', COALESCE((SELECT MAX("ActionId") + 1 FROM "AdminActions"), 10001), false);
+
+SELECT setval('"Users_User_Id_seq"', COALESCE((SELECT MAX("User_Id") + 1 FROM "Users"), 10001), false);
+SELECT setval('"Staffs_Employee_ID_seq"', COALESCE((SELECT MAX("Employee_ID") + 1 FROM "Staffs"), 10001), false);
+
+SELECT setval('"Events_Event_Id_seq"', COALESCE((SELECT MAX("Event_Id") + 1 FROM "Events"), 10001), false);
+SELECT setval('"Venues_Venue_Id_seq"', COALESCE((SELECT MAX("Venue_Id") + 1 FROM "Venues"), 10001), false);
+
+SELECT setval('"Bookings_Booking_Id_seq"', COALESCE((SELECT MAX("Booking_Id") + 1 FROM "Bookings"), 10001), false);
+SELECT setval('"BookingDetails_Booking_Detail_Id_seq"', COALESCE((SELECT MAX("Booking_Detail_Id") + 1 FROM "BookingDetails"), 10001), false);
+SELECT setval('"Waitlists_Waitlist_Id_seq"', COALESCE((SELECT MAX("Waitlist_Id") + 1 FROM "Waitlists"), 10001), false);
+
+SELECT setval('"Transactions_Transaction_Id_seq"', COALESCE((SELECT MAX("Transaction_Id") + 1 FROM "Transactions"), 10001), false);
+SELECT setval('"BookingPayments_Booking_Payment_Id_seq"', COALESCE((SELECT MAX("Booking_Payment_Id") + 1 FROM "BookingPayments"), 10001), false);
+SELECT setval('"OrganizerUpfrontPayments_Upfront_Payment_Id_seq"', COALESCE((SELECT MAX("Upfront_Payment_Id") + 1 FROM "OrganizerUpfrontPayments"), 10001), false);
+SELECT setval('"OrganizerPayouts_Payout_Id_seq"', COALESCE((SELECT MAX("Payout_Id") + 1 FROM "OrganizerPayouts"), 10001), false);
+
+SELECT setval('"SupportTickets_Ticket_Id_seq"', COALESCE((SELECT MAX("Ticket_Id") + 1 FROM "SupportTickets"), 10001), false);
+SELECT setval('"EventReports_Report_Id_seq"', COALESCE((SELECT MAX("Report_Id") + 1 FROM "EventReports"), 10001), false);
+SELECT setval('"EventFeedbacks_Feedback_Id_seq"', COALESCE((SELECT MAX("Feedback_Id") + 1 FROM "EventFeedbacks"), 10001), false);
+SELECT setval('"Notifications_Notification_Id_seq"', COALESCE((SELECT MAX("Notification_Id") + 1 FROM "Notifications"), 10001), false);
+SELECT setval('"PlatformSettings_Settings_Id_seq"', COALESCE((SELECT MAX("Settings_Id") + 1 FROM "PlatformSettings"), 10001), false);
+-----
+
+
+Select * from "OrganizerUpfrontPayments";
 Select * from "Users" Where "Email" Like '%gmail.com';
 
+Select * from "Admins";
+Select * from "Bookings" Where "Attendee_Id" = 10031;
 Update "Users"
 Set "Status" = 'Active'
 Where "User_Id" = 10662;
@@ -71,7 +117,7 @@ Select * from "AdminActions";
 Select * from "OrganizerUpfrontPayments";
 Select * from "SupportTickets";
 Select * from "TermsAndConditions";
-
+Select * from "Events";
 Select * from "EventFeedbacks";
 
 Select count(*) from "Staffs"

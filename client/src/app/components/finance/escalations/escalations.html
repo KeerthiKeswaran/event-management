@@ -41,7 +41,7 @@
           <thead>
             <tr>
               <th style="width: 90px;">Ticket ID</th>
-              <th>Attendee Email</th>
+              <th>Target Email</th>
               <th>Subject</th>
               <th class="sortable" (click)="toggleSort('actionType')" style="width: 80px;">
                 Escalation Type <span class="sort-arrow">{{ sortColumn() === 'actionType' ? (sortDirection() === 'asc' ?
@@ -136,7 +136,7 @@
       <!-- Row 1: Sender -->
       <div class="info-grid">
         <div class="info-item">
-          <label>Attendee Email</label>
+          <label>Target Email</label>
           <span>{{ getSenderEmail(selectedAction) }}</span>
         </div>
         <div class="info-item">

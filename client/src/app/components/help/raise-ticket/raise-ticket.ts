@@ -78,6 +78,14 @@ export class RaiseTicketComponent implements OnInit, OnDestroy {
         else if (res && res.$values) list = res.$values;
         else if (res && res.data) list = res.data;
         else if (res && res.items) list = res.items;
+        
+        if (list) {
+          list = list.filter(b => {
+            const status = (b.booking_Status || b.Booking_Status || b.bookingStatus || '').toLowerCase();
+            return !status.includes('fail');
+          });
+        }
+        
         this.bookings.set(list || []);
         this.isBookingsLoading.set(false);
       },
@@ -95,6 +103,14 @@ export class RaiseTicketComponent implements OnInit, OnDestroy {
         else if (res && res.$values) list = res.$values;
         else if (res && res.data) list = res.data;
         else if (res && res.items) list = res.items;
+
+        if (list) {
+          list = list.filter(e => {
+            const status = (e.status || e.Status || e.event_Status || e.Event_Status || '').toLowerCase();
+            return !status.includes('fail');
+          });
+        }
+
         this.events.set(list || []);
         this.isEventsLoading.set(false);
       },
@@ -201,6 +217,42 @@ export class RaiseTicketComponent implements OnInit, OnDestroy {
       this.redirectTimer = null;
     }
     this.router.navigate(['/help']);
+  }
+
+  public getBookingStatus(b: any): string {
+    if (!b) return 'Unknown';
+    const bookingStatus = (b.booking_Status || b.Booking_Status || b.bookingStatus || '').toLowerCase();
+    const eventStatus = (b.event_Status || b.Event_Status || b.eventStatus || '').toLowerCase();
+    
+    if (bookingStatus === 'cancelled') return 'Cancelled';
+    if (bookingStatus === 'confirmed' || bookingStatus === 'success') {
+      if (eventStatus === 'completed') return 'Completed';
+      return 'Upcoming';
+    }
+    return b.booking_Status || b.Booking_Status || b.bookingStatus || 'Unknown';
+  }
+
+  public getEventStatus(e: any): string {
+    if (!e) return 'Unknown';
+    return e.status || e.Status || e.event_Status || e.Event_Status || 'Unknown';
+  }
+
+  public getStatusClass(status: string): string {
+    if (!status) return 'status-default';
+    const s = status.toLowerCase();
+    if (s.includes('success') || s.includes('upcoming') || s.includes('published')) {
+      return 'status-success';
+    }
+    if (s.includes('completed')) {
+      return 'status-completed';
+    }
+    if (s.includes('fail') || s.includes('cancel')) {
+      return 'status-error';
+    }
+    if (s.includes('pending') || s.includes('draft')) {
+      return 'status-warning';
+    }
+    return 'status-default';
   }
 
   ngOnDestroy(): void {

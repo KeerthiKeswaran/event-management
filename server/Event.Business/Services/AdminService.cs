@@ -492,8 +492,12 @@ namespace Event.Business.Services
 
             try
             {
-                string relativePath = reportUrl.TrimStart('/');
-                if (relativePath.StartsWith("assets/"))
+                string relativePath = reportUrl;
+                if (relativePath.Contains("/assets/"))
+                {
+                    relativePath = relativePath.Substring(relativePath.IndexOf("/assets/") + "/assets/".Length);
+                }
+                else if (relativePath.StartsWith("assets/"))
                 {
                     relativePath = relativePath.Substring("assets/".Length);
                 }

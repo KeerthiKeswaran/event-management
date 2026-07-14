@@ -173,6 +173,9 @@
                   <div class="selection-card" (click)="selectBooking(b)" [class.selected]="selectedItemType() === 'booking' && selectedItemId() === (b.booking_Id || b.BookingId || b.bookingId || b.Booking_Id)">
                     <div class="card-id">Booking #{{ b.booking_Id || b.BookingId || b.bookingId || b.Booking_Id }}</div>
                     <div class="card-title">{{ b.event_Title || b.EventTitle || b.eventTitle }}</div>
+                    <div class="card-meta">
+                      Status: <span class="status-badge {{ getStatusClass(getBookingStatus(b)) }}">{{ getBookingStatus(b) }}</span>
+                    </div>
                   </div>
                 }
               </div>
@@ -191,7 +194,9 @@
                   <div class="selection-card" (click)="selectEvent(e)" [class.selected]="selectedItemType() === 'event' && selectedItemId() === (e.event_Id || e.Event_Id || e.eventId)">
                     <div class="card-id">Event #{{ e.event_Id || e.Event_Id || e.eventId }}</div>
                     <div class="card-title">{{ e.title || e.Title }}</div>
-                    <div class="card-meta">Status: {{ e.status || e.Status }}</div>
+                    <div class="card-meta">
+                      Status: <span class="status-badge {{ getStatusClass(getEventStatus(e)) }}">{{ getEventStatus(e) }}</span>
+                    </div>
                   </div>
                 }
               </div>

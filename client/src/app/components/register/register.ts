@@ -23,6 +23,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public mobileNumber = '';
   public password = '';
   public otp = '';
+  public showPassword = signal(false);
+
+  public togglePassword(): void {
+    this.showPassword.update(s => !s);
+  }
   
   // Consent policy checkbox
   public hasAcceptedPolicies = signal(false);

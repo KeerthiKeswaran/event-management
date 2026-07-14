@@ -15,6 +15,11 @@ export class AdminLoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public errorMessage = signal<string | null>(null);
   public isSubmitting = signal(false);
+  public showPassword = signal(false);
+
+  public togglePassword(): void {
+    this.showPassword.update(s => !s);
+  }
 
   constructor(
     private fb: FormBuilder,

@@ -25,6 +25,7 @@ namespace Event.Business.Services
         private readonly ITransactionRepository _transactionRepository;
         private readonly IEventRepository _eventRepository;
         private readonly IPlatformSettingsRepository _platformSettingsRepository;
+        private readonly IFileStorageService _fileStorageService;
 
         #endregion
 
@@ -39,7 +40,8 @@ namespace Event.Business.Services
             INotificationRepository notificationRepository,
             ITransactionRepository transactionRepository,
             IEventRepository eventRepository,
-            IPlatformSettingsRepository platformSettingsRepository)
+            IPlatformSettingsRepository platformSettingsRepository,
+            IFileStorageService fileStorageService)
         {
             _adminActionRepository = adminActionRepository;
             _supportTicketRepository = supportTicketRepository;
@@ -50,6 +52,7 @@ namespace Event.Business.Services
             _transactionRepository = transactionRepository;
             _eventRepository = eventRepository;
             _platformSettingsRepository = platformSettingsRepository;
+            _fileStorageService = fileStorageService;
         }
 
         #endregion
@@ -74,7 +77,7 @@ namespace Event.Business.Services
                     var ticket = await _supportTicketRepository.GetByIdAsync(action.TicketId.Value);
                     if (ticket != null)
                     {
-                        details = GetSupportTicketDetails(ticket.ConcernUrl);
+                        details = await GetSupportTicketDetailsAsync(ticket.ConcernUrl);
                         var user = await _userRepository.GetByIdAsync(ticket.User_Id);
                         senderEmail = user?.Email;
                         relatedId = ticket.RelatedId;
@@ -96,7 +99,7 @@ namespace Event.Business.Services
                         {
                             reportId = r.Report_Id,
                             reporterId = r.Reporter_Id,
-                            reason = GetReportReason(r.ReportUrl),
+                            reason = await GetReportReasonAsync(r.ReportUrl),
                             createdAt = r.Created_At
                         });
                     }
@@ -417,40 +420,26 @@ namespace Event.Business.Services
 
         #endregion
 
-        private object GetSupportTicketDetails(string? concernUrl)
+        private async Task<object> GetSupportTicketDetailsAsync(string? concernUrl)
         {
             if (string.IsNullOrEmpty(concernUrl)) return new { Subject = "", Message = "", Response = "" };
 
             try
             {
-                string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                string folderName = "Event.Business";
-                if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") || 
-                    AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                    Directory.GetCurrentDirectory().Contains("Tests"))
+                string relativePath = concernUrl;
+                if (relativePath.Contains("/assets/"))
                 {
-                    folderName = "Event.Business.Tests";
+                    relativePath = relativePath.Substring(relativePath.IndexOf("/assets/") + "/assets/".Length);
                 }
-
-                if (rootPath.Contains("bin"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-                else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-
-                string relativePath = concernUrl.TrimStart('/');
-                if (relativePath.StartsWith("assets/"))
+                else if (relativePath.StartsWith("assets/"))
                 {
                     relativePath = relativePath.Substring("assets/".Length);
                 }
-                string filePath = Path.Combine(rootPath, folderName, "assets", relativePath);
 
-                if (File.Exists(filePath))
+                var bytes = await _fileStorageService.ReadBytesAsync(relativePath);
+                if (bytes != null)
                 {
-                    string jsonContent = File.ReadAllText(filePath);
+                    string jsonContent = System.Text.Encoding.UTF8.GetString(bytes);
                     var data = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent);
                     if (data != null)
                     {
@@ -468,40 +457,26 @@ namespace Event.Business.Services
             return new { Subject = "", Message = "Details in JSON file", Response = "" };
         }
 
-        private string GetReportReason(string? reportUrl)
+        private async Task<string> GetReportReasonAsync(string? reportUrl)
         {
             if (string.IsNullOrEmpty(reportUrl)) return string.Empty;
 
             try
             {
-                string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                string folderName = "Event.Business";
-                if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") || 
-                    AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                    Directory.GetCurrentDirectory().Contains("Tests"))
+                string relativePath = reportUrl;
+                if (relativePath.Contains("/assets/"))
                 {
-                    folderName = "Event.Business.Tests";
+                    relativePath = relativePath.Substring(relativePath.IndexOf("/assets/") + "/assets/".Length);
                 }
-
-                if (rootPath.Contains("bin"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-                else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-
-                string relativePath = reportUrl.TrimStart('/');
-                if (relativePath.StartsWith("assets/"))
+                else if (relativePath.StartsWith("assets/"))
                 {
                     relativePath = relativePath.Substring("assets/".Length);
                 }
-                string filePath = Path.Combine(rootPath, folderName, "assets", relativePath);
 
-                if (File.Exists(filePath))
+                var bytes = await _fileStorageService.ReadBytesAsync(relativePath);
+                if (bytes != null)
                 {
-                    string jsonContent = File.ReadAllText(filePath);
+                    string jsonContent = System.Text.Encoding.UTF8.GetString(bytes);
                     var data = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent);
                     if (data != null && data.ContainsKey("Reason"))
                     {
