@@ -35,7 +35,7 @@ namespace Event.Business.Services
             var section  = configuration.GetSection("Brevo");
             _apiKey      = section["ApiKey"]      ?? throw new InvalidOperationException("Brevo:ApiKey is not configured.");
             _senderEmail = section["SenderEmail"] ?? throw new InvalidOperationException("Brevo:SenderEmail is not configured.");
-            _senderName  = section["SenderName"]  ?? "Event Platform";
+            _senderName  = section["SenderName"]  ?? "GetMyEvents";
 
             // 2. Initialize the HttpClient with target Brevo API headers
             _httpClient = httpClient;
@@ -50,21 +50,16 @@ namespace Event.Business.Services
 
         public async Task SendEmailAsync(string toEmail, string subject, string htmlBody)
         {
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            
-            string logoPath = Path.Combine(rootPath, "Event.Business", "assets", "logo.png");
             string? base64Logo = null;
-            if (File.Exists(logoPath))
+            try
             {
-                base64Logo = Convert.ToBase64String(await File.ReadAllBytesAsync(logoPath));
+                var logoBytes = await _storageService.ReadBytesAsync("logo.png");
+                if (logoBytes != null && logoBytes.Length > 0)
+                    base64Logo = Convert.ToBase64String(logoBytes);
+            }
+            catch
+            {
+                // Logo not found in storage — email sends without logo
             }
 
             object payload;
@@ -157,7 +152,7 @@ namespace Event.Business.Services
                     </head>
                     <body>
                       <div class=""container"">
-                        <div class=""header""><h1>🎟 Event Platform</h1></div>
+                        <div class=""header""><h1>🎟 GetMyEvents</h1></div>
                         <div class=""body"">
                           <p>Hello,</p>
                           <p>Use the one-time passcode below to <strong>{purposeLabel}</strong>:</p>
@@ -165,7 +160,7 @@ namespace Event.Business.Services
                           <p class=""note"">This OTP is valid for 10 minutes and can only be used once. Do not share it with anyone.</p>
                           <p class=""note"">If you did not request this, please ignore this email.</p>
                         </div>
-                        <div class=""footer"">&copy; {year} Event Platform. All rights reserved.</div>
+                        <div class=""footer"">&copy; {year} GetMyEvents. All rights reserved.</div>
                       </div>
                     </body>
                     </html>";

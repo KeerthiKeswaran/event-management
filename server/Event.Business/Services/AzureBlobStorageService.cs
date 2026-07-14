@@ -64,5 +64,14 @@ namespace Event.Business.Services
             var downloadResult = await blobClient.DownloadContentAsync();
             return downloadResult.Value.Content.ToString();
         }
+
+        public async Task<byte[]?> ReadBytesAsync(string relativeAssetPath)
+        {
+            var blobClient = _containerClient.GetBlobClient(relativeAssetPath);
+            if (!await blobClient.ExistsAsync()) return null;
+
+            var downloadResult = await blobClient.DownloadContentAsync();
+            return downloadResult.Value.Content.ToArray();
+        }
     }
 }

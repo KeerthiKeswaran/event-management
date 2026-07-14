@@ -8,5 +8,6 @@ namespace Event.Contracts.IServices
         Task<string> SaveBytesAsync(string relativeAssetPath, byte[] bytes);
         string GetUrl(string relativeAssetPath);
         Task<string> ReadTextAsync(string relativeAssetPath);
+        Task<byte[]?> ReadBytesAsync(string relativeAssetPath);
     }
 }

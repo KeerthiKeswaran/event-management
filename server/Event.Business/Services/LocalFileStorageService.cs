@@ -44,5 +44,12 @@ namespace Event.Business.Services
             if (!File.Exists(fullPath)) return string.Empty;
             return await File.ReadAllTextAsync(fullPath);
         }
+
+        public async Task<byte[]?> ReadBytesAsync(string relativeAssetPath)
+        {
+            string fullPath = Path.Combine(_assetsRootPath, relativeAssetPath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+            if (!File.Exists(fullPath)) return null;
+            return await File.ReadAllBytesAsync(fullPath);
+        }
     }
 }
