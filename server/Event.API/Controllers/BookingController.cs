@@ -152,6 +152,7 @@ namespace Event.API.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+        [AllowAnonymous]
         [HttpPost("checkin")]
         public async Task<IActionResult> CheckIn([FromBody] CheckInRequest request)
         {
