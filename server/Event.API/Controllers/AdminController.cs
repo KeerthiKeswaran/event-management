@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -621,6 +622,38 @@ namespace Event.API.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        // ─────────────────────────────────────────────────
+        // GET /api/admin/agent-log  – Returns last 50 lines
+        // ─────────────────────────────────────────────────
+        [HttpGet("agent-log")]
+        public IActionResult GetAgentLog([FromQuery] int lines = 50)
+        {
+            try
+            {
+                var logPath = Path.Combine(Directory.GetCurrentDirectory(), "agent.log");
+
+                if (!System.IO.File.Exists(logPath))
+                    return NotFound(new { Message = "agent.log not found. No agent activity yet.", LogPath = logPath });
+
+                var allLines = System.IO.File.ReadAllLines(logPath);
+                var lastLines = allLines.Length <= lines
+                    ? allLines
+                    : allLines[^lines..];
+
+                return Ok(new
+                {
+                    TotalLines = allLines.Length,
+                    Showing = lastLines.Length,
+                    LogPath = logPath,
+                    Entries = lastLines
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Failed to read agent.log.", Details = ex.Message });
             }
         }
     }
