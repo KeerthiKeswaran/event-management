@@ -225,8 +225,20 @@ export class BookingsComponent implements OnInit, OnDestroy {
     if (booking.checkIn_Status === 'CheckedIn' || booking.booking_Status === 'Cancelled') {
       return false;
     }
-    const eventTime = new Date(booking.event_Date_Time).getTime();
+    
+    let dateStr = booking.event_Date_Time;
+    if (dateStr && !dateStr.endsWith('Z')) {
+      dateStr += 'Z';
+    }
+    
+    const eventTime = new Date(dateStr).getTime();
     const now = Date.now();
+    
+    // Fallback: if date parsing fails, allow cancellation to prevent hard-blocking the user.
+    if (isNaN(eventTime)) {
+      return true;
+    }
+
     const oneHour = 60 * 60 * 1000;
     if (eventTime - now <= oneHour) {
       return false;
@@ -246,7 +258,7 @@ export class BookingsComponent implements OnInit, OnDestroy {
   /** Called by CancelBookingModalComponent (cancelled) output after animation */
   public onBookingCancelled(booking: BookingModel): void {
     const updated = this.bookings().map(b =>
-      b.booking_Id === booking.booking_Id ? { ...b, booking_Status: 'Cancelled' as const, checkIn_Status: 'Missed' as const } : b
+      b.booking_Id === booking.booking_Id ? { ...b, booking_Status: 'Cancelled' as const, checkIn_Status: 'Missed' as const, refunded_Amount: booking.refunded_Amount ?? b.refunded_Amount } : b
     );
     this.bookings.set(updated);
   }

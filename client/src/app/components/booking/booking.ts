@@ -363,6 +363,7 @@ export class BookingComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.isInitiatingBooking.set(false);
           console.error('Failed to initiate booking', err);
+          alert('Booking failed: ' + (err?.error?.message || err?.message || 'Unknown error'));
         }
       })
     );

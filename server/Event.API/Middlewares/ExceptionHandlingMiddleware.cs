@@ -35,6 +35,10 @@ namespace Event.API.Middlewares
             var responseCode = (int)HttpStatusCode.InternalServerError;
             var errorType = exception.GetType().Name;
             var message = exception.Message;
+            if (exception.InnerException != null)
+            {
+                message += " Inner Exception: " + exception.InnerException.Message;
+            }
 
             // 1. Capture our custom business-level domain exceptions
             if (exception is BaseBusinessException businessException)
@@ -46,6 +50,11 @@ namespace Event.API.Middlewares
             {
                 responseCode = (int)HttpStatusCode.Unauthorized;
                 errorType = nameof(UnauthorizedException);
+            }
+            // 3. Capture Entity Framework Core DbUpdateException
+            else if (exception.GetType().Name == "DbUpdateException")
+            {
+                responseCode = (int)HttpStatusCode.BadRequest;
             }
 
             context.Response.StatusCode = responseCode;

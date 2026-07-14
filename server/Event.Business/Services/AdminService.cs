@@ -503,6 +503,35 @@ namespace Event.Business.Services
                 }
 
                 string jsonContent = await _fileStorageService.ReadTextAsync(relativePath);
+                
+                // Fallback for older reports that were saved locally before the cloud storage fix
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                    if (rootPath.Contains("bin"))
+                    {
+                        rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                    }
+                    else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
+                    {
+                        rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                    }
+                    
+                    string folderName = "Event.Business";
+                    if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") ||
+                        AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
+                        Directory.GetCurrentDirectory().Contains("Tests"))
+                    {
+                        folderName = "Event.Business.Tests";
+                    }
+
+                    string localFilePath = Path.Combine(rootPath, folderName, "assets", relativePath.TrimStart('/'));
+                    if (File.Exists(localFilePath))
+                    {
+                        jsonContent = await File.ReadAllTextAsync(localFilePath);
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(jsonContent))
                 {
                     var data = JsonSerializer.Deserialize<System.Collections.Generic.Dictionary<string, string>>(jsonContent);

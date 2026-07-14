@@ -29,36 +29,44 @@ namespace Event.Business.Helpers
 
             await notificationRepository.AddAsync(notification);
 
-            // 2. Build the JSON filepath relative to the workspace
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (rootPath.Contains("bin") || rootPath.EndsWith("Tests"))
+            try
             {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                // 2. Build the JSON filepath relative to the workspace
+                string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                if (rootPath.Contains("bin") || rootPath.EndsWith("Tests"))
+                {
+                    rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                }
+                else if (rootPath.EndsWith("Event.API"))
+                {
+                    rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                }
+
+                string notificationDir = Path.Combine(rootPath, "Event.Business", "assets", "notifications");
+                if (!Directory.Exists(notificationDir))
+                {
+                    Directory.CreateDirectory(notificationDir);
+                }
+
+                string jsonFilePath = Path.Combine(notificationDir, $"{notification.Notification_Id}.json");
+
+                // 3. Serialize and save Subject & Body to the JSON file
+                var payload = new
+                {
+                    Subject = subject,
+                    Body = htmlBody
+                };
+                string jsonContent = JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true });
+                await File.WriteAllTextAsync(jsonFilePath, jsonContent);
+
+                // 4. Update the MessageUrl
+                notification.MessageUrl = $"/assets/notifications/{notification.Notification_Id}.json";
             }
-            else if (rootPath.EndsWith("Event.API"))
+            catch (Exception)
             {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                // Ignore local file write errors so the email can still be sent
+                notification.MessageUrl = "failed_to_save.json";
             }
-
-            string notificationDir = Path.Combine(rootPath, "Event.Business", "assets", "notifications");
-            if (!Directory.Exists(notificationDir))
-            {
-                Directory.CreateDirectory(notificationDir);
-            }
-
-            string jsonFilePath = Path.Combine(notificationDir, $"{notification.Notification_Id}.json");
-
-            // 3. Serialize and save Subject & Body to the JSON file
-            var payload = new
-            {
-                Subject = subject,
-                Body = htmlBody
-            };
-            string jsonContent = JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true });
-            await File.WriteAllTextAsync(jsonFilePath, jsonContent);
-
-            // 4. Update the MessageUrl
-            notification.MessageUrl = $"/assets/notifications/{notification.Notification_Id}.json";
 
             try
             {

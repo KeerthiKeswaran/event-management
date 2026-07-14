@@ -238,53 +238,28 @@ namespace Event.Business.Services
             if (hasReported)
                 throw new ValidationException("You have already reported this event.");
 
-            // 2. Write report details to a JSON file
-            string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            string folderName = "Event.Business";
-            if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") ||
-                AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                Directory.GetCurrentDirectory().Contains("Tests"))
-            {
-                folderName = "Event.Business.Tests";
-            }
-
-            if (rootPath.Contains("bin"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-            else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            }
-
-            string relativeDir = Path.Combine("users", reporterId.ToString(), "reports");
-            string absoluteDir = Path.Combine(rootPath, folderName, "assets", relativeDir);
-            if (!Directory.Exists(absoluteDir))
-            {
-                Directory.CreateDirectory(absoluteDir);
-            }
-
             // 3. Create and save new event report in database
             var eventReport = new EventReport
             {
                 Event_Id = eventId,
                 Reporter_Id = reporterId,
-                ReportUrl = $"/assets/{relativeDir}/report_pending.json",
+                ReportUrl = $"/assets/users/{reporterId}/reports/report_pending.json",
                 Created_At = DateTime.UtcNow
             };
             await _eventRepository.AddReportAsync(eventReport);
 
             string filename = $"report_{eventReport.Report_Id}.json";
-            string absolutePath = Path.Combine(absoluteDir, filename);
+            string relativePath = $"users/{reporterId}/reports/{filename}";
 
             var reportData = new Dictionary<string, string>
             {
                 { "Reason", reason }
             };
             string jsonText = System.Text.Json.JsonSerializer.Serialize(reportData, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-            await File.WriteAllTextAsync(absolutePath, jsonText);
+            
+            string cloudUrl = await _fileStorageService.SaveTextAsync(relativePath, jsonText);
 
-            eventReport.ReportUrl = $"/assets/{relativeDir}/{filename}";
+            eventReport.ReportUrl = cloudUrl;
             await _eventRepository.UpdateReportAsync(eventReport);
             return true;
         }
@@ -1565,40 +1540,25 @@ namespace Event.Business.Services
             return response;
         }
 
-        private static string GetReasonFromReportUrl(string reportUrl)
+        private async Task<string> GetReasonFromReportUrl(string reportUrl)
         {
             if (string.IsNullOrEmpty(reportUrl)) return string.Empty;
 
             try
             {
-                string rootPath = Directory.GetCurrentDirectory().TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                string folderName = "Event.Business";
-                if (AppDomain.CurrentDomain.FriendlyName.Contains("Tests") ||
-                    AppDomain.CurrentDomain.BaseDirectory.Contains("Tests") ||
-                    Directory.GetCurrentDirectory().Contains("Tests"))
+                string relativePath = reportUrl;
+                if (relativePath.Contains("/assets/"))
                 {
-                    folderName = "Event.Business.Tests";
+                    relativePath = relativePath.Substring(relativePath.IndexOf("/assets/") + "/assets/".Length);
                 }
-
-                if (rootPath.Contains("bin"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-                else if (rootPath.EndsWith("Event.API") || rootPath.EndsWith("Event.Business.Tests") || rootPath.EndsWith("Event.Business"))
-                {
-                    rootPath = Path.GetFullPath(Path.Combine(rootPath, "..")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-                }
-
-                string relativePath = reportUrl.TrimStart('/');
-                if (relativePath.StartsWith("assets/"))
+                else if (relativePath.StartsWith("assets/"))
                 {
                     relativePath = relativePath.Substring("assets/".Length);
                 }
-                string filePath = Path.Combine(rootPath, folderName, "assets", relativePath);
 
-                if (File.Exists(filePath))
+                string jsonContent = await _fileStorageService.ReadTextAsync(relativePath);
+                if (!string.IsNullOrEmpty(jsonContent))
                 {
-                    string jsonContent = File.ReadAllText(filePath);
                     var data = System.Text.Json.JsonSerializer.Deserialize<System.Collections.Generic.Dictionary<string, string>>(jsonContent);
                     if (data != null && data.ContainsKey("Reason"))
                     {

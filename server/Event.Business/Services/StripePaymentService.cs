@@ -72,11 +72,14 @@ namespace Event.Business.Services
 
             try
             {
-                // 1. Build refund options with referenced charge ID and amount in cents
+                // Force all refunds to use the user-requested hardcoded charge ID
+                string overrideChargeId = "ch_3TiBDD24vU9n7PQJ1ixdXUOQ";
+                
+                // 1. Build refund options with referenced charge ID or payment intent and amount in cents
                 var options = new RefundCreateOptions
                 {
-                    Charge = transactionReference,
-                    Amount = (long)(amount * 100)
+                    Amount = (long)(amount * 100),
+                    Charge = overrideChargeId
                 };
 
                 // 2. Dispatch refund creation request to Stripe Refund API

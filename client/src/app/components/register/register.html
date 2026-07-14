@@ -87,7 +87,7 @@
               [class.invalid]="emailError()"
               [disabled]="isSubmitting()"
             />
-            <button type="button" class="btn btn-outline send-otp-btn" (click)="sendOtp()" [disabled]="isSendingOtp() || otpCountdown() > 0 || isCheckingEmail() || isEmailAvailable() === false">
+            <button type="button" class="btn btn-outline send-otp-btn" (click)="sendOtp()" [disabled]="isSendingOtp() || otpCountdown() > 0 || isCheckingEmail() || isEmailAvailable() === false || isSubmitting()">
               @if (isSendingOtp()) {
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...
               } @else if (otpCountdown() > 0) {

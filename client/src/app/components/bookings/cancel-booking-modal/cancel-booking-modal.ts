@@ -115,7 +115,8 @@ export class CancelBookingModalComponent implements OnInit, OnDestroy {
 
           setTimeout(() => {
             this.showSuccessAnimation.set(false);
-            this.cancelled.emit(this.booking);
+            const updatedBooking = { ...this.booking, refunded_Amount: this.estimatedRefundAmount() || 0 };
+            this.cancelled.emit(updatedBooking);
             this.close();
           }, 1800); // Wait for the animation to play
         },

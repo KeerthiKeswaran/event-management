@@ -217,7 +217,12 @@ namespace Event.Business.Services
             catch (Exception ex)
             {
                 await _bookingRepository.RollbackTransactionAsync();
-                throw new ValidationException($"Failed to book tickets. Details: {ex.Message}");
+                string details = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    details += " Inner: " + ex.InnerException.Message;
+                }
+                throw new ValidationException($"Failed to book tickets. Details: {details}");
             }
         }
 
