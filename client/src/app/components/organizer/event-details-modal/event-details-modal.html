@@ -77,7 +77,7 @@
             <label>Meeting URL</label>
             <div class="copy-wrapper">
               @if (event.status?.toLowerCase() === 'completed' || event.status?.toLowerCase() === 'cancelled') {
-                <span class="truncate-url password-text" style="color: #94a3b8; cursor: not-allowed;"><strong>••••••••••••••••</strong></span>
+                <span class="truncate-url password-text" style="color: #94a3b8; cursor: not-allowed; user-select: none;"><strong>••••••••••••••••••••••••••••••••</strong></span>
               } @else {
                 <a [href]="event.virtual_Url" target="_blank" class="truncate-url" [title]="event.virtual_Url">{{ event.virtual_Url }}</a>
               }
@@ -95,7 +95,7 @@
             <label>Meeting Password</label>
             <div class="copy-wrapper">
               @if (event.status?.toLowerCase() === 'completed' || event.status?.toLowerCase() === 'cancelled') {
-                <span class="masked-text truncate-url password-text" style="color: #94a3b8;"><strong>••••••••••••••••</strong></span>
+                <span class="masked-text truncate-url password-text" style="color: #94a3b8; user-select: none;"><strong>••••••••••••••••</strong></span>
               } @else {
                 <span class="masked-text truncate-url password-text"><strong>{{ isPasswordVisible ? decodedPassword : '••••••••••••••••' }}</strong></span>
               }
@@ -111,7 +111,7 @@
                   </svg>
                 }
               </button>
-              <button class="icon-btn" style="position: relative;" title="Copy Password" (click)="copyToClipboard(decodedPassword, 'password')" [disabled]="event.status?.toLowerCase() === 'completed'">
+              <button class="icon-btn" style="position: relative;" title="Copy Password" (click)="copyToClipboard(decodedPassword, 'password')" [disabled]="event.status?.toLowerCase() === 'completed' || event.status?.toLowerCase() === 'cancelled'">
                 @if (copiedState === 'password') {
                   <span class="copy-tooltip">Copied</span>
                 }
