@@ -1,10 +1,11 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Event.Models;
-using Event.Data.Contexts;
-using Event.Contracts.IRepositories;
+ using System.Linq;
+ using System.Runtime.InteropServices;
+ using System.Threading.Tasks;
+ using Microsoft.EntityFrameworkCore;
+ using Event.Models;
+ using Event.Data.Contexts;
+ using Event.Contracts.IRepositories;
 
 namespace Event.Data.Repositories
 {
@@ -25,7 +26,14 @@ namespace Event.Data.Repositories
             int page, 
             int size)
         {
-            var query = _dbSet.Where(e => e.Status == "Live");
+            // IST cutoff: hide events that are within 30 minutes of starting
+            var istZone = TimeZoneInfo.FindSystemTimeZoneById(
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "India Standard Time" : "Asia/Kolkata");
+            var istNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, istZone);
+            var cutoffIst = istNow.AddMinutes(30);
+            var cutoffUtc = TimeZoneInfo.ConvertTimeToUtc(cutoffIst, istZone);
+
+            var query = _dbSet.Where(e => e.Status == "Live" && e.Date_Time > cutoffUtc);
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
@@ -174,7 +182,7 @@ namespace Event.Data.Repositories
                     .ThenInclude(v => v.Region)
                 .Include(e => e.TicketTiers)
                 .Include(e => e.Reports)
-                .Where(e => e.Status == "Live" && e.Venue != null && regionIds.Contains(e.Venue.Region_Id))
+                .Where(e => e.Status == "Live" && e.Venue != null && regionIds.Contains(e.Venue.Region_Id) && e.Date_Time > GetIstCutoffUtc())
                 .ToListAsync();
         }
 
@@ -310,7 +318,7 @@ namespace Event.Data.Repositories
                 .Include(e => e.Organizer)
                 .Include(e => e.TicketTiers)
                 .Include(e => e.Reports)
-                .Where(e => e.Status == "Live")
+                .Where(e => e.Status == "Live" && e.Date_Time > GetIstCutoffUtc())
                 .OrderByDescending(e => e.Bookings.Count)
                 .ThenByDescending(e => e.Date_Time);
 
@@ -341,7 +349,7 @@ namespace Event.Data.Repositories
                 .Include(e => e.Organizer)
                 .Include(e => e.TicketTiers)
                 .Include(e => e.Reports)
-                .Where(e => e.Status == "Live" && popularRegionIds.Contains(e.Venue.Region_Id))
+                .Where(e => e.Status == "Live" && popularRegionIds.Contains(e.Venue.Region_Id) && e.Date_Time > GetIstCutoffUtc())
                 .OrderByDescending(e => e.Bookings.Count)
                 .ThenByDescending(e => e.Date_Time)
                 .ToListAsync();
@@ -419,5 +427,18 @@ namespace Event.Data.Repositories
         {
             return new List<Event.Models.EventFeedback>();
         }
-}
+
+        /// <summary>
+        /// Returns the UTC cutoff time equivalent to IST now + 30 minutes.
+        /// Events with Date_Time &lt;= this value are hidden from public listings.
+        /// </summary>
+        private static DateTime GetIstCutoffUtc()
+        {
+            var istZone = TimeZoneInfo.FindSystemTimeZoneById(
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "India Standard Time" : "Asia/Kolkata");
+            var istNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, istZone);
+            var cutoffIst = istNow.AddMinutes(30);
+            return TimeZoneInfo.ConvertTimeToUtc(cutoffIst, istZone);
+        }
+    }
 }
