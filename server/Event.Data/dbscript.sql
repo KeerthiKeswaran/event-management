@@ -110,8 +110,73 @@ Select * from "Management";
 Select * from "Admins";
 Select * from "Events" Where "Status" = 'Activation Pending';
 Update "Events" 
-Set "Status" = 'Cancelled'
-Where "Title" LIKE 'Madurai Chithirai%';
+Set "Status" = 'Cancelled';
+
+Select * from "TermsAndConditions";
+INSERT INTO "TermsAndConditions" 
+  ("Terms_Id", "File_Path", "Version", "Is_Active", "Created_At", "Type")
+VALUES 
+  ('C10002', '/assets/policies/C10002.md', 'v1.0', true, NOW(), 'Cancellation');
+
+Select * from "TermsAndConditions";
+
+UPDATE "Events"
+SET "Date_Time" = CURRENT_TIMESTAMP + INTERVAL '30 minutes'
+WHERE "Event_Id" IN (
+    SELECT DISTINCT "Event_Id" 
+    FROM "Bookings" 
+    WHERE "CheckIn_Status" = 'CheckedIn'
+);
+
+UPDATE "Events"
+SET "Date_Time" = CURRENT_TIMESTAMP + interval '1 day' + (random() * interval '60 days')
+WHERE "Status" = 'Live';
+
+UPDATE "Events" 
+SET "Date_Time" = date_trunc('hour', CURRENT_TIMESTAMP + interval '7 days' + (random() * interval '60 days'))
+                  + CASE 
+                        WHEN extract(minute FROM CURRENT_TIMESTAMP + (random() * interval '60 days')) >= 30 
+                        THEN interval '30 minutes' 
+                        ELSE interval '0 minutes' 
+                    END
+WHERE "Status" = 'Live';
+
+WITH UpdatedEvents AS (
+    SELECT "Event_Id",
+           ROW_NUMBER() OVER (ORDER BY "Event_Id") - 1 AS row_num,
+           COUNT(*) OVER () AS total_rows
+    FROM "Events"
+    WHERE "Status" = 'Live'
+)
+UPDATE "Events" e
+SET "Date_Time" = date_trunc('hour', CURRENT_TIMESTAMP + interval '5 days' 
+                  + ((ue.row_num::float / NULLIF(ue.total_rows, 0)) * interval '60 days'))
+                  + (floor(random() * 2) * 30 * interval '1 minute')
+FROM UpdatedEvents ue
+WHERE e."Event_Id" = ue."Event_Id";
+-----
+
+
+
+Select * from "Events";
+
+Select * from "Transactions"
+Where "Transaction_Type" = 'BookingRefund' and "Status" = 'Failed';
+
+Select * from "Transactions" Order By "Created_At" Desc;
+
+Select * from "Transactions"
+Where "Related_Id" = 10103;
+
+Select * from "Bookings"
+Where "Attendee_Id" = 10031;
+
+Select * from "Events"
+Where "Title" LIKE 'Western%';
+
+UPDATE "Events"
+Set "Date_Time" = '2026-07-15 11:10:00'
+WHERE "Event_Id" = 10015;
 
 Select * from "Events" Where "Status" = 'Cancelled';
 Update "Venues" 
