@@ -99,7 +99,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return url;
     }
     const cleanUrl = url.startsWith('/') ? url : '/' + url;
-    return `${environment.serverUrl}${cleanUrl}`;
+    return `${environment.blobStorageUrl}${cleanUrl}`;
   }
 
   ngOnInit(): void {

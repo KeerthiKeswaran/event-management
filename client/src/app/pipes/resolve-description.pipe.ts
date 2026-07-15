@@ -25,7 +25,7 @@ export class ResolveDescriptionPipe implements PipeTransform {
     }
 
     const cleanUrl = trimmed.startsWith('/') ? trimmed : '/' + trimmed;
-    const url = isRelative ? `${environment.serverUrl}${cleanUrl}` : trimmed;
+    const url = isRelative ? `${environment.blobStorageUrl}${cleanUrl}` : trimmed;
 
     if (ResolveDescriptionPipe.cache.has(url)) {
       return ResolveDescriptionPipe.cache.get(url)!;

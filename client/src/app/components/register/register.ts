@@ -310,7 +310,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.authService.getConsentDocument(backendType).subscribe({
       next: (doc) => {
         // doc.filePath is e.g. "/assets/policies/G10001.md"
-        const fileUrl = doc.filePath.startsWith('http') ? doc.filePath : `${environment.serverUrl}${doc.filePath}`;
+        const fileUrl = doc.filePath.startsWith('http') ? doc.filePath : `${environment.blobStorageUrl}${doc.filePath}`;
         this.http.get(fileUrl, { responseType: 'text' }).subscribe({
           next: (content) => {
             this.consentModalTitle.set(type === 'terms' ? 'Terms and Conditions' : 'Data Storage & Privacy Consent');

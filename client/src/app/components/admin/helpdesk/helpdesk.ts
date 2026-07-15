@@ -249,7 +249,7 @@ export class AdminHelpdeskComponent implements OnInit {
             let url = t.concernUrl || t.ConcernUrl || t.concern_Url;
             if (url) {
               if (url.startsWith('/')) {
-                url = environment.serverUrl + url;
+                url = environment.blobStorageUrl + url;
               }
               this.http.get<any>(url).subscribe({
                 next: (data) => {

@@ -85,7 +85,7 @@ export class CancellationPolicyDocComponent implements OnInit {
 
     this.http.get<any>(`${environment.apiUrl}/policies/${this.policyType}`).subscribe({
       next: (res) => {
-        const fileUrl = res.filePath.startsWith('http') ? res.filePath : `${environment.serverUrl}${res.filePath}`;
+        const fileUrl = res.filePath.startsWith('http') ? res.filePath : `${environment.blobStorageUrl}${res.filePath}`;
         this.http.get(fileUrl, { responseType: 'text' }).subscribe({
           next: (content) => {
             const formatted = this.parseMarkdown(content);

@@ -496,7 +496,7 @@ export class CreateEventComponent implements OnInit, AfterViewInit {
     this.isLoadingPolicy.set(true);
     this.showPolicyModal.set(true);
 
-    const fileUrl = doc.filePath.startsWith('http') ? doc.filePath : `${environment.serverUrl}${doc.filePath}`;
+    const fileUrl = doc.filePath.startsWith('http') ? doc.filePath : `${environment.blobStorageUrl}${doc.filePath}`;
     this.http.get(fileUrl, { responseType: 'text' }).subscribe({
       next: (content) => {
         let lines = content.split('\n');

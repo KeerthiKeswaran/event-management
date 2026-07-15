@@ -66,7 +66,7 @@ export class EventDetailsModalComponent implements OnInit {
       try {
         const baseUrl = this.event.description_Url.startsWith('http') 
           ? this.event.description_Url 
-          : `${environment.serverUrl}/${this.event.description_Url}`;
+          : `${environment.blobStorageUrl}/${this.event.description_Url}`;
         // Append cache-buster so browser always fetches the latest version
         const url = `${baseUrl}?t=${Date.now()}`;
         const text = await firstValueFrom(this.http.get(url, { responseType: 'text' }));
