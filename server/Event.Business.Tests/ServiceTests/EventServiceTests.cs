@@ -32,6 +32,7 @@ namespace Event.Business.Tests.ServiceTests
         private Mock<ITermsAndConditionsRepository> _termsRepositoryMock = null!;
         private Mock<IOrganizerPayoutRepository> _payoutRepositoryMock = null!;
         private IRefundService _refundService = null!;
+        private Mock<IFileStorageService> _fileStorageServiceMock = null!;
 
         private IConfiguration _configuration = null!;
         private IEmailService _emailService = null!;
@@ -58,6 +59,9 @@ namespace Event.Business.Tests.ServiceTests
             _userRepositoryMock = new Mock<IUserRepository>();
             _termsRepositoryMock = new Mock<ITermsAndConditionsRepository>();
             _payoutRepositoryMock = new Mock<IOrganizerPayoutRepository>();
+            _fileStorageServiceMock = new Mock<IFileStorageService>();
+            _fileStorageServiceMock.Setup(s => s.SaveTextAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string path, string _) => $"/assets/{path}");
 
             _userRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((int id) => new User { User_Id = id, Name = TestName, Email = TestEmail, Status = "Active", Consented_Terms_Id = "G10001" });
@@ -118,7 +122,7 @@ namespace Event.Business.Tests.ServiceTests
                 _refundService,
                 _termsRepositoryMock.Object,
                 _payoutRepositoryMock.Object,
-                new Mock<IFileStorageService>().Object
+                _fileStorageServiceMock.Object
             );
         }
         #endregion
@@ -274,44 +278,44 @@ namespace Event.Business.Tests.ServiceTests
         {
             const int reporterId = 99877;
             const int eventId = 20001;
-            var assetDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Event.Business.Tests", "assets", "users", reporterId.ToString(), "reports");
-            var absoluteAssetDir = Path.GetFullPath(assetDir);
-            if (Directory.Exists(absoluteAssetDir))
-            {
-                Directory.Delete(absoluteAssetDir, recursive: true);
-            }
 
             EventReport? savedReport = null;
             _eventRepositoryMock.Setup(r => r.ExistsAsync(eventId)).ReturnsAsync(true);
+            _eventRepositoryMock.Setup(r => r.HasUserReportedEventAsync(eventId, reporterId)).ReturnsAsync(false);
             _eventRepositoryMock.Setup(r => r.AddReportAsync(It.IsAny<EventReport>()))
                 .Callback<EventReport>(report => savedReport = report)
                 .Returns(Task.CompletedTask);
             _eventRepositoryMock.Setup(r => r.UpdateReportAsync(It.IsAny<EventReport>()))
+                .Callback<EventReport>(report => { if (savedReport != null) savedReport.ReportUrl = report.ReportUrl; })
                 .Returns(Task.CompletedTask);
+
+            // FileStorageService is mocked to return a URL in the format /assets/{path}
+            // This is set up in SetUp() on _fileStorageServiceMock
 
             try
             {
                 var result = await _eventService.ReportEventAsync(reporterId, eventId, "Unsafe content");
 
                 Assert.That(result, Is.True);
-                Assert.That(Directory.Exists(absoluteAssetDir), Is.True);
-                var files = Directory.GetFiles(absoluteAssetDir);
-                Assert.That(files, Is.Not.Empty);
 
-                var createdFile = files[0];
-                var content = await File.ReadAllTextAsync(createdFile);
-                Assert.That(content, Does.Contain("Unsafe content"));
+                // Verify SaveTextAsync was called with the correct path pattern
+                _fileStorageServiceMock.Verify(
+                    s => s.SaveTextAsync(
+                        It.Is<string>(p => p.Contains($"users/{reporterId}/reports/")),
+                        It.Is<string>(c => c.Contains("Unsafe content"))),
+                    Times.Once);
+
+                // Verify the report URL was updated (not left as the pending placeholder)
                 Assert.That(savedReport, Is.Not.Null);
-                Assert.That(savedReport!.ReportUrl, Does.Contain($"/assets/users/{reporterId}/reports/"));
+                Assert.That(savedReport!.ReportUrl, Does.Contain($"users/{reporterId}/reports/"));
+                Assert.That(savedReport.ReportUrl, Does.Not.Contain("report_pending.json"));
 
                 LogTestDetail(Service, "ReportEventAsync", "Create asset report file and update URL", new { ReporterId = reporterId, EventId = eventId }, savedReport.ReportUrl, true);
             }
-            finally
+            catch (Exception ex)
             {
-                if (Directory.Exists(absoluteAssetDir))
-                {
-                    Directory.Delete(absoluteAssetDir, recursive: true);
-                }
+                LogTestDetail(Service, "ReportEventAsync", "Create asset report file and update URL", new { ReporterId = reporterId, EventId = eventId }, null, false, ex.Message);
+                throw;
             }
         }
         #endregion
@@ -528,70 +532,6 @@ namespace Event.Business.Tests.ServiceTests
         }
         #endregion
 
-        #region Test_VerifyTicketCheckInAsync_SecretHashEmpty_ThrowsValidationException
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase("   ")]
-        public void Test_VerifyTicketCheckInAsync_SecretHashEmpty_ThrowsValidationException(string? secretHash)
-        {
-            Assert.ThrowsAsync<ValidationException>(async () =>
-                await _eventService.VerifyTicketCheckInAsync(secretHash!));
-        }
-        #endregion
-
-        #region Test_VerifyTicketCheckInAsync_BookingNotFound_ThrowsNotFoundException
-        [Test]
-        public void Test_VerifyTicketCheckInAsync_BookingNotFound_ThrowsNotFoundException()
-        {
-            _bookingRepositoryMock.Setup(r => r.GetBookingBySecretHashAsync("hash123")).ReturnsAsync((Booking?)null);
-            Assert.ThrowsAsync<NotFoundException>(async () =>
-                await _eventService.VerifyTicketCheckInAsync("hash123"));
-        }
-        #endregion
-
-        #region Test_VerifyTicketCheckInAsync_BookingNotConfirmed_ThrowsValidationException
-        [Test]
-        public void Test_VerifyTicketCheckInAsync_BookingNotConfirmed_ThrowsValidationException()
-        {
-            var booking = new Booking { Booking_Status = "Pending" };
-            _bookingRepositoryMock.Setup(r => r.GetBookingBySecretHashAsync("hash123")).ReturnsAsync(booking);
-            Assert.ThrowsAsync<ValidationException>(async () =>
-                await _eventService.VerifyTicketCheckInAsync("hash123"));
-        }
-        #endregion
-
-        #region Test_VerifyTicketCheckInAsync_AlreadyCheckedIn_ThrowsValidationException
-        [Test]
-        public void Test_VerifyTicketCheckInAsync_AlreadyCheckedIn_ThrowsValidationException()
-        {
-            var booking = new Booking { Booking_Status = "Confirmed", CheckIn_Status = "Checked-In" };
-            _bookingRepositoryMock.Setup(r => r.GetBookingBySecretHashAsync("hash123")).ReturnsAsync(booking);
-            Assert.ThrowsAsync<ValidationException>(async () =>
-                await _eventService.VerifyTicketCheckInAsync("hash123"));
-        }
-        #endregion
-
-        #region Test_VerifyTicketCheckInAsync_Success
-        [Test]
-        public async Task Test_VerifyTicketCheckInAsync_Success()
-        {
-            var booking = new Booking { Booking_Status = "Confirmed", CheckIn_Status = "Pending" };
-            _bookingRepositoryMock.Setup(r => r.GetBookingBySecretHashAsync("hash123")).ReturnsAsync(booking);
-            _bookingRepositoryMock.Setup(r => r.UpdateAsync(booking)).Returns(Task.CompletedTask);
-
-            try
-            {
-                var result = await _eventService.VerifyTicketCheckInAsync("hash123");
-                Assert.That(result.CheckIn_Status, Is.EqualTo("Checked-In"));
-                LogTestDetail(Service, "VerifyTicketCheckInAsync", "Check in ticket successfully", new { Hash = "hash123" }, result, true);
-            }
-            catch (Exception ex)
-            {
-                LogTestDetail(Service, "VerifyTicketCheckInAsync", "Check in ticket successfully", new { Hash = "hash123" }, null, false, ex.Message);
-                throw;
-            }
-        }
-        #endregion
 
         #region Test_CheckStaffAvailabilityAsync_VenueNotFoundOrUnavailable_ThrowsNotFoundException
         [Test]

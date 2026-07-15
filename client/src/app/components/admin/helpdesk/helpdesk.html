@@ -340,6 +340,13 @@
           </div>
           <p class="success-anim-text" style="color: #000; font-weight: bold; margin-top: 16px; font-size: 1.1rem;">{{ successAnimText }}</p>
         </div>
+
+        <div *ngIf="isProcessing" class="processing-overlay">
+          <div class="large-black-spinner-wrap">
+            <div class="large-black-spinner"></div>
+          </div>
+          <p class="success-anim-text" style="opacity: 0; visibility: hidden; margin-top: 16px; font-size: 1.1rem;">Processing...</p>
+        </div>
       </div>
     </div>
   </div>

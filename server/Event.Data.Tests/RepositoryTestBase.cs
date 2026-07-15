@@ -42,7 +42,7 @@ namespace Event.Data.Tests
         {
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             string apiDir = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "Event.API"));
-            string appSettingsPath = Path.Combine(apiDir, "appsettings.json");
+            string appSettingsPath = Path.Combine(apiDir, "appsettings.Development.json");
 
             var config = new ConfigurationBuilder()
                 .AddJsonFile(appSettingsPath, optional: true, reloadOnChange: false)

@@ -218,6 +218,14 @@
       <h3>Uphold Report</h3>
       <button class="modal-close" (click)="closeUpholdModal()">&times;</button>
     </div>
+
+    <div *ngIf="isUpholding" class="processing-overlay">
+      <div class="large-black-spinner-wrap">
+        <div class="large-black-spinner"></div>
+      </div>
+      <p class="success-text" style="opacity: 0; visibility: hidden;">Upholding Report</p>
+    </div>
+
     <div class="modal-body">
       <p class="modal-desc">Upholding report for <strong>{{ selectedReport?.reporterName }}</strong></p>
       <div class="form-group">

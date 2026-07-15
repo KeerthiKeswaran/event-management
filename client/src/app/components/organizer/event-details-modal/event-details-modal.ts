@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectorRef } fro
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { CancelEventModalComponent } from '../cancel-event-modal/cancel-event-modal';
 import { firstValueFrom } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import { EventService } from '../../../services/event.service';
@@ -11,11 +12,12 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-event-details-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CancelEventModalComponent],
   templateUrl: './event-details-modal.html',
   styleUrl: './event-details-modal.css'
 })
 export class EventDetailsModalComponent implements OnInit {
+  public showCancelModal = false;
   @Input() event: any;
   @Output() close = new EventEmitter<void>();
   @Output() updated = new EventEmitter<void>();
@@ -34,6 +36,20 @@ export class EventDetailsModalComponent implements OnInit {
 
   public isSubmitting = false;
   public errorMessage = '';
+
+  public openCancelModal(): void {
+    this.showCancelModal = true;
+  }
+
+  public closeCancelModal(): void {
+    this.showCancelModal = false;
+  }
+
+  public onEventCancelled(updatedEvent: any): void {
+    this.showCancelModal = false;
+    this.event.status = 'Cancelled';
+    this.updated.emit();
+  }
 
   constructor(
     private eventService: EventService,
@@ -114,6 +130,9 @@ export class EventDetailsModalComponent implements OnInit {
 
   enableDescriptionEdit() {
     this.isEditingDescription = true;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = this.originalDescriptionText;
+    this.editedDescription = tempDiv.innerText || tempDiv.textContent || '';
   }
 
   cancelEdit() {
@@ -122,6 +141,10 @@ export class EventDetailsModalComponent implements OnInit {
     this.editedTitle = this.event.title;
     this.editedDescription = this.originalDescriptionText;
     this.errorMessage = '';
+  }
+
+  isHtml(text: string): boolean {
+    return /<\/?[a-z][\s\S]*>/i.test(text || '');
   }
 
   async saveChanges() {

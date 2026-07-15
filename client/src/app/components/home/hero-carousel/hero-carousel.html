@@ -13,7 +13,7 @@
             <div class="slide-content">
               <span class="trending-badge">Trending #{{ idx + 1 }}</span>
               <h1 class="slide-title">{{ item.title }}</h1>
-              <p class="slide-description">{{ item.description_Url | resolveDescription | async }}</p>
+              <p class="slide-description">{{ item.description_Url | resolveDescription | async | stripHtml }}</p>
               
               <div class="slide-meta">
                 <div class="meta-item">

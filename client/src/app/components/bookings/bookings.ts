@@ -303,12 +303,12 @@ export class BookingsComponent implements OnInit, OnDestroy {
             : b
         ));
 
-        // Hide success animation after 1 second
+        // Hide success animation after 2.8 seconds
         setTimeout(() => {
           if (this.showFeedbackSuccess() === booking.booking_Id) {
             this.showFeedbackSuccess.set(null);
           }
-        }, 1000);
+        }, 2800);
       },
       error: () => {
         this.isSubmittingFeedback.set(null);

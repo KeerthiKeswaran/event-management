@@ -111,7 +111,7 @@ namespace Event.Business.Tests
             };
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             string apiDir = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "Event.API"));
-            string appSettingsPath = Path.Combine(apiDir, "appsettings.json");
+            string appSettingsPath = Path.Combine(apiDir, "appsettings.Development.json");
             return new ConfigurationBuilder()
                 .AddJsonFile(appSettingsPath, optional: false, reloadOnChange: false)
                 .AddInMemoryCollection(inMemorySettings)
@@ -133,7 +133,8 @@ namespace Event.Business.Tests
         protected IEmailService CreateConcreteEmailService(IConfiguration? config = null)
         {
             config ??= CreateTestConfiguration();
-            return new EmailService(config);
+            var mockStorage = new Mock<IFileStorageService>();
+            return new EmailService(config, mockStorage.Object);
         }
 
         protected IVirtualMeetingService CreateConcreteVirtualMeetingService()

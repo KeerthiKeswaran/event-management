@@ -174,7 +174,7 @@
                     </svg>
                     {{ ev.venue_Name || 'Main Exhibition Grounds' }}
                   </p>
-                  <div class="card-desc">{{ ev.description_Url | resolveDescription | async }}</div>
+                  <div class="card-desc">{{ ev.description_Url | resolveDescription | async | stripHtml }}</div>
                   <div class="card-footer">
                     <span class="card-price"><span class="price-prefix">From</span> ₹{{ ev.minPrice ? ev.minPrice.toFixed(2) : '0.00' }}</span>
                   </div>

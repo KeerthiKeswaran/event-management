@@ -118,7 +118,7 @@ export class CancelBookingModalComponent implements OnInit, OnDestroy {
             const updatedBooking = { ...this.booking, refunded_Amount: this.estimatedRefundAmount() || 0 };
             this.cancelled.emit(updatedBooking);
             this.close();
-          }, 1800); // Wait for the animation to play
+          }, 2800); // Wait for the animation to play
         },
         error: () => {
           this.isCancelling.set(false);

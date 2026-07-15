@@ -31,6 +31,26 @@ export class CheckinComponent implements OnDestroy {
   private stream: MediaStream | null = null;
   private animationFrameId: number | null = null;
   private isProcessingQR = false;
+  private errorTimeoutId: any = null;
+  public isErrorFadingOut = signal(false);
+
+  private showError(message: string) {
+    this.errorMessage.set(message);
+    this.isErrorFadingOut.set(false);
+    
+    if (this.errorTimeoutId) {
+      clearTimeout(this.errorTimeoutId);
+    }
+    this.errorTimeoutId = setTimeout(() => {
+      this.isErrorFadingOut.set(true);
+      setTimeout(() => {
+        if (this.isErrorFadingOut()) {
+          this.errorMessage.set(null);
+          this.isErrorFadingOut.set(false);
+        }
+      }, 500); // 500ms fade out
+    }, 3500); // Start fade out after 3.5s
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -281,7 +301,7 @@ export class CheckinComponent implements OnDestroy {
       },
       error: (err) => {
         this.isScanning.set(false);
-        this.errorMessage.set(err.error?.message || 'Failed to check in. Please try again.');
+        this.showError(err.error?.message || 'Failed to check in. Please try again.');
         
         if (fromCamera) {
           // Pause before allowing another scan from camera to prevent spamming API on invalid QR

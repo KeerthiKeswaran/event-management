@@ -11,7 +11,6 @@ namespace Event.Contracts.IServices
         Task<EventDetailsResponse?> GetEventDetailsAsync(int eventId, int? currentUserId = null);
         Task<bool> ReportEventAsync(int reporterId, int eventId, string reason);
         Task<bool> SubmitEventFeedbackAsync(int attendeeId, int eventId, int rating, string review);
-        Task<Booking> VerifyTicketCheckInAsync(string secretHash);
         Task<EventDetailsResponse> CreateEventAsync(int organizerId, Event.Models.DTOs.CreateEventRequest request);
         Task<Event.Models.DTOs.StaffAvailabilityResponse> CheckStaffAvailabilityAsync(Event.Models.DTOs.CheckStaffAvailabilityRequest request);
         Task<EventDetailsResponse> ConfirmEventUpfrontPaymentAsync(int eventId, string stripeChargeId, string paymentMethod);

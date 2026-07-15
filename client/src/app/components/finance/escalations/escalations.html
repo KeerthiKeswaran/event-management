@@ -338,6 +338,14 @@
       </div>
 
     </div>
+    
+    <div *ngIf="approving || declining" class="processing-overlay">
+      <div class="large-black-spinner-wrap">
+        <div class="large-black-spinner"></div>
+      </div>
+      <p class="success-text" style="opacity: 0; visibility: hidden; margin-top: 16px; font-weight: bold;">Processing...</p>
+    </div>
+    
     <!-- Action Processed Success Animation -->
     <div *ngIf="actionProcessed" class="success-tick-overlay" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; background: rgba(255,255,255,0.9); border-radius: var(--radius);">
       <div class="success-checkmark-svg-wrap">

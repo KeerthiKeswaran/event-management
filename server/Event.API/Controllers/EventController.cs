@@ -268,28 +268,6 @@ namespace Event.API.Controllers
             }
         }
 
-        [HttpPost("verify-ticket")]
-        public async Task<IActionResult> VerifyTicket([FromBody] VerifyTicketRequest request)
-        {
-            try
-            {
-                var booking = await _eventService.VerifyTicketCheckInAsync(request.Hash);
-                return Ok(new
-                {
-                    Message = "Ticket verified and checked in successfully.",
-                    BookingId = booking.Booking_Id,
-                    AttendeeId = booking.Attendee_Id,
-                    EventId = booking.Event_Id,
-                    CheckInStatus = booking.CheckIn_Status,
-                    BookingStatus = booking.Booking_Status
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateEvent([FromBody] CreateEventRequest request)
         {

@@ -869,15 +869,11 @@ namespace Event.Business.Services
                 throw new NotFoundException("Event not found.");
             }
 
-            // Important Note: There must be a critical validation that this must not happen before 1 hour of the event start time. 
-            // Currently for testing purpose add that particular validation in the backend and comment it out.
-            /*
-            if (DateTime.UtcNow < evt.Date_Time.AddHours(-1))
+            // Important Note: There must be a critical validation that this must not happen before 30 minutes of the event start time. 
+            if (DateTime.UtcNow < evt.Date_Time.AddMinutes(-30))
             {
-                throw new ValidationException("Check-in is only allowed within 1 hour of the event start time.");
+                throw new ValidationException("Check-in is not yet open. You can check in starting 30 minutes before the event.");
             }
-            */
-
             if (booking.CheckIn_Status == "CheckedIn")
             {
                 throw new ValidationException("Attendee is already checked in.");

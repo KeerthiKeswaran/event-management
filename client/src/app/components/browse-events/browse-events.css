@@ -699,14 +699,14 @@
 
 .card-desc {
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--color-neutral-mid);
   margin-bottom: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  height: 36px;
+  height: 39px;
 }
 
 .card-footer {
@@ -1178,3 +1178,14 @@ input:checked + .slider:before {
 }
 
 
+
+::ng-deep .card-desc ul {
+  padding-left: 16px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  list-style-type: disc;
+}
+
+::ng-deep .card-desc li {
+  margin-bottom: 2px;
+}

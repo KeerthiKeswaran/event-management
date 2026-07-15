@@ -294,7 +294,7 @@ namespace Event.Data.Tests.RepositoryTests
                 Assert.That(resultDate.Items.Any(t => t.Transaction_Reference == $"tx_ref_xyz_{user.User_Id}"), Is.True);
 
                 // 5. Sorting and pagination (amount_desc)
-                var resultSort = await _repository.GetTransactionsPagedAsync(null, null, null, null, null, "amount_desc", 1, 100);
+                var resultSort = await _repository.GetTransactionsPagedAsync(user.User_Id.ToString(), null, null, null, null, "amount_desc", 1, 100);
                 for (int i = 0; i < resultSort.Items.Count - 1; i++)
                 {
                     Assert.That(resultSort.Items[i].Amount, Is.GreaterThanOrEqualTo(resultSort.Items[i + 1].Amount));

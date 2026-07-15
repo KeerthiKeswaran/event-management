@@ -1,7 +1,6 @@
-import { Component, Output, EventEmitter, OnInit, signal, inject } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, signal, inject, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-
 
 @Component({
   selector: 'app-cancellation-policy-doc',
@@ -11,6 +10,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './cancellation-policy-doc.css'
 })
 export class CancellationPolicyDocComponent implements OnInit {
+  @Input() policyType: string = 'cancellation';
   /** Emitted when the user closes the policy viewer */
   @Output() closed = new EventEmitter<void>();
 
@@ -42,10 +42,10 @@ export class CancellationPolicyDocComponent implements OnInit {
     
     // Parse Headers
     parsedText = parsedText
-      .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
-      .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
-      .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
-      .replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
+      .replace(/^# (.*?)$/gm, '<h1 class="pdf-section-title" style="border:none; font-size: 16px;">$1</h1>')
+      .replace(/^## (.*?)$/gm, '<h2 class="pdf-section-title">$1</h2>')
+      .replace(/^### (.*?)$/gm, '<h3 class="pdf-section-title" style="border:none; text-transform:none;">$1</h3>')
+      .replace(/^#### (.*?)$/gm, '<h4 class="pdf-section-title" style="border:none; text-transform:none;">$1</h4>');
       
     // Parse Horizontal Rules (---)
     parsedText = parsedText.replace(/^---$/gm, '<hr class="markdown-hr"/>');
@@ -57,7 +57,7 @@ export class CancellationPolicyDocComponent implements OnInit {
     parsedText = parsedText.replace(/^[\*-]\s+(.*?)$/gm, '<li>$1</li>');
     
     // Wrap adjacent <li> tags in <ul>
-    parsedText = parsedText.replace(/(<li>.*?<\/li>[\r\n]*)+/g, '<ul>$&</ul>\n');
+    parsedText = parsedText.replace(/(<li>.*?<\/li>(\n)?)+/g, match => `<ul class="pdf-list">\n${match}</ul>\n`);
     
     // Convert double line breaks into paragraphs
     parsedText = parsedText.split('\n\n').map(p => {
@@ -66,11 +66,15 @@ export class CancellationPolicyDocComponent implements OnInit {
       if (p.startsWith('<h') || p.startsWith('<hr') || p.startsWith('<ul') || p.startsWith('<li')) {
         return p;
       }
-      return `<p>${p}</p>`;
+      return `<p class="pdf-body-text">${p}</p>`;
     }).join('\n');
     
     // Convert remaining single line breaks to <br/>
     parsedText = parsedText.replace(/\n/g, '<br/>');
+    // Remove <br/> around block elements
+    parsedText = parsedText.replace(/(<\/?(ul|li|h1|h2|h3|h4|hr|p)>)<br\/>/g, '$1');
+    parsedText = parsedText.replace(/<br\/>(<\/?(ul|li|h1|h2|h3|h4|hr|p)>)/g, '$1');
+    parsedText = parsedText.replace(/<br\/>+/g, '<br/>');
     
     return parsedText;
   }
@@ -79,7 +83,7 @@ export class CancellationPolicyDocComponent implements OnInit {
     this.isLoadingPolicy.set(true);
     this.policyError.set('');
 
-    this.http.get<any>(`${environment.apiUrl}/policies/cancellation`).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/policies/${this.policyType}`).subscribe({
       next: (res) => {
         const fileUrl = res.filePath.startsWith('http') ? res.filePath : `${environment.serverUrl}${res.filePath}`;
         this.http.get(fileUrl, { responseType: 'text' }).subscribe({

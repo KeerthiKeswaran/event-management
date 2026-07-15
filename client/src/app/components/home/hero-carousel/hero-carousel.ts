@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { AppStoreService } from '../../../store/app-store.service';
 import { BrowsedEventResponse } from '../../../models/event.model';
 import { ResolveDescriptionPipe } from '../../../pipes/resolve-description.pipe';
+import { StripHtmlPipe } from '../../../pipes/strip-html.pipe';
 
 @Component({
   selector: 'app-hero-carousel',
   standalone: true,
-  imports: [CommonModule, ResolveDescriptionPipe],
+  imports: [CommonModule, RouterModule, ResolveDescriptionPipe, StripHtmlPipe],
   templateUrl: './hero-carousel.html',
   styleUrl: './hero-carousel.css'
 })

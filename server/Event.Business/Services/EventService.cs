@@ -297,30 +297,6 @@ namespace Event.Business.Services
 
         #endregion
 
-        #region VerifyTicketCheckInAsync
-
-        public async Task<Booking> VerifyTicketCheckInAsync(string secretHash)
-        {
-            if (string.IsNullOrWhiteSpace(secretHash))
-                throw new ValidationException("Secret hash is required.");
-
-            var booking = await _bookingRepository.GetBookingBySecretHashAsync(secretHash);
-            if (booking == null)
-                throw new NotFoundException("Booking not found for the provided QR code.");
-
-            if (booking.Booking_Status != "Confirmed")
-                throw new ValidationException($"Cannot check in. Booking status is '{booking.Booking_Status}'.");
-
-            if (booking.CheckIn_Status == "Checked-In")
-                throw new ValidationException("This ticket has already been checked in.");
-
-            booking.CheckIn_Status = "Checked-In";
-            await _bookingRepository.UpdateAsync(booking);
-            return booking;
-        }
-
-        #endregion
-
         #region CheckStaffAvailabilityAsync
 
         public async Task<Event.Models.DTOs.StaffAvailabilityResponse> CheckStaffAvailabilityAsync(Event.Models.DTOs.CheckStaffAvailabilityRequest request)
@@ -540,18 +516,15 @@ namespace Event.Business.Services
 
                 if (!string.IsNullOrEmpty(newEvent.Image_Url) && newEvent.Image_Url.Contains("/temp/"))
                 {
-                    // Extract relative path from URL (e.g. "assets/events/temp/guid/image.png")
                     var relativePath = newEvent.Image_Url.Replace("assets/", "").TrimStart('/');
-                    var tempFilePath = Path.Combine(baseAssetsPath, relativePath);
+                    var fileBytes = await _fileStorageService.ReadBytesAsync(relativePath);
                     
-                    if (File.Exists(tempFilePath))
+                    if (fileBytes != null)
                     {
-                        Directory.CreateDirectory(eventAssetsDir);
-                        var ext = Path.GetExtension(tempFilePath);
-                        // User specifically requested cover.png
-                        var finalImagePath = Path.Combine(eventAssetsDir, $"cover{ext}");
-                        File.Move(tempFilePath, finalImagePath, true);
-                        newEvent.Image_Url = $"assets/events/{newEvent.Event_Id}/cover{ext}";
+                        var ext = Path.GetExtension(relativePath);
+                        var finalRelativePath = $"events/{newEvent.Event_Id}/cover{ext}";
+                        await _fileStorageService.SaveBytesAsync(finalRelativePath, fileBytes);
+                        newEvent.Image_Url = $"assets/{finalRelativePath}";
                         filesMoved = true;
                     }
                 }
@@ -559,14 +532,13 @@ namespace Event.Business.Services
                 if (!string.IsNullOrEmpty(newEvent.Description_Url) && newEvent.Description_Url.Contains("/temp/"))
                 {
                     var relativePath = newEvent.Description_Url.Replace("assets/", "").TrimStart('/');
-                    var tempFilePath = Path.Combine(baseAssetsPath, relativePath);
+                    var descText = await _fileStorageService.ReadTextAsync(relativePath);
                     
-                    if (File.Exists(tempFilePath))
+                    if (!string.IsNullOrEmpty(descText))
                     {
-                        Directory.CreateDirectory(eventAssetsDir);
-                        var finalDescPath = Path.Combine(eventAssetsDir, "description.txt");
-                        File.Move(tempFilePath, finalDescPath, true);
-                        newEvent.Description_Url = $"assets/events/{newEvent.Event_Id}/description.txt";
+                        var finalRelativePath = $"events/{newEvent.Event_Id}/description.txt";
+                        await _fileStorageService.SaveTextAsync(finalRelativePath, descText);
+                        newEvent.Description_Url = $"assets/{finalRelativePath}";
                         filesMoved = true;
                     }
                 }
@@ -1610,22 +1582,18 @@ namespace Event.Business.Services
         public async Task<string> SaveDescriptionFileAsync(string text)
         {
             var tempId = Guid.NewGuid().ToString("N");
-            var assetsDir = Path.Combine(GetBaseAssetsPath(), "events", "temp", tempId);
-            Directory.CreateDirectory(assetsDir);
-            var filePath = Path.Combine(assetsDir, "description.txt");
-            await File.WriteAllTextAsync(filePath, text);
-            return $"assets/events/temp/{tempId}/description.txt";
+            string relativePath = $"events/temp/{tempId}/description.txt";
+            await _fileStorageService.SaveTextAsync(relativePath, text);
+            return $"assets/{relativePath}";
         }
 
         public async Task<string> SaveImageFileAsync(string fileName, byte[] fileBytes)
         {
             var tempId = Guid.NewGuid().ToString("N");
-            var assetsDir = Path.Combine(GetBaseAssetsPath(), "events", "temp", tempId);
-            Directory.CreateDirectory(assetsDir);
             var ext = Path.GetExtension(fileName);
-            var filePath = Path.Combine(assetsDir, $"image{ext}");
-            await File.WriteAllBytesAsync(filePath, fileBytes);
-            return $"assets/events/temp/{tempId}/image{ext}";
+            string relativePath = $"events/temp/{tempId}/image{ext}";
+            await _fileStorageService.SaveBytesAsync(relativePath, fileBytes);
+            return $"assets/{relativePath}";
         }
 
         #endregion

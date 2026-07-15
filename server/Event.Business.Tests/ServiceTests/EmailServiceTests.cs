@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using Event.Contracts.IServices;
 using Event.Models.DTOs;
 using Event.Business.Services;
 
@@ -51,7 +52,8 @@ namespace Event.Business.Tests.ServiceTests
                 .Verifiable();
 
             var httpClient = new HttpClient(handlerMock.Object);
-            _emailService = new EmailService(_configuration, httpClient);
+            var mockStorage = new Mock<IFileStorageService>();
+            _emailService = new EmailService(_configuration, httpClient, mockStorage.Object);
         }
         #endregion
 

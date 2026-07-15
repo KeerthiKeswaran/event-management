@@ -128,7 +128,11 @@
   font-size: 0.95rem;
   line-height: 1.6;
   color: #334155;
-  white-space: pre-wrap; /* Keeps line breaks */
+  white-space: normal;
+}
+
+.description-box.pre-wrap {
+  white-space: pre-wrap;
 }
 
 .description-box.scrollable {
@@ -357,4 +361,20 @@
 .btn-save:disabled {
   background: #94a3b8;
   cursor: not-allowed;
+}
+
+::ng-deep .description-box ul {
+  padding-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  list-style-type: disc;
+}
+
+::ng-deep .description-box li {
+  margin-bottom: 4px;
+}
+
+::ng-deep .description-box p {
+  margin-bottom: 8px;
+  line-height: 1.4;
 }

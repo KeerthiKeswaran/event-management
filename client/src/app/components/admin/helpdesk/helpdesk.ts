@@ -149,6 +149,8 @@ export class AdminHelpdeskComponent implements OnInit {
     }
   }
 
+  isProcessing: boolean = false;
+
   constructor(
     private adminService: AdminService,
     private http: HttpClient,
@@ -409,21 +411,26 @@ export class AdminHelpdeskComponent implements OnInit {
 
   public respondToTicket(): void {
     if (!this.selectedTicketId || !this.respondText) return;
+    this.isProcessing = true;
     this.adminService.respondToTicket(this.selectedTicketId, this.respondText).subscribe({
       next: () => {
         this.successAnimText = `Ticket Closed successfully`;
         this.showSuccessAnim = true;
         this.cdr.detectChanges();
         setTimeout(() => {
+          this.isProcessing = false;
           this.showSuccessAnim = false;
           this.successMessage.set('Response sent successfully.');
           this.respondText = '';
           this.closeModal();
           this.loadTickets();
           this.cdr.detectChanges();
-        }, 1800);
+        }, 1500);
       },
-      error: (err) => this.errorMessage.set(err.error?.message || 'Failed to respond.')
+      error: (err) => {
+        this.isProcessing = false;
+        this.errorMessage.set(err.error?.message || 'Failed to respond.');
+      }
     });
   }
 
@@ -435,6 +442,8 @@ export class AdminHelpdeskComponent implements OnInit {
       this.errorMessage.set('Select a ticket before escalation.');
       return;
     }
+
+    this.isProcessing = true;
 
     this.adminService.escalateTicket(this.selectedTicketId, {
       actionType: this.action,
@@ -457,14 +466,18 @@ export class AdminHelpdeskComponent implements OnInit {
         this.cdr.detectChanges();
 
         setTimeout(() => {
+          this.isProcessing = false;
           this.showSuccessAnim = false;
           this.remarks = '';
           this.closeModal();
           this.loadTickets();
           this.cdr.detectChanges();
-        }, 1800);
+        }, 1500);
       },
-      error: (err) => this.errorMessage.set(err.error?.message || 'Failed to escalate ticket.')
+      error: (err) => {
+        this.isProcessing = false;
+        this.errorMessage.set(err.error?.message || 'Failed to escalate ticket.');
+      }
     });
   }
 }

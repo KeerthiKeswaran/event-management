@@ -205,7 +205,7 @@
           <h3 class="section-title-bar">About this Event</h3>
           <div class="info-content-text">
             @if (event()!.description_Url) {
-              <p class="event-dynamic-description">{{ event()!.description_Url | resolveDescription | async }}</p>
+              <div class="event-dynamic-description" [innerHTML]="event()!.description_Url | resolveDescription | async"></div>
             }
             <p>Welcome to <strong>{{ event()!.title }}</strong>! This event is designed to bring you the best-in-class performance, panel discussions, and collaborative networking opportunities. Guided by professional coordinators and domain leaders, we guarantee a secure, insightful, and premium experience.</p>
             <p>Attendees will gain access to exclusive presentation decks, interactive Q&A sessions, live demonstrations, and follow-up resources. We look forward to hosting you!</p>

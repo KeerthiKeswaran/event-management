@@ -1397,7 +1397,20 @@
   fill: none;
   animation: strokeCircle .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
+::ng-deep ::ng-deep .event-dynamic-description ul {
+  padding-left: 24px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  list-style-type: disc;
+}
 
+::ng-deep ::ng-deep .event-dynamic-description li {
+  margin-bottom: 6px;
+}
+
+::ng-deep ::ng-deep .event-dynamic-description p {
+  margin-bottom: 8px;
+}
 .checkmark-check {
   transform-origin: 50% 50%;
   stroke-dasharray: 48;
@@ -1797,4 +1810,19 @@
 @keyframes fadeInUpCancel {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+::ng-deep .event-dynamic-description ul {
+  padding-left: 24px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  list-style-type: disc;
+}
+
+::ng-deep .event-dynamic-description li {
+  margin-bottom: 6px;
+}
+
+::ng-deep .event-dynamic-description p {
+  margin-bottom: 8px;
 }

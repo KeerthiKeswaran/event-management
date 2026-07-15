@@ -160,7 +160,8 @@ namespace Event.Business.Tests.ServiceTests
                  _notificationRepositoryMock.Object,
                  _transactionRepositoryMock.Object,
                  eventRepositoryMock.Object,
-                 new Moq.Mock<Event.Contracts.IRepositories.IPlatformSettingsRepository>().Object
+                 new Moq.Mock<Event.Contracts.IRepositories.IPlatformSettingsRepository>().Object,
+                 new Moq.Mock<Event.Contracts.IServices.IFileStorageService>().Object
              );
         }
         #endregion

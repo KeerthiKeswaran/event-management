@@ -1,5 +1,5 @@
 <!-- ============================================================
-     Cancel Booking Modal
+     Cancel Event Modal
      ============================================================ -->
 <div class="modal-backdrop" (click)="close()">
   <div class="cancel-modal" (click)="$event.stopPropagation()">
@@ -16,40 +16,41 @@
           </svg>
         </div>
         <div class="cancel-modal-title-group">
-          <h3 class="cancel-modal-title">Cancel Booking?</h3>
-          <p class="cancel-modal-event-name">{{ booking.event_Title }}</p>
+          <h3 class="cancel-modal-title">Cancel Event?</h3>
+          <p class="cancel-modal-event-name">{{ event.title }}</p>
         </div>
         <button class="modal-close-btn" (click)="close()" aria-label="Close">&#x2715;</button>
       </div>
 
-      <!-- ── Booking Summary Strip ── -->
+      <!-- ── Event Summary Strip ── -->
       <div class="cancel-booking-summary">
         <div class="cancel-summary-row">
-          <span class="cancel-summary-label">Booking ID</span>
-          <span class="cancel-summary-value">#{{ booking.booking_Id }}</span>
+          <span class="cancel-summary-label">Event ID</span>
+          <span class="cancel-summary-value">#{{ event.event_Id }}</span>
         </div>
         <div class="cancel-summary-row">
           <span class="cancel-summary-label">Event Date</span>
-          <span class="cancel-summary-value">{{ formatDate(booking.event_Date_Time) }}</span>
+          <span class="cancel-summary-value">{{ formatDate(event.date_Time) }}</span>
         </div>
         <div class="cancel-summary-row">
-          <span class="cancel-summary-label">Tickets</span>
-          <span class="cancel-summary-value">{{ getDetailsSummary(booking.details) }}</span>
+          <span class="cancel-summary-label">Tickets Sold</span>
+          <span class="cancel-summary-value">{{ event.tickets_Sold || 0 }}</span>
         </div>
         <div class="cancel-summary-row">
-          <span class="cancel-summary-label">Total Paid</span>
-          <span class="cancel-summary-value">{{ formatCurrency(booking.amount_Paid !== undefined ? booking.amount_Paid : booking.total_Amount) }}</span>
+          <span class="cancel-summary-label">Upfront Fee Paid</span>
+          <span class="cancel-summary-value">{{ formatCurrency(upfrontPaid) }}</span>
         </div>
-        <div class="cancel-summary-row refund-row">
-          <span class="cancel-summary-label">Est. Refund</span>
-          @if (isLoadingRefund()) {
-            <div class="refund-inline-skeleton"></div>
-          } @else {
-            <span class="cancel-summary-value refund-amount">
-              {{ estimatedRefundAmount()! > 0 ? formatCurrency(estimatedRefundAmount()!) : 'Non-Refundable' }}
-            </span>
-          }
+        <div class="cancel-summary-row refund-row" style="margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--border);">
+          <span class="cancel-summary-label" style="color: #111827;">Est. Organizer Refund</span>
+          <span class="cancel-summary-value refund-amount" [style.color]="estimatedRefund > 0 ? '#10b981' : '#9ca3af'">
+            {{ estimatedRefund > 0 ? formatCurrency(estimatedRefund) : 'Non-Refundable' }}
+          </span>
         </div>
+      </div>
+
+      <!-- ── Cancellation Warning ── -->
+      <div class="cancel-warning-box" style="margin-top:8px; padding:8px; border-radius:6px; background-color:#FDF3F5; color:#C41E3A; font-size:12px;">
+        <p style="margin:0;"> All attendees will be notified and fully refunded automatically.</p>
       </div>
 
       <!-- ── Cancellation & Refund Policy — anchor link ── -->
@@ -60,7 +61,7 @@
           <polyline points="14 2 14 8 20 8"/>
         </svg>
         <a href="#" class="policy-anchor" (click)="openPolicyDoc($event)">
-          View Cancellation &amp; Refund Policy
+          View Event Cancellation Policy
         </a>
       </div>
 
@@ -83,7 +84,7 @@
           @if (isCancelling()) {
             <span class="btn-spinner"></span> Processing...
           } @else {
-            Confirm Cancellation
+            Confirm Event Cancellation
           }
         </button>
       </div>
@@ -95,7 +96,7 @@
         <div class="large-black-spinner-wrap">
           <div class="large-black-spinner"></div>
         </div>
-        <p class="success-text" style="opacity: 0; visibility: hidden;">Booking Cancelled</p>
+        <p class="success-text" style="opacity: 0; visibility: hidden;">Event Cancelled Successfully</p>
       </div>
     }
     
@@ -107,11 +108,13 @@
             <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
           </svg>
         </div>
-        <p class="success-text">Booking Cancelled</p>
+        <p class="success-text">Event Cancelled Successfully</p>
       </div>
     }
-  </div><!-- /cancel-modal -->
-</div><!-- /modal-backdrop -->
+
+  </div>
+</div>
+
 @if (showPolicyDoc()) {
-  <app-cancellation-policy-doc (closed)="closePolicyDoc()"></app-cancellation-policy-doc>
+  <app-cancellation-policy-doc policyType="organizer-cancellation" (closed)="closePolicyDoc()"></app-cancellation-policy-doc>
 }

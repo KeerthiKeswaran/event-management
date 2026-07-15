@@ -212,7 +212,11 @@
                         <button class="btn-submit-feedback compact"
                                 [disabled]="!(getFeedbackDraft(booking.booking_Id) && getFeedbackDraft(booking.booking_Id).rating) || !(getFeedbackDraft(booking.booking_Id) && getFeedbackDraft(booking.booking_Id).review && getFeedbackDraft(booking.booking_Id).review.trim()) || isSubmittingFeedback() === booking.booking_Id"
                                 (click)="submitFeedback(booking)">
-                          {{ isSubmittingFeedback() === booking.booking_Id ? 'Submitting...' : 'Submit' }}
+                          @if (isSubmittingFeedback() === booking.booking_Id) {
+                            <span class="btn-spinner"></span> Submitting...
+                          } @else {
+                            Submit
+                          }
                         </button>
                       }
                       <button class="action-btn report-event compact-report"

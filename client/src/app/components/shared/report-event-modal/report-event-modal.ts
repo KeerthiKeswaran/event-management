@@ -28,6 +28,13 @@ import { EventService } from '../../../services/event.service';
         </div>
       </div>
       
+      <div *ngIf="isSubmitting()" class="processing-overlay">
+        <div class="large-black-spinner-wrap">
+          <div class="large-black-spinner"></div>
+        </div>
+        <p class="success-text" style="opacity: 0; visibility: hidden;">Event Reported</p>
+      </div>
+
       <div *ngIf="showSuccessAnimation()" class="success-tick-overlay">
         <div class="success-checkmark-svg-wrap">
           <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -60,6 +67,10 @@ import { EventService } from '../../../services/event.service';
     
     .success-tick-overlay { position: absolute; inset: 0; border-radius: 12px; background: rgba(255, 255, 255, 0.75); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; animation: fadeInOverlay 0.3s ease-out; }
     .success-text { margin-top: 16px; font-size: 1.25rem; font-weight: 700; color: #991b1b; opacity: 0; animation: fadeInUpCancel 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.8s forwards; }
+    .processing-overlay { position: absolute; inset: 0; border-radius: 12px; background: rgba(255, 255, 255, 0.75); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; animation: fadeInOverlay 0.3s ease-out; }
+    .large-black-spinner-wrap { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+    .large-black-spinner { width: 40px; height: 40px; border: 4px solid rgba(0, 0, 0, 0.1); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes fadeInUpCancel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
     .success-checkmark-svg-wrap { width: 60px; height: 60px; }

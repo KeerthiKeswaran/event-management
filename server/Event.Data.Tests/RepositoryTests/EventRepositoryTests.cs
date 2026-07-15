@@ -46,6 +46,7 @@ namespace Event.Data.Tests.RepositoryTests
                 Organizer_Id = organizerId,
                 Venue_Id = venueId,
                 Event_Type = "Physical",
+                Category = "Music",
                 Title = "Annual Tech Conference",
                 Description_Url = "Largest event of the year",
                 Date_Time = DateTime.UtcNow.AddDays(10),
@@ -148,7 +149,7 @@ namespace Event.Data.Tests.RepositoryTests
                 var searchKeyword = await _repository.SearchEventsAsync("Tech", null, null, null, null, null, null, 1, 10);
                 Assert.That(searchKeyword.Items.Any(e => e.Event_Id == newEvent.Event_Id), Is.True);
 
-                var searchCategory = await _repository.SearchEventsAsync(null, "Physical", null, null, null, null, null, 1, 10);
+                var searchCategory = await _repository.SearchEventsAsync(null, "Music", null, null, null, null, null, 1, 10);
                 Assert.That(searchCategory.Items.Any(e => e.Event_Id == newEvent.Event_Id), Is.True);
 
                 var searchRegion = await _repository.SearchEventsAsync(null, null, null, deps.regionId, null, null, null, 1, 10);

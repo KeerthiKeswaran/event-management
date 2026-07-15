@@ -7,11 +7,13 @@ import { AppStoreService } from '../../../store/app-store.service';
 import { EventService } from '../../../services/event.service';
 import { BrowsedEventResponse } from '../../../models/event.model';
 import { RegionModel } from '../../../models/region.model';
+import { ResolveDescriptionPipe } from '../../../pipes/resolve-description.pipe';
+import { StripHtmlPipe } from '../../../pipes/strip-html.pipe';
 
 @Component({
   selector: 'app-events-browsing',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ResolveDescriptionPipe, StripHtmlPipe],
   templateUrl: './events-browsing.html',
   styleUrl: './events-browsing.css'
 })

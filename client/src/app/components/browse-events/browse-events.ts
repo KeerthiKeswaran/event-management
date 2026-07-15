@@ -14,11 +14,12 @@ import { FooterComponent } from '../home/footer/footer';
 import { NavbarComponent } from '../home/navbar/navbar';
 
 import { ResolveDescriptionPipe } from '../../pipes/resolve-description.pipe';
+import { StripHtmlPipe } from '../../pipes/strip-html.pipe';
 
 @Component({
   selector: 'app-browse-events',
   standalone: true,
-  imports: [CommonModule, FormsModule, FooterComponent, NavbarComponent, ResolveDescriptionPipe],
+  imports: [CommonModule, FormsModule, FooterComponent, NavbarComponent, ResolveDescriptionPipe, StripHtmlPipe],
   templateUrl: './browse-events.html',
   styleUrl: './browse-events.css'
 })
