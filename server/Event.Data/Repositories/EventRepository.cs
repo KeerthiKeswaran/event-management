@@ -27,11 +27,7 @@ namespace Event.Data.Repositories
             int size)
         {
             // IST cutoff: hide events that are within 10 minutes of starting
-            var istZone = TimeZoneInfo.FindSystemTimeZoneById(
-                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "India Standard Time" : "Asia/Kolkata");
-            var istNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, istZone);
-            var cutoffIst = istNow.AddMinutes(10);
-            var cutoffUtc = TimeZoneInfo.ConvertTimeToUtc(cutoffIst, istZone);
+            var cutoffUtc = GetIstCutoffUtc();
 
             var query = _dbSet.Where(e => e.Status == "Live" && e.Date_Time > cutoffUtc);
 
@@ -437,7 +433,7 @@ namespace Event.Data.Repositories
             var istZone = TimeZoneInfo.FindSystemTimeZoneById(
                 RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "India Standard Time" : "Asia/Kolkata");
             var istNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, istZone);
-            var cutoffIst = istNow.AddMinutes(30);
+            var cutoffIst = istNow.AddMinutes(10);
             return TimeZoneInfo.ConvertTimeToUtc(cutoffIst, istZone);
         }
     }
