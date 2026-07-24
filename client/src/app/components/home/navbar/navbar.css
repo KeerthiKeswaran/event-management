@@ -484,12 +484,14 @@
   background: rgba(0, 0, 0, 0.45);
   z-index: 1100;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
   backdrop-filter: blur(2px);
 }
 
 .sidebar-overlay.show {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* ============================================================
@@ -511,10 +513,12 @@
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow-y: auto;
   flex-direction: column;
+  pointer-events: none;
 }
 
 .mobile-sidebar.open {
   transform: translateX(0);
+  pointer-events: auto;
 }
 
 .sidebar-header {
@@ -682,8 +686,10 @@
   .hide-on-mobile { display: none !important; }
 
   .hamburger-btn { display: flex; }
+
+  /* Show overlay and sidebar on mobile — pointer-events still controlled by class */
   .sidebar-overlay { display: block; }
-  .mobile-sidebar { display: flex; }
+  .mobile-sidebar  { display: flex; }
 
   .nav-search-bar {
     flex: 1;

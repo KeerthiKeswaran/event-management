@@ -432,12 +432,10 @@ body {
     align-items: flex-end;
   }
 
-  /* Prevent horizontal overflow everywhere */
-  * {
+  /* Prevent horizontal scroll on content elements only */
+  img:not([style*="position"]),
+  video:not([style*="position"]) {
     max-width: 100%;
-  }
-
-  img, video {
     height: auto;
   }
 }
