@@ -52,6 +52,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public selectedRegionId = signal('REG01');
   public isProfileDropdownOpen = signal(false);
   public showRecommendations = signal(false);
+  public isSidebarOpen = signal(false);
   public recommendations = signal<BrowsedEventResponse[]>([]);
   public globalRecommendations = signal<{ events: any[], bookings: any[] }>({ events: [], bookings: [] });
 
@@ -202,6 +203,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public closeDropdowns(): void {
     this.isProfileDropdownOpen.set(false);
     this.showRecommendations.set(false);
+    this.isSidebarOpen.set(false);
+  }
+
+  public toggleSidebar(event: Event): void {
+    event.stopPropagation();
+    this.isSidebarOpen.update(v => !v);
   }
 
   public onSearchInput(val: string): void {

@@ -323,3 +323,22 @@
     display: none;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .hero-carousel-section {
+    height: 360px;
+  }
+  .slide-title {
+    font-size: 22px;
+  }
+  .slide-meta {
+    font-size: 12px;
+  }
+  .btn-primary {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .carousel-dots {
+    bottom: 12px;
+  }
+}

@@ -138,6 +138,26 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .regions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .region-card {
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .regions-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .region-card {
+    height: 180px;
+  }
+}
+
 /* Stylish Text Placeholder when image is missing/broken */
 .region-placeholder {
   position: absolute;
