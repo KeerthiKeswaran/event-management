@@ -713,11 +713,29 @@
   }
 
   .nav-search-bar {
-    margin: 0 8px;
+    margin: 0 4px;
+  }
+
+  .search-input {
+    font-size: 12px;
+    padding: 6px 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .search-input::placeholder {
-    font-size: 12px;
+    font-size: 11px;
+    text-overflow: ellipsis;
+  }
+
+  .search-icon-wrapper {
+    padding-left: 4px;
+  }
+
+  .search-icon-wrapper .icon {
+    width: 14px;
+    height: 14px;
   }
 
   .logo-img {
